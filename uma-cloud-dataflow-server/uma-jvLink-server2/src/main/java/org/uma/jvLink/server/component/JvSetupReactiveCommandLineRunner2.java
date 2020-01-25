@@ -1,4 +1,4 @@
-//package org.uma.platform.feed.application.component;
+//package org.uma.cloud.feed.application.component;
 //
 //import lombok.RequiredArgsConstructor;
 //import lombok.extern.slf4j.Slf4j;

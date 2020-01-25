@@ -1,4 +1,4 @@
-package org.uma.platform.common.utils.lang;
+package org.uma.cloud.common.utils.lang;
 
 import java.util.stream.IntStream;
 

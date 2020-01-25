@@ -1,6 +1,6 @@
-package org.uma.platform.common.code;
+package org.uma.cloud.common.code;
 
-import org.uma.platform.common.utils.constants.CodeEnum;
+import org.uma.cloud.common.utils.constants.CodeEnum;
 
 import java.util.Objects;
 

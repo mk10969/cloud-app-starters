@@ -1,21 +1,18 @@
-package org.uma.platform.common.model;
+package org.uma.cloud.common.model;
 
-import lombok.Data;
-import org.uma.platform.common.code.EastOrWestBelongCode;
-import org.uma.platform.common.config.spec.RecordSpec;
+import lombok.Getter;
+import lombok.Setter;
+import org.uma.cloud.common.code.EastOrWestBelongCode;
+import org.uma.cloud.common.recordSpec.RecordSpec;
 
 import java.time.LocalDate;
 
 /**
  * {@link RecordSpec.CH}
  */
-
-@Data
-public class Trainer {
-
-    private RecordSpec recordType;
-    private String dataDiv;
-    private LocalDate dataCreateDate;
+@Getter
+@Setter
+public class Trainer extends BaseModel {
 
     /**
      * 調教師コード 5桁

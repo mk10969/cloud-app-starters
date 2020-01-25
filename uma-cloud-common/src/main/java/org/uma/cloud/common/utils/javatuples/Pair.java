@@ -1,4 +1,4 @@
-package org.uma.platform.common.utils.javatuples;
+package org.uma.cloud.common.utils.javatuples;
 
 import java.util.Arrays;
 import java.util.List;

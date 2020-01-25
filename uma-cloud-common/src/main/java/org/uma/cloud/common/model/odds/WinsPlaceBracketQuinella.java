@@ -1,9 +1,12 @@
-package org.uma.platform.common.model.odds;
+package org.uma.cloud.common.model.odds;
 
 import lombok.Data;
-import org.uma.platform.common.code.RaceCourseCode;
-import org.uma.platform.common.config.spec.RecordSpec;
-import org.uma.platform.common.model.RacingDetails;
+import lombok.Getter;
+import lombok.Setter;
+import org.uma.cloud.common.code.RaceCourseCode;
+import org.uma.cloud.common.model.BaseModel;
+import org.uma.cloud.common.model.RacingDetails;
+import org.uma.cloud.common.recordSpec.RecordSpec;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -11,16 +14,11 @@ import java.util.List;
 /**
  * {@link RecordSpec.O1}
  */
-
-@Data
-public class WinsPlaceBracketQuinella {
-
-    private RecordSpec recordType;
-    private String dataDiv;
-    private LocalDate dataCreateDate;
+@Getter
+@Setter
+public class WinsPlaceBracketQuinella extends BaseModel {
 
     /**
-     * Unique
      * {@link RacingDetails.raceId}
      */
     private String raceId;

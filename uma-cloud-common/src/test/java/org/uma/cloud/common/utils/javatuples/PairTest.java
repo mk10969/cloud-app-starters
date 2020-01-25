@@ -1,4 +1,4 @@
-package org.uma.platform.common.utils.javatuples;
+package org.uma.cloud.common.utils.javatuples;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;

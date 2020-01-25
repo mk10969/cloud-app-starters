@@ -1,4 +1,4 @@
-package org.uma.platform.common.utils.javatuples;
+package org.uma.cloud.common.utils.javatuples;
 
 import java.io.Serializable;
 import java.util.Collection;

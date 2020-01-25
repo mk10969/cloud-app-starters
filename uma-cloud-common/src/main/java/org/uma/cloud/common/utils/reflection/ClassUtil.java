@@ -1,9 +1,9 @@
-package org.uma.platform.common.utils.reflection;
+package org.uma.cloud.common.utils.reflection;
 
-import org.uma.platform.common.utils.exception.IllegalAccessRuntimeException;
-import org.uma.platform.common.utils.exception.InstantiationRuntimeException;
-import org.uma.platform.common.utils.exception.InvocationTargetRuntimeException;
-import org.uma.platform.common.utils.exception.NoSuchMethodRuntimeException;
+import org.uma.cloud.common.utils.exception.IllegalAccessRuntimeException;
+import org.uma.cloud.common.utils.exception.InstantiationRuntimeException;
+import org.uma.cloud.common.utils.exception.InvocationTargetRuntimeException;
+import org.uma.cloud.common.utils.exception.NoSuchMethodRuntimeException;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;

@@ -1,8 +1,14 @@
-package org.uma.platform.common.model;
+package org.uma.cloud.common.model;
 
 import lombok.Data;
-import org.uma.platform.common.code.*;
-import org.uma.platform.common.config.spec.RecordSpec;
+import lombok.Getter;
+import lombok.Setter;
+import org.uma.cloud.common.code.BreedCode;
+import org.uma.cloud.common.code.EastOrWestBelongCode;
+import org.uma.cloud.common.code.HairColorCode;
+import org.uma.cloud.common.code.HorseSignCode;
+import org.uma.cloud.common.code.SexCode;
+import org.uma.cloud.common.recordSpec.RecordSpec;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -10,13 +16,9 @@ import java.util.List;
 /**
  * {@link RecordSpec.UM}
  */
-
-@Data
-public class RaceHorse {
-
-    private RecordSpec recordType;
-    private String dataDiv;
-    private LocalDate dataCreateDate;
+@Getter
+@Setter
+public class RaceHorse extends BaseModel {
 
     /**
      * 血統登録番号 10桁

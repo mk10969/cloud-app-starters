@@ -1,6 +1,6 @@
-package org.uma.platform.common.utils.lang;
+package org.uma.cloud.common.utils.lang;
 
-import org.uma.platform.common.utils.exception.InterruptedRuntimeException;
+import org.uma.cloud.common.utils.exception.InterruptedRuntimeException;
 
 public class ThreadUtil {
 

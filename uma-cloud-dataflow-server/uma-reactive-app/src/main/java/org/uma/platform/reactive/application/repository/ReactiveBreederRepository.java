@@ -1,4 +1,4 @@
-package org.uma.platform.reactive.application.repository;
+package org.uma.cloud.reactive.application.repository;
 
 import org.springframework.data.mongodb.repository.ReactiveMongoRepository;
 import org.springframework.stereotype.Repository;

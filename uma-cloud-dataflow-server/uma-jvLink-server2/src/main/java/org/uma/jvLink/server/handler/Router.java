@@ -1,4 +1,4 @@
-//package org.uma.platform.feed.application.handler;
+//package org.uma.cloud.feed.application.handler;
 //
 //import org.springframework.context.annotation.Bean;
 //import org.springframework.context.annotation.Configuration;

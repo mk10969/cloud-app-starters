@@ -1,4 +1,4 @@
-package org.uma.platform.reactive.application.configuration;
+package org.uma.cloud.reactive.application.configuration;
 
 import com.mongodb.reactivestreams.client.MongoClient;
 import com.mongodb.reactivestreams.client.MongoClients;

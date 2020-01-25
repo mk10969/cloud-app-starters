@@ -1,4 +1,4 @@
-//package org.uma.platform.feed.application.configuration;
+//package org.uma.cloud.feed.application.configuration;
 //
 //import com.mongodb.client.MongoClient;
 //import com.mongodb.client.MongoClients;

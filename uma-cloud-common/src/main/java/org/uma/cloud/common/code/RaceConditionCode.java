@@ -1,7 +1,6 @@
-//package org.uma.daiwaScarlet.code;
+//package org.uma.cloud.common.code;
 //
-//
-//import org.uma.vodka.common.constants.CodeEnum;
+//import org.uma.cloud.common.utils.constants.CodeEnum;
 //
 ///**
 // * 2007.競走条件コード

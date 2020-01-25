@@ -1,20 +1,15 @@
-package org.uma.platform.common.model;
+package org.uma.cloud.common.model;
 
-import lombok.Data;
-import org.uma.platform.common.config.spec.RecordSpec;
-
-import java.time.LocalDate;
+import lombok.Getter;
+import lombok.Setter;
+import org.uma.cloud.common.recordSpec.RecordSpec;
 
 /**
  * {@link RecordSpec.BR}
  */
-
-@Data
-public class Breeder {
-
-    private RecordSpec recordType;
-    private String dataDiv;
-    private LocalDate dataCreateDate;
+@Getter
+@Setter
+public class Breeder extends BaseModel {
 
     /**
      * 生産者コード 6桁

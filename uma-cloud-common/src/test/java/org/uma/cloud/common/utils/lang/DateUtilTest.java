@@ -1,7 +1,6 @@
-package org.uma.platform.common.utils.lang;
+package org.uma.cloud.common.utils.lang;
 
 import org.junit.jupiter.api.Test;
-import org.uma.platform.common.utils.lang.DateUtil;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -40,20 +39,20 @@ class DateUtilTest {
 
 
     @Test
-    void test_日付のTOString(){
+    void test_日付のTOString() {
         LocalDate dateTime = LocalDate.now();
         System.out.println(dateTime.format(DateTimeFormatter.ofPattern("yyyyMMdd")));
     }
 
     @Test
-    void test_一番古い日付(){
-       LocalDate localDate = LocalDate.MIN;
-       System.out.println(localDate.format(DateTimeFormatter.ofPattern("yyyyMMdd")));
+    void test_一番古い日付() {
+        LocalDate localDate = LocalDate.MIN;
+        System.out.println(localDate.format(DateTimeFormatter.ofPattern("yyyyMMdd")));
     }
 
 
     @Test
-    void test_パーサーテスト(){
+    void test_パーサーテスト() {
         String str = "2019/01/01";
         LocalDateTime datetime = DateUtil.of(str);
         String expect = DateUtil.format("yyyyMMddHHmmss", datetime);

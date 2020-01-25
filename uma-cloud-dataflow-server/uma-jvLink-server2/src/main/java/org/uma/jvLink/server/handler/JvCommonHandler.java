@@ -1,4 +1,4 @@
-//package org.uma.platform.feed.application.handler;
+//package org.uma.cloud.feed.application.handler;
 //
 //
 //import lombok.RequiredArgsConstructor;

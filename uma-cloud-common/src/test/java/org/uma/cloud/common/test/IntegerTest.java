@@ -1,11 +1,11 @@
-package org.uma.platform.common.test;
+package org.uma.cloud.common.test;
 
 //import org.apache.commons.lang3.StringUtils;
 
 //import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
-import org.uma.platform.common.utils.lang.DateUtil;
+import org.uma.cloud.common.utils.lang.DateUtil;
 
 public class IntegerTest {
 

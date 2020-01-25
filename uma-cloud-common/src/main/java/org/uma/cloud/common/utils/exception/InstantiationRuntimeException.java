@@ -1,4 +1,4 @@
-package org.uma.platform.common.utils.exception;
+package org.uma.cloud.common.utils.exception;
 
 import java.io.Serializable;
 

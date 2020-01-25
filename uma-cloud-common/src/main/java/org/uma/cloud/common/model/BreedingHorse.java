@@ -1,23 +1,18 @@
-package org.uma.platform.common.model;
+package org.uma.cloud.common.model;
 
-import lombok.Data;
-import org.uma.platform.common.code.BreedCode;
-import org.uma.platform.common.code.HairColorCode;
-import org.uma.platform.common.code.SexCode;
-import org.uma.platform.common.config.spec.RecordSpec;
-
-import java.time.LocalDate;
+import lombok.Getter;
+import lombok.Setter;
+import org.uma.cloud.common.code.BreedCode;
+import org.uma.cloud.common.code.HairColorCode;
+import org.uma.cloud.common.code.SexCode;
+import org.uma.cloud.common.recordSpec.RecordSpec;
 
 /**
  * {@link RecordSpec.HN}
  */
-
-@Data
-public class BreedingHorse {
-
-    private RecordSpec recordType;
-    private String dataDiv;
-    private LocalDate dataCreateDate;
+@Getter
+@Setter
+public class BreedingHorse extends BaseModel {
 
     /**
      * 繁殖登録番号 8桁
@@ -52,6 +47,5 @@ public class BreedingHorse {
      * 繁殖登録番号 8桁
      */
     private Integer breedingNoMother;
-
 
 }

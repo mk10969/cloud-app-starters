@@ -1,8 +1,18 @@
-package org.uma.platform.common.model;
+package org.uma.cloud.common.model;
 
 import lombok.Data;
-import org.uma.platform.common.code.*;
-import org.uma.platform.common.config.spec.RecordSpec;
+import lombok.Getter;
+import lombok.Setter;
+import org.uma.cloud.common.code.RaceCourseCode;
+import org.uma.cloud.common.code.RaceGradeCode;
+import org.uma.cloud.common.code.RaceSignCode;
+import org.uma.cloud.common.code.RaceTypeCode;
+import org.uma.cloud.common.code.TrackCode;
+import org.uma.cloud.common.code.TurfOrDirtConditionCode;
+import org.uma.cloud.common.code.WeatherCode;
+import org.uma.cloud.common.code.WeekDayCode;
+import org.uma.cloud.common.code.WeightTypeCode;
+import org.uma.cloud.common.recordSpec.RecordSpec;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -10,16 +20,11 @@ import java.util.List;
 /**
  * {@link RecordSpec.RA}
  */
-
-@Data
-public class RacingDetails {
-
-    private RecordSpec recordType;
-    private String dataDiv;
-    private LocalDate dataCreateDate;
+@Getter
+@Setter
+public class RacingDetails extends BaseModel {
 
     /**
-     * Unique
      * {@link HorseRacingDetails.raceId}
      * {@link RaceRefund.raceId}
      * {@link VoteCount.raceId}

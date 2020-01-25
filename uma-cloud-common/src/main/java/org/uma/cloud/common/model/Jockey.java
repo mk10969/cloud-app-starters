@@ -1,23 +1,20 @@
-package org.uma.platform.common.model;
+package org.uma.cloud.common.model;
 
-import lombok.Data;
-import org.uma.platform.common.code.EastOrWestBelongCode;
-import org.uma.platform.common.code.JockeyApprenticeCode;
-import org.uma.platform.common.code.JockeyLicenseCode;
-import org.uma.platform.common.config.spec.RecordSpec;
+import lombok.Getter;
+import lombok.Setter;
+import org.uma.cloud.common.code.EastOrWestBelongCode;
+import org.uma.cloud.common.code.JockeyApprenticeCode;
+import org.uma.cloud.common.code.JockeyLicenseCode;
+import org.uma.cloud.common.recordSpec.RecordSpec;
 
 import java.time.LocalDate;
 
 /**
  * {@link RecordSpec.KS}
  */
-
-@Data
-public class Jockey {
-
-    private RecordSpec recordType;
-    private String dataDiv;
-    private LocalDate dataCreateDate;
+@Getter
+@Setter
+public class Jockey extends BaseModel {
 
     /**
      * 騎手コード 5桁

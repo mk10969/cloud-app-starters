@@ -1,4 +1,4 @@
-package org.uma.platform.reactive.application;
+package org.uma.cloud.reactive.application;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

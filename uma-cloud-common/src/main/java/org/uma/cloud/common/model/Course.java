@@ -1,22 +1,19 @@
-package org.uma.platform.common.model;
+package org.uma.cloud.common.model;
 
-import lombok.Data;
-import org.uma.platform.common.code.RaceCourseCode;
-import org.uma.platform.common.code.TrackCode;
-import org.uma.platform.common.config.spec.RecordSpec;
+import lombok.Getter;
+import lombok.Setter;
+import org.uma.cloud.common.code.RaceCourseCode;
+import org.uma.cloud.common.code.TrackCode;
+import org.uma.cloud.common.recordSpec.RecordSpec;
 
 import java.time.LocalDate;
 
 /**
  * {@link RecordSpec.CS}
  */
-
-@Data
-public class Course {
-
-    private RecordSpec recordType;
-    private String dataDiv;
-    private LocalDate dataCreateDate;
+@Getter
+@Setter
+public class Course extends BaseModel {
 
     /**
      * コースコード
