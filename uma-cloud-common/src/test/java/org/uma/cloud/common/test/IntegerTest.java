@@ -7,6 +7,8 @@ package org.uma.cloud.common.test;
 import org.junit.jupiter.api.Test;
 import org.uma.cloud.common.utils.lang.DateUtil;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 public class IntegerTest {
 
 //    @Test
@@ -19,14 +21,13 @@ public class IntegerTest {
 //        assertEquals(StringUtils.isNumeric(str), false);
 //        assertEquals(StringUtils.isNumericSpace(str), true); // 数字 or スペースで true
 //        assertEquals(StringUtils.isAlphaSpace(str), true);
-//
-//
 //    }
 
     @Test
-    void test_LocalDate() {
-        // 当たり前のnullぽ
-        DateUtil.format("yyyyMMddHHmmss", null);
+    void test_LocalDateにnull入れると_nullぽ() {
+        assertThrows(NullPointerException.class, () ->
+                DateUtil.format("yyyyMMddHHmmss", null));
+
     }
 
 }

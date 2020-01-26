@@ -17,8 +17,6 @@ class DateUtilTest {
     void test() {
         LocalDateTime dateTime = LocalDateTime.now();
         String localDatetime = DateUtil.format("yyyyMMddHHmmss", dateTime);
-
-
         String zonedDateTime = DateTimeFormatter
                 .ofPattern("yyyyMMddHHmmss")
                 .format(ZonedDateTime.now());
@@ -57,8 +55,6 @@ class DateUtilTest {
         LocalDateTime datetime = DateUtil.of(str);
         String expect = DateUtil.format("yyyyMMddHHmmss", datetime);
         assertEquals(expect, "20190101000000");
-
     }
-
 
 }

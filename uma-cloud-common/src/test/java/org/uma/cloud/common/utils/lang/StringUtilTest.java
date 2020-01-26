@@ -12,5 +12,4 @@ class StringUtilTest {
         assertEquals(String.format("%05d", num), "00001");
     }
 
-
 }

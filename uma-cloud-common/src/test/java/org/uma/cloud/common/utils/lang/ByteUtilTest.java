@@ -4,7 +4,11 @@ import org.junit.jupiter.api.Test;
 
 import java.util.stream.IntStream;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 class ByteUtilTest {
+
     @Test
     void test() {
         String a = "abcdef";
@@ -12,9 +16,9 @@ class ByteUtilTest {
         String c = "abd";
 
         boolean bool = startsWith(a.getBytes(), 0, b.getBytes());
-        System.out.println(bool);
+        assertTrue(bool);
         boolean bool2 = startsWith(a.getBytes(), 0, c.getBytes());
-        System.out.println(bool2);
+        assertFalse(bool2);
     }
 
     public static boolean startsWith(byte[] source, int offset, byte[] match) {

@@ -17,7 +17,7 @@ allprojects {
 
 subprojects {
     group = 'org.uma.cloud'
-    version = '0.0.1-SNAPSHOT'
+    version = '0.0.2-SNAPSHOT'
 
     apply plugin: 'java'
     apply plugin: 'io.spring.dependency-management'
@@ -36,6 +36,8 @@ subprojects {
         implementation 'org.springframework.boot:spring-boot-starter-actuator'
         implementation 'org.springframework.cloud:spring-cloud-starter-sleuth'
 
+        // library
+        implementation 'com.google.guava:guava:28.1-jre'
 
         testImplementation('org.springframework.boot:spring-boot-starter-test') {
             exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'

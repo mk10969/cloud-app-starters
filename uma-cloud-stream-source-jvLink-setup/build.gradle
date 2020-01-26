@@ -1,25 +1,16 @@
 apply plugin: 'org.springframework.boot'
+apply plugin: 'com.google.cloud.tools.jib'
 
-
-bootJar {
-    launchScript()
-    archiveFileName = "${archiveBaseName.get()}.${archiveExtension.get()}"
-}
-
-
-bootRun {
-    jvmArgs = ['-Dspring.profiles.active=dev']
-}
-
+// spring-boot-configuration-processor
+compileJava.dependsOn(processResources)
 
 dependencies {
     implementation project(':uma-cloud-common')
     implementation 'org.springframework.boot:spring-boot-starter-rsocket'
-    implementation 'org.apache.kafka:kafka-streams'
-    implementation 'org.springframework.cloud:spring-cloud-stream'
     implementation 'org.springframework.cloud:spring-cloud-stream-binder-kafka'
-    implementation 'org.springframework.cloud:spring-cloud-stream-binder-kafka-streams'
-    implementation 'org.springframework.kafka:spring-kafka'
+
+    // https://docs.spring.io/spring-boot/docs/current/reference/html/appendix-configuration-metadata.html#configuration-metadata-annotation-processor
+    annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
 
 
     testImplementation 'io.projectreactor:reactor-test'
@@ -28,3 +19,8 @@ dependencies {
 }
 
 
+jib {
+    to {
+        image = "mk10969/my-app:${project.version}"
+    }
+}

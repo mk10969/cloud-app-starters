@@ -6,8 +6,10 @@ import lombok.Setter;
 import org.junit.jupiter.api.Test;
 import org.uma.cloud.common.utils.lang.StringUtil;
 
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class TestToJson {
 
@@ -45,7 +47,7 @@ public class TestToJson {
         user.setAddress(null);
         User.Hobby hobby = new User.Hobby();
         hobby.setName("baseball");
-        user.setHobby(Arrays.asList(hobby));
+        user.setHobby(Collections.singletonList(hobby));
 
         User user2 = new User();
         user2.setName("user2");
@@ -53,12 +55,12 @@ public class TestToJson {
         user2.setAddress(null);
         User.Hobby hobby2 = new User.Hobby();
         hobby2.setName("basketball");
-        user2.setHobby(Arrays.asList(hobby2));
+        user2.setHobby(Collections.singletonList(hobby2));
 
-        System.out.println(user);
-        System.out.println(user2);
-
-
+        assertEquals("{\"address\":null,\"hobby\":[{\"name\":\"baseball\"}],\"name\":\"user\",\"age\":10}",
+                user.toString());
+        assertEquals("{\"address\":null,\"hobby\":[{\"name\":\"basketball\"}],\"name\":\"user2\",\"age\":20}",
+                user2.toString());
     }
 
 }
