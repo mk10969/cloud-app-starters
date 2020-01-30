@@ -4,6 +4,7 @@ apply plugin: 'com.google.cloud.tools.jib'
 // spring-boot-configuration-processor
 compileJava.dependsOn(processResources)
 
+
 dependencies {
     implementation project(':uma-cloud-common')
     implementation 'org.springframework.boot:spring-boot-starter-rsocket'
@@ -20,7 +21,27 @@ dependencies {
 
 
 jib {
+    from {
+        image = 'openjdk:11-jre-slim'
+    }
     to {
         image = "mk10969/my-app:${project.version}"
     }
+    container {
+        creationTime = 'USE_CURRENT_TIMESTAMP'
+    }
+}
+
+
+ext {
+    metadataJson = file('build/classes/java/main/META-INF/spring-configuration-metadata.json')
+    metadataProperties = file('build/resources/main/META-INF/spring-configuration-metadata-whitelist.properties')
+}
+
+
+task foo(type: Zip) {
+    baseName = "baseName"
+    extension = "jar"
+    from "${metadataJson}", "${metadataProperties}"
+    destinationDir = file("${buildDir}/metadata")
 }
