@@ -3,23 +3,29 @@ package org.uma.cloud.stream.source;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.cloud.stream.annotation.EnableBinding;
 import org.springframework.cloud.stream.messaging.Source;
-import org.springframework.messaging.support.MessageBuilder;
-import org.springframework.scheduling.annotation.EnableScheduling;
-import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.context.annotation.Bean;
+import org.springframework.integration.annotation.InboundChannelAdapter;
+import org.springframework.integration.annotation.Poller;
+import org.springframework.integration.core.MessageSource;
+import org.springframework.messaging.support.GenericMessage;
 
 import java.util.Random;
 
 
+
 @EnableBinding(Source.class)
-@EnableScheduling
 @EnableConfigurationProperties(JvLinkSetupProperties.class)
+@SpringBootApplication
 public class TestUsage {
 
-    @Autowired
-    private Source source;
+    public static void main(String[] args) {
+        SpringApplication.run(TestUsage.class, args);
+    }
+
 
     @Autowired
     private JvLinkSetupProperties configuration;
@@ -27,21 +33,36 @@ public class TestUsage {
     private String[] users = {"user1", "user2", "user3", "user4", "user5"};
 
 
-    public static void main(String[] args) {
-        SpringApplication.run(TestUsage.class, args);
+    @Bean
+    @InboundChannelAdapter(value = Source.OUTPUT, poller = @Poller(fixedDelay = "1000", maxMessagesPerPoll = "1"))
+    public MessageSource<UsageDetail> timerMessageSource() {
+        return () -> {
+            UsageDetail usageDetail = new UsageDetail();
+            usageDetail.setUserId(this.users[new Random().nextInt(5)]);
+            usageDetail.setDuration(new Random().nextInt(300));
+            usageDetail.setData(new Random().nextInt(700));
+            usageDetail.setYyyyMMdd(configuration.getYyyyMMdd());
+            usageDetail.setFlag(configuration.isRACE());
+            return new GenericMessage<>(usageDetail);
+        };
     }
 
 
-    @Scheduled(fixedDelay = 1000)
-    public void sendEvents() {
-        UsageDetail usageDetail = new UsageDetail();
-        usageDetail.setUserId(this.users[new Random().nextInt(5)]);
-        usageDetail.setDuration(new Random().nextInt(300));
-        usageDetail.setData(new Random().nextInt(700));
-        usageDetail.setYyyyMMdd(configuration.getYyyyMMdd());
-        usageDetail.setFlag(configuration.isRACE());
-        this.source.output().send(MessageBuilder.withPayload(usageDetail).build());
-    }
+//    @StreamEmitter
+//    @Output(Source.OUTPUT)
+//    @Bean
+//    public Publisher<Message<UsageDetail>> emit() {
+//        return IntegrationFlows.from(() -> {
+//                    UsageDetail usageDetail = new UsageDetail();
+//                    usageDetail.setUserId(this.users[new Random().nextInt(5)]);
+//                    usageDetail.setDuration(new Random().nextInt(300));
+//                    usageDetail.setData(new Random().nextInt(700));
+//                    usageDetail.setYyyyMMdd(configuration.getYyyyMMdd());
+//                    usageDetail.setFlag(configuration.isRACE());
+//                    return new GenericMessage<UsageDetail>(usageDetail);
+//                }, e -> e.poller(p -> p.fixedDelay(10L, TimeUnit.SECONDS))
+//        ).toReactivePublisher();
+//    }
 
     @Data
     static class UsageDetail {

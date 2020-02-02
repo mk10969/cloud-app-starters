@@ -7,14 +7,15 @@ compileJava.dependsOn(processResources)
 
 dependencies {
     implementation project(':uma-cloud-common')
-    implementation 'org.springframework.boot:spring-boot-starter-rsocket'
+//    implementation 'org.springframework.boot:spring-boot-starter-rsocket'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.cloud:spring-cloud-stream-binder-kafka'
 
     // https://docs.spring.io/spring-boot/docs/current/reference/html/appendix-configuration-metadata.html#configuration-metadata-annotation-processor
     annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
 
 
-    testImplementation 'io.projectreactor:reactor-test'
+//    testImplementation 'io.projectreactor:reactor-test'
     testImplementation 'org.springframework.cloud:spring-cloud-stream-test-support'
     testImplementation 'org.springframework.kafka:spring-kafka-test'
 }
@@ -34,14 +35,20 @@ jib {
 
 
 ext {
-    metadataJson = file('build/classes/java/main/META-INF/spring-configuration-metadata.json')
-    metadataProperties = file('build/resources/main/META-INF/spring-configuration-metadata-whitelist.properties')
+    metadataJson = file("${buildDir}/classes/java/main/META-INF/spring-configuration-metadata.json")
+    metadataProperties = file("${buildDir}/resources/main/META-INF/spring-configuration-metadata-whitelist.properties")
 }
 
 
-task foo(type: Zip) {
-    baseName = "baseName"
-    extension = "jar"
+task copyMetadata(type: Copy) {
     from "${metadataJson}", "${metadataProperties}"
+    into "${buildDir}/metadata/tmp/META-INF"
+}
+
+
+task metadata(type: Zip) {
+    baseName = project.name
+    extension = "jar"
+    from "${buildDir}/metadata/tmp/"
     destinationDir = file("${buildDir}/metadata")
 }
