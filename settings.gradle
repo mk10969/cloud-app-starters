@@ -1,2 +1,3 @@
 include 'uma-cloud-common'
-include 'uma-cloud-stream-source-jvLink-setup'
+include 'uma-cloud-source-jvLink-setup'
+include 'uma-cloud-test-source'

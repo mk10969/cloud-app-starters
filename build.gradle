@@ -36,6 +36,9 @@ subprojects {
         implementation 'org.springframework.boot:spring-boot-starter-actuator'
         implementation 'org.springframework.cloud:spring-cloud-starter-sleuth'
 
+        // https://docs.spring.io/spring-boot/docs/current/reference/html/appendix-configuration-metadata.html#configuration-metadata-annotation-processor
+        annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
+
         // library
         implementation 'com.google.guava:guava:28.1-jre'
 
@@ -55,6 +58,25 @@ subprojects {
         useJUnitPlatform()
     }
 
+    ext {
+        metadataJson = file("${buildDir}/classes/java/main/META-INF/spring-configuration-metadata.json")
+        metadataProperties = file("${buildDir}/resources/main/META-INF/spring-configuration-metadata-whitelist.properties")
+    }
+
+    task copyMetadata(type: Copy) {
+        from "${metadataJson}", "${metadataProperties}"
+        into "${buildDir}/metadata/tmp/META-INF"
+    }
+
+    task metadata(type: Zip, dependsOn: [build, copyMetadata]) {
+        baseName = project.name
+        extension = "jar"
+        from "${buildDir}/metadata/tmp/"
+        destinationDir = file("${buildDir}/metadata")
+    }
+
+    // spring-boot-configuration-processor
+    compileJava.dependsOn(processResources)
     compileJava.options.encoding = 'UTF-8'
     sourceCompatibility = JavaVersion.VERSION_11
     targetCompatibility = JavaVersion.VERSION_11
