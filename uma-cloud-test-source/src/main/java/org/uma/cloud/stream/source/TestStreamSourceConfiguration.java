@@ -2,8 +2,6 @@ package org.uma.cloud.stream.source;
 
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.cloud.stream.annotation.EnableBinding;
 import org.springframework.cloud.stream.messaging.Source;
@@ -17,17 +15,11 @@ import java.util.Random;
 
 
 @EnableBinding(Source.class)
-@EnableConfigurationProperties(TestProperties.class)
-@SpringBootApplication
-public class TestConfiguration {
-
-    public static void main(String[] args) {
-        SpringApplication.run(TestConfiguration.class, args);
-    }
-
+@EnableConfigurationProperties(TestStreamSourceProperties.class)
+public class TestStreamSourceConfiguration {
 
     @Autowired
-    private TestProperties configuration;
+    private TestStreamSourceProperties testStreamSourceProperties;
 
     private String[] users = {"user1", "user2", "user3", "user4", "user5"};
 
@@ -43,8 +35,8 @@ public class TestConfiguration {
             usageDetail.setUserId(this.users[new Random().nextInt(5)]);
             usageDetail.setDuration(new Random().nextInt(300));
             usageDetail.setData(new Random().nextInt(700));
-            usageDetail.setYyyyMMdd(configuration.getYyyyMMdd());
-            usageDetail.setFlag(configuration.isRACE());
+            usageDetail.setYyyyMMdd(testStreamSourceProperties.getYyyyMMdd());
+            usageDetail.setFlag(testStreamSourceProperties.isRACE());
             return new GenericMessage<>(usageDetail);
         };
     }

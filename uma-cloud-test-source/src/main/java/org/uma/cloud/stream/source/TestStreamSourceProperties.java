@@ -1,12 +1,12 @@
 package org.uma.cloud.stream.source;
 
-
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.validation.annotation.Validated;
 
+
 @ConfigurationProperties("test.source")
 @Validated
-public class TestProperties {
+public class TestStreamSourceProperties {
 
     /**
      * 現在から設定した日付までのデータをセットアップ。
