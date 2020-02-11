@@ -17,7 +17,7 @@ allprojects {
 
 subprojects {
     group = 'org.uma.cloud'
-    version = '0.0.7-SNAPSHOT'
+    version = '0.0.12-SNAPSHOT'
 
     apply plugin: 'java'
     apply plugin: 'io.spring.dependency-management'
@@ -32,12 +32,13 @@ subprojects {
         compileOnly 'org.projectlombok:lombok'
         annotationProcessor 'org.projectlombok:lombok'
 
-        // spring
-        implementation 'org.springframework.boot:spring-boot-starter-actuator'
-        implementation 'org.springframework.cloud:spring-cloud-starter-sleuth'
-
         // https://docs.spring.io/spring-boot/docs/current/reference/html/appendix-configuration-metadata.html#configuration-metadata-annotation-processor
         annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
+
+        // spring
+//        implementation 'org.springframework.boot:spring-boot-starter-actuator'
+//        implementation 'org.springframework.cloud:spring-cloud-starter-sleuth'
+
 
         // library
         implementation 'com.google.guava:guava:28.1-jre'

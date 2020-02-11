@@ -3,10 +3,16 @@ apply plugin: 'com.google.cloud.tools.jib'
 
 
 dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter-webflux'
-    implementation 'org.springframework.cloud:spring-cloud-starter-task'
+//    implementation 'org.springframework.boot:spring-boot-starter-webflux'
 
-    testImplementation 'io.projectreactor:reactor-test'
+    implementation 'org.springframework.cloud:spring-cloud-starter-task'
+//    implementation 'org.springframework.cloud:spring-cloud-task-core'
+
+    implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+    implementation 'org.mariadb.jdbc:mariadb-java-client'
+
+//    testImplementation 'io.projectreactor:reactor-test'
+
 }
 
 
