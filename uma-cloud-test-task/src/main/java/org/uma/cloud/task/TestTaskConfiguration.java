@@ -21,17 +21,6 @@ public class TestTaskConfiguration {
     public CommandLineRunner testTaskRunner() {
         return args -> {
             System.out.println("aaaaaaaaaaaaaa");
-
-//            WebClient webClient = WebClient.create(testTaskProperties.getRestUrl());
-//            webClient.get().uri("/")
-//                    .retrieve()
-//                    .bodyToMono(String.class)
-//                    .subscribe(
-//                            i -> System.out.println(i),
-//                            e -> new RuntimeException(e),
-//                            () -> System.out.println("end")
-//                    );
-
         };
     }
 

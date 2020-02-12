@@ -1,4 +1,8 @@
+// main app
 include 'uma-cloud-common'
 include 'uma-cloud-source-jvLink-setup'
+include 'uma-cloud-task-ipatgo'
+
+// test example
 include 'uma-cloud-test-source'
 include 'uma-cloud-test-task'
