@@ -2,6 +2,7 @@ plugins {
     id 'org.springframework.boot' version '2.2.4.RELEASE'
     id 'io.spring.dependency-management' version '1.0.9.RELEASE'
     id 'java'
+    id 'maven-publish'
     id 'com.google.cloud.tools.jib' version '1.8.0'
 }
 
@@ -20,6 +21,7 @@ subprojects {
     version = '0.0.12-SNAPSHOT'
 
     apply plugin: 'java'
+    apply plugin: "maven-publish"
     apply plugin: 'io.spring.dependency-management'
 
     configurations {
@@ -59,22 +61,37 @@ subprojects {
         useJUnitPlatform()
     }
 
-    ext {
-        metadataJson = file("${buildDir}/classes/java/main/META-INF/spring-configuration-metadata.json")
-        metadataProperties = file("${buildDir}/resources/main/META-INF/spring-configuration-metadata-whitelist.properties")
-    }
-
     task copyMetadata(type: Copy) {
-        from "${metadataJson}", "${metadataProperties}"
+        from file("${buildDir}/classes/java/main/META-INF/spring-configuration-metadata.json"),
+                file("${buildDir}/resources/main/META-INF/spring-configuration-metadata-whitelist.properties")
         into "${buildDir}/metadata/tmp/META-INF"
     }
 
     task metadata(type: Zip, dependsOn: [build, copyMetadata]) {
         baseName = project.name
-        extension = "jar"
+        extension = "zip"
         from "${buildDir}/metadata/tmp/"
         destinationDir = file("${buildDir}/metadata")
     }
+
+    publishing {
+        repositories {
+            maven {
+//                credentials {
+//                    username nexusUsername
+//                    password nexusPassword
+//                }
+//                url uri("https://maven.pkg.github.com/OWNER/REPOSITORY")
+                url "${buildDir}/once"
+            }
+        }
+        publications {
+            metaJar(MavenPublication) {
+                artifact source: metadataJar, extension: 'zip'
+            }
+        }
+    }
+
 
     // spring-boot-configuration-processor
     compileJava.dependsOn(processResources)

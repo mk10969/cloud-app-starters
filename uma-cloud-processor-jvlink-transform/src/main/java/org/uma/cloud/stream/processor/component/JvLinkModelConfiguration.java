@@ -1,17 +1,46 @@
-package org.uma.jvLink.server.configuration;
+package org.uma.cloud.stream.processor.component;
 
 import org.modelmapper.AbstractConverter;
 import org.modelmapper.Converter;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.uma.platform.common.code.*;
-import org.uma.jvLink.core.config.spec.RecordSpec;
-import org.uma.platform.common.model.*;
-import org.uma.platform.common.model.odds.Quinella;
-import org.uma.platform.common.model.odds.WinsPlaceBracketQuinella;
-import org.uma.platform.common.utils.javatuples.Pair;
-import org.uma.platform.common.utils.javatuples.Triplet;
+import org.uma.cloud.common.code.AbnormalDivisionCode;
+import org.uma.cloud.common.code.BreedCode;
+import org.uma.cloud.common.code.EastOrWestBelongCode;
+import org.uma.cloud.common.code.HairColorCode;
+import org.uma.cloud.common.code.HorseSignCode;
+import org.uma.cloud.common.code.JockeyApprenticeCode;
+import org.uma.cloud.common.code.JockeyLicenseCode;
+import org.uma.cloud.common.code.MarginCode;
+import org.uma.cloud.common.code.RaceCourseCode;
+import org.uma.cloud.common.code.RaceGradeCode;
+import org.uma.cloud.common.code.RaceSignCode;
+import org.uma.cloud.common.code.RaceTypeCode;
+import org.uma.cloud.common.code.SexCode;
+import org.uma.cloud.common.code.TrackCode;
+import org.uma.cloud.common.code.TurfOrDirtConditionCode;
+import org.uma.cloud.common.code.WeatherCode;
+import org.uma.cloud.common.code.WeekDayCode;
+import org.uma.cloud.common.code.WeightTypeCode;
+import org.uma.cloud.common.model.Ancestry;
+import org.uma.cloud.common.model.Breeder;
+import org.uma.cloud.common.model.BreedingHorse;
+import org.uma.cloud.common.model.Course;
+import org.uma.cloud.common.model.HorseRacingDetails;
+import org.uma.cloud.common.model.Jockey;
+import org.uma.cloud.common.model.Offspring;
+import org.uma.cloud.common.model.Owner;
+import org.uma.cloud.common.model.RaceHorse;
+import org.uma.cloud.common.model.RaceRefund;
+import org.uma.cloud.common.model.RacingDetails;
+import org.uma.cloud.common.model.Trainer;
+import org.uma.cloud.common.model.VoteCount;
+import org.uma.cloud.common.model.odds.Quinella;
+import org.uma.cloud.common.model.odds.WinsPlaceBracketQuinella;
+import org.uma.cloud.common.recordSpec.RecordSpec;
+import org.uma.cloud.common.utils.javatuples.Pair;
+import org.uma.cloud.common.utils.javatuples.Triplet;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -19,7 +48,7 @@ import java.util.EnumMap;
 
 
 @Configuration
-public class JvLinkModelMapperConfiguration {
+public class JvLinkModelConfiguration {
 
     private static final Converter<String, LocalDate> toLocalDate = new AbstractConverter<String, LocalDate>() {
         @Override
@@ -236,16 +265,13 @@ public class JvLinkModelMapperConfiguration {
         enumMap.put(RecordSpec.SE, HorseRacingDetails.class);
         enumMap.put(RecordSpec.HR, RaceRefund.class);
         enumMap.put(RecordSpec.H1, VoteCount.class);
-
         // ODDS
         enumMap.put(RecordSpec.O1, WinsPlaceBracketQuinella.class);
         enumMap.put(RecordSpec.O2, Quinella.class);
-
         // BLOD
         enumMap.put(RecordSpec.SK, Offspring.class);
         enumMap.put(RecordSpec.BT, Ancestry.class);
         enumMap.put(RecordSpec.HN, BreedingHorse.class);
-
         // DIFF
         enumMap.put(RecordSpec.CS, Course.class);
         enumMap.put(RecordSpec.UM, RaceHorse.class);

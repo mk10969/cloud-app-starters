@@ -1,4 +1,4 @@
-package org.uma.jvLink.server.util;
+package org.uma.cloud.stream.processor.component;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -10,9 +10,14 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.charset.CharacterCodingException;
 import java.nio.charset.Charset;
-import java.util.*;
+import java.util.Arrays;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
-final public class JvLinkUtil {
+
+final public class JvLinkModelUtil {
 
     /**
      * クソみたいな話
@@ -29,8 +34,9 @@ final public class JvLinkUtil {
     public static Map<String, Integer> jsonToMap(String json) {
         Objects.requireNonNull(json);
         try {
-            return objectMapper.readValue(json, new TypeReference<LinkedHashMap<String, Integer>>() {
-            });
+            return objectMapper.readValue(json,
+                    new TypeReference<LinkedHashMap<String, Integer>>() {
+                    });
         } catch (IOException e) {
             e.printStackTrace();
             throw new RuntimeException();
@@ -41,6 +47,11 @@ final public class JvLinkUtil {
         Objects.requireNonNull(str);
         return str.getBytes(SHIFT_JIS);
     }
+
+    public static String toString(byte[] bytes) {
+        return new String(bytes, SHIFT_JIS);
+    }
+
 
     public static String sliceAndToString(byte[] array, int start, int end) {
         final byte[] slice = Arrays.copyOfRange(array, start, end);
@@ -87,7 +98,7 @@ final public class JvLinkUtil {
     public static void fieldNotNull(Object model) {
         Map<String, Object> json = JsonFlattener.flattenAsMap(toJson(model));
         json.entrySet().stream()
-                .filter(JvLinkUtil::nullOkFieldName)
+                .filter(JvLinkModelUtil::nullOkFieldName)
                 .forEach(e -> Objects.requireNonNull(e.getValue(), e.getKey() + "が、nullです。"));
     }
 

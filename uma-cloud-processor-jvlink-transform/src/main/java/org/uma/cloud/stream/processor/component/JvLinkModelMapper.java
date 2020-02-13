@@ -1,14 +1,17 @@
-package org.uma.jvLink.server.component;
+package org.uma.cloud.stream.processor.component;
 
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
-import org.uma.jvLink.server.configuration.JvLinkModelMapperConfiguration;
-import org.uma.jvLink.server.configuration.JvLinkRecordSpecConfiguration;
-import org.uma.jvLink.server.util.JvLinkUtil;
-import org.uma.jvLink.core.config.spec.RecordSpec;
+import org.uma.cloud.common.recordSpec.RecordSpec;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.EnumMap;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+
 
 @Component
 @RequiredArgsConstructor
@@ -17,15 +20,15 @@ public class JvLinkModelMapper {
     private final ModelMapper modelMapper;
 
     /**
-     * {@link JvLinkModelMapperConfiguration#recordSpecPairEnumMap()}
+     * {@link JvLinkModelConfiguration#recordSpecPairEnumMap()}
      */
     private final EnumMap<RecordSpec, Class<?>> recordSpecClass;
 
     /**
      * 同一型のBeanをMap化
-     * {@link JvLinkRecordSpecConfiguration}
+     * {@link JvLinkModelProperties}
      */
-    private final Map<String, JvLinkRecordSpecConfiguration.RecordSpecItems> recordSpecItems;
+    private final Map<String, JvLinkModelProperties.RecordSpecItems> recordSpecItems;
 
 
     /**
@@ -34,7 +37,7 @@ public class JvLinkModelMapper {
      * @param clazz
      * @return RecordSpecItems
      */
-    private JvLinkRecordSpecConfiguration.RecordSpecItems findOne(Class<?> clazz) {
+    private JvLinkModelProperties.RecordSpecItems findOne(Class<?> clazz) {
         return recordSpecClass.entrySet()
                 .stream()
                 .filter(i -> Objects.equals(i.getValue(), clazz))
@@ -47,15 +50,10 @@ public class JvLinkModelMapper {
                 .orElseThrow(IllegalStateException::new);
     }
 
-    /**
-     * @param line  JvLinkから得られるデータ1行
-     * @param clazz Modelクラス
-     * @param <T>   Modelクラスの型
-     * @return deserialized model クラス
-     */
+
     public <T> T deserialize(String line, Class<T> clazz) {
         Map<String, Object> deSerialMap = new HashMap<>();
-        final byte[] byteArrayLine = JvLinkUtil.toByte(line);
+        final byte[] byteArrayLine = JvLinkModelUtil.toByte(line);
 
         findOne(clazz).getRecordItems().forEach(record -> {
             // 繰り返しあり。
@@ -68,9 +66,9 @@ public class JvLinkModelMapper {
                     String[] columnNameAndJsonString = record.getColumn().split("=");
                     for (int i = 0; i < record.getRepeat(); i++) {
                         Map<String, Object> tmpMap = new HashMap<>(); //ループ毎に初期化
-                        for (Map.Entry<String, Integer> entry : JvLinkUtil
+                        for (Map.Entry<String, Integer> entry : JvLinkModelUtil
                                 .jsonToMap(columnNameAndJsonString[1]).entrySet()) {
-                            String tmpString = JvLinkUtil
+                            String tmpString = JvLinkModelUtil
                                     .sliceAndToString(byteArrayLine, start, start + entry.getValue());
                             tmpMap.put(entry.getKey(), tmpString);
                             start = start + entry.getValue();
@@ -82,7 +80,7 @@ public class JvLinkModelMapper {
                 // 単純な繰り返し。
                 else {
                     for (int i = 0; i < record.getRepeat(); i++) {
-                        String tmpString = JvLinkUtil
+                        String tmpString = JvLinkModelUtil
                                 .sliceAndToString(byteArrayLine, start, start + record.getLength());
                         tmpList.add(tmpString);
                         start = start + record.getLength();
@@ -93,7 +91,7 @@ public class JvLinkModelMapper {
             // 繰り返しなし
             else {
                 int end = record.getStart() + record.getLength(); // 次のメソッドの引数が長くなるから。
-                String tmpString = JvLinkUtil.sliceAndToString(byteArrayLine, record.getStart(), end);
+                String tmpString = JvLinkModelUtil.sliceAndToString(byteArrayLine, record.getStart(), end);
                 deSerialMap.put(record.getColumn(), tmpString);
             }
         });

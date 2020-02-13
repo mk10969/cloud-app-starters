@@ -13,19 +13,11 @@ bootRun {
 
 
 dependencies {
-//    implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
-//    implementation 'org.springframework.boot:spring-boot-starter-data-mongodb-reactive'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'io.projectreactor:reactor-core:3.3.0.RELEASE'
 
-    implementation project(':uma-jvLink-core')
-
-    // Map Object to JavaBean library
-    implementation 'org.modelmapper:modelmapper:2.3.5'
     // Use permutations ex... nPr, nCr
     implementation 'com.google.guava:guava:28.1-jre'
-    // model to json ex... null check
-    implementation 'com.github.wnameless.json:json-flattener:0.8.1'
 
 
     // test tools

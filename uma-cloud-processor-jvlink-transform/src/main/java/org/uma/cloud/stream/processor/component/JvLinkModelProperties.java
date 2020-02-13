@@ -1,4 +1,4 @@
-package org.uma.jvLink.server.configuration;
+package org.uma.cloud.stream.processor.component;
 
 import lombok.Data;
 import lombok.Getter;
@@ -14,7 +14,7 @@ import java.util.List;
 
 @Configuration
 @PropertySource(value = "classpath:JvLinkRecord.properties")
-public class JvLinkRecordSpecConfiguration {
+public class JvLinkModelProperties {
 
     /**
      * @return レース詳細
