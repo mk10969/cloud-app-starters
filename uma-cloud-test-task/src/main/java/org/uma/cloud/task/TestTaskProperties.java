@@ -13,27 +13,4 @@ public class TestTaskProperties {
      */
     private String restUrl = "http://localhost:8787";
 
-    /**
-     * mode
-     */
-    private Mode mode = Mode.deposit;
-
-    enum Mode {data, file, stat, history, deposit, withdraw}
-
-    public String getRestUrl() {
-        return this.restUrl;
-    }
-
-    public Mode getMode() {
-        return this.mode;
-    }
-
-    public void setRestUrl(String restUrl) {
-        this.restUrl = restUrl;
-    }
-
-    public void setMode(Mode mode) {
-        this.mode = mode;
-    }
-
 }

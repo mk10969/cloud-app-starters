@@ -3,6 +3,7 @@ package org.uma.cloud.stream.processor.component;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
+import org.uma.cloud.common.model.BaseModel;
 import org.uma.cloud.common.recordSpec.RecordSpec;
 
 import java.util.ArrayList;
@@ -20,15 +21,15 @@ public class JvLinkModelMapper {
     private final ModelMapper modelMapper;
 
     /**
-     * {@link JvLinkModelConfiguration#recordSpecPairEnumMap()}
+     * {@link JvLinkModelMapperProperties#recordSpecPairEnumMap()}
      */
-    private final EnumMap<RecordSpec, Class<?>> recordSpecClass;
+    private final EnumMap<RecordSpec, Class<? extends BaseModel>> recordSpecClass;
 
     /**
      * 同一型のBeanをMap化
-     * {@link JvLinkModelProperties}
+     * {@link ModelProperties}
      */
-    private final Map<String, JvLinkModelProperties.RecordSpecItems> recordSpecItems;
+    private final Map<String, ModelProperties.RecordSpecItems> recordSpecItems;
 
 
     /**
@@ -37,7 +38,7 @@ public class JvLinkModelMapper {
      * @param clazz
      * @return RecordSpecItems
      */
-    private JvLinkModelProperties.RecordSpecItems findOne(Class<?> clazz) {
+    private ModelProperties.RecordSpecItems findOne(Class<?> clazz) {
         return recordSpecClass.entrySet()
                 .stream()
                 .filter(i -> Objects.equals(i.getValue(), clazz))
@@ -51,9 +52,8 @@ public class JvLinkModelMapper {
     }
 
 
-    public <T> T deserialize(String line, Class<T> clazz) {
+    public <T> T deserialize(final byte[] byteArrayLine, final Class<T> clazz) {
         Map<String, Object> deSerialMap = new HashMap<>();
-        final byte[] byteArrayLine = JvLinkModelUtil.toByte(line);
 
         findOne(clazz).getRecordItems().forEach(record -> {
             // 繰り返しあり。

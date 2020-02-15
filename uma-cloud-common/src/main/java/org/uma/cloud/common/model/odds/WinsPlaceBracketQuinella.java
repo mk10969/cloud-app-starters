@@ -37,7 +37,7 @@ public class WinsPlaceBracketQuinella extends BaseModel {
     private Integer entryCount;
     private Integer starterCount;
     private Integer saleFlagWin;
-    private Integer saleFlagShow;
+    private Integer saleFlagPlace;
     private Integer saleFlagbracket;
     private Integer placeCashKey;
 

@@ -5,12 +5,13 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.uma.cloud.common.model.BaseModel;
+import org.uma.cloud.common.recordSpec.RecordSpec;
 import org.uma.cloud.stream.processor.component.JvLinkModelMapper;
-import org.uma.cloud.stream.processor.component.JvLinkModelProperties;
-import org.uma.cloud.stream.processor.component.JvLinkModelUtil;
 
 import java.util.Base64;
-import java.util.Map;
+import java.util.EnumMap;
+import java.util.Optional;
 import java.util.function.Function;
 
 
@@ -22,37 +23,41 @@ public class JvLinkTransformConfiguration {
 
     private final JvLinkTransformProperties jvLinkTransformProperties;
 
-    private final Map<String, JvLinkModelProperties.RecordSpecItems> recordSpecItems;
+    private final EnumMap<RecordSpec, Class<? extends BaseModel>> recordSpecClass;
 
     private final JvLinkModelMapper jvLinkModelMapper;
 
 
     @Bean
-    public Function<String, String> decodeAndDeserialize() {
+    public Function<String, ? extends BaseModel> decodeAndDeserialize() {
         return decode().andThen(deserialize());
     }
 
+//    @Bean
+//    public Function<? extends BaseModel, ? extends BaseModel> filter() {
+//        return model -> {
+//            model.getRecordType();
+//            return model;
+//        };
+//    }
 
     @Bean
-    public Function<String, String> deserialize() {
-        return data -> {
-            String recodeSpec = jvLinkTransformProperties.getRecordSpec();
-
-            return "";
-//              jvLinkModelMapper.deserialize(data, )
-        };
-
-
+    public Function<byte[], ? extends BaseModel> deserialize() {
+        return byteData -> jvLinkModelMapper.deserialize(byteData, findClass());
     }
 
     @Bean
-    public Function<String, String> decode() {
-        return data -> {
-            byte[] bytes = Base64.getDecoder().decode(data);
-            return JvLinkModelUtil.toString(bytes);
-        };
+    public Function<String, byte[]> decode() {
+        return data -> Base64.getDecoder().decode(data);
     }
 
+
+    private Class<? extends BaseModel> findClass() {
+        RecordSpec recordSpec = RecordSpec.of(jvLinkTransformProperties.getRecordSpec());
+        Class<? extends BaseModel> clazz = recordSpecClass.getOrDefault(recordSpec, null);
+        return Optional.ofNullable(clazz).orElseThrow(() ->
+                new NullPointerException(recordSpec + "から、対象のクラスが見つかりませんでした。"));
+    }
 
 //@EnableBinding(Processor.class)
 
