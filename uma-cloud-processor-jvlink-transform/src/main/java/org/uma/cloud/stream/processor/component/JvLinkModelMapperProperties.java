@@ -33,11 +33,16 @@ import org.uma.cloud.common.model.Jockey;
 import org.uma.cloud.common.model.Offspring;
 import org.uma.cloud.common.model.Owner;
 import org.uma.cloud.common.model.RaceHorse;
+import org.uma.cloud.common.model.RaceHorseExclusion;
 import org.uma.cloud.common.model.RaceRefund;
 import org.uma.cloud.common.model.RacingDetails;
 import org.uma.cloud.common.model.Trainer;
 import org.uma.cloud.common.model.VoteCount;
+import org.uma.cloud.common.model.odds.Exacta;
 import org.uma.cloud.common.model.odds.Quinella;
+import org.uma.cloud.common.model.odds.QuinellaPlace;
+import org.uma.cloud.common.model.odds.Trifecta;
+import org.uma.cloud.common.model.odds.Trio;
 import org.uma.cloud.common.model.odds.WinsPlaceBracketQuinella;
 import org.uma.cloud.common.recordSpec.RecordSpec;
 import org.uma.cloud.common.utils.javatuples.Pair;
@@ -210,21 +215,24 @@ public class JvLinkModelMapperProperties {
                     || "   ".equals(source)
                     || "    ".equals(source)
                     || "     ".equals(source)
-                    || "      ".equals(source)) {
+                    || "      ".equals(source)
+                    || "       ".equals(source)) {
                 return null;
             }
             if ("--".equals(source)
                     || "---".equals(source)
                     || "----".equals(source)
                     || "-----".equals(source)
-                    || "------".equals(source)) {
+                    || "------".equals(source)
+                    || "-------".equals(source)) {
                 return -100;
             }
             if ("**".equals(source)
                     || "***".equals(source)
                     || "****".equals(source)
                     || "*****".equals(source)
-                    || "******".equals(source)) {
+                    || "******".equals(source)
+                    || "*******".equals(source)) {
                 return -999;
             }
             return Integer.valueOf(source);
@@ -266,20 +274,26 @@ public class JvLinkModelMapperProperties {
         enumMap.put(RecordSpec.SE, HorseRacingDetails.class);
         enumMap.put(RecordSpec.HR, RaceRefund.class);
         enumMap.put(RecordSpec.H1, VoteCount.class);
+        enumMap.put(RecordSpec.JG, RaceHorseExclusion.class);
         // ODDS
         enumMap.put(RecordSpec.O1, WinsPlaceBracketQuinella.class);
         enumMap.put(RecordSpec.O2, Quinella.class);
+        enumMap.put(RecordSpec.O3, QuinellaPlace.class);
+        enumMap.put(RecordSpec.O4, Exacta.class);
+        enumMap.put(RecordSpec.O5, Trio.class);
+        enumMap.put(RecordSpec.O6, Trifecta.class);
         // BLOD
         enumMap.put(RecordSpec.SK, Offspring.class);
         enumMap.put(RecordSpec.BT, Ancestry.class);
         enumMap.put(RecordSpec.HN, BreedingHorse.class);
         // DIFF
-        enumMap.put(RecordSpec.CS, Course.class);
         enumMap.put(RecordSpec.UM, RaceHorse.class);
         enumMap.put(RecordSpec.KS, Jockey.class);
         enumMap.put(RecordSpec.CH, Trainer.class);
         enumMap.put(RecordSpec.BR, Breeder.class);
         enumMap.put(RecordSpec.BN, Owner.class);
+        // COMM
+        enumMap.put(RecordSpec.CS, Course.class);
         return enumMap;
     }
 

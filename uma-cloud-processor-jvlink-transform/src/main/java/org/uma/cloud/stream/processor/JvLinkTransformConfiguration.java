@@ -7,11 +7,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.uma.cloud.common.model.BaseModel;
 import org.uma.cloud.common.recordSpec.RecordSpec;
-import org.uma.cloud.stream.processor.component.JvLinkModelMapper;
+import org.uma.cloud.stream.processor.component.JvLinkModelMapperConfiguration;
 
 import java.util.Base64;
 import java.util.EnumMap;
-import java.util.Optional;
 import java.util.function.Function;
 
 
@@ -20,44 +19,31 @@ import java.util.function.Function;
 @RequiredArgsConstructor
 public class JvLinkTransformConfiguration {
 
-
     private final JvLinkTransformProperties jvLinkTransformProperties;
 
-    private final EnumMap<RecordSpec, Class<? extends BaseModel>> recordSpecClass;
+    /**
+     * {@link JvLinkModelMapperConfiguration#recordSpecFunctionEnumMap()}
+     */
+    private final EnumMap<RecordSpec, Function<byte[], ? extends BaseModel>> functionEnumMap;
 
-    private final JvLinkModelMapper jvLinkModelMapper;
 
-
-    @Bean
-    public Function<String, ? extends BaseModel> decodeAndDeserialize() {
-        return decode().andThen(deserialize());
+    private RecordSpec findRecordSpec() {
+        return RecordSpec.of(jvLinkTransformProperties.getRecordSpec());
     }
 
-//    @Bean
-//    public Function<? extends BaseModel, ? extends BaseModel> filter() {
-//        return model -> {
-//            model.getRecordType();
-//            return model;
-//        };
-//    }
-
-    @Bean
-    public Function<byte[], ? extends BaseModel> deserialize() {
-        return byteData -> jvLinkModelMapper.deserialize(byteData, findClass());
-    }
-
-    @Bean
     public Function<String, byte[]> decode() {
         return data -> Base64.getDecoder().decode(data);
     }
 
-
-    private Class<? extends BaseModel> findClass() {
-        RecordSpec recordSpec = RecordSpec.of(jvLinkTransformProperties.getRecordSpec());
-        Class<? extends BaseModel> clazz = recordSpecClass.getOrDefault(recordSpec, null);
-        return Optional.ofNullable(clazz).orElseThrow(() ->
-                new NullPointerException(recordSpec + "から、対象のクラスが見つかりませんでした。"));
+    public Function<byte[], ? extends BaseModel> deserialize() {
+        return functionEnumMap.get(findRecordSpec());
     }
+
+    @Bean
+    public Function<String, ? extends BaseModel> jvlinkTransform() {
+        return decode().andThen(deserialize());
+    }
+
 
 //@EnableBinding(Processor.class)
 

@@ -14,7 +14,7 @@ import java.util.List;
 
 @Configuration
 @PropertySource(value = "classpath:JvLinkRecord.properties")
-public class ModelProperties {
+public class JvLinkRecordProperties {
 
     /**
      * @return レース詳細

@@ -11,7 +11,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.uma.cloud.common.model.RacingDetails;
-import org.uma.cloud.stream.processor.component.ModelProperties;
+import org.uma.cloud.stream.processor.component.JvLinkRecordProperties;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -36,7 +36,7 @@ public class PreJvLInkModelMapperTest {
 
     @Autowired
     @Qualifier("RA")
-    private ModelProperties.RecordSpecItems recordSpecItems;
+    private JvLinkRecordProperties.RecordSpecItems recordSpecItems;
 
 
     private List<String> readJvlinkData(String filename) throws IOException {

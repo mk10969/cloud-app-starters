@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.uma.cloud.common.recordSpec.RecordSpec;
-import org.uma.cloud.stream.processor.component.ModelProperties;
+import org.uma.cloud.stream.processor.component.JvLinkRecordProperties;
 
 import org.uma.cloud.stream.processor.ReflectionUtils;
 import reactor.core.publisher.Flux;
@@ -25,7 +25,7 @@ import java.util.stream.Stream;
 public class JvLinkClientModelCheckTest {
 
     @Autowired
-    private Map<String, ModelProperties.RecordSpecItems> recordSpecs;
+    private Map<String, JvLinkRecordProperties.RecordSpecItems> recordSpecs;
 
     @Autowired
     private EnumMap<RecordSpec, Class<?>> recordSpecClass;
@@ -66,7 +66,7 @@ public class JvLinkClientModelCheckTest {
     private List<String> sortedProperies(RecordSpec recordSpec) {
         return recordSpecs.get(recordSpec.getCode()).getRecordItems()
                 .stream()
-                .map(ModelProperties.RecordSpecItems.RecordItem::getColumn)
+                .map(JvLinkRecordProperties.RecordSpecItems.RecordItem::getColumn)
                 .sorted()
                 .collect(Collectors.toList());
     }
