@@ -3,8 +3,11 @@ package org.uma.cloud.stream.processor;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.cloud.stream.annotation.EnableBinding;
+import org.springframework.cloud.stream.annotation.StreamListener;
+import org.springframework.cloud.stream.messaging.Processor;
+import org.springframework.messaging.handler.annotation.SendTo;
+import org.springframework.stereotype.Component;
 import org.uma.cloud.common.model.BaseModel;
 import org.uma.cloud.common.recordSpec.RecordSpec;
 import org.uma.cloud.stream.processor.component.JvLinkModelMapperConfiguration;
@@ -14,7 +17,7 @@ import java.util.EnumMap;
 import java.util.function.Function;
 
 
-@Configuration
+@EnableBinding(Processor.class)
 @EnableConfigurationProperties(JvLinkTransformProperties.class)
 @RequiredArgsConstructor
 public class JvLinkTransformConfiguration {
@@ -39,18 +42,15 @@ public class JvLinkTransformConfiguration {
         return functionEnumMap.get(findRecordSpec());
     }
 
-    @Bean
-    public Function<String, ? extends BaseModel> jvlinkTransform() {
-        return decode().andThen(deserialize());
+    @StreamListener(Processor.INPUT)
+    @SendTo(Processor.OUTPUT)
+    public Object jvlinkTransform(String data) {
+        return decode().andThen(deserialize()).apply(data);
     }
 
 
-//@EnableBinding(Processor.class)
-
-//    @StreamListener(Processor.INPUT)
-//    @SendTo(Processor.OUTPUT)
-//    public String messenger(String data) {
-//        return "Hello: " + data + "!";
+//    public Function<String, ? extends BaseModel> jvlinkTransform() {
+//        return decode().andThen(deserialize());
 //    }
 
 }

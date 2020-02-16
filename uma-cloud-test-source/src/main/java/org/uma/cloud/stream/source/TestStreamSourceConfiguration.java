@@ -37,13 +37,10 @@ public class TestStreamSourceConfiguration {
             usageDetail.setUserId(this.users[new Random().nextInt(5)]);
             usageDetail.setDuration(new Random().nextInt(300));
             usageDetail.setData(new Random().nextInt(700));
-            usageDetail.setYyyyMMdd(testStreamSourceProperties.getYyyyMMdd());
-            usageDetail.setFlag(testStreamSourceProperties.isRACE());
             return new GenericMessage<>(usageDetail);
         };
     }
-
-
+    
 //    @StreamEmitter
 //    @Output(Source.OUTPUT)
 //    @Bean
@@ -65,8 +62,6 @@ public class TestStreamSourceConfiguration {
         private String userId;
         private Integer duration;
         private Integer data;
-        private String yyyyMMdd;
-        private boolean flag;
     }
 
 }

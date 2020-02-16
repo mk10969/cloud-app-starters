@@ -6,5 +6,6 @@ include 'uma-cloud-task-ipatgo'
 
 
 // test example
+include 'uma-cloud-test-processor'
 include 'uma-cloud-test-source'
 include 'uma-cloud-test-task'

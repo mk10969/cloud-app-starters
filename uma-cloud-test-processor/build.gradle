@@ -16,7 +16,7 @@ jib {
         image = 'openjdk:11-jre-slim'
     }
     to {
-        image = "mk10969/test-source:${project.version}"
+        image = "mk10969/test-processor:${project.version}"
     }
     container {
         creationTime = 'USE_CURRENT_TIMESTAMP'
