@@ -37,10 +37,9 @@ subprojects {
         // https://docs.spring.io/spring-boot/docs/current/reference/html/appendix-configuration-metadata.html#configuration-metadata-annotation-processor
         annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
 
-        // spring
-//        implementation 'org.springframework.boot:spring-boot-starter-actuator'
+        // Health Check
+        implementation 'org.springframework.boot:spring-boot-starter-actuator'
 //        implementation 'org.springframework.cloud:spring-cloud-starter-sleuth'
-
 
         // library
         implementation 'com.google.guava:guava:28.1-jre'
