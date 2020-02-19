@@ -2,6 +2,7 @@ package org.uma.cloud.job;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.batch.core.ItemWriteListener;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
@@ -9,22 +10,19 @@ import org.springframework.batch.core.configuration.annotation.JobBuilderFactory
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
 import org.springframework.batch.core.launch.support.RunIdIncrementer;
 import org.springframework.batch.item.ItemProcessor;
-import org.springframework.batch.item.ItemReader;
-import org.springframework.batch.item.ItemWriter;
 import org.springframework.batch.item.json.JacksonJsonObjectMarshaller;
 import org.springframework.batch.item.json.JacksonJsonObjectReader;
 import org.springframework.batch.item.json.JsonFileItemWriter;
-import org.springframework.batch.item.json.JsonObjectMarshaller;
+import org.springframework.batch.item.json.JsonItemReader;
+import org.springframework.batch.item.json.builder.JsonFileItemWriterBuilder;
 import org.springframework.batch.item.json.builder.JsonItemReaderBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.task.configuration.EnableTask;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.ResourceLoader;
+import org.springframework.core.io.ClassPathResource;
 
-import javax.sql.DataSource;
+import java.util.List;
 
 
 @Configuration
@@ -38,20 +36,37 @@ public class BillingConfiguration {
     @Autowired
     private StepBuilderFactory stepBuilderFactory;
 
-    @Value("${usage.file.name:classpath:usageinfo.json}")
-    private Resource usageResource;
-
-    @Autowired
-    private ResourceLoader resourceLoader;
-
 
     @Bean
-    public Job job(ItemReader<Usage> reader, ItemProcessor<Usage, Bill> processor, ItemWriter<Bill> writer) {
+    public Job job(
+            JsonItemReader<Usage> reader,
+            ItemProcessor<Usage, Bill> processor,
+            JsonFileItemWriter<Bill> writer) {
+
+        ItemWriteListener<Bill> listener = new ItemWriteListener<>() {
+            @Override
+            public void beforeWrite(List<? extends Bill> items) {
+                System.out.println("before:" + items);
+            }
+
+            @Override
+            public void afterWrite(List<? extends Bill> items) {
+                System.out.println("after:" + items);
+            }
+
+            @Override
+            public void onWriteError(Exception exception, List<? extends Bill> items) {
+
+            }
+        };
+
+
         Step step = stepBuilderFactory.get("BillProcessing")
-                .<Usage, Bill>chunk(1)
+                .<Usage, Bill>chunk(2)
                 .reader(reader)
                 .processor(processor)
                 .writer(writer)
+                .listener(listener)
                 .build();
 
         return jobBuilderFactory.get("BillJob")
@@ -61,14 +76,14 @@ public class BillingConfiguration {
     }
 
     @Bean
-    public ItemReader<Usage> jsonItemReader() {
+    public JsonItemReader<Usage> jsonItemReader() {
         ObjectMapper objectMapper = new ObjectMapper();
         JacksonJsonObjectReader<Usage> jacksonJsonObjectReader = new JacksonJsonObjectReader<>(Usage.class);
         jacksonJsonObjectReader.setMapper(objectMapper);
 
         return new JsonItemReaderBuilder<Usage>()
                 .jsonObjectReader(jacksonJsonObjectReader)
-                .resource(usageResource)
+                .resource(new ClassPathResource("usageinfo.json"))
                 .name("UsageJsonItemReader")
                 .build();
     }
@@ -79,13 +94,15 @@ public class BillingConfiguration {
     }
 
     @Bean
-    public ItemWriter<Bill> itemWriter(DataSource dataSource) {
+    public JsonFileItemWriter<Bill> itemWriter() {
 //        JdbcBatchItemWriterBuilder jdbcBatchItemWriterBuilder = new JdbcBatchItemWriterBuilder<Bill>().beanMapped();
 
-        JsonObjectMarshaller<Bill> jsonObjectMarshaller = new JacksonJsonObjectMarshaller<>();
-        Resource billResource = resourceLoader.getResource("classpath:data/output.txt");
-
-        return new JsonFileItemWriter<>(billResource, jsonObjectMarshaller);
+        return new JsonFileItemWriterBuilder<Bill>()
+                .jsonObjectMarshaller(new JacksonJsonObjectMarshaller<>())
+//                .resource(resourceLoader.getResource("classpath:output.json"))
+                .resource(new ClassPathResource("output.json"))
+                .name("BillJsonFileItemWriter")
+                .build();
     }
 
 }
