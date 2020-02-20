@@ -10,18 +10,19 @@ import org.springframework.batch.core.configuration.annotation.JobBuilderFactory
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
 import org.springframework.batch.core.launch.support.RunIdIncrementer;
 import org.springframework.batch.item.ItemProcessor;
-import org.springframework.batch.item.json.JacksonJsonObjectMarshaller;
+import org.springframework.batch.item.ItemWriter;
+import org.springframework.batch.item.database.builder.JdbcBatchItemWriterBuilder;
 import org.springframework.batch.item.json.JacksonJsonObjectReader;
-import org.springframework.batch.item.json.JsonFileItemWriter;
 import org.springframework.batch.item.json.JsonItemReader;
-import org.springframework.batch.item.json.builder.JsonFileItemWriterBuilder;
 import org.springframework.batch.item.json.builder.JsonItemReaderBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.task.configuration.EnableTask;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 import org.springframework.core.io.ClassPathResource;
 
+import javax.sql.DataSource;
 import java.util.List;
 
 
@@ -41,7 +42,7 @@ public class BillingConfiguration {
     public Job job(
             JsonItemReader<Usage> reader,
             ItemProcessor<Usage, Bill> processor,
-            JsonFileItemWriter<Bill> writer) {
+            ItemWriter<Bill> writer) {
 
         ItemWriteListener<Bill> listener = new ItemWriteListener<>() {
             @Override
@@ -93,15 +94,27 @@ public class BillingConfiguration {
         return new BillProcessor();
     }
 
-    @Bean
-    public JsonFileItemWriter<Bill> itemWriter() {
-//        JdbcBatchItemWriterBuilder jdbcBatchItemWriterBuilder = new JdbcBatchItemWriterBuilder<Bill>().beanMapped();
+//    @Bean
+//    @Order(2)
+//    public JsonFileItemWriter<Bill> itemWriter() {
+//        return new JsonFileItemWriterBuilder<Bill>()
+//                .jsonObjectMarshaller(new JacksonJsonObjectMarshaller<>())
+////                .resource(resourceLoader.getResource("classpath:output.json"))
+//                .resource(new ClassPathResource("output.json"))
+//                .name("BillJsonFileItemWriter")
+//                .build();
+//    }
 
-        return new JsonFileItemWriterBuilder<Bill>()
-                .jsonObjectMarshaller(new JacksonJsonObjectMarshaller<>())
-//                .resource(resourceLoader.getResource("classpath:output.json"))
-                .resource(new ClassPathResource("output.json"))
-                .name("BillJsonFileItemWriter")
+    @Bean
+    @Order(1)
+    public ItemWriter<Bill> jdbcBillWriter(DataSource dataSource) {
+        return new JdbcBatchItemWriterBuilder<Bill>()
+                .beanMapped()
+                .dataSource(dataSource)
+                .sql("INSERT INTO BILL_STATEMENTS (id, first_name, " +
+                        "last_name, minutes, data_usage,bill_amount) VALUES " +
+                        "(:id, :firstName, :lastName, :minutes, :dataUsage, " +
+                        ":billAmount)")
                 .build();
     }
 
