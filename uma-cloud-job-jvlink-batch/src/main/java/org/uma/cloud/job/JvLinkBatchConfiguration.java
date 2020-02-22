@@ -44,6 +44,7 @@ public class JvLinkBatchConfiguration {
                 .reader(reader)
                 .processor(processor)
                 .writer(writer)
+                .listener(new JvLinkBatchProcessorListener())
                 .faultTolerant()
                 .skipPolicy(new JvLinkBatchSkipPolicy())
                 .build();

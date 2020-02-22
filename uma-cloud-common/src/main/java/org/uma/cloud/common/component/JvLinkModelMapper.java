@@ -107,7 +107,8 @@ public class JvLinkModelMapper {
             return modelMapper.map(deSerialMap, clazz);
 
         } catch (MappingException e) {
-            // マッピングできなかったデータを、エンコードしてログに出力できるようにする。
+            // マッピングできなかったデータを、
+            // エンコードしてログに出力できるようにデータをセットする
             throw new JvLinkModelMappingException(e, ByteUtil.base64EncodeToString(byteArrayLine));
         }
     }

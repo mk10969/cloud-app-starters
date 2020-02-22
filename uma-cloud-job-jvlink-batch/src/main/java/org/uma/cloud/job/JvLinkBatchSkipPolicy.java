@@ -4,11 +4,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.step.skip.SkipLimitExceededException;
 import org.springframework.batch.core.step.skip.SkipPolicy;
 import org.uma.cloud.common.utils.exception.JvLinkModelMappingException;
+import org.uma.cloud.common.utils.exception.JvLinkModelNullPointException;
 
 
 @Slf4j
 public class JvLinkBatchSkipPolicy implements SkipPolicy {
-
 
     @Override
     public boolean shouldSkip(Throwable t, int skipCount) throws SkipLimitExceededException {
@@ -25,13 +25,17 @@ public class JvLinkBatchSkipPolicy implements SkipPolicy {
             log.info("Failed Mapping Data: {}", ((JvLinkModelMappingException) t).getLineData());
             return true;
 
-        } else if () {
-
+            /**
+             * 基本的にフィールドのnullは、認めていない。
+             * nullの場合、プログラムロジックに問題がある可能性が高い。
+             */
+        } else if (t instanceof JvLinkModelNullPointException) {
+            log.error("NullPoint Error", t);
+            log.info("Failed NullPoint Data: {}",  ((JvLinkModelNullPointException) t).getLineData());
+            return true;
         }
 
-
         return false;
-
-
     }
+
 }
