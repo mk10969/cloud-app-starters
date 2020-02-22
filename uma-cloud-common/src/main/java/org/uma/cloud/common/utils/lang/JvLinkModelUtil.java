@@ -1,17 +1,17 @@
-package org.uma.cloud.common.component;
+package org.uma.cloud.common.utils.lang;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.wnameless.json.flattener.JsonFlattener;
 import com.google.common.collect.Lists;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
+import org.uma.cloud.common.utils.exception.CharacterCodingRuntimeException;
 
-import java.io.IOException;
+import java.lang.reflect.Type;
 import java.nio.ByteBuffer;
 import java.nio.charset.CharacterCodingException;
 import java.nio.charset.Charset;
 import java.util.Arrays;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -20,36 +20,39 @@ import java.util.Objects;
 final public class JvLinkModelUtil {
 
     /**
-     * クソみたいな話
+     * Shift Jis 周りのお話
      * https://weblabo.oscasierra.net/shift_jis-windows31j/
      * <p>
-     * SHIFT-JIS、x-SJIS_0213、ともに、ダメ。
+     * SHIFT-JIS、x-SJIS_0213、ともにダメ。
      * java.nio.charset.MalformedInputException: Input length = 1
      */
     private static final Charset SHIFT_JIS = Charset.forName("MS932");
 
-    private static final ObjectMapper objectMapper = new ObjectMapper();
+    /**
+     * Json library ==> Use Gson
+     * <p>
+     * nullのフィールドを、jsonに含める設定を追加。
+     */
+    private static final Gson GSON = new GsonBuilder()
+            .serializeNulls()
+            .create();
+
+
+    public static String toJson(Object object) {
+        return GSON.toJson(object);
+    }
 
 
     public static Map<String, Integer> jsonToMap(String json) {
         Objects.requireNonNull(json);
-        try {
-            return objectMapper.readValue(json,
-                    new TypeReference<LinkedHashMap<String, Integer>>() {
-                    });
-        } catch (IOException e) {
-            e.printStackTrace();
-            throw new RuntimeException();
-        }
+        Type type = new TypeToken<Map<String, Integer>>() {
+        }.getType();
+        return GSON.fromJson(json, type);
     }
 
     public static byte[] toByte(String str) {
         Objects.requireNonNull(str);
         return str.getBytes(SHIFT_JIS);
-    }
-
-    public static String toString(byte[] bytes) {
-        return new String(bytes, SHIFT_JIS);
     }
 
 
@@ -60,14 +63,12 @@ final public class JvLinkModelUtil {
         try {
             return SHIFT_JIS.newDecoder().decode(byteBuffer).toString();
         } catch (CharacterCodingException e) {
-            e.printStackTrace();
-            throw new RuntimeException();
+            throw new CharacterCodingRuntimeException(Arrays.toString(slice), e);
         }
     }
 
 
-    // horseWeightは、とりあえず。
-    // nullのデータは、div=9 だった。つまりいらんデータ
+    // horseWeightは、とりあえず。nullのデータは、div=9 だった。つまりいらんデータ
     private static final List<String> excludeList = Lists.newArrayList(
             // 出走馬詳細
             "horseWeight",
@@ -106,11 +107,4 @@ final public class JvLinkModelUtil {
         return excludeList.stream().noneMatch(i -> i.contains(stringObjectEntry.getKey()));
     }
 
-    private static String toJson(Object model) {
-        try {
-            return objectMapper.writeValueAsString(model);
-        } catch (JsonProcessingException e) {
-            throw new IllegalArgumentException("jsonに変換できませんでした。");
-        }
-    }
 }

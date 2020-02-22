@@ -62,7 +62,7 @@ public class JvLinkReaders {
         return new FlatFileItemReaderBuilder<String>()
                 .name(readerName)
                 .resource(resource)
-                .lineMapper(new PassThroughLineMapper())
+                .lineMapper(new PassThroughLineMapper()) // mappingせず、lineをそのまま返す。
                 .build();
     }
 

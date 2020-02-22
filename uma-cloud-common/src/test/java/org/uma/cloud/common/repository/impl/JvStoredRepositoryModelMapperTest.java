@@ -15,7 +15,7 @@
 //import org.uma.cloud.common.model.VoteCount;
 //import org.uma.cloud.common.model.odds.Quinella;
 //import org.uma.cloud.common.component.JvLinkModelMapperConfiguration;
-//import org.uma.cloud.common.component.JvLinkModelUtil;
+//import org.uma.cloud.common.utils.lang.JvLinkModelUtil;
 //
 //import java.io.IOException;
 //import java.nio.charset.Charset;

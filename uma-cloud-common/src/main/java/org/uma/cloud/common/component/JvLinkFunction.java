@@ -23,8 +23,8 @@ import org.uma.cloud.common.model.odds.QuinellaPlace;
 import org.uma.cloud.common.model.odds.Trifecta;
 import org.uma.cloud.common.model.odds.Trio;
 import org.uma.cloud.common.model.odds.WinsPlaceBracketQuinella;
+import org.uma.cloud.common.utils.lang.ByteUtil;
 
-import java.util.Base64;
 import java.util.function.Function;
 
 @Component
@@ -35,7 +35,7 @@ public class JvLinkFunction {
 
 
     public Function<String, byte[]> decode() {
-        return data -> Base64.getDecoder().decode(data);
+        return ByteUtil::base64Decode;
     }
 
 

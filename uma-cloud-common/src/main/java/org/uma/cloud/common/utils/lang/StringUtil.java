@@ -1,30 +1,14 @@
 package org.uma.cloud.common.utils.lang;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import org.uma.cloud.common.utils.exception.UnsupportedEncodingRuntimeException;
 
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
 import java.util.Objects;
 
+
+@Deprecated
 public class StringUtil {
-
-    /**
-     * nullのフィールドを、jsonに含める設定を追加。
-     */
-    private static final Gson GSON = new GsonBuilder()
-            .serializeNulls()
-            .create();
-
-
-    private StringUtil() {
-    }
-
-
-    public static String toJson(Object object) {
-        return GSON.toJson(object);
-    }
 
 
     public static int getBytesLength(String target) {

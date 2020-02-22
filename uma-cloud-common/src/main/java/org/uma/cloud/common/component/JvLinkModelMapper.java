@@ -1,10 +1,14 @@
 package org.uma.cloud.common.component;
 
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.MappingException;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 import org.uma.cloud.common.model.BaseModel;
 import org.uma.cloud.common.recordSpec.RecordSpec;
+import org.uma.cloud.common.utils.exception.JvLinkModelMappingException;
+import org.uma.cloud.common.utils.lang.ByteUtil;
+import org.uma.cloud.common.utils.lang.JvLinkModelUtil;
 
 import java.util.ArrayList;
 import java.util.EnumMap;
@@ -99,7 +103,13 @@ public class JvLinkModelMapper {
             }
         });
 
-        return modelMapper.map(deSerialMap, clazz);
+        try {
+            return modelMapper.map(deSerialMap, clazz);
+
+        } catch (MappingException e) {
+            // マッピングできなかったデータを、エンコードしてログに出力できるようにする。
+            throw new JvLinkModelMappingException(e, ByteUtil.base64EncodeToString(byteArrayLine));
+        }
     }
 
 
