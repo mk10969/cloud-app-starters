@@ -1,0 +1,27 @@
+apply plugin: 'org.springframework.boot'
+apply plugin: 'com.google.cloud.tools.jib'
+
+
+dependencies {
+    implementation project(':uma-cloud-common')
+
+    implementation 'org.springframework.cloud:spring-cloud-starter-task'
+    implementation 'org.springframework.boot:spring-boot-starter-batch'
+    implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
+    runtimeOnly 'com.h2database:h2'
+
+    testImplementation 'org.springframework.batch:spring-batch-test'
+}
+
+
+jib {
+    from {
+        image = 'openjdk:11-jre-slim'
+    }
+    to {
+        image = "mk10969/job-jvlink-batch:${project.version}"
+    }
+    container {
+        creationTime = 'USE_CURRENT_TIMESTAMP'
+    }
+}

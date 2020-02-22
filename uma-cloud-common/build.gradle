@@ -2,8 +2,10 @@ apply plugin: 'java-library'
 
 
 dependencies {
-
     // use toJson
     implementation 'com.google.code.gson:gson:2.8.5'
+
+    implementation 'org.modelmapper:modelmapper:2.3.5'
+    implementation 'com.github.wnameless.json:json-flattener:0.8.1'
 
 }

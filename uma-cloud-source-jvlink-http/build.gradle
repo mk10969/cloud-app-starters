@@ -5,10 +5,10 @@ apply plugin: 'com.google.cloud.tools.jib'
 dependencies {
     implementation project(':uma-cloud-common')
     implementation 'org.springframework.boot:spring-boot-starter-web'
-    implementation 'org.springframework.cloud:spring-cloud-stream-binder-kafka'
+    implementation 'org.springframework.cloud:spring-cloud-stream-binder-rabbit'
 
     testImplementation 'org.springframework.cloud:spring-cloud-stream-test-support'
-    testImplementation 'org.springframework.kafka:spring-kafka-test'
+    testImplementation 'org.springframework.amqp:spring-rabbit-test'
 }
 
 
