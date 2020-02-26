@@ -1,10 +1,8 @@
 package org.uma.cloud.task;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.validation.annotation.Validated;
 
 @ConfigurationProperties("pod.cleaner")
-@Validated
 public class PodCleanerProperties {
 
     /**
