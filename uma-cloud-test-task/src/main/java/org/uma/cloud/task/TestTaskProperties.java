@@ -13,4 +13,13 @@ public class TestTaskProperties {
      */
     private String restUrl = "http://localhost:8787";
 
+
+    public void setRestUrl(String restUrl) {
+        this.restUrl = restUrl;
+    }
+
+    public String getRestUrl() {
+        return this.restUrl;
+    }
 }
+

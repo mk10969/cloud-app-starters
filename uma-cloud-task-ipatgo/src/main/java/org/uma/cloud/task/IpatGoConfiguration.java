@@ -18,13 +18,13 @@ import java.time.Duration;
 
 @EnableTask
 @Configuration
-@EnableConfigurationProperties(IpatGoTaskProperties.class)
-public class IpatGoTaskConfiguration {
+@EnableConfigurationProperties(IpatGoProperties.class)
+public class IpatGoConfiguration {
 
-    Logger logger = LoggerFactory.getLogger(IpatGoTaskConfiguration.class);
+    Logger logger = LoggerFactory.getLogger(IpatGoConfiguration.class);
 
     @Autowired
-    private IpatGoTaskProperties ipatGoTaskProperties;
+    private IpatGoProperties ipatGoProperties;
 
 
     @Bean
@@ -36,7 +36,7 @@ public class IpatGoTaskConfiguration {
                     .build();
 
             HttpRequest httpRequest = HttpRequest.newBuilder()
-                    .uri(URI.create(ipatGoTaskProperties.getRestUrl() + ipatGoTaskProperties.getMode()))
+                    .uri(URI.create(ipatGoProperties.getRestUrl() + ipatGoProperties.getMode()))
                     .GET()
                     .build();
 

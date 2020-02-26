@@ -4,6 +4,7 @@ include 'uma-cloud-job-jvlink-batch'
 include 'uma-cloud-processor-jvlink-transform'
 include 'uma-cloud-source-jvlink-http'
 include 'uma-cloud-task-ipatgo'
+include 'uma-cloud-task-pod-cleaner'
 
 
 // test example

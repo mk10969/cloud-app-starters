@@ -43,7 +43,9 @@ public class JvLinkFunction {
      * recordSpecごとの、transform Configuration
      */
     public RacingDetails racingDetailsFunction(byte[] data) {
-        return jvLinkModelMapper.deserialize(data, RacingDetails.class);
+        RacingDetails model = jvLinkModelMapper.deserialize(data, RacingDetails.class);
+        model.getLapTimeItems().removeIf(i -> i == 0.0);
+        return model;
     }
 
 

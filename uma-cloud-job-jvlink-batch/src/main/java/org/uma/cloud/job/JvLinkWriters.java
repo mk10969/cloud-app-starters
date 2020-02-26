@@ -26,6 +26,7 @@ import org.uma.cloud.common.model.RaceRefund;
 import org.uma.cloud.common.model.RacingDetails;
 import org.uma.cloud.common.model.Trainer;
 import org.uma.cloud.common.model.VoteCount;
+import org.uma.cloud.common.utils.lang.JvLinkModelUtil;
 
 @Configuration
 @RequiredArgsConstructor
@@ -134,16 +135,16 @@ public class JvLinkWriters {
 
     @Bean
     public ItemWriter<RacingDetails> racingDetailsItemWriter(MongoOperations template) {
-        return new JsonFileItemWriterBuilder<RacingDetails>()
-                .jsonObjectMarshaller(new JacksonJsonObjectMarshaller<>())
-                .resource(resourceLoader.getResource("file:///tmp/once.json"))
-                .name(RacingDetails.class.getSimpleName())
-                .build();
-
-//        return new MongoItemWriterBuilder<RacingDetails>()
-//                .template(template)
-//                .collection(RacingDetails.class.getSimpleName())
+//        return new JsonFileItemWriterBuilder<RacingDetails>()
+//                .jsonObjectMarshaller(JvLinkModelUtil::toJson)
+//                .resource(resourceLoader.getResource("file:///tmp/once.json"))
+//                .name(RacingDetails.class.getSimpleName())
 //                .build();
+
+        return new MongoItemWriterBuilder<RacingDetails>()
+                .template(template)
+                .collection(RacingDetails.class.getSimpleName())
+                .build();
     }
 
     @Bean

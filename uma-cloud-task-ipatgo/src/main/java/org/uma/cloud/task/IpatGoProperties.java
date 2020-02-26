@@ -6,7 +6,7 @@ import org.springframework.validation.annotation.Validated;
 
 @ConfigurationProperties("task.ipatgo")
 @Validated
-public class IpatGoTaskProperties {
+public class IpatGoProperties {
 
     /**
      * rest url

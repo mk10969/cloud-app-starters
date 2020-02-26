@@ -6,10 +6,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 
 @SpringBootApplication
-public class IpatGoTaskApplication {
+public class IpatGoApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(IpatGoTaskApplication.class, args);
+        SpringApplication.run(IpatGoApplication.class, args);
     }
 
 }

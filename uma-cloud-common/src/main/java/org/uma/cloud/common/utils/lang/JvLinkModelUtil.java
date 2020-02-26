@@ -5,6 +5,7 @@ import com.google.common.collect.Lists;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
+import org.springframework.lang.NonNull;
 import org.uma.cloud.common.utils.exception.CharacterCodingRuntimeException;
 
 import java.lang.reflect.Type;
@@ -37,7 +38,7 @@ final public class JvLinkModelUtil {
             .serializeNulls()
             .create();
 
-
+    @NonNull
     public static String toJson(Object object) {
         return GSON.toJson(object);
     }

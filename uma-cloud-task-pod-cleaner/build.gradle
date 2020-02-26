@@ -3,6 +3,9 @@ apply plugin: 'com.google.cloud.tools.jib'
 
 
 dependencies {
+    // kubernetes client 公式よりこっちの方は使いやすい。
+    implementation 'io.fabric8:kubernetes-client:4.8.0'
+
     implementation 'org.springframework.cloud:spring-cloud-starter-task'
     implementation 'org.springframework.boot:spring-boot-starter-jdbc'
     implementation 'org.mariadb.jdbc:mariadb-java-client'
@@ -16,7 +19,7 @@ jib {
         image = 'openjdk:11-jre-slim'
     }
     to {
-        image = "mk10969/test-task:${project.version}"
+        image = "mk10969/task-pod-cleaner:${project.version}"
     }
     container {
         creationTime = 'USE_CURRENT_TIMESTAMP'

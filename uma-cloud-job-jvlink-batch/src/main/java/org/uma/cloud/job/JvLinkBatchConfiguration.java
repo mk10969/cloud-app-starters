@@ -40,7 +40,7 @@ public class JvLinkBatchConfiguration {
                      ItemWriter<RacingDetails> writer) {
 
         return stepBuilderFactory.get(RacingDetails.class.getSimpleName())
-                .<String, RacingDetails>chunk(1)
+                .<String, RacingDetails>chunk(100)
                 .reader(reader)
                 .processor(processor)
                 .writer(writer)
@@ -49,6 +49,5 @@ public class JvLinkBatchConfiguration {
                 .skipPolicy(new JvLinkBatchSkipPolicy())
                 .build();
     }
-
 
 }

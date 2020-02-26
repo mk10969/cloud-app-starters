@@ -8,18 +8,15 @@ import org.springframework.validation.annotation.Validated;
 @Validated
 public class JvLinkBatchProperties {
 
-
     /**
      * mongo connection
      */
     private String mongodb = "mongodb://localhost";
 
-
     /**
      * mongo database name
      */
     private String databaseName = "uma";
-
 
     /**
      * input resource
