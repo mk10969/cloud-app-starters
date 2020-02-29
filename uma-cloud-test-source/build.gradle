@@ -4,10 +4,10 @@ apply plugin: 'com.google.cloud.tools.jib'
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
-    implementation 'org.springframework.cloud:spring-cloud-stream-binder-rabbit'
+    implementation 'org.springframework.cloud:spring-cloud-stream-binder-kafka'
 
     testImplementation 'org.springframework.cloud:spring-cloud-stream-test-support'
-    testImplementation 'org.springframework.amqp:spring-rabbit-test'
+    testImplementation 'org.springframework.kafka:spring-kafka-test'
 }
 
 
@@ -16,7 +16,7 @@ jib {
         image = 'openjdk:11-jre-slim'
     }
     to {
-        image = "mk10969/test-source:${project.version}"
+        image = "mk10969/${project.name.replace('uma-cloud-', '')}:${project.version}"
     }
     container {
         creationTime = 'USE_CURRENT_TIMESTAMP'

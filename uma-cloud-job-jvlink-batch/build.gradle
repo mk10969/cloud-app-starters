@@ -19,7 +19,7 @@ jib {
         image = 'openjdk:11-jre-slim'
     }
     to {
-        image = "mk10969/job-jvlink-batch:${project.version}"
+        image = "mk10969/${project.name.replace('uma-cloud-', '')}:${project.version}"
     }
     container {
         creationTime = 'USE_CURRENT_TIMESTAMP'

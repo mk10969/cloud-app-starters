@@ -1,6 +1,7 @@
 package org.uma.cloud.job;
 
 import org.springframework.batch.item.ItemProcessor;
+import org.springframework.batch.item.function.FunctionItemProcessor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -31,100 +32,86 @@ public class JvLinkProcessor {
 
     @Bean
     public ItemProcessor<String, Ancestry> ancestryItemProcessor() {
-        return data -> jvLinkFunction.decode()
-                .andThen(jvLinkFunction::ancestryFunction)
-                .apply(data);
+        return new FunctionItemProcessor<>(jvLinkFunction.decode()
+                .andThen(jvLinkFunction::ancestryFunction));
     }
 
     @Bean
     public ItemProcessor<String, Breeder> breederItemProcessor() {
-        return data -> jvLinkFunction.decode()
-                .andThen(jvLinkFunction::breederFunction)
-                .apply(data);
+        return new FunctionItemProcessor<>(jvLinkFunction.decode()
+                .andThen(jvLinkFunction::breederFunction));
     }
 
     @Bean
     public ItemProcessor<String, BreedingHorse> breedingHorseItemProcessor() {
-        return data -> jvLinkFunction.decode()
-                .andThen(jvLinkFunction::breedingHorseFunction)
-                .apply(data);
+        return new FunctionItemProcessor<>(jvLinkFunction.decode()
+                .andThen(jvLinkFunction::breedingHorseFunction));
     }
 
     @Bean
     public ItemProcessor<String, Course> courseItemProcessor() {
-        return data -> jvLinkFunction.decode()
-                .andThen(jvLinkFunction::courseFunction)
-                .apply(data);
+        return new FunctionItemProcessor<>(jvLinkFunction.decode()
+                .andThen(jvLinkFunction::courseFunction));
     }
 
     @Bean
     public ItemProcessor<String, HorseRacingDetails> horseRacingDetailsItemProcessor() {
-        return data -> jvLinkFunction.decode()
-                .andThen(jvLinkFunction::horseRacingDetailsFunction)
-                .apply(data);
+        return new FunctionItemProcessor<>(jvLinkFunction.decode()
+                .andThen(jvLinkFunction::horseRacingDetailsFunction));
     }
 
     @Bean
     public ItemProcessor<String, Jockey> jockeyItemProcessor() {
-        return data -> jvLinkFunction.decode()
-                .andThen(jvLinkFunction::jockeyFunction)
-                .apply(data);
+        return new FunctionItemProcessor<>(jvLinkFunction.decode()
+                .andThen(jvLinkFunction::jockeyFunction));
     }
 
     @Bean
     public ItemProcessor<String, Offspring> offspringItemProcessor() {
-        return data -> jvLinkFunction.decode()
-                .andThen(jvLinkFunction::offspringFunction)
-                .apply(data);
+        return new FunctionItemProcessor<>(jvLinkFunction.decode()
+                .andThen(jvLinkFunction::offspringFunction));
     }
 
     @Bean
     public ItemProcessor<String, Owner> ownerItemProcessor() {
-        return data -> jvLinkFunction.decode()
-                .andThen(jvLinkFunction::ownerFunction)
-                .apply(data);
+        return new FunctionItemProcessor<>(jvLinkFunction.decode()
+                .andThen(jvLinkFunction::ownerFunction));
     }
 
     @Bean
     public ItemProcessor<String, RaceHorse> raceHorseItemProcessor() {
-        return data -> jvLinkFunction.decode()
-                .andThen(jvLinkFunction::raceHorseFunction)
-                .apply(data);
+        return new FunctionItemProcessor<>(jvLinkFunction.decode()
+                .andThen(jvLinkFunction::raceHorseFunction));
     }
 
     @Bean
     public ItemProcessor<String, RaceHorseExclusion> raceHorseExclusionItemProcessor() {
-        return data -> jvLinkFunction.decode()
-                .andThen(jvLinkFunction::raceHorseExclusionFunction)
-                .apply(data);
+        return new FunctionItemProcessor<>(jvLinkFunction.decode()
+                .andThen(jvLinkFunction::raceHorseExclusionFunction));
     }
 
     @Bean
     public ItemProcessor<String, RaceRefund> raceRefundItemProcessor() {
-        return data -> jvLinkFunction.decode()
-                .andThen(jvLinkFunction::raceRefundFunction)
-                .apply(data);
+        return new FunctionItemProcessor<>(jvLinkFunction.decode()
+                .andThen(jvLinkFunction::raceRefundFunction));
     }
 
     @Bean
     public ItemProcessor<String, RacingDetails> racingDetailsItemProcessor() {
-        return data -> jvLinkFunction.decode()
-                .andThen(jvLinkFunction::racingDetailsFunction)
-                .apply(data);
+        return new FunctionItemProcessor<>(jvLinkFunction.decode()
+                .andThen(jvLinkFunction::racingDetailsFunction));
     }
 
     @Bean
     public ItemProcessor<String, Trainer> trainerItemProcessor() {
-        return data -> jvLinkFunction.decode()
-                .andThen(jvLinkFunction::trainerFunction)
-                .apply(data);
+        return new FunctionItemProcessor<>(jvLinkFunction.decode()
+                .andThen(jvLinkFunction::trainerFunction));
     }
 
     @Bean
     public ItemProcessor<String, VoteCount> voteCountItemProcessor() {
-        return data -> jvLinkFunction.decode()
-                .andThen(jvLinkFunction::voteCountFunction)
-                .apply(data);
+        return new FunctionItemProcessor<>(jvLinkFunction.decode()
+                .andThen(jvLinkFunction::voteCountFunction));
     }
 
 }
