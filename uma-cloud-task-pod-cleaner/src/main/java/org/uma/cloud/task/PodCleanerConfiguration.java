@@ -36,7 +36,6 @@ public class PodCleanerConfiguration {
     @Bean
     public CommandLineRunner task(Config config) {
         return args -> {
-
             // autoClosable
             try (final KubernetesClient client = new DefaultKubernetesClient(config)) {
                 client.pods().inNamespace("default").list().getItems()
@@ -44,8 +43,8 @@ public class PodCleanerConfiguration {
                         .flatMap(pod -> pod.getStatus().getContainerStatuses()
                                 .stream()
                                 .map(containerStatus -> MyPod.with(pod.getMetadata().getName(), containerStatus.getState())))
-                        .peek(MyPod::log)
                         .filter(MyPod::isTerminated)
+                        .peek(MyPod::log)
                         .forEach(myPod -> {
                             // 完了 かつ 1日前の Podを削除する。
                             if (myPod.isCompleterd() && myPod.isBeforeOneDay()) {
@@ -56,9 +55,9 @@ public class PodCleanerConfiguration {
                                 } else {
                                     log.error(myPod.getName() + ": deleteできませんでした。");
                                 }
+                            } else {
+                                log.info("deleteするpodが、ありませんでした。");
                             }
-
-                            log.info("deleteするpodが、ありませんでした。");
                         });
             }
         };
@@ -92,7 +91,8 @@ public class PodCleanerConfiguration {
         }
 
         public void log() {
-            log.info(this.name + ":" + this.containerState);
+            log.info("Pod Name: [" + this.name + "] " +
+                    "Pod Status: [" + this.containerState + "]");
         }
 
         public boolean isCompleterd() {
@@ -115,9 +115,8 @@ public class PodCleanerConfiguration {
         public static boolean beforeOneDayCheck(String date) {
             OffsetDateTime dateTime = OffsetDateTime.parse(date);
             OffsetDateTime now = OffsetDateTime.now(ZoneOffset.UTC).minusDays(1L);
-            return now.isBefore(dateTime);
+            return now.isAfter(dateTime);
         }
     }
-
 
 }
