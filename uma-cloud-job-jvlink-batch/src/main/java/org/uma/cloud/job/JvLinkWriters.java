@@ -40,8 +40,9 @@ public class JvLinkWriters {
     @Bean
     public MongoOperations mongoOperations() {
         return new MongoTemplate(
-                MongoClients.create(properties.getMongodb()),
-                properties.getDatabaseName());
+                MongoClients.create(properties.connectionString()),
+                properties.getDatabaseName()
+        );
     }
 
 
@@ -135,12 +136,6 @@ public class JvLinkWriters {
 
     @Bean
     public ItemWriter<RacingDetails> racingDetailsItemWriter(MongoOperations template) {
-//        return new JsonFileItemWriterBuilder<RacingDetails>()
-//                .jsonObjectMarshaller(JvLinkModelUtil::toJson)
-//                .resource(resourceLoader.getResource("file:///tmp/once.json"))
-//                .name(RacingDetails.class.getSimpleName())
-//                .build();
-
         return new MongoItemWriterBuilder<RacingDetails>()
                 .template(template)
                 .collection(RacingDetails.class.getSimpleName())
@@ -162,6 +157,16 @@ public class JvLinkWriters {
                 .collection(VoteCount.class.getSimpleName())
                 .build();
     }
+
+
+//    @Bean
+//    public ItemWriter<RacingDetails> racingDetailsItemWriter(MongoOperations templete) {
+//                return new JsonFileItemWriterBuilder<RacingDetails>()
+//                .jsonObjectMarshaller(JvLinkModelUtil::toJson)
+//                .resource(resourceLoader.getResource("file:///tmp/once.json"))
+//                .name(RacingDetails.class.getSimpleName())
+//                .build();
+//    }
 
 }
 

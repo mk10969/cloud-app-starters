@@ -9,12 +9,27 @@ import org.springframework.validation.annotation.Validated;
 public class JvLinkBatchProperties {
 
     /**
-     * mongo connection
+     * mongodb host
      */
-    private String mongodb = "mongodb://localhost";
+    private String host = "localhost";
 
     /**
-     * mongo database name
+     * mongodb port
+     */
+    private int port = 27017;
+
+//    /**
+//     * mongodb user
+//     */
+//    private String user = "admin";
+//
+//    /**
+//     * mongodb password
+//     */
+//    private String password = "password";
+
+    /**
+     * mongodb database name
      */
     private String databaseName = "uma";
 
@@ -22,31 +37,60 @@ public class JvLinkBatchProperties {
      * input resource
      * ex: file:///tmp/xxx.txt or Http://localhost:8080/xxxxx
      */
-    private String inputPath = "file:///tmp/once.txt";
+    private String inputPath = "file:///Users/m-kakiuchi/mydata/once.txt";
 
 
-    public void setInputPath(String inputPath) {
-        this.inputPath = inputPath;
+    public String connectionString() {
+//        return "mongodb://" + this.user + ":" + this.password + "@" + this.host + ":" + this.port;
+        return "mongodb://" + this.host + ":" + this.port;
     }
 
-    public void setDatabaseName(String databaseName) {
-        this.databaseName = databaseName;
+    public String getHost() {
+        return this.host;
     }
 
-    public void setMongodb(String mongodb) {
-        this.mongodb = mongodb;
+    public int getPort() {
+        return this.port;
+    }
+
+//    public String getUser() {
+//        return this.user;
+//    }
+//
+//    public String getPassword() {
+//        return this.password;
+//    }
+
+    public String getDatabaseName() {
+        return this.databaseName;
     }
 
     public String getInputPath() {
         return this.inputPath;
     }
 
-    public String getDatabaseName() {
-        return this.databaseName;
+
+    public void setHost(String host) {
+        this.host = host;
     }
 
-    public String getMongodb() {
-        return this.mongodb;
+    public void setPort(int port) {
+        this.port = port;
     }
 
+//    public void setUser(String user) {
+//        this.user = user;
+//    }
+//
+//    public void setPassword(String password) {
+//        this.password = password;
+//    }
+
+    public void setDatabaseName(String databaseName) {
+        this.databaseName = databaseName;
+    }
+
+    public void setInputPath(String inputPath) {
+        this.inputPath = inputPath;
+    }
 }

@@ -2,6 +2,7 @@ package org.uma.cloud.job;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.batch.core.Job;
+import org.springframework.batch.core.JobExecutionListener;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
@@ -40,7 +41,7 @@ public class JvLinkBatchConfiguration {
                      ItemWriter<RacingDetails> writer) {
 
         return stepBuilderFactory.get(RacingDetails.class.getSimpleName())
-                .<String, RacingDetails>chunk(100)
+                .<String, RacingDetails>chunk(1)
                 .reader(reader)
                 .processor(processor)
                 .writer(writer)
