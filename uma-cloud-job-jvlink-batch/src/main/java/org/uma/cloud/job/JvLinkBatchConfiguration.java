@@ -2,7 +2,6 @@ package org.uma.cloud.job;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.batch.core.Job;
-import org.springframework.batch.core.JobExecutionListener;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
@@ -15,6 +14,9 @@ import org.springframework.cloud.task.configuration.EnableTask;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.uma.cloud.common.model.RacingDetails;
+import org.uma.cloud.job.listener.JvLinkProcessorListener;
+import org.uma.cloud.job.listener.JvLinkStepExecutionListener;
+import org.uma.cloud.job.listener.JvLinkWriterListener;
 
 @Configuration
 @EnableTask
@@ -41,14 +43,28 @@ public class JvLinkBatchConfiguration {
                      ItemWriter<RacingDetails> writer) {
 
         return stepBuilderFactory.get(RacingDetails.class.getSimpleName())
-                .<String, RacingDetails>chunk(1)
+                .<String, RacingDetails>chunk(100)
                 .reader(reader)
                 .processor(processor)
                 .writer(writer)
-                .listener(new JvLinkBatchProcessorListener())
+                .listener(new JvLinkStepExecutionListener())
+                .listener(new JvLinkProcessorListener())
+                .listener(new JvLinkWriterListener())
                 .faultTolerant()
-                .skipPolicy(new JvLinkBatchSkipPolicy())
+                .skipPolicy(new JvLinkSkipPolicy())
                 .build();
     }
+
+    // taskletの例
+//    @Bean
+//    public Step step1(ItemReader<String> reader,
+//                     ItemProcessor<String, RacingDetails> processor,
+//                     ItemWriter<RacingDetails> writer) {
+//
+//        return stepBuilderFactory.get(RacingDetails.class.getSimpleName())
+//                .tasklet((contribution, chunkContext) -> null)
+//                .build();
+//
+//    }
 
 }

@@ -4,6 +4,7 @@ package org.uma.cloud.common.component;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.uma.cloud.common.model.Ancestry;
+import org.uma.cloud.common.model.BaseModel;
 import org.uma.cloud.common.model.Breeder;
 import org.uma.cloud.common.model.BreedingHorse;
 import org.uma.cloud.common.model.Course;

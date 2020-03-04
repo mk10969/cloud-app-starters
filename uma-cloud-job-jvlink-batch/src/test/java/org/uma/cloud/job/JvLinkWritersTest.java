@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Set;
 
-import static org.uma.cloud.job.JvLinkProcessorTest.getClassesFrom;
+import static org.uma.cloud.job.JvLinkProcessorsTest.getClassesFrom;
 
 class JvLinkWritersTest {
 

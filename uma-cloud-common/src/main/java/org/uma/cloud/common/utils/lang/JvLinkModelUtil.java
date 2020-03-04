@@ -6,6 +6,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import org.springframework.lang.NonNull;
+import org.uma.cloud.common.model.BaseModel;
 import org.uma.cloud.common.utils.exception.CharacterCodingRuntimeException;
 
 import java.lang.reflect.Type;
@@ -97,7 +98,7 @@ final public class JvLinkModelUtil {
             "trainerLicenseEraseDate"
     );
 
-    public static void fieldNotNull(Object model) {
+    public static void fieldNotNull(BaseModel model) {
         Map<String, Object> json = JsonFlattener.flattenAsMap(toJson(model));
         json.entrySet().stream()
                 .filter(JvLinkModelUtil::nullOkFieldName)

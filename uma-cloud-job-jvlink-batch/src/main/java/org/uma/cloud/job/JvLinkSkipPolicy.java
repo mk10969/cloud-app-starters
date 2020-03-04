@@ -8,7 +8,7 @@ import org.uma.cloud.common.utils.exception.JvLinkModelNullPointException;
 
 
 @Slf4j
-public class JvLinkBatchSkipPolicy implements SkipPolicy {
+public class JvLinkSkipPolicy implements SkipPolicy {
 
     @Override
     public boolean shouldSkip(Throwable t, int skipCount) throws SkipLimitExceededException {
@@ -31,7 +31,7 @@ public class JvLinkBatchSkipPolicy implements SkipPolicy {
              */
         } else if (t instanceof JvLinkModelNullPointException) {
             log.error("NullPoint Error", t);
-            log.info("Failed NullPoint Data: {}",  ((JvLinkModelNullPointException) t).getLineData());
+            log.info("Failed NullPoint Data: {}", ((JvLinkModelNullPointException) t).getLineData());
             return true;
         }
 
