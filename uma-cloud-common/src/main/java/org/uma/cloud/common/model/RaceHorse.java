@@ -1,8 +1,6 @@
 package org.uma.cloud.common.model;
 
-import lombok.Data;
 import lombok.Getter;
-import lombok.Setter;
 import org.uma.cloud.common.code.BreedCode;
 import org.uma.cloud.common.code.EastOrWestBelongCode;
 import org.uma.cloud.common.code.HairColorCode;
@@ -17,7 +15,6 @@ import java.util.List;
  * {@link RecordSpec.UM}
  */
 @Getter
-@Setter
 public class RaceHorse extends BaseModel {
 
     /**
@@ -65,7 +62,7 @@ public class RaceHorse extends BaseModel {
     private Long allMoneyTotalJump;
 
 
-    @Data
+    @Getter
     public static class Breeding {
         /**
          * 繁殖登録番号 8桁

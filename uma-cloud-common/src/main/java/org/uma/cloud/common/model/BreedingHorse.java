@@ -1,7 +1,6 @@
 package org.uma.cloud.common.model;
 
 import lombok.Getter;
-import lombok.Setter;
 import org.uma.cloud.common.code.BreedCode;
 import org.uma.cloud.common.code.HairColorCode;
 import org.uma.cloud.common.code.SexCode;
@@ -11,7 +10,6 @@ import org.uma.cloud.common.recordSpec.RecordSpec;
  * {@link RecordSpec.HN}
  */
 @Getter
-@Setter
 public class BreedingHorse extends BaseModel {
 
     /**

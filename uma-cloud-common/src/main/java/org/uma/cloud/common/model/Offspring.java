@@ -1,7 +1,6 @@
 package org.uma.cloud.common.model;
 
 import lombok.Getter;
-import lombok.Setter;
 import org.uma.cloud.common.code.BreedCode;
 import org.uma.cloud.common.code.HairColorCode;
 import org.uma.cloud.common.code.SexCode;
@@ -14,7 +13,6 @@ import java.util.List;
  * {@link RecordSpec.SK}
  */
 @Getter
-@Setter
 public class Offspring extends BaseModel {
 
     /**

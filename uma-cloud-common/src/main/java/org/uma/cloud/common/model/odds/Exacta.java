@@ -17,7 +17,6 @@ import java.util.List;
  * {@link RecordSpec.O4}
  */
 @Getter
-@Setter
 public class Exacta extends BaseModel {
 
     /**

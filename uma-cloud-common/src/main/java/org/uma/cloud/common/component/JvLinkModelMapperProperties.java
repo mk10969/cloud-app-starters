@@ -3,6 +3,7 @@ package org.uma.cloud.common.component;
 import org.modelmapper.AbstractConverter;
 import org.modelmapper.Converter;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.config.Configuration.AccessLevel;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.uma.cloud.common.code.AbnormalDivisionCode;
@@ -300,6 +301,11 @@ public class JvLinkModelMapperProperties {
     @Bean
     public ModelMapper modelMapper() {
         ModelMapper modelMapper = new ModelMapper();
+        // without setter
+        modelMapper.getConfiguration()
+                .setFieldAccessLevel(AccessLevel.PRIVATE)
+                .setFieldMatchingEnabled(true);
+        // convert configuration
         modelMapper.addConverter(toLocalDate);
         modelMapper.addConverter(toRaceCourseCode);
         modelMapper.addConverter(toWeekDayCode);
@@ -322,6 +328,7 @@ public class JvLinkModelMapperProperties {
         modelMapper.addConverter(toInteger);
         modelMapper.addConverter(toPair);
         modelMapper.addConverter(toTriplet);
+
         return modelMapper;
     }
 

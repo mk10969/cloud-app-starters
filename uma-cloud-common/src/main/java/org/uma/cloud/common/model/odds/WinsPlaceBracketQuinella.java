@@ -1,8 +1,6 @@
 package org.uma.cloud.common.model.odds;
 
-import lombok.Data;
 import lombok.Getter;
-import lombok.Setter;
 import org.uma.cloud.common.code.RaceCourseCode;
 import org.uma.cloud.common.model.BaseModel;
 import org.uma.cloud.common.model.RacingDetails;
@@ -15,7 +13,6 @@ import java.util.List;
  * {@link RecordSpec.O1}
  */
 @Getter
-@Setter
 public class WinsPlaceBracketQuinella extends BaseModel {
 
     /**
@@ -56,7 +53,7 @@ public class WinsPlaceBracketQuinella extends BaseModel {
     private Long voteCountTotalBracketQuinella;
 
 
-    @Data
+    @Getter
     public static class WinOdds {
         /**
          * 馬番は、String型を使う。
@@ -66,7 +63,7 @@ public class WinsPlaceBracketQuinella extends BaseModel {
         private Integer betRank;
     }
 
-    @Data
+    @Getter
     public static class PlaceOdds {
         /**
          * 馬番は、String型を使う。
@@ -77,7 +74,7 @@ public class WinsPlaceBracketQuinella extends BaseModel {
         private Integer betRank;
     }
 
-    @Data
+    @Getter
     public static class BracketQuinellaOdds {
         /**
          * 枠連は、Pairオブジェクトを利用するのでが正しいが、

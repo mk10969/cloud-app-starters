@@ -3,7 +3,7 @@ package org.uma.cloud.job.listener;
 import org.springframework.batch.core.ItemProcessListener;
 import org.uma.cloud.common.model.BaseModel;
 import org.uma.cloud.common.utils.exception.JvLinkModelNullPointException;
-import org.uma.cloud.common.utils.lang.JvLinkModelUtil;
+import org.uma.cloud.common.utils.lang.ModelUtil;
 import org.uma.cloud.job.JvLinkProcessors;
 
 
@@ -18,7 +18,7 @@ public class JvLinkProcessorListener implements ItemProcessListener<String, Base
      * {@link JvLinkProcessors}でtransformした後のmodelのフィールドに、nullがないかチェックを行う。
      * <p>
      * 例外的に、下記のフォールドは、nullを許容する。
-     * {@link org.uma.cloud.common.utils.lang.JvLinkModelUtil#excludeList}
+     * {@link ModelUtil#excludeList}
      *
      * @throws JvLinkModelNullPointException
      */
@@ -31,7 +31,7 @@ public class JvLinkProcessorListener implements ItemProcessListener<String, Base
 
         try {
             // modelのフィールド、nullチェック。
-            JvLinkModelUtil.fieldNotNull(result);
+            ModelUtil.fieldNotNull(result);
         } catch (NullPointerException e) {
             throw new JvLinkModelNullPointException(e, result.toString());
         }

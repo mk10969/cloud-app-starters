@@ -1,8 +1,6 @@
 package org.uma.cloud.common.model.odds;
 
-import lombok.Data;
 import lombok.Getter;
-import lombok.Setter;
 import org.uma.cloud.common.code.RaceCourseCode;
 import org.uma.cloud.common.model.BaseModel;
 import org.uma.cloud.common.model.RacingDetails;
@@ -16,7 +14,6 @@ import java.util.List;
  * {@link RecordSpec.O3}
  */
 @Getter
-@Setter
 public class QuinellaPlace extends BaseModel {
 
     /**
@@ -45,7 +42,7 @@ public class QuinellaPlace extends BaseModel {
     private Long voteTotalCount;
 
 
-    @Data
+    @Getter
     public static class QuinellaPlaceOdds {
 
         /**

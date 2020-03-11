@@ -1,8 +1,6 @@
 package org.uma.cloud.common.model;
 
-import lombok.Data;
 import lombok.Getter;
-import lombok.Setter;
 import org.uma.cloud.common.code.RaceCourseCode;
 import org.uma.cloud.common.code.RaceGradeCode;
 import org.uma.cloud.common.code.RaceSignCode;
@@ -21,7 +19,6 @@ import java.util.List;
  * {@link RecordSpec.RA}
  */
 @Getter
-@Setter
 public class RacingDetails extends BaseModel {
 
     /**
@@ -92,7 +89,7 @@ public class RacingDetails extends BaseModel {
     private List<CornerPassageRank> cornerPassageRanks;
     private String recordUpdateDiv;
 
-    @Data
+    @Getter
     public static class CornerPassageRank {
         private Integer corner;
         private Integer aroundCount;

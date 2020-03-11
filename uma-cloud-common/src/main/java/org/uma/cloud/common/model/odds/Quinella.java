@@ -17,7 +17,6 @@ import java.util.List;
  * {@link RecordSpec.O2}
  */
 @Getter
-@Setter
 public class Quinella extends BaseModel {
 
     /**

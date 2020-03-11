@@ -12,16 +12,14 @@ import java.nio.ByteBuffer;
 import java.nio.charset.CharacterCodingException;
 import java.nio.charset.Charset;
 import java.util.Arrays;
-import java.util.IllegalFormatConversionException;
-import java.util.IllegalFormatException;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
 
-final public class JvLinkModelUtil {
+final public class ModelUtil {
 
-    private JvLinkModelUtil() {
+    private ModelUtil() {
     }
 
     /**
@@ -76,10 +74,7 @@ final public class JvLinkModelUtil {
     }
 
 
-    // horseWeightは、とりあえず。nullのデータは、div=9 だった。つまりいらんデータ
     private static final List<String> excludeList = Lists.newArrayList(
-            // 出走馬詳細
-            "horseWeight",
             "changeAmount",
             // 枠連は、出走頭数が少ないと、発売されない場合がある
             "voteCountTotalBracketQuinella",
@@ -98,16 +93,16 @@ final public class JvLinkModelUtil {
             "raceHorseEraseDate",
             // 騎手抹消年月日
             "jockeyLicenseEraseDate",
-            // 外国人騎手の場合、nullになる
-            "birthDate",
             // 調教師抹消年月日
-            "trainerLicenseEraseDate"
+            "trainerLicenseEraseDate",
+            // 外国人騎手の場合、nullになる
+            "birthDate"
     );
 
     public static void fieldNotNull(BaseModel model) {
         Map<String, Object> json = JsonFlattener.flattenAsMap(toJson(model));
         json.entrySet().stream()
-                .filter(JvLinkModelUtil::nullOkFieldName)
+                .filter(ModelUtil::nullOkFieldName)
                 .forEach(e -> Objects.requireNonNull(e.getValue(), e.getKey() + "が、nullです。"));
     }
 

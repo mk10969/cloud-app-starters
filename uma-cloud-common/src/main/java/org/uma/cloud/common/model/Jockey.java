@@ -1,7 +1,6 @@
 package org.uma.cloud.common.model;
 
 import lombok.Getter;
-import lombok.Setter;
 import org.uma.cloud.common.code.EastOrWestBelongCode;
 import org.uma.cloud.common.code.JockeyApprenticeCode;
 import org.uma.cloud.common.code.JockeyLicenseCode;
@@ -13,7 +12,6 @@ import java.time.LocalDate;
  * {@link RecordSpec.KS}
  */
 @Getter
-@Setter
 public class Jockey extends BaseModel {
 
     /**

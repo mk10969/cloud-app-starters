@@ -1,8 +1,6 @@
 package org.uma.cloud.common.model;
 
-import lombok.Data;
 import lombok.Getter;
-import lombok.Setter;
 import org.uma.cloud.common.code.RaceCourseCode;
 import org.uma.cloud.common.recordSpec.RecordSpec;
 import org.uma.cloud.common.utils.javatuples.Pair;
@@ -15,7 +13,6 @@ import java.util.List;
  * {@link RecordSpec.HR}
  */
 @Getter
-@Setter
 public class RaceRefund extends BaseModel {
 
     /**
@@ -85,7 +82,7 @@ public class RaceRefund extends BaseModel {
     private List<refundTriplet> refundTrifectas;
 
 
-    @Data
+    @Getter
     public static class refund {
 
         /**
@@ -104,7 +101,7 @@ public class RaceRefund extends BaseModel {
         private Integer betRank;
     }
 
-    @Data
+    @Getter
     public static class refundPair {
 
         /**
@@ -123,7 +120,7 @@ public class RaceRefund extends BaseModel {
         private Integer betRank;
     }
 
-    @Data
+    @Getter
     public static class refundTriplet {
 
         /**

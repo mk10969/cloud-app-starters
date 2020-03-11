@@ -1,9 +1,7 @@
 package org.uma.cloud.common.model.odds;
 
 
-import lombok.Data;
 import lombok.Getter;
-import lombok.Setter;
 import org.uma.cloud.common.code.RaceCourseCode;
 import org.uma.cloud.common.model.BaseModel;
 import org.uma.cloud.common.model.RacingDetails;
@@ -17,7 +15,6 @@ import java.util.List;
  * {@link RecordSpec.O6}
  */
 @Getter
-@Setter
 public class Trifecta extends BaseModel {
 
     /**
@@ -46,7 +43,7 @@ public class Trifecta extends BaseModel {
     private Long voteTotalCount;
 
 
-    @Data
+    @Getter
     public static class TrifectaOdds {
 
         /**

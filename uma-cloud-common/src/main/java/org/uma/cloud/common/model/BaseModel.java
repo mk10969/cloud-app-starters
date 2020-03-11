@@ -1,16 +1,14 @@
 package org.uma.cloud.common.model;
 
 import lombok.Getter;
-import lombok.Setter;
 import org.uma.cloud.common.recordSpec.RecordSpec;
-import org.uma.cloud.common.utils.lang.JvLinkModelUtil;
+import org.uma.cloud.common.utils.lang.ModelUtil;
 
 import java.io.Serializable;
 import java.time.LocalDate;
 
 
 @Getter
-@Setter
 public class BaseModel implements Serializable {
 
     /**
@@ -41,7 +39,7 @@ public class BaseModel implements Serializable {
      */
     @Override
     public String toString() {
-        return JvLinkModelUtil.toJson(this);
+        return ModelUtil.toJson(this);
     }
 
 }

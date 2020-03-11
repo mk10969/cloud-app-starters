@@ -1,8 +1,6 @@
 package org.uma.cloud.common.model;
 
-import lombok.Data;
 import lombok.Getter;
-import lombok.Setter;
 import org.uma.cloud.common.code.AbnormalDivisionCode;
 import org.uma.cloud.common.code.BreedCode;
 import org.uma.cloud.common.code.EastOrWestBelongCode;
@@ -21,7 +19,6 @@ import java.util.List;
  * {@link RecordSpec.SE}
  */
 @Getter
-@Setter
 public class HorseRacingDetails extends BaseModel {
 
     /**
@@ -104,7 +101,7 @@ public class HorseRacingDetails extends BaseModel {
     private Integer miningExpectationRank;
     private Integer runningStyle;
 
-    @Data
+    @Getter
     public static class Contender {
 
         /**
