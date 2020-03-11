@@ -1,18 +1,14 @@
 package org.uma.cloud.job;
 
-import com.mongodb.client.MongoClients;
 import lombok.RequiredArgsConstructor;
 import org.springframework.batch.item.ItemWriter;
-import org.springframework.batch.item.data.builder.MongoItemWriterBuilder;
-import org.springframework.batch.item.json.JacksonJsonObjectMarshaller;
-import org.springframework.batch.item.json.builder.JsonFileItemWriterBuilder;
+import org.springframework.batch.item.data.builder.RepositoryItemWriterBuilder;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.ResourceLoader;
-import org.springframework.data.mongodb.core.MongoOperations;
-import org.springframework.data.mongodb.core.MongoTemplate;
 import org.uma.cloud.common.model.Ancestry;
+import org.uma.cloud.common.model.BaseModel;
 import org.uma.cloud.common.model.Breeder;
 import org.uma.cloud.common.model.BreedingHorse;
 import org.uma.cloud.common.model.Course;
@@ -26,135 +22,144 @@ import org.uma.cloud.common.model.RaceRefund;
 import org.uma.cloud.common.model.RacingDetails;
 import org.uma.cloud.common.model.Trainer;
 import org.uma.cloud.common.model.VoteCount;
-import org.uma.cloud.common.utils.lang.JvLinkModelUtil;
+import org.uma.cloud.common.repository.AncestryRepository;
+import org.uma.cloud.common.repository.BreederRepository;
+import org.uma.cloud.common.repository.BreedingHorseRepository;
+import org.uma.cloud.common.repository.CourseRepository;
+import org.uma.cloud.common.repository.HorseRacingDetailsRepository;
+import org.uma.cloud.common.repository.JockeyRepository;
+import org.uma.cloud.common.repository.OffspringRepository;
+import org.uma.cloud.common.repository.OwnerRepository;
+import org.uma.cloud.common.repository.RaceHorseExclusionRepository;
+import org.uma.cloud.common.repository.RaceHorseRepository;
+import org.uma.cloud.common.repository.RaceRefundRepository;
+import org.uma.cloud.common.repository.RacingDetailsRepository;
+import org.uma.cloud.common.repository.TrainerRepository;
+import org.uma.cloud.common.repository.VoteCountRepository;
 
 @Configuration
 @RequiredArgsConstructor
+@ComponentScan("org.uma.cloud.common.repository")
 public class JvLinkWriters {
 
     private final ResourceLoader resourceLoader;
 
-    private final JvLinkBatchProperties properties;
-
-
+    /**
+     * たぶんデータ重複するものもあるけど、全部、素直に突っ込む。
+     * <p>
+     * ただし、、、
+     * {@link JvLinkProcessors.JvLinkFunctionItemProcessor}にて、
+     * {@link BaseModel#isNecessary()}のデータを、取り除く。
+     */
     @Bean
-    public MongoOperations mongoOperations() {
-        return new MongoTemplate(
-                MongoClients.create(properties.connectionString()),
-                properties.getDatabaseName()
-        );
-    }
-
-
-    @Bean
-    public ItemWriter<Ancestry> ancestryItemWriter(MongoOperations template) {
-        return new MongoItemWriterBuilder<Ancestry>()
-                .template(template)
-                .collection(Ancestry.class.getSimpleName())
+    public ItemWriter<Ancestry> ancestryItemWriter(AncestryRepository repository) {
+        return new RepositoryItemWriterBuilder<Ancestry>()
+                .repository(repository)
+                .methodName("saveAll")
                 .build();
     }
 
     @Bean
-    public ItemWriter<Breeder> breederItemWriter(MongoOperations template) {
-        return new MongoItemWriterBuilder<Breeder>()
-                .template(template)
-                .collection(Breeder.class.getSimpleName())
+    public ItemWriter<Breeder> breederItemWriter(BreederRepository repository) {
+        return new RepositoryItemWriterBuilder<Breeder>()
+                .repository(repository)
+                .methodName("saveAll")
                 .build();
     }
 
     @Bean
-    public ItemWriter<BreedingHorse> breedingHorseItemWriter(MongoOperations template) {
-        return new MongoItemWriterBuilder<BreedingHorse>()
-                .template(template)
-                .collection(BreedingHorse.class.getSimpleName())
+    public ItemWriter<BreedingHorse> breedingHorseItemWriter(BreedingHorseRepository repository) {
+        return new RepositoryItemWriterBuilder<BreedingHorse>()
+                .repository(repository)
+                .methodName("saveAll")
                 .build();
     }
 
     @Bean
-    public ItemWriter<Course> courseItemWriter(MongoOperations template) {
-        return new MongoItemWriterBuilder<Course>()
-                .template(template)
-                .collection(Course.class.getSimpleName())
+    public ItemWriter<Course> courseItemWriter(CourseRepository repository) {
+        return new RepositoryItemWriterBuilder<Course>()
+                .repository(repository)
+                .methodName("saveAll")
                 .build();
     }
 
     @Bean
-    public ItemWriter<HorseRacingDetails> horseRacingDetailsItemWriter(MongoOperations template) {
-        return new MongoItemWriterBuilder<HorseRacingDetails>()
-                .template(template)
-                .collection(HorseRacingDetails.class.getSimpleName())
+    public ItemWriter<HorseRacingDetails> horseRacingDetailsItemWriter(HorseRacingDetailsRepository repository) {
+        return new RepositoryItemWriterBuilder<HorseRacingDetails>()
+                .repository(repository)
+                .methodName("saveAll")
                 .build();
     }
 
     @Bean
-    public ItemWriter<Jockey> jockeyItemWriter(MongoOperations template) {
-        return new MongoItemWriterBuilder<Jockey>()
-                .template(template)
-                .collection(Jockey.class.getSimpleName())
+    public ItemWriter<Jockey> jockeyItemWriter(JockeyRepository repository) {
+        return new RepositoryItemWriterBuilder<Jockey>()
+                .repository(repository)
+                .methodName("saveAll")
                 .build();
     }
 
     @Bean
-    public ItemWriter<Offspring> offspringItemWriter(MongoOperations template) {
-        return new MongoItemWriterBuilder<Offspring>()
-                .template(template)
-                .collection(Offspring.class.getSimpleName())
+    public ItemWriter<Offspring> offspringItemWriter(OffspringRepository repository) {
+        return new RepositoryItemWriterBuilder<Offspring>()
+                .repository(repository)
+                .methodName("saveAll")
                 .build();
     }
 
     @Bean
-    public ItemWriter<Owner> ownerItemWriter(MongoOperations template) {
-        return new MongoItemWriterBuilder<Owner>()
-                .template(template)
-                .collection(Owner.class.getSimpleName())
+    public ItemWriter<Owner> ownerItemWriter(OwnerRepository repository) {
+        return new RepositoryItemWriterBuilder<Owner>()
+                .repository(repository)
+                .methodName("saveAll")
                 .build();
     }
 
     @Bean
-    public ItemWriter<RaceHorse> raceHorseItemWriter(MongoOperations template) {
-        return new MongoItemWriterBuilder<RaceHorse>()
-                .template(template)
-                .collection(RaceHorse.class.getSimpleName())
+    public ItemWriter<RaceHorse> raceHorseItemWriter(RaceHorseRepository repository) {
+        return new RepositoryItemWriterBuilder<RaceHorse>()
+                .repository(repository)
+                .methodName("saveAll")
                 .build();
     }
 
     @Bean
-    public ItemWriter<RaceHorseExclusion> raceHorseExclusionItemWriter(MongoOperations template) {
-        return new MongoItemWriterBuilder<RaceHorseExclusion>()
-                .template(template)
-                .collection(RaceHorseExclusion.class.getSimpleName())
+    public ItemWriter<RaceHorseExclusion> raceHorseExclusionItemWriter(RaceHorseExclusionRepository repository) {
+        return new RepositoryItemWriterBuilder<RaceHorseExclusion>()
+                .repository(repository)
+                .methodName("saveAll")
                 .build();
     }
 
     @Bean
-    public ItemWriter<RaceRefund> raceRefundItemWriter(MongoOperations template) {
-        return new MongoItemWriterBuilder<RaceRefund>()
-                .template(template)
-                .collection(RaceRefund.class.getSimpleName())
+    public ItemWriter<RaceRefund> raceRefundItemWriter(RaceRefundRepository repository) {
+        return new RepositoryItemWriterBuilder<RaceRefund>()
+                .repository(repository)
+                .methodName("saveAll")
                 .build();
     }
 
     @Bean
-    public ItemWriter<RacingDetails> racingDetailsItemWriter(MongoOperations template) {
-        return new MongoItemWriterBuilder<RacingDetails>()
-                .template(template)
-                .collection(RacingDetails.class.getSimpleName())
+    public ItemWriter<RacingDetails> racingDetailsItemWriter(RacingDetailsRepository repository) {
+        return new RepositoryItemWriterBuilder<RacingDetails>()
+                .repository(repository)
+                .methodName("saveAll")
                 .build();
     }
 
     @Bean
-    public ItemWriter<Trainer> trainerItemWriter(MongoOperations template) {
-        return new MongoItemWriterBuilder<Trainer>()
-                .template(template)
-                .collection(Trainer.class.getSimpleName())
+    public ItemWriter<Trainer> trainerItemWriter(TrainerRepository repository) {
+        return new RepositoryItemWriterBuilder<Trainer>()
+                .repository(repository)
+                .methodName("saveAll")
                 .build();
     }
 
     @Bean
-    public ItemWriter<VoteCount> voteCountItemWriter(MongoOperations template) {
-        return new MongoItemWriterBuilder<VoteCount>()
-                .template(template)
-                .collection(VoteCount.class.getSimpleName())
+    public ItemWriter<VoteCount> voteCountItemWriter(VoteCountRepository repository) {
+        return new RepositoryItemWriterBuilder<VoteCount>()
+                .repository(repository)
+                .methodName("saveAll")
                 .build();
     }
 

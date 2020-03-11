@@ -121,7 +121,7 @@ public class JvLinkProcessors {
     }
 
     @Slf4j
-    private static class JvLinkFunctionItemProcessor<I, O extends BaseModel> implements ItemProcessor<I, O> {
+    public static class JvLinkFunctionItemProcessor<I, O extends BaseModel> implements ItemProcessor<I, O> {
 
         private final Function<I, O> function;
 
@@ -150,7 +150,6 @@ public class JvLinkProcessors {
                 return null;
             }
         }
-
     }
 
 }

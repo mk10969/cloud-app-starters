@@ -1,25 +1,28 @@
 package org.uma.cloud.common.utils.lang;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.wnameless.json.flattener.JsonFlattener;
 import com.google.common.collect.Lists;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.reflect.TypeToken;
-import org.springframework.lang.NonNull;
 import org.uma.cloud.common.model.BaseModel;
 import org.uma.cloud.common.utils.exception.CharacterCodingRuntimeException;
 
-import java.lang.reflect.Type;
 import java.nio.ByteBuffer;
 import java.nio.charset.CharacterCodingException;
 import java.nio.charset.Charset;
 import java.util.Arrays;
+import java.util.IllegalFormatConversionException;
+import java.util.IllegalFormatException;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
 
 final public class JvLinkModelUtil {
+
+    private JvLinkModelUtil() {
+    }
 
     /**
      * Shift Jis 周りのお話
@@ -31,25 +34,28 @@ final public class JvLinkModelUtil {
     private static final Charset SHIFT_JIS = Charset.forName("MS932");
 
     /**
-     * Json library ==> Use Gson
-     * <p>
-     * nullのフィールドを、jsonに含める設定を追加。
+     * Json library ==> Use Jackson
      */
-    private static final Gson GSON = new GsonBuilder()
-            .serializeNulls()
-            .create();
+    private static final ObjectMapper objectMapper = new ObjectMapper();
 
-    @NonNull
+
     public static String toJson(Object object) {
-        return GSON.toJson(object);
+        try {
+            return objectMapper.writeValueAsString(object);
+        } catch (JsonProcessingException e) {
+            throw new IllegalArgumentException(e);
+        }
     }
 
 
     public static Map<String, Integer> jsonToMap(String json) {
         Objects.requireNonNull(json);
-        Type type = new TypeToken<Map<String, Integer>>() {
-        }.getType();
-        return GSON.fromJson(json, type);
+        try {
+            return objectMapper.readValue(json, new TypeReference<>() {
+            });
+        } catch (JsonProcessingException e) {
+            throw new IllegalArgumentException(e);
+        }
     }
 
     public static byte[] toByte(String str) {

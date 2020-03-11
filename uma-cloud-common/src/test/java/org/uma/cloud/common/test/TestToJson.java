@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import org.junit.jupiter.api.Test;
+import org.uma.cloud.common.utils.lang.JvLinkModelUtil;
 import org.uma.cloud.common.utils.lang.StringUtil;
 
 import java.util.Collections;
@@ -21,7 +22,7 @@ public class TestToJson {
 
         @Override
         public String toString() {
-            return StringUtil.toJson(this);
+            return JvLinkModelUtil.toJson(this);
         }
 
     }
