@@ -8,17 +8,94 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.uma.cloud.common.code.*;
+import org.uma.cloud.common.code.AbnormalDivisionCode;
+import org.uma.cloud.common.code.BreedCode;
+import org.uma.cloud.common.code.EastOrWestBelongCode;
+import org.uma.cloud.common.code.HairColorCode;
+import org.uma.cloud.common.code.HorseSignCode;
+import org.uma.cloud.common.code.JockeyApprenticeCode;
+import org.uma.cloud.common.code.JockeyLicenseCode;
+import org.uma.cloud.common.code.MarginCode;
+import org.uma.cloud.common.code.RaceCourseCode;
+import org.uma.cloud.common.code.RaceGradeCode;
+import org.uma.cloud.common.code.RaceSignCode;
+import org.uma.cloud.common.code.RaceTypeCode;
+import org.uma.cloud.common.code.SexCode;
+import org.uma.cloud.common.code.TrackCode;
+import org.uma.cloud.common.code.TurfOrDirtConditionCode;
+import org.uma.cloud.common.code.WeatherCode;
+import org.uma.cloud.common.code.WeekDayCode;
+import org.uma.cloud.common.code.WeightTypeCode;
+import org.uma.cloud.common.model.Ancestry;
+import org.uma.cloud.common.model.BaseModel;
+import org.uma.cloud.common.model.Breeder;
+import org.uma.cloud.common.model.BreedingHorse;
+import org.uma.cloud.common.model.Course;
+import org.uma.cloud.common.model.HorseRacingDetails;
+import org.uma.cloud.common.model.Jockey;
+import org.uma.cloud.common.model.Offspring;
+import org.uma.cloud.common.model.Owner;
+import org.uma.cloud.common.model.RaceHorse;
+import org.uma.cloud.common.model.RaceHorseExclusion;
+import org.uma.cloud.common.model.RaceRefund;
+import org.uma.cloud.common.model.RacingDetails;
+import org.uma.cloud.common.model.Trainer;
+import org.uma.cloud.common.model.VoteCount;
+import org.uma.cloud.common.model.odds.Exacta;
+import org.uma.cloud.common.model.odds.Quinella;
+import org.uma.cloud.common.model.odds.QuinellaPlace;
+import org.uma.cloud.common.model.odds.Trifecta;
+import org.uma.cloud.common.model.odds.Trio;
+import org.uma.cloud.common.model.odds.WinsPlaceBracketQuinella;
+import org.uma.cloud.common.recordSpec.RecordSpec;
 import org.uma.cloud.common.utils.javatuples.Pair;
 import org.uma.cloud.common.utils.javatuples.Triplet;
 
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.EnumMap;
 
 
 @Configuration
-public class JvLinkMapperConfiguration {
+public class JvLInkModelMapperConfiguration {
+
+    @Bean
+    public ObjectMapper objectMapper(SimpleModule simpleModule) {
+        ObjectMapper objectMapper = new ObjectMapper();
+        return objectMapper.registerModule(simpleModule);
+    }
+
+    @Bean
+    public EnumMap<RecordSpec, Class<? extends BaseModel>> recordSpecPairEnumMap() {
+        EnumMap<RecordSpec, Class<? extends BaseModel>> enumMap = new EnumMap<>(RecordSpec.class);
+        // RACE
+        enumMap.put(RecordSpec.RA, RacingDetails.class);
+        enumMap.put(RecordSpec.SE, HorseRacingDetails.class);
+        enumMap.put(RecordSpec.HR, RaceRefund.class);
+        enumMap.put(RecordSpec.H1, VoteCount.class);
+        enumMap.put(RecordSpec.JG, RaceHorseExclusion.class);
+        // ODDS
+        enumMap.put(RecordSpec.O1, WinsPlaceBracketQuinella.class);
+        enumMap.put(RecordSpec.O2, Quinella.class);
+        enumMap.put(RecordSpec.O3, QuinellaPlace.class);
+        enumMap.put(RecordSpec.O4, Exacta.class);
+        enumMap.put(RecordSpec.O5, Trio.class);
+        enumMap.put(RecordSpec.O6, Trifecta.class);
+        // BLOD
+        enumMap.put(RecordSpec.SK, Offspring.class);
+        enumMap.put(RecordSpec.BT, Ancestry.class);
+        enumMap.put(RecordSpec.HN, BreedingHorse.class);
+        // DIFF
+        enumMap.put(RecordSpec.UM, RaceHorse.class);
+        enumMap.put(RecordSpec.KS, Jockey.class);
+        enumMap.put(RecordSpec.CH, Trainer.class);
+        enumMap.put(RecordSpec.BR, Breeder.class);
+        enumMap.put(RecordSpec.BN, Owner.class);
+        // COMM
+        enumMap.put(RecordSpec.CS, Course.class);
+        return enumMap;
+    }
 
     @Bean
     public SimpleModule simpleModule() {
@@ -41,18 +118,14 @@ public class JvLinkMapperConfiguration {
         simpleModule.addDeserializer(JockeyLicenseCode.class, new JockeyLicenseCodeDeserializer());
         simpleModule.addDeserializer(RaceTypeCode.class, new RaceTypeCodeDeserializer());
         simpleModule.addDeserializer(HairColorCode.class, new HairColorCodeDeserializer());
-        simpleModule.addDeserializer( Pair.class, new PairCodeDeserializer());
+
+        simpleModule.addDeserializer(Pair.class, new PairCodeDeserializer());
         simpleModule.addDeserializer(Triplet.class, new TripletCodeDeserializer());
+
+        simpleModule.addDeserializer(LocalDate.class, new LocalDateDeserializer());
         simpleModule.addDeserializer(Integer.class, new IntegerDeserializer());
         simpleModule.addDeserializer(String.class, new StringDeserializer());
-        simpleModule.addDeserializer(LocalDate.class, new LocalDateDeserializer());
         return simpleModule;
-    }
-
-    @Bean
-    public ObjectMapper objectMapper(SimpleModule simpleModule) {
-        ObjectMapper objectMapper = new ObjectMapper();
-        return objectMapper.registerModule(simpleModule);
     }
 
 
@@ -222,6 +295,20 @@ public class JvLinkMapperConfiguration {
         }
     }
 
+    private final static class LocalDateDeserializer extends JsonDeserializer<LocalDate> {
+        @Override
+        public LocalDate deserialize(JsonParser p, DeserializationContext ctxt) throws IOException, JsonProcessingException {
+            DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyyMMdd");
+            // 日付が設定されていない場合のデフォルト値
+            if ("00000000".equals(p.getValueAsString())) {
+                //return LocalDate.MIN;
+                // ↑これダメっぽい。一旦null。
+                return null;
+            }
+            return LocalDate.parse(p.getValueAsString(), format);
+        }
+    }
+
     private final static class IntegerDeserializer extends JsonDeserializer<Integer> {
         @Override
         public Integer deserialize(JsonParser p, DeserializationContext ctxt) throws IOException, JsonProcessingException {
@@ -258,21 +345,8 @@ public class JvLinkMapperConfiguration {
         @Override
         public String deserialize(JsonParser p, DeserializationContext ctxt) throws IOException, JsonProcessingException {
             String source = p.getValueAsString();
+            // 先頭と末尾の半角全角空白文字を削除。
             return source == null ? null : source.strip();
-        }
-    }
-
-    private final static class LocalDateDeserializer extends JsonDeserializer<LocalDate> {
-        @Override
-        public LocalDate deserialize(JsonParser p, DeserializationContext ctxt) throws IOException, JsonProcessingException {
-            DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyyMMdd");
-            // 日付が設定されていない場合のデフォルト値
-            if ("00000000".equals(p.getValueAsString())) {
-                //return LocalDate.MIN;
-                // ↑これダメっぽい。一旦null。
-                return null;
-            }
-            return LocalDate.parse(p.getValueAsString(), format);
         }
     }
 

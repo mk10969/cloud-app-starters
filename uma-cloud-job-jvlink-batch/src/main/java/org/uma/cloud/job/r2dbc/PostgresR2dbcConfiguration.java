@@ -19,7 +19,7 @@ import java.util.Map;
 
 @Configuration
 @RequiredArgsConstructor
-public class PostgresR2dbcConfuguration extends AbstractR2dbcConfiguration {
+public class PostgresR2dbcConfiguration extends AbstractR2dbcConfiguration {
 
     private final ObjectMapper objectMapper;
 

@@ -7,9 +7,21 @@ dependencies {
 
     implementation 'org.springframework.cloud:spring-cloud-starter-task'
     implementation 'org.springframework.boot:spring-boot-starter-batch'
+    // R2dbc
+    implementation 'org.springframework.boot.experimental:spring-boot-starter-data-r2dbc'
+    implementation 'io.r2dbc:r2dbc-postgresql'
     runtimeOnly 'com.h2database:h2'
 
     testImplementation 'org.springframework.batch:spring-batch-test'
+    testImplementation 'org.springframework.boot.experimental:spring-boot-test-autoconfigure-r2dbc'
+    testImplementation 'io.projectreactor:reactor-test'
+}
+
+
+dependencyManagement {
+    imports {
+        mavenBom 'org.springframework.boot.experimental:spring-boot-bom-r2dbc:0.1.0.M3'
+    }
 }
 
 

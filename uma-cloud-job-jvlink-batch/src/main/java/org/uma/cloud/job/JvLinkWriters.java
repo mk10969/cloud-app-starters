@@ -4,9 +4,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.batch.item.ItemWriter;
 import org.springframework.batch.item.data.builder.RepositoryItemWriterBuilder;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ResourceLoader;
+import org.springframework.data.r2dbc.core.DatabaseClient;
+import org.springframework.data.r2dbc.query.Criteria;
 import org.uma.cloud.common.model.Ancestry;
 import org.uma.cloud.common.model.BaseModel;
 import org.uma.cloud.common.model.Breeder;
@@ -22,24 +23,26 @@ import org.uma.cloud.common.model.RaceRefund;
 import org.uma.cloud.common.model.RacingDetails;
 import org.uma.cloud.common.model.Trainer;
 import org.uma.cloud.common.model.VoteCount;
-import org.uma.cloud.common.repository.AncestryRepository;
-import org.uma.cloud.common.repository.BreederRepository;
-import org.uma.cloud.common.repository.BreedingHorseRepository;
-import org.uma.cloud.common.repository.CourseRepository;
-import org.uma.cloud.common.repository.HorseRacingDetailsRepository;
-import org.uma.cloud.common.repository.JockeyRepository;
-import org.uma.cloud.common.repository.OffspringRepository;
-import org.uma.cloud.common.repository.OwnerRepository;
-import org.uma.cloud.common.repository.RaceHorseExclusionRepository;
-import org.uma.cloud.common.repository.RaceHorseRepository;
-import org.uma.cloud.common.repository.RaceRefundRepository;
-import org.uma.cloud.common.repository.RacingDetailsRepository;
-import org.uma.cloud.common.repository.TrainerRepository;
-import org.uma.cloud.common.repository.VoteCountRepository;
+import org.uma.cloud.job.repository.AncestryRepository;
+import org.uma.cloud.job.repository.BreederRepository;
+import org.uma.cloud.job.repository.BreedingHorseRepository;
+import org.uma.cloud.job.repository.CourseRepository;
+import org.uma.cloud.job.repository.HorseRacingDetailsRepository;
+import org.uma.cloud.job.repository.JockeyRepository;
+import org.uma.cloud.job.repository.OffspringRepository;
+import org.uma.cloud.job.repository.OwnerRepository;
+import org.uma.cloud.job.repository.RaceHorseExclusionRepository;
+import org.uma.cloud.job.repository.RaceHorseRepository;
+import org.uma.cloud.job.repository.RaceRefundRepository;
+import org.uma.cloud.job.repository.RacingDetailsRepository;
+import org.uma.cloud.job.repository.TrainerRepository;
+import org.uma.cloud.job.repository.VoteCountRepository;
+
+import java.util.List;
+
 
 @Configuration
 @RequiredArgsConstructor
-@ComponentScan("org.uma.cloud.common.repository")
 public class JvLinkWriters {
 
     private final ResourceLoader resourceLoader;
@@ -172,6 +175,40 @@ public class JvLinkWriters {
 //                .name(RacingDetails.class.getSimpleName())
 //                .build();
 //    }
+
+    @RequiredArgsConstructor
+    public static class JvLinkReactiveItemWriter<T extends BaseModel> implements ItemWriter<T> {
+
+        private final DatabaseClient client;
+
+        private Class<T> clazz;
+
+        private Criteria matching;
+
+
+        @Override
+        public void write(List<? extends T> items) throws Exception {
+            client.select().from(clazz)
+                    .matching(matching)
+//                    .orderBy(desc("id"))
+                    .as(clazz)
+                    .all();
+
+        }
+
+        public JvLinkReactiveItemWriter<T> selectFrom(Class<T> clazz) {
+            this.clazz = clazz;
+            return this;
+        }
+
+        public JvLinkReactiveItemWriter<T> where(Criteria matching) {
+            this.matching = matching;
+            return this;
+        }
+
+
+    }
+
 
 }
 

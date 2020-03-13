@@ -1,8 +1,7 @@
 package org.uma.cloud.common.component;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
-import org.modelmapper.MappingException;
-import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 import org.uma.cloud.common.model.BaseModel;
 import org.uma.cloud.common.recordSpec.RecordSpec;
@@ -23,12 +22,12 @@ import java.util.Objects;
 public class JvLinkModelMapper {
 
     /**
-     * {@link JvLinkModelMapperProperties#modelMapper()}
+     * {@link JvLInkModelMapperConfiguration#objectMapper}
      */
-    private final ModelMapper modelMapper;
+    private final ObjectMapper objectMapper;
 
     /**
-     * {@link JvLinkModelMapperProperties#recordSpecPairEnumMap()}
+     * {@link JvLInkModelMapperConfiguration#recordSpecPairEnumMap}
      */
     private final EnumMap<RecordSpec, Class<? extends BaseModel>> recordSpecClass;
 
@@ -101,46 +100,12 @@ public class JvLinkModelMapper {
         });
 
         try {
-            return modelMapper.map(deSerialMap, clazz);
+            return objectMapper.convertValue(deSerialMap, clazz);
 
-        } catch (MappingException e) {
-            // マッピングできなかったデータを、
-            // エンコードしてログに出力できるようにデータをセットする
+        } catch (IllegalArgumentException e) {
+            // マッピングできなかったデータを、エンコードして、throwする
             throw new JvLinkModelMappingException(e, ByteUtil.base64EncodeToString(byteArrayLine));
         }
     }
-
-
-//    @Bean
-//    public EnumMap<RecordSpec, Function<byte[], ? extends BaseModel>> recordSpecFunctionEnumMap() {
-//        EnumMap<RecordSpec, Function<byte[], ? extends BaseModel>> enumMap = new EnumMap<>(RecordSpec.class);
-//        // RACE
-//        enumMap.put(RecordSpec.RA, racingDetailsFunction);
-//        enumMap.put(RecordSpec.SE, horseRacingDetailsFunction);
-//        enumMap.put(RecordSpec.HR, refundFunction);
-//        enumMap.put(RecordSpec.H1, voteCountFunction);
-//        enumMap.put(RecordSpec.JG, raceHorseExclusionFunction);
-//        // ODDS
-//        enumMap.put(RecordSpec.O1, winsPlaceBracketQuinellaFunction);
-//        enumMap.put(RecordSpec.O2, quinellaFunction);
-//        enumMap.put(RecordSpec.O3, quinellaPlaceFunction);
-//        enumMap.put(RecordSpec.O4, exactaFunction);
-//        enumMap.put(RecordSpec.O5, trioFunction);
-//        enumMap.put(RecordSpec.O6, trifectaFunction);
-//        // BLOD
-//        enumMap.put(RecordSpec.SK, offspringFunction);
-//        enumMap.put(RecordSpec.BT, ancestryFunction);
-//        enumMap.put(RecordSpec.HN, breedingHorseFunction);
-//        // DIFF
-//        enumMap.put(RecordSpec.UM, raceHorseFunction);
-//        enumMap.put(RecordSpec.KS, jockeyFunction);
-//        enumMap.put(RecordSpec.CH, trainerFunction);
-//        enumMap.put(RecordSpec.BR, breederFunction);
-//        enumMap.put(RecordSpec.BN, ownerFunction);
-//        // COMM
-//        enumMap.put(RecordSpec.CS, courseFunction);
-//        return enumMap;
-//    }
-
 
 }
