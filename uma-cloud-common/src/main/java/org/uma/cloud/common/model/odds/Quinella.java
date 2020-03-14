@@ -10,6 +10,7 @@ import org.uma.cloud.common.model.RacingDetails;
 import org.uma.cloud.common.recordSpec.RecordSpec;
 import org.uma.cloud.common.utils.javatuples.Pair;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -51,7 +52,7 @@ public class Quinella extends BaseModel {
          * 馬番の組み合わせ
          */
         private Pair<String, String> pairNo;
-        private Integer odds;
+        private BigDecimal odds;
         private Integer betRank;
     }
 

@@ -8,6 +8,7 @@ import org.uma.cloud.common.model.RacingDetails;
 import org.uma.cloud.common.recordSpec.RecordSpec;
 import org.uma.cloud.common.utils.javatuples.Triplet;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -50,7 +51,7 @@ public class Trifecta extends BaseModel {
          * 馬番の組み合わせ
          */
         private Triplet<String, String, String> pairNo;
-        private Integer odds;
+        private BigDecimal odds;
         private Integer betRank;
     }
 

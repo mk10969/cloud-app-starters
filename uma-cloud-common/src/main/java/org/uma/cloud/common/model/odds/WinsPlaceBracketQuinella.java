@@ -6,6 +6,7 @@ import org.uma.cloud.common.model.BaseModel;
 import org.uma.cloud.common.model.RacingDetails;
 import org.uma.cloud.common.recordSpec.RecordSpec;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -59,7 +60,7 @@ public class WinsPlaceBracketQuinella extends BaseModel {
          * 馬番は、String型を使う。
          */
         private String horseNo;
-        private Integer odds;
+        private BigDecimal odds;
         private Integer betRank;
     }
 
@@ -69,8 +70,8 @@ public class WinsPlaceBracketQuinella extends BaseModel {
          * 馬番は、String型を使う。
          */
         private String horseNo;
-        private Integer oddsMin;
-        private Integer oddsMax;
+        private BigDecimal oddsMin;
+        private BigDecimal oddsMax;
         private Integer betRank;
     }
 
@@ -81,7 +82,7 @@ public class WinsPlaceBracketQuinella extends BaseModel {
          * どうせ使わないので、String型にしておく。
          */
         private String pairNo;
-        private Integer odds;
+        private BigDecimal odds;
         private Integer betRank;
     }
 

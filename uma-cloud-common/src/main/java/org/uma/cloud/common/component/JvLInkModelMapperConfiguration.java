@@ -52,6 +52,7 @@ import org.uma.cloud.common.utils.javatuples.Pair;
 import org.uma.cloud.common.utils.javatuples.Triplet;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.EnumMap;
@@ -124,6 +125,7 @@ public class JvLInkModelMapperConfiguration {
 
         simpleModule.addDeserializer(LocalDate.class, new LocalDateDeserializer());
         simpleModule.addDeserializer(Integer.class, new IntegerDeserializer());
+        simpleModule.addDeserializer(BigDecimal.class, new BigDecimalDeserializer());
         simpleModule.addDeserializer(String.class, new StringDeserializer());
         return simpleModule;
     }
@@ -315,29 +317,51 @@ public class JvLInkModelMapperConfiguration {
             String source = p.getValueAsString();
             if ("  ".equals(source)
                     || "   ".equals(source)
-                    || "    ".equals(source)
+                    || "    ".equals(source)) {
+                return null;
+            }
+            if ("--".equals(source)
+                    || "---".equals(source)
+                    || "----".equals(source)) {
+                return -100;
+            }
+            if ("**".equals(source)
+                    || "***".equals(source)
+                    || "****".equals(source)) {
+                return -999;
+            }
+            return Integer.valueOf(source);
+        }
+    }
+
+    private final static class BigDecimalDeserializer extends JsonDeserializer<BigDecimal> {
+        @Override
+        public BigDecimal deserialize(JsonParser p, DeserializationContext ctxt) throws IOException, JsonProcessingException {
+            String source = p.getValueAsString();
+            if ("    ".equals(source)
                     || "     ".equals(source)
                     || "      ".equals(source)
                     || "       ".equals(source)) {
                 return null;
             }
-            if ("--".equals(source)
-                    || "---".equals(source)
-                    || "----".equals(source)
+            if ("----".equals(source)
                     || "-----".equals(source)
                     || "------".equals(source)
                     || "-------".equals(source)) {
-                return -100;
+                // 数字の場合、static factoryを呼ぶ。
+                return BigDecimal.valueOf(-100.0);
             }
-            if ("**".equals(source)
-                    || "***".equals(source)
-                    || "****".equals(source)
+            if ("****".equals(source)
                     || "*****".equals(source)
                     || "******".equals(source)
                     || "*******".equals(source)) {
-                return -999;
+                return BigDecimal.valueOf(-999.0);
             }
-            return Integer.valueOf(source);
+            // 少数点を追加。（仕様上こうするしかない。。。）
+            StringBuilder stringBuilder = new StringBuilder(source);
+            stringBuilder.insert(source.length() - 1, ".");
+            // stringの場合、コンストラクターを呼ぶ。
+            return new BigDecimal(stringBuilder.toString());
         }
     }
 
