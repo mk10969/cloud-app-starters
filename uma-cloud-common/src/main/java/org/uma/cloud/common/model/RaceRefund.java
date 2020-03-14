@@ -91,9 +91,9 @@ public class RaceRefund extends BaseModel {
         private String horseNo;
 
         /**
-         * 取得する初期値スペース => null に変換される。
+         * 取得する初期値スペース => null に変換する。
          */
-        private Long refundMoney;
+        private Integer refundMoney;
 
         /**
          * 取得する初期値スペース => null に変換する。
@@ -110,9 +110,9 @@ public class RaceRefund extends BaseModel {
         private Pair<String, String> pairNo;
 
         /**
-         * 取得する初期値スペース => null に変換される。
+         * 取得する初期値スペース => null に変換する。
          */
-        private Long refundMoney;
+        private Integer refundMoney;
 
         /**
          * 取得する初期値スペース => null に変換する。
@@ -129,9 +129,9 @@ public class RaceRefund extends BaseModel {
         private Triplet<String, String, String> tripletNo;
 
         /**
-         * 取得する初期値スペース => null に変換される。
+         * 取得する初期値スペース => null に変換する。
          */
-        private Long refundMoney;
+        private Integer refundMoney;
 
         /**
          * 取得する初期値スペース => null に変換する。

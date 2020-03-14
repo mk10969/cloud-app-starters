@@ -85,8 +85,8 @@ public class HorseRacingDetails extends BaseModel {
     private Integer rankCorner4;
     private String oddsWin;
     private Integer betRankWin;
-    private Long acquirementAddedMoney;
-    private Long acquirementStakesMoney;
+    private Integer acquirementAddedMoney;
+    private Integer acquirementStakesMoney;
     private String spare4;
     private String spare5;
     private Float lastFurlong4;

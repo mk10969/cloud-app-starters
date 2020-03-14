@@ -68,10 +68,10 @@ public class RacingDetails extends BaseModel {
     private TrackCode trackCdBefore;
     private String courseDiv;
     private String courseDivBefore;
-    private List<Long> addedMoneyItems;
-    private List<Long> addedMoneyBeforeItems;
-    private List<Long> stakesMoneyItems;
-    private List<Long> stakesMoneyBeforeItems;
+    private List<Integer> addedMoneyItems;
+    private List<Integer> addedMoneyBeforeItems;
+    private List<Integer> stakesMoneyItems;
+    private List<Integer> stakesMoneyBeforeItems;
     private String startTime;
     private String startTimeBefore;
     private String entryCount;

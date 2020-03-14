@@ -54,12 +54,12 @@ public class RaceHorse extends BaseModel {
     private Integer ownerCd;
     private String ownerNameWithoutCorp;
 
-    private Long addedMoneyTotalFlat;
-    private Long addedMoneyTotalJump;
-    private Long stakesMoneyTotalFlat;
-    private Long stakesMoneyTotalJump;
-    private Long allMoneyTotalFlat;
-    private Long allMoneyTotalJump;
+    private Integer addedMoneyTotalFlat;
+    private Integer addedMoneyTotalJump;
+    private Integer stakesMoneyTotalFlat;
+    private Integer stakesMoneyTotalJump;
+    private Integer allMoneyTotalFlat;
+    private Integer allMoneyTotalJump;
 
 
     @Getter
