@@ -14,9 +14,9 @@ public enum WeightTypeCode implements CodeEnum<Integer, WeightTypeCode> {
      */
     DEFAULT(0, ""),
     HANDICAP(1, "ハンデ"),
-    WEIGHT4SPECIAL(2, "別定"),
-    WEIGHT4AGE(3, "馬齢"),
-    WEIGHT4FIXED(4, "定量"),
+    SPECIAL(2, "別定"),
+    HORSEAGE(3, "馬齢"),
+    FIXED(4, "定量"),
     ;
 
     private Integer code;

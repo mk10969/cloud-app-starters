@@ -54,6 +54,7 @@ import org.uma.cloud.common.utils.javatuples.Triplet;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.EnumMap;
 
@@ -124,7 +125,9 @@ public class JvLInkModelMapperConfiguration {
         simpleModule.addDeserializer(Triplet.class, new TripletCodeDeserializer());
 
         simpleModule.addDeserializer(LocalDate.class, new LocalDateDeserializer());
+        simpleModule.addDeserializer(LocalTime.class, new LocalTimeDeserializer());
         simpleModule.addDeserializer(Integer.class, new IntegerDeserializer());
+        simpleModule.addDeserializer(Float.class, new FloatDeserializer());
         simpleModule.addDeserializer(BigDecimal.class, new BigDecimalDeserializer());
         simpleModule.addDeserializer(String.class, new StringDeserializer());
         return simpleModule;
@@ -311,6 +314,28 @@ public class JvLInkModelMapperConfiguration {
         }
     }
 
+    private final static class LocalTimeDeserializer extends JsonDeserializer<LocalTime> {
+        @Override
+        public LocalTime deserialize(JsonParser p, DeserializationContext ctxt) throws IOException, JsonProcessingException {
+            String source = p.getValueAsString();
+            if ("   ".equals(source) || "    ".equals(source)) {
+                return LocalTime.of(0, 0, 0);
+            }
+            int minute = 0;
+            int second = 0;
+            int nano = 0;
+            if (source.length() == 3) {
+                second = Integer.parseInt(source.substring(0, 2));
+                nano = Integer.parseInt(source.substring(2, 3)) * 100 * 1000 * 1000;
+            } else if (source.length() == 4) {
+                minute = Integer.parseInt(source.substring(0, 1));
+                second = Integer.parseInt(source.substring(1, 3));
+                nano = Integer.parseInt(source.substring(3, 4)) * 100 * 1000 * 1000;
+            }
+            return LocalTime.of(0, minute, second, nano);
+        }
+    }
+
     private final static class IntegerDeserializer extends JsonDeserializer<Integer> {
         @Override
         public Integer deserialize(JsonParser p, DeserializationContext ctxt) throws IOException, JsonProcessingException {
@@ -331,6 +356,17 @@ public class JvLInkModelMapperConfiguration {
                 return -999;
             }
             return Integer.valueOf(source);
+        }
+    }
+
+    private final static class FloatDeserializer extends JsonDeserializer<Float> {
+        @Override
+        public Float deserialize(JsonParser p, DeserializationContext ctxt) throws IOException, JsonProcessingException {
+            String source = p.getValueAsString();
+            // 少数点を追加。（仕様上こうするしかない。。。）
+            StringBuilder stringBuilder = new StringBuilder(source);
+            stringBuilder.insert(source.length() - 1, ".");
+            return Float.valueOf(stringBuilder.toString());
         }
     }
 

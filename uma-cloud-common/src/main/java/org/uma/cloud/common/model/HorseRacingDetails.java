@@ -12,7 +12,9 @@ import org.uma.cloud.common.code.RaceCourseCode;
 import org.uma.cloud.common.code.SexCode;
 import org.uma.cloud.common.recordSpec.RecordSpec;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 /**
@@ -57,9 +59,10 @@ public class HorseRacingDetails extends BaseModel {
     private String ownerNameWithoutCorp;
     private String clothingMark;
     private String spare1;
+    // 0.1kg
     private Float loadWeight;
-    private Float loadWeightBefore;
-    private Integer blinkerUseDiv;
+    private Integer loadWeightBefore;
+    private Boolean isBlinker;
     private String spare2;
     private Integer jockeyCd;
     private String jockeyCdBefore;
@@ -68,14 +71,14 @@ public class HorseRacingDetails extends BaseModel {
     private JockeyApprenticeCode jockeyApprenticeCd;
     private JockeyApprenticeCode jockeyApprenticeCdBefore;
     private Integer horseWeight;
-    private Character changeSign;
+    private String changeSign;
     private Integer changeAmount;
     private AbnormalDivisionCode abnormalDivCd;
     private Integer finishedArrivalOrder;
     private Integer fixedArrivalOrder;
     private Integer deadHeadDiv;
     private Integer deadHeadCount;
-    private String runningTime;
+    private LocalTime runningTime;
     private MarginCode marginCd;
     private MarginCode marginCd2;
     private MarginCode marginCd3;
@@ -83,22 +86,24 @@ public class HorseRacingDetails extends BaseModel {
     private Integer rankCorner2;
     private Integer rankCorner3;
     private Integer rankCorner4;
-    private String oddsWin;
+    private BigDecimal oddsWin;
     private Integer betRankWin;
     private Integer acquirementAddedMoney;
     private Integer acquirementStakesMoney;
     private String spare4;
     private String spare5;
-    private Float lastFurlong4;
-    private Float lastFurlong3;
+    private LocalTime lastFurlong4;
+    private LocalTime lastFurlong3;
     private List<Contender> contenders;
     private String timeMargin;
     private Integer recordUpdateDiv;
-    private Integer miningDiv;
-    private String miningExpectationRunningTime;
-    private String miningExpectationErrorPlus;
-    private String miningExpectationErrorMinus;
-    private Integer miningExpectationRank;
+
+//    private Integer miningDiv;
+//    private String miningExpectationRunningTime;
+//    private String miningExpectationErrorPlus;
+//    private String miningExpectationErrorMinus;
+//    private Integer miningExpectationRank;
+
     private Integer runningStyle;
 
     @Getter

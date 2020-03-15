@@ -27,7 +27,7 @@ public class PostgresR2dbcConfiguration extends AbstractR2dbcConfiguration {
     @Override
     public ConnectionFactory connectionFactory() {
         ConnectionFactoryOptions options = ConnectionFactoryOptions.builder()
-                .option(ConnectionFactoryOptions.HOST, "locahost")
+                .option(ConnectionFactoryOptions.HOST, "localhost")
                 .option(ConnectionFactoryOptions.PORT, 5432)
                 .build();
 

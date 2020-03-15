@@ -4,7 +4,6 @@ package org.uma.cloud.common.component;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.uma.cloud.common.model.Ancestry;
-import org.uma.cloud.common.model.BaseModel;
 import org.uma.cloud.common.model.Breeder;
 import org.uma.cloud.common.model.BreedingHorse;
 import org.uma.cloud.common.model.Course;
@@ -45,7 +44,9 @@ public class JvLinkFunction {
      */
     public RacingDetails racingDetailsFunction(byte[] data) {
         RacingDetails model = jvLinkModelMapper.deserialize(data, RacingDetails.class);
-        model.getLapTimeItems().removeIf(i -> i == 0.0);
+        model.getLapTimeItems().removeIf(time -> time.getMinute() == 0
+                && time.getSecond() == 0
+                && time.getNano() == 0);
         return model;
     }
 

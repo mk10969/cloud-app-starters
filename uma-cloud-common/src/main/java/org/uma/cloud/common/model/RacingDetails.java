@@ -13,6 +13,7 @@ import org.uma.cloud.common.code.WeightTypeCode;
 import org.uma.cloud.common.recordSpec.RecordSpec;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 /**
@@ -80,12 +81,12 @@ public class RacingDetails extends BaseModel {
     private WeatherCode weatherCd;
     private TurfOrDirtConditionCode turfConditionCd;
     private TurfOrDirtConditionCode dirtConditionCd;
-    private List<Float> lapTimeItems;
-    private String jumpMileTime;
-    private Float firstFurlong3;
-    private Float firstFurlong4;
-    private Float lastFurlong3;
-    private Float lastFurlong4;
+    private List<LocalTime> lapTimeItems;
+    private LocalTime jumpMileTime;
+    private LocalTime firstFurlong3;
+    private LocalTime firstFurlong4;
+    private LocalTime lastFurlong3;
+    private LocalTime lastFurlong4;
     private List<CornerPassageRank> cornerPassageRanks;
     private String recordUpdateDiv;
 

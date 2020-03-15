@@ -25,6 +25,5 @@ public class MapJsonWriterConverter implements Converter<Map<String, Object>, Js
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
-
     }
 }
