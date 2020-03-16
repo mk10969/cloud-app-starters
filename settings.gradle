@@ -1,6 +1,6 @@
 // main app
 include 'uma-cloud-common'
-include 'uma-cloud-job-jvlink-batch'
+include 'uma-cloud-batch-jvlink'
 include 'uma-cloud-processor-jvlink-transform'
 include 'uma-cloud-source-jvlink-http'
 include 'uma-cloud-task-ipatgo'

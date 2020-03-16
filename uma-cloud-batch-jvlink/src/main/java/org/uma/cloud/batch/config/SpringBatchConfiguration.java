@@ -1,4 +1,4 @@
-package org.uma.cloud.batch;
+package org.uma.cloud.batch.config;
 
 import org.springframework.batch.core.configuration.annotation.BatchConfigurer;
 import org.springframework.batch.core.configuration.annotation.DefaultBatchConfigurer;
@@ -17,7 +17,7 @@ import javax.sql.DataSource;
 
 
 @Configuration
-public class SpringBatchConfig {
+public class SpringBatchConfiguration {
 
     @Bean
     @Primary

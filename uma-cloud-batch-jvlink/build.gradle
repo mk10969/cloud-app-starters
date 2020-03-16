@@ -11,7 +11,6 @@ dependencies {
     implementation 'org.mariadb.jdbc:mariadb-java-client'
     runtimeOnly 'mysql:mysql-connector-java'
     runtimeOnly 'com.h2database:h2'
-
     // application repository
     implementation 'org.springframework.boot.experimental:spring-boot-starter-data-r2dbc'
     implementation 'io.r2dbc:r2dbc-postgresql'
