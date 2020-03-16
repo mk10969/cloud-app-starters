@@ -1,4 +1,4 @@
-package org.uma.cloud.job;
+package org.uma.cloud.batch;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

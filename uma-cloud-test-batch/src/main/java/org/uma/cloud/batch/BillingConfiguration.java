@@ -1,4 +1,4 @@
-package org.uma.cloud.job;
+package org.uma.cloud.batch;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
