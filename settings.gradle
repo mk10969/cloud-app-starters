@@ -8,7 +8,7 @@ include 'uma-cloud-task-pod-cleaner'
 
 
 // test example
-include 'uma-cloud-test-job'
+include 'uma-cloud-test-batch'
 include 'uma-cloud-test-processor'
 include 'uma-cloud-test-source'
 include 'uma-cloud-test-task'
