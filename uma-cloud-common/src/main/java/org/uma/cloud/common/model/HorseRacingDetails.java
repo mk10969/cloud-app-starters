@@ -95,6 +95,7 @@ public class HorseRacingDetails extends BaseModel {
     private LocalTime lastFurlong4;
     private LocalTime lastFurlong3;
     private List<Contender> contenders;
+    // タイム差 +999 or -001 or 9999
     private String timeMargin;
     private Integer recordUpdateDiv;
 

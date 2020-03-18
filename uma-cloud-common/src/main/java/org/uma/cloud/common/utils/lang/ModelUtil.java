@@ -33,9 +33,14 @@ final public class ModelUtil {
 
     /**
      * Json library ==> Use Jackson
+     * 別インスタンスで作成する。
      */
     private static final ObjectMapper objectMapper = new ObjectMapper();
 
+
+    public static ObjectMapper getObjectMapper() {
+        return objectMapper;
+    }
 
     public static String toJson(Object object) {
         try {
