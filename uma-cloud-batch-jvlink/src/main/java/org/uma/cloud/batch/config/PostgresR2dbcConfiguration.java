@@ -15,11 +15,11 @@ import org.springframework.data.r2dbc.config.AbstractR2dbcConfiguration;
 import org.springframework.data.r2dbc.connectionfactory.R2dbcTransactionManager;
 import org.springframework.lang.NonNull;
 import org.springframework.transaction.ReactiveTransactionManager;
+import org.uma.cloud.common.model.RacingDetails;
 import org.uma.cloud.common.utils.lang.ModelUtil;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 
 @Configuration
@@ -29,7 +29,6 @@ public class PostgresR2dbcConfiguration extends AbstractR2dbcConfiguration {
     public ReactiveTransactionManager reactiveTransactionManager() {
         return new R2dbcTransactionManager(connectionFactory());
     }
-
 
     @NonNull
     @Override
@@ -49,12 +48,51 @@ public class PostgresR2dbcConfiguration extends AbstractR2dbcConfiguration {
     @Override
     protected List<Object> getCustomConverters() {
         List<Object> converters = new ArrayList<>();
-        converters.add(new MapToJsonConverter());
-        converters.add(new JsonToMapConverter());
-
+        converters.add(new cornerToJsonConverter());
+        converters.add(new JsonToCornerConverter());
 
         return converters;
     }
+
+    /**
+     * ダメだった。。。JDBCにするか。。
+     */
+    @WritingConverter
+    public static class cornerToJsonConverter implements Converter<RacingDetails.CornerPassageRank, Json> {
+        @Override
+        public Json convert(RacingDetails.CornerPassageRank source) {
+            System.out.println("json: " + source);
+            return writeJson(source);
+        }
+    }
+
+    @ReadingConverter
+    public static class JsonToCornerConverter implements Converter<Json, RacingDetails.CornerPassageRank> {
+        @Override
+        public RacingDetails.CornerPassageRank convert(Json json) {
+            return readJson(json, new TypeReference<>() {
+            });
+        }
+    }
+
+//
+//
+//    @WritingConverter
+//    public static class MapToJsonConverter implements Converter<Map<String, Object>, Json> {
+//        @Override
+//        public Json convert(Map<String, Object> source) {
+//            return writeJson(source);
+//        }
+//    }
+//
+//    @ReadingConverter
+//    public static class JsonToMapConverter implements Converter<Json, Map<String, Object>> {
+//        @Override
+//        public Map<String, Object> convert(Json json) {
+//            return readJson(json, new TypeReference<>() {
+//            });
+//        }
+//    }
 
 
     public static Json writeJson(Object object) {
@@ -70,24 +108,6 @@ public class PostgresR2dbcConfiguration extends AbstractR2dbcConfiguration {
             return ModelUtil.getObjectMapper().readValue(json.asString(), TypeReference);
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
-        }
-    }
-
-
-    @WritingConverter
-    public static class MapToJsonConverter implements Converter<Map<String, Object>, Json> {
-        @Override
-        public Json convert(Map<String, Object> source) {
-            return writeJson(source);
-        }
-    }
-
-    @ReadingConverter
-    public static class JsonToMapConverter implements Converter<Json, Map<String, Object>> {
-        @Override
-        public Map<String, Object> convert(Json json) {
-            return readJson(json, new TypeReference<>() {
-            });
         }
     }
 

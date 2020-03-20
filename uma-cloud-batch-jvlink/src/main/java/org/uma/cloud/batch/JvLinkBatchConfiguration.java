@@ -43,7 +43,7 @@ public class JvLinkBatchConfiguration {
                      ItemWriter<RacingDetails> writer) throws Exception {
 
         return stepBuilderFactory.get(RacingDetails.class.getSimpleName())
-                .<String, RacingDetails>chunk(100)
+                .<String, RacingDetails>chunk(1)
                 .reader(reader)
                 .processor(processor)
                 .writer(writer)

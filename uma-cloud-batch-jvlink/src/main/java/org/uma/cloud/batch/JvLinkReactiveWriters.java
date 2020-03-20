@@ -185,31 +185,20 @@ public class JvLinkReactiveWriters {
 
     @Bean
     public ItemWriter<RacingDetails> racingDetailsItemWriter() {
-        return items -> System.out.println(items.toString());
-
-//        return new JvLinkReactiveItemWriter<>() {
-//            @Override
-//            public void write(List<? extends RacingDetails> items) throws Exception {
-//                Flux.fromIterable(items)
-//                        .publishOn(Schedulers.immediate())
-//                        .subscribeOn(Schedulers.immediate())
-//                        .map(RacingDetails::getRaceId)
-//                        .collectList()
-//                        .flatMapMany(raceIds -> client.select().from(RacingDetails.class)
-//                                .matching(where("raceId").in(raceIds))
-//                                .as(RacingDetails.class)
-//                                .all())
-//                        .doOnNext(selected -> log.info("{}", selected))
-//                        .flatMap(selected -> Flux.fromIterable(items)
-//                                // selectしたもの以外を返す。
-//                                .filter(item -> !Objects.equals(item.getRaceId(), selected.getRaceId())))
-//                        .flatMap(model -> client.insert()
-//                                .into(RacingDetails.class)
-//                                .using(model)
-//                                .then())
-//                        .subscribe();
-//            }
-//        };
+//        return items -> System.out.println(items.toString());
+        return new JvLinkReactiveItemWriter<>() {
+            @Override
+            public void write(List<? extends RacingDetails> items) throws Exception {
+                Flux.fromIterable(items)
+                        .publishOn(Schedulers.immediate())
+                        .subscribeOn(Schedulers.immediate())
+                        .flatMap(model -> client.insert()
+                                .into(RacingDetails.class)
+                                .using(model)
+                                .then())
+                        .subscribe();
+            }
+        };
     }
 
     @Bean
