@@ -10,9 +10,12 @@ import org.springframework.batch.core.launch.support.RunIdIncrementer;
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.batch.item.ItemReader;
 import org.springframework.batch.item.ItemWriter;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.cloud.task.configuration.EnableTask;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.uma.cloud.batch.listener.JvLinkProcessorListener;
 import org.uma.cloud.batch.listener.JvLinkStepExecutionListener;
 import org.uma.cloud.batch.listener.JvLinkWriterListener;
@@ -21,6 +24,9 @@ import org.uma.cloud.common.model.RacingDetails;
 @Configuration
 @EnableTask
 @EnableBatchProcessing
+@EnableConfigurationProperties(JvLinkBatchProperties.class)
+@EnableJpaRepositories
+@EntityScan("org.uma.cloud.common.model")
 @RequiredArgsConstructor
 public class JvLinkBatchConfiguration {
 
