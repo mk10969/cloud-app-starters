@@ -3,13 +3,17 @@ package org.uma.cloud.common.model.odds;
 
 import lombok.Data;
 import lombok.Getter;
-import lombok.Setter;
+import org.hibernate.annotations.Type;
 import org.uma.cloud.common.code.RaceCourseCode;
 import org.uma.cloud.common.model.BaseModel;
 import org.uma.cloud.common.model.RacingDetails;
 import org.uma.cloud.common.recordSpec.RecordSpec;
 import org.uma.cloud.common.utils.javatuples.Pair;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
@@ -18,12 +22,17 @@ import java.util.List;
  * {@link RecordSpec.O4}
  */
 @Getter
+@Entity
+@Table
 public class Exacta extends BaseModel {
 
     /**
      * {@link RacingDetails.raceId}
      */
+    @Id
+    @Column(length = 16)
     private String raceId;
+
     private LocalDate holdingDate;
     private RaceCourseCode courseCd;
     private Integer holdingNo;
@@ -41,6 +50,8 @@ public class Exacta extends BaseModel {
     private Integer saleFlag;
 
     // 馬単オッズ
+    @Type(type = "jsonb")
+    @Column(columnDefinition = "jsonb")
     private List<ExactaOdds> exactaOdds;
 
     private Long voteTotalCount;

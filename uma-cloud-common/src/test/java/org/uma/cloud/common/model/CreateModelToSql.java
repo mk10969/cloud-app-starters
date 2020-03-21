@@ -5,59 +5,73 @@ import org.junit.jupiter.api.Test;
 import org.uma.cloud.common.ReflectionUtils;
 import org.uma.cloud.common.utils.javatuples.Pair;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.Type;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class CreateModelToSql {
 
-    @Test
-    void test() {
-        assertEquals(1, 1);
-    }
+//    @Autowired
+//    private Map<String, JvLinkRecordProperties.RecordSpecItems> recordSpecs;
+//
+//
+//    @Test
+//    void test_モデルからCREATE_SQLを出力する() {
+//        ReflectionUtils.getClassesFrom("org.uma.cloud.common.model")
+//                .stream()
+//                .map(clazz -> Stream.of(clazz.getDeclaredFields())
+//                        .map(field -> {
+//                            Integer length = recordSpecs.get("RA").getRecordItems().stream()
+//                                    .filter(j -> j.getColumn().equals(field.getName()))
+//                                    .map(JvLinkRecordProperties.RecordSpecItems.RecordItem::getLength)
+//                                    .findFirst().orElse(null);
+//
+//                            String name = CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, field.getName());
+//                            Mapper mapper = Mapper.mapper(field.getGenericType().getTypeName());
+//                            return Triplet.with(name, mapper, length);
+//                        })
+//                        .map(triplet -> {
+//                            if (triplet.getValue2() == Mapper.String
+//                                    && !triplet.getValue2().toString().contains("(15)")) {
+//                                return "   " + triplet.getValue1() + "     " + triplet.getValue2().getType() + "(" + triplet.getValue3() + ")";
+//                            } else {
+//                                return "   " + triplet.getValue1() + "     " + triplet.getValue2().getType();
+//                            }
+//                        })
+//                        .reduce(clazz.getSimpleName(), (i, j) -> i + ",\n" + j))
+//                .forEach(System.out::println);
+//    }
 
     @Test
-    void test_model_to_sql() {
-
+    void test_type_check() {
         ReflectionUtils.getClassesFrom("org.uma.cloud.common.model")
                 .stream()
-//                .map(this::once)
                 .flatMap(clazz -> Stream.of(clazz.getDeclaredFields())
-                        .map(Field::getGenericType))
-                .map(Type::getTypeName)
-                .sorted()
-                .distinct()
+                        .map(i -> Pair.with(i.getName(), i.getGenericType())))
+                .filter(pair -> pair.getValue2().getTypeName().contains("Float"))
+//                .map(Type::getTypeName)
+//                .sorted()
+//                .distinct()
                 .forEach(System.out::println);
-
-//                .flatMap(clazz -> Stream.of(clazz.getDeclaredFields())
-//                        .map(j -> Triplet.with(clazz.getSimpleName(),
-//                                j.getName(),
-//                                j.getGenericType())))
-//                .collect(Collectors.groupingBy(Triplet::getValue1));
-
-    }
-
-
-    private Map<String, List<Pair<String, Type>>> once(Class<?> clazz) {
-        List<Pair<String, Type>> pairs = Stream.of(clazz.getDeclaredFields())
-                .map(j -> {
-                    String name = CaseFormat.UPPER_CAMEL
-                            .to(CaseFormat.LOWER_UNDERSCORE, j.getName());
-                    return Pair.with(name, j.getGenericType());
-                })
-                .collect(Collectors.toList());
-
-        return Map.of(clazz.getSimpleName(), pairs);
     }
 
 
     @Test
-    void test_type() {
+    void test_モデルクラス名をスネーク化() {
+        ReflectionUtils.getClassesFrom("org.uma.cloud.common.model")
+                .stream()
+                .map(Class::getSimpleName)
+                .map(i -> CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, i))
+                .forEach(System.out::println);
+    }
+
+    @Test
+    void tst_Enumのフィールドとってきて文字の長さ調べる() {
+        String name = ReflectionUtils.getClassesFrom("org.uma.cloud.common.code").stream()
+                .flatMap(clazz -> Stream.of(clazz.getEnumConstants()))
+                .map(Object::toString)
+                .peek(System.out::println)
+                .reduce("", (i, j) -> i.length() > j.length() ? i : j);
+        System.out.println(name + ":" + name.length());
 
     }
 
@@ -74,18 +88,51 @@ class CreateModelToSql {
         LocalTime("time"),
         ListInteger("integer[]"),
         ListLocalTime("time[]"),
-        other("jsonb")
-        ;
+        // 考えるのめんどいの一律で、max 15
+        Code("varchar(15)"),
+        other("jsonb");
+
+        public String getType() {
+            return this.type;
+        }
+
         private String type;
 
         Mapper(java.lang.String type) {
             this.type = type;
         }
+
+        public static Mapper mapper(String typeName) {
+            if ("java.lang.String".equals(typeName)) {
+                return String;
+            } else if ("java.lang.Integer".equals(typeName)) {
+                return Integer;
+            } else if ("java.lang.Boolean".equals(typeName)) {
+                return Boolean;
+            } else if ("java.lang.Long".equals(typeName)) {
+                return Long;
+            } else if ("java.math.BigDecimal".equals(typeName)) {
+                return BigDecimal;
+            } else if ("java.time.LocalDate".equals(typeName)) {
+                return LocalDate;
+            } else if ("java.time.LocalTime".equals(typeName)) {
+                return LocalTime;
+            } else if (typeName.startsWith("org.uma.cloud.common.code")) {
+                return Code;
+            } else if ("java.util.List<java.lang.Integer>".equals(typeName)) {
+                return ListInteger;
+            } else if ("java.util.List<java.time.LocalTime>".equals(typeName)) {
+                return ListLocalTime;
+            } else {
+                return other;
+            }
+        }
+
     }
 
 
     @Test
-    void testtest() {
+    void test_LOWER_UNDERSCORE() {
         String a = CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, "TomatoCurry");
         System.out.println(a);
     }

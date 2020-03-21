@@ -1,6 +1,8 @@
 package org.uma.cloud.common.model;
 
+import lombok.Data;
 import lombok.Getter;
+import org.hibernate.annotations.Type;
 import org.uma.cloud.common.code.AbnormalDivisionCode;
 import org.uma.cloud.common.code.BreedCode;
 import org.uma.cloud.common.code.EastOrWestBelongCode;
@@ -12,6 +14,11 @@ import org.uma.cloud.common.code.RaceCourseCode;
 import org.uma.cloud.common.code.SexCode;
 import org.uma.cloud.common.recordSpec.RecordSpec;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.IdClass;
+import javax.persistence.Table;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -21,13 +28,18 @@ import java.util.List;
  * {@link RecordSpec.SE}
  */
 @Getter
+@Entity
+@IdClass(HorseRacingDetails.HorseRacingDetailsId.class)
+@Table
 public class HorseRacingDetails extends BaseModel {
 
     /**
-     * No unique
      * {@link RacingDetails.raceId}
      */
+    @Id
+    @Column(length = 16)
     private String raceId;
+
     private LocalDate holdingDate;
     private RaceCourseCode courseCd;
     private Integer holdingNo;
@@ -35,17 +47,19 @@ public class HorseRacingDetails extends BaseModel {
     private Integer raceNo;
     private Integer bracketNo;
 
-    /**
-     * 馬番は、払戻、票数のフィールドと合わせて、String型とする。
-     * 01, 02...とデータが、保持されてほしいため。
-     */
+    @Id
+    @Column(length = 2)
     private String horseNo;
 
     /**
      * {@link Offspring.bloodlineNo}
      */
+    @Id
     private Long bloodlineNo;
+
+    @Column(length = 36)
     private String horseName;
+
     private HorseSignCode horseSignCd;
     private SexCode sexCd;
     private BreedCode bredCd;
@@ -54,23 +68,44 @@ public class HorseRacingDetails extends BaseModel {
     // 競走馬の東西
     private EastOrWestBelongCode ewBelongCd;
     private Integer trainerCd;
+
+    @Column(length = 8)
     private String trainerNameShort;
+
     private Integer ownerCd;
+
+    @Column(length = 64)
     private String ownerNameWithoutCorp;
+
+    @Column(length = 60)
     private String clothingMark;
+
+    @Column(length = 60)
     private String spare1;
-    // 0.1kg
-    private Float loadWeight;
+
+    // 負担重量 0.1kg
+    private Double loadWeight;
     private Integer loadWeightBefore;
     private Boolean isBlinker;
+
+    @Column(length = 1)
     private String spare2;
+
     private Integer jockeyCd;
-    private String jockeyCdBefore;
+
+    private Integer jockeyCdBefore;
+
+    @Column(length = 8)
     private String jockeyNameShort;
+
+    @Column(length = 8)
     private String jockeyNameShortBefore;
+
     private JockeyApprenticeCode jockeyApprenticeCd;
     private JockeyApprenticeCode jockeyApprenticeCdBefore;
     private Integer horseWeight;
+
+    @Column(length = 1)
     private String changeSign;
     private Integer changeAmount;
     private AbnormalDivisionCode abnormalDivCd;
@@ -90,12 +125,22 @@ public class HorseRacingDetails extends BaseModel {
     private Integer betRankWin;
     private Integer acquirementAddedMoney;
     private Integer acquirementStakesMoney;
+
+    @Column(length = 3)
     private String spare4;
+
+    @Column(length = 3)
     private String spare5;
-    private LocalTime lastFurlong4;
-    private LocalTime lastFurlong3;
+
+    private Double lastFurlong4;
+    private Double lastFurlong3;
+
+    @Type(type = "jsonb")
+    @Column(columnDefinition = "jsonb")
     private List<Contender> contenders;
+
     // タイム差 +999 or -001 or 9999
+    @Column(length = 4)
     private String timeMargin;
     private Integer recordUpdateDiv;
 
@@ -116,6 +161,16 @@ public class HorseRacingDetails extends BaseModel {
          */
         private Long bloodlineNo;
         private String horseName;
+    }
+
+    @Data
+    static class HorseRacingDetailsId {
+
+        private String raceId;
+
+        private String horseNo;
+
+        private Long bloodlineNo;
     }
 
 }

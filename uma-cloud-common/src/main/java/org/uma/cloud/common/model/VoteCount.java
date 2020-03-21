@@ -2,11 +2,16 @@ package org.uma.cloud.common.model;
 
 
 import lombok.Getter;
+import org.hibernate.annotations.Type;
 import org.uma.cloud.common.code.RaceCourseCode;
 import org.uma.cloud.common.recordSpec.RecordSpec;
 import org.uma.cloud.common.utils.javatuples.Pair;
 import org.uma.cloud.common.utils.javatuples.Triplet;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -14,12 +19,17 @@ import java.util.List;
  * {@link RecordSpec.H1}
  */
 @Getter
+@Entity
+@Table
 public class VoteCount extends BaseModel {
 
     /**
      * {@link RacingDetails.raceId}
      */
+    @Id
+    @Column(length = 16)
     private String raceId;
+
     private LocalDate holdingDate;
     private RaceCourseCode courseCd;
     private Integer holdingNo;
@@ -37,19 +47,47 @@ public class VoteCount extends BaseModel {
     private Integer placeCashKey;
 
     // 返還
+    @Type(type = "list")
+    @Column(columnDefinition = "integer[]")
     private List<Integer> restoreHorseNoItems;
+
+    @Type(type = "list")
+    @Column(columnDefinition = "integer[]")
     private List<Integer> restoreBracketItems;
+
+    @Type(type = "list")
+    @Column(columnDefinition = "integer[]")
     private List<Integer> restoreSameBracketItems;
 
     /**
      * 馬券種ごとの票数
      */
+    @Type(type = "jsonb")
+    @Column(columnDefinition = "jsonb")
     private List<Vote> voteCountWins;
+
+    @Type(type = "jsonb")
+    @Column(columnDefinition = "jsonb")
     private List<Vote> voteCountPlaces;
+
+    @Type(type = "jsonb")
+    @Column(columnDefinition = "jsonb")
     private List<Vote> voteCountBracketQuinellas;
+
+    @Type(type = "jsonb")
+    @Column(columnDefinition = "jsonb")
     private List<VotePair> voteCountQuinellas;
+
+    @Type(type = "jsonb")
+    @Column(columnDefinition = "jsonb")
     private List<VotePair> voteCountQuinellaPlaces;
+
+    @Type(type = "jsonb")
+    @Column(columnDefinition = "jsonb")
     private List<VotePair> voteCountExactas;
+
+    @Type(type = "jsonb")
+    @Column(columnDefinition = "jsonb")
     private List<VoteTriplet> voteCountTrios;
 
     /**

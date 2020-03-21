@@ -1,11 +1,16 @@
 package org.uma.cloud.common.model.odds;
 
 import lombok.Getter;
+import org.hibernate.annotations.Type;
 import org.uma.cloud.common.code.RaceCourseCode;
 import org.uma.cloud.common.model.BaseModel;
 import org.uma.cloud.common.model.RacingDetails;
 import org.uma.cloud.common.recordSpec.RecordSpec;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
@@ -14,12 +19,17 @@ import java.util.List;
  * {@link RecordSpec.O1}
  */
 @Getter
+@Entity
+@Table
 public class WinsPlaceBracketQuinella extends BaseModel {
 
     /**
      * {@link RacingDetails.raceId}
      */
+    @Id
+    @Column(length = 16)
     private String raceId;
+
     private LocalDate holdingDate;
     private RaceCourseCode courseCd;
     private Integer holdingNo;
@@ -40,12 +50,18 @@ public class WinsPlaceBracketQuinella extends BaseModel {
     private Integer placeCashKey;
 
     // 単勝オッズ
+    @Type(type = "jsonb")
+    @Column(columnDefinition = "jsonb")
     private List<WinOdds> winOdds;
 
     // 複勝オッズ
+    @Type(type = "jsonb")
+    @Column(columnDefinition = "jsonb")
     private List<PlaceOdds> placeOdds;
 
     // 枠連オッズ
+    @Type(type = "jsonb")
+    @Column(columnDefinition = "jsonb")
     private List<BracketQuinellaOdds> bracketQuinellaOdds;
 
 

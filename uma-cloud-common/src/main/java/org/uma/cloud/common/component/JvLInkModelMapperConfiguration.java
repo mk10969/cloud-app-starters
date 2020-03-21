@@ -127,7 +127,7 @@ public class JvLInkModelMapperConfiguration {
         simpleModule.addDeserializer(LocalDate.class, new LocalDateDeserializer());
         simpleModule.addDeserializer(LocalTime.class, new LocalTimeDeserializer());
         simpleModule.addDeserializer(Integer.class, new IntegerDeserializer());
-        simpleModule.addDeserializer(Float.class, new FloatDeserializer());
+        simpleModule.addDeserializer(Double.class, new DoubleDeserializer());
         simpleModule.addDeserializer(BigDecimal.class, new BigDecimalDeserializer());
         simpleModule.addDeserializer(String.class, new StringDeserializer());
         return simpleModule;
@@ -318,21 +318,14 @@ public class JvLInkModelMapperConfiguration {
         @Override
         public LocalTime deserialize(JsonParser p, DeserializationContext ctxt) throws IOException, JsonProcessingException {
             String source = p.getValueAsString();
-            if ("   ".equals(source) || "    ".equals(source)) {
+            if ("    ".equals(source)) {
                 return LocalTime.of(0, 0, 0);
+            } else {
+                int minute = Integer.parseInt(source.substring(0, 1));
+                int second = Integer.parseInt(source.substring(1, 3));
+                int nano = Integer.parseInt(source.substring(3, 4)) * 100 * 1000 * 1000;
+                return LocalTime.of(0, minute, second, nano);
             }
-            int minute = 0;
-            int second = 0;
-            int nano = 0;
-            if (source.length() == 3) {
-                second = Integer.parseInt(source.substring(0, 2));
-                nano = Integer.parseInt(source.substring(2, 3)) * 100 * 1000 * 1000;
-            } else if (source.length() == 4) {
-                minute = Integer.parseInt(source.substring(0, 1));
-                second = Integer.parseInt(source.substring(1, 3));
-                nano = Integer.parseInt(source.substring(3, 4)) * 100 * 1000 * 1000;
-            }
-            return LocalTime.of(0, minute, second, nano);
         }
     }
 
@@ -359,14 +352,14 @@ public class JvLInkModelMapperConfiguration {
         }
     }
 
-    private final static class FloatDeserializer extends JsonDeserializer<Float> {
+    private final static class DoubleDeserializer extends JsonDeserializer<Double> {
         @Override
-        public Float deserialize(JsonParser p, DeserializationContext ctxt) throws IOException, JsonProcessingException {
+        public Double deserialize(JsonParser p, DeserializationContext ctxt) throws IOException, JsonProcessingException {
             String source = p.getValueAsString();
             // 少数点を追加。（仕様上こうするしかない。。。）
             StringBuilder stringBuilder = new StringBuilder(source);
             stringBuilder.insert(source.length() - 1, ".");
-            return Float.valueOf(stringBuilder.toString());
+            return Double.valueOf(stringBuilder.toString());
         }
     }
 

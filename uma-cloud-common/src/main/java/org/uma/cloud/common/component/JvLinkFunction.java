@@ -44,9 +44,7 @@ public class JvLinkFunction {
      */
     public RacingDetails racingDetailsFunction(byte[] data) {
         RacingDetails model = jvLinkModelMapper.deserialize(data, RacingDetails.class);
-        model.getLapTimeItems().removeIf(time -> time.getMinute() == 0
-                && time.getSecond() == 0
-                && time.getNano() == 0);
+        model.getLapTimeItems().removeIf(time -> time == 0.0);
         model.getCornerPassageRanks().removeIf(cornerPassageRank -> cornerPassageRank.getCorner() == 0
                 && cornerPassageRank.getAroundCount() == 0
                 && "".equals(cornerPassageRank.getPassageRank()));

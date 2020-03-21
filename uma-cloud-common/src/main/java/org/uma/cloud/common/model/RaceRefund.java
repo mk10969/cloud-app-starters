@@ -1,11 +1,16 @@
 package org.uma.cloud.common.model;
 
 import lombok.Getter;
+import org.hibernate.annotations.Type;
 import org.uma.cloud.common.code.RaceCourseCode;
 import org.uma.cloud.common.recordSpec.RecordSpec;
 import org.uma.cloud.common.utils.javatuples.Pair;
 import org.uma.cloud.common.utils.javatuples.Triplet;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -13,12 +18,17 @@ import java.util.List;
  * {@link RecordSpec.HR}
  */
 @Getter
+@Entity
+@Table
 public class RaceRefund extends BaseModel {
 
     /**
      * {@link RacingDetails.raceId}
      */
+    @Id
+    @Column(length = 16)
     private String raceId;
+
     private LocalDate holdingDate;
     private RaceCourseCode courseCd;
     private Integer holdingNo;
@@ -32,6 +42,7 @@ public class RaceRefund extends BaseModel {
     private Integer failureFlagBracketQuinella;
     private Integer failureFlagQuinella;
     private Integer failureFlagQuinellaPlace;
+    @Column(length = 1)
     private String spare1;
     private Integer failureFlagExacta;
     private Integer failureFlagTrio;
@@ -42,6 +53,7 @@ public class RaceRefund extends BaseModel {
     private Integer specialRefundFlagBracketQuinella;
     private Integer specialRefundFlagQuinella;
     private Integer specialRefundFlagQuinellaPlace;
+    @Column(length = 1)
     private String spare2;
     private Integer specialRefundFlagExacta;
     private Integer specialRefundFlagTrio;
@@ -52,33 +64,68 @@ public class RaceRefund extends BaseModel {
     private Integer restoreFlagBracketQuinella;
     private Integer restoreFlagQuinella;
     private Integer restoreFlagQuinellaPlace;
+    @Column(length = 1)
     private String spare3;
     private Integer restoreFlagExacta;
     private Integer restoreFlagTrio;
     private Integer restoreFlagTrifecta;
 
     // ここは特殊
+    @Type(type = "list")
+    @Column(columnDefinition = "integer[]")
     private List<Integer> restoreHorseNoItems;
+
+    @Type(type = "list")
+    @Column(columnDefinition = "integer[]")
     private List<Integer> restoreBracketItems;
+
+    @Type(type = "list")
+    @Column(columnDefinition = "integer[]")
     private List<Integer> restoreSameBracketItems;
 
     // 単勝
+    @Type(type = "jsonb")
+    @Column(columnDefinition = "jsonb")
     private List<refund> refundWins;
+
     // 複勝
+    @Type(type = "jsonb")
+    @Column(columnDefinition = "jsonb")
     private List<refund> refundPlaces;
+
     // 枠連
+    @Type(type = "jsonb")
+    @Column(columnDefinition = "jsonb")
     private List<refund> refundBracketQuinellas;
+
     // 馬連
+    @Type(type = "jsonb")
+    @Column(columnDefinition = "jsonb")
     private List<refundPair> refundQuinellas;
+
     // ワイド
+    @Type(type = "jsonb")
+    @Column(columnDefinition = "jsonb")
     private List<refundPair> refundQuinellaPlaces;
+
     // 予備
+    @Type(type = "jsonb")
+    @Column(columnDefinition = "jsonb")
     private List<refundPair> refundSpares;
+
     // 馬単
+    @Type(type = "jsonb")
+    @Column(columnDefinition = "jsonb")
     private List<refundPair> refundExactas;
+
     // 3連複
+    @Type(type = "jsonb")
+    @Column(columnDefinition = "jsonb")
     private List<refundTriplet> refundTrios;
+
     // 3連単
+    @Type(type = "jsonb")
+    @Column(columnDefinition = "jsonb")
     private List<refundTriplet> refundTrifectas;
 
 

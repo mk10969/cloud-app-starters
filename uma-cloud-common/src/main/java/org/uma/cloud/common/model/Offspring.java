@@ -6,6 +6,11 @@ import org.uma.cloud.common.code.HairColorCode;
 import org.uma.cloud.common.code.SexCode;
 import org.uma.cloud.common.recordSpec.RecordSpec;
 
+import javax.persistence.Column;
+import javax.persistence.ElementCollection;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -13,6 +18,8 @@ import java.util.List;
  * {@link RecordSpec.SK}
  */
 @Getter
+@Entity
+@Table
 public class Offspring extends BaseModel {
 
     /**
@@ -20,6 +27,7 @@ public class Offspring extends BaseModel {
      * {@link HorseRacingDetails.bloodlineNo}
      * {@link BreedingHorse.bloodlineNo}
      */
+    @Id
     private Long bloodlineNo;
 
     private LocalDate birthDate;
@@ -29,6 +37,8 @@ public class Offspring extends BaseModel {
     private Integer sonBringingDiv;
     private Integer importYear;
     private Integer breederCd;
+
+    @Column(length = 20)
     private String sourceName;
 
     /**
@@ -40,6 +50,7 @@ public class Offspring extends BaseModel {
      * の順
      * {@link BreedingHorse.breedingNo}
      */
+    @ElementCollection
     private List<Integer> breeding3rd;
 
 }

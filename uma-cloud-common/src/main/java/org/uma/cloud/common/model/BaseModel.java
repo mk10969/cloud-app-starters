@@ -1,14 +1,24 @@
 package org.uma.cloud.common.model;
 
+import com.vladmihalcea.hibernate.type.array.ListArrayType;
+import com.vladmihalcea.hibernate.type.json.JsonBinaryType;
 import lombok.Getter;
+import org.hibernate.annotations.TypeDef;
+import org.hibernate.annotations.TypeDefs;
 import org.uma.cloud.common.recordSpec.RecordSpec;
 import org.uma.cloud.common.utils.lang.ModelUtil;
 
+import javax.persistence.MappedSuperclass;
 import java.io.Serializable;
 import java.time.LocalDate;
 
 
 @Getter
+@TypeDefs({
+        @TypeDef(name = "list", typeClass = ListArrayType.class),
+        @TypeDef(name = "jsonb", typeClass = JsonBinaryType.class)
+})
+@MappedSuperclass
 public class BaseModel implements Serializable {
 
     /**

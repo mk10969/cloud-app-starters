@@ -1,12 +1,17 @@
 package org.uma.cloud.common.model.odds;
 
 import lombok.Getter;
+import org.hibernate.annotations.Type;
 import org.uma.cloud.common.code.RaceCourseCode;
 import org.uma.cloud.common.model.BaseModel;
 import org.uma.cloud.common.model.RacingDetails;
 import org.uma.cloud.common.recordSpec.RecordSpec;
 import org.uma.cloud.common.utils.javatuples.Pair;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
@@ -15,12 +20,17 @@ import java.util.List;
  * {@link RecordSpec.O3}
  */
 @Getter
+@Entity
+@Table
 public class QuinellaPlace extends BaseModel {
 
     /**
      * {@link RacingDetails.raceId}
      */
+    @Id
+    @Column(length = 16)
     private String raceId;
+
     private LocalDate holdingDate;
     private RaceCourseCode courseCd;
     private Integer holdingNo;
@@ -38,6 +48,8 @@ public class QuinellaPlace extends BaseModel {
     private Integer saleFlag;
 
     // ワイドオッズ
+    @Type(type = "jsonb")
+    @Column(columnDefinition = "jsonb")
     private List<QuinellaPlaceOdds> quinellaPlaceOdds;
 
     private Long voteTotalCount;

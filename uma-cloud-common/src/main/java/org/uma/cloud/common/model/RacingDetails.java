@@ -1,6 +1,7 @@
 package org.uma.cloud.common.model;
 
 import lombok.Getter;
+import org.hibernate.annotations.Type;
 import org.uma.cloud.common.code.RaceCourseCode;
 import org.uma.cloud.common.code.RaceGradeCode;
 import org.uma.cloud.common.code.RaceSignCode;
@@ -12,14 +13,19 @@ import org.uma.cloud.common.code.WeekDayCode;
 import org.uma.cloud.common.code.WeightTypeCode;
 import org.uma.cloud.common.recordSpec.RecordSpec;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.List;
 
 /**
  * {@link RecordSpec.RA}
  */
 @Getter
+@Entity
+@Table
 public class RacingDetails extends BaseModel {
 
     /**
@@ -27,7 +33,10 @@ public class RacingDetails extends BaseModel {
      * {@link RaceRefund.raceId}
      * {@link VoteCount.raceId}
      */
+    @Id
+    @Column(length = 16)
     private String raceId;
+
     private LocalDate holdingDate;
     private RaceCourseCode courseCd;
     private Integer holdingNo;
@@ -69,10 +78,23 @@ public class RacingDetails extends BaseModel {
     private TrackCode trackCdBefore;
     private String courseDiv;
     private String courseDivBefore;
+
+    @Type(type = "list")
+    @Column(columnDefinition = "integer[]")
     private List<Integer> addedMoneyItems;
+
+    @Type(type = "list")
+    @Column(columnDefinition = "integer[]")
     private List<Integer> addedMoneyBeforeItems;
+
+    @Type(type = "list")
+    @Column(columnDefinition = "integer[]")
     private List<Integer> stakesMoneyItems;
+
+    @Type(type = "list")
+    @Column(columnDefinition = "integer[]")
     private List<Integer> stakesMoneyBeforeItems;
+
     private String startTime;
     private String startTimeBefore;
     private String entryCount;
@@ -81,12 +103,18 @@ public class RacingDetails extends BaseModel {
     private WeatherCode weatherCd;
     private TurfOrDirtConditionCode turfConditionCd;
     private TurfOrDirtConditionCode dirtConditionCd;
-    private List<LocalTime> lapTimeItems;
-    private LocalTime jumpMileTime;
-    private LocalTime firstFurlong3;
-    private LocalTime firstFurlong4;
-    private LocalTime lastFurlong3;
-    private LocalTime lastFurlong4;
+
+    @Type(type = "list")
+    @Column(columnDefinition = "double precision[]")
+    private List<Double> lapTimeItems;
+    private Double jumpMileTime;
+    private Double firstFurlong3;
+    private Double firstFurlong4;
+    private Double lastFurlong3;
+    private Double lastFurlong4;
+
+    @Type(type = "jsonb")
+    @Column(columnDefinition = "jsonb")
     private List<CornerPassageRank> cornerPassageRanks;
     private String recordUpdateDiv;
 
