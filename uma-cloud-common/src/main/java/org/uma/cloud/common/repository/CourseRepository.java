@@ -7,5 +7,5 @@ import org.uma.cloud.common.model.Course;
 
 
 @Repository
-public interface CourseRepository extends CrudRepository<Course, RaceCourseCode> {
+public interface CourseRepository extends CrudRepository<Course, Course.CourseId> {
 }

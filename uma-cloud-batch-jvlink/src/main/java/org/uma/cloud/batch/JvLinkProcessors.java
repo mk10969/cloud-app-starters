@@ -4,11 +4,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
-import org.uma.cloud.common.component.JvLinkFunction;
+import org.uma.cloud.common.configuration.JvLinkFunction;
 import org.uma.cloud.common.model.Ancestry;
 import org.uma.cloud.common.model.BaseModel;
 import org.uma.cloud.common.model.Breeder;
@@ -29,7 +28,6 @@ import java.util.function.Function;
 
 
 @Configuration
-@ComponentScan("org.uma.cloud.common.component")
 public class JvLinkProcessors {
 
     @Autowired

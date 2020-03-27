@@ -3,6 +3,7 @@ package org.uma.cloud.batch;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.step.skip.SkipLimitExceededException;
 import org.springframework.batch.core.step.skip.SkipPolicy;
+import org.uma.cloud.common.configuration.JvLinkRecordProperties;
 import org.uma.cloud.common.utils.exception.JvLinkModelMappingException;
 import org.uma.cloud.common.utils.exception.JvLinkModelNullPointException;
 
@@ -15,7 +16,7 @@ public class JvLinkSkipPolicy implements SkipPolicy {
 
         /**
          * JvLinkRecord定義の設定ミス
-         * @see org.uma.cloud.common.component.JvLinkRecordProperties
+         * @see JvLinkRecordProperties
          *
          * Convertに失敗
          * @see org.uma.cloud.common.component.JvLinkModelMapperProperties

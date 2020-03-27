@@ -6,5 +6,5 @@ import org.uma.cloud.common.model.HorseRacingDetails;
 
 
 @Repository
-public interface HorseRacingDetailsRepository extends CrudRepository<HorseRacingDetails, String> {
+public interface HorseRacingDetailsRepository extends CrudRepository<HorseRacingDetails, HorseRacingDetails.HorseRacingDetailsId> {
 }

@@ -6,5 +6,5 @@ import org.uma.cloud.common.model.RaceHorseExclusion;
 
 
 @Repository
-public interface RaceHorseExclusionRepository extends CrudRepository<RaceHorseExclusion, String> {
+public interface RaceHorseExclusionRepository extends CrudRepository<RaceHorseExclusion, RaceHorseExclusion.RaceHorseExclusionId> {
 }

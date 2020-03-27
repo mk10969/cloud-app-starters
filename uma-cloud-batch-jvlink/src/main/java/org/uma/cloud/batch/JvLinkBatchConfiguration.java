@@ -1,18 +1,15 @@
 package org.uma.cloud.batch;
 
-import lombok.RequiredArgsConstructor;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
-import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
 import org.springframework.batch.core.launch.support.RunIdIncrementer;
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.batch.item.ItemReader;
 import org.springframework.batch.item.ItemWriter;
-import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.cloud.task.configuration.EnableTask;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
@@ -22,18 +19,14 @@ import org.uma.cloud.batch.listener.JvLinkWriterListener;
 import org.uma.cloud.common.model.RacingDetails;
 
 @Configuration
-@EnableTask
-@EnableBatchProcessing
 @EnableConfigurationProperties(JvLinkBatchProperties.class)
-@EnableJpaRepositories
-@EntityScan("org.uma.cloud.common.model")
-@RequiredArgsConstructor
 public class JvLinkBatchConfiguration {
 
-    private final JobBuilderFactory jobBuilderFactory;
+    @Autowired
+    private JobBuilderFactory jobBuilderFactory;
 
-    private final StepBuilderFactory stepBuilderFactory;
-
+    @Autowired
+    private StepBuilderFactory stepBuilderFactory;
 
     @Bean
     public Job job(Step step) {

@@ -2,7 +2,11 @@ package org.uma.cloud.common.component;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
+import org.uma.cloud.common.configuration.ObjectMapperConfiguration;
+import org.uma.cloud.common.configuration.JvLinkRecordProperties;
+import org.uma.cloud.common.configuration.RecordSpecEnumMap;
 import org.uma.cloud.common.model.BaseModel;
 import org.uma.cloud.common.recordSpec.RecordSpec;
 import org.uma.cloud.common.utils.exception.JvLinkModelMappingException;
@@ -22,12 +26,13 @@ import java.util.Objects;
 public class JvLinkModelMapper {
 
     /**
-     * {@link JvLInkModelMapperConfiguration#objectMapper}
+     * {@link ObjectMapperConfiguration#objectMapper}
      */
+    @Qualifier("jvLinkParser")
     private final ObjectMapper objectMapper;
 
     /**
-     * {@link JvLInkModelMapperConfiguration#recordSpecPairEnumMap}
+     * {@link RecordSpecEnumMap#recordSpecPairEnumMap}
      */
     private final EnumMap<RecordSpec, Class<? extends BaseModel>> recordSpecClass;
 

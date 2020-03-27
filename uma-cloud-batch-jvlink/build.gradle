@@ -6,6 +6,9 @@ dependencies {
     implementation project(':uma-cloud-common')
     implementation 'org.springframework.cloud:spring-cloud-starter-task'
     implementation 'org.springframework.boot:spring-boot-starter-batch'
+    // schema for spring batch metadata
+    runtimeOnly 'mysql:mysql-connector-java'
+    // schema for app data
     runtimeOnly 'org.postgresql:postgresql'
 
     testImplementation 'org.springframework.batch:spring-batch-test'

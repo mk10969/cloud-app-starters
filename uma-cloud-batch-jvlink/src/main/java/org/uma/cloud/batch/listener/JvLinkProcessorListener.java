@@ -1,10 +1,10 @@
 package org.uma.cloud.batch.listener;
 
 import org.springframework.batch.core.ItemProcessListener;
+import org.uma.cloud.batch.JvLinkProcessors;
 import org.uma.cloud.common.model.BaseModel;
 import org.uma.cloud.common.utils.exception.JvLinkModelNullPointException;
 import org.uma.cloud.common.utils.lang.ModelUtil;
-import org.uma.cloud.batch.JvLinkProcessors;
 
 
 public class JvLinkProcessorListener implements ItemProcessListener<String, BaseModel> {
