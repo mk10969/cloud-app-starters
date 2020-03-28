@@ -19,6 +19,12 @@ import org.uma.cloud.common.model.RaceRefund;
 import org.uma.cloud.common.model.RacingDetails;
 import org.uma.cloud.common.model.Trainer;
 import org.uma.cloud.common.model.VoteCount;
+import org.uma.cloud.common.model.odds.Exacta;
+import org.uma.cloud.common.model.odds.Quinella;
+import org.uma.cloud.common.model.odds.QuinellaPlace;
+import org.uma.cloud.common.model.odds.Trifecta;
+import org.uma.cloud.common.model.odds.Trio;
+import org.uma.cloud.common.model.odds.WinsPlaceBracketQuinella;
 
 @Profile("local")
 @Slf4j
@@ -95,5 +101,34 @@ public class JvLInkWritersLocal {
         return items -> items.forEach(item -> log.info("{}", item));
     }
 
+    @Bean
+    public ItemWriter<WinsPlaceBracketQuinella> winsPlaceBracketQuinellaItemWriter() {
+        return items -> items.forEach(item -> log.info("{}", item));
+    }
+
+    @Bean
+    public ItemWriter<Quinella> quinellaItemWriter() {
+        return items -> items.forEach(item -> log.info("{}", item));
+    }
+
+    @Bean
+    public ItemWriter<QuinellaPlace> quinellaPlaceItemWriter() {
+        return items -> items.forEach(item -> log.info("{}", item));
+    }
+
+    @Bean
+    public ItemWriter<Exacta> exactaItemWriter() {
+        return items -> items.forEach(item -> log.info("{}", item));
+    }
+
+    @Bean
+    public ItemWriter<Trio> trioItemWriter() {
+        return items -> items.forEach(item -> log.info("{}", item));
+    }
+
+    @Bean
+    public ItemWriter<Trifecta> trifectaItemWriter() {
+        return items -> items.forEach(item -> log.info("{}", item));
+    }
 
 }

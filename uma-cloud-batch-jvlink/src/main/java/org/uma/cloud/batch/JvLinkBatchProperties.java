@@ -9,11 +9,24 @@ import org.springframework.validation.annotation.Validated;
 public class JvLinkBatchProperties {
 
     /**
+     * Java Object変換先のモデル名
+     */
+    private String modelName = "horseRacingDetails";
+
+    /**
      * input resource
      * ex: file:///tmp/xxx.txt or Http://localhost:8080/xxxxx
      */
-    private String inputPath = "file:///Users/m-kakiuchi/mydata/once.txt";
+    private String inputPath = "file:///Users/m-kakiuchi/mydata/data/RACE_SE.txt";
 
+
+    public String getModelName() {
+        return this.modelName;
+    }
+
+    public void setModelName(String modelName) {
+        this.modelName = modelName;
+    }
 
     public String getInputPath() {
         return this.inputPath;

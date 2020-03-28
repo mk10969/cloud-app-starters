@@ -1,12 +1,12 @@
 package org.uma.cloud.batch;
 
 
-import lombok.RequiredArgsConstructor;
 import org.springframework.batch.item.ItemReader;
 import org.springframework.batch.item.file.FlatFileItemReader;
 import org.springframework.batch.item.file.builder.FlatFileItemReaderBuilder;
 import org.springframework.batch.item.file.mapping.PassThroughLineMapper;
 import org.springframework.batch.item.support.IteratorItemReader;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.Resource;
@@ -21,12 +21,13 @@ import java.time.Duration;
 import java.util.stream.Stream;
 
 @Configuration
-@RequiredArgsConstructor
 public class JvLinkReaders {
 
-    private final ResourceLoader resourceLoader;
+    @Autowired
+    private ResourceLoader resourceLoader;
 
-    private final JvLinkBatchProperties properties;
+    @Autowired
+    private JvLinkBatchProperties properties;
 
     private String readerName;
 

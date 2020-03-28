@@ -23,6 +23,12 @@ import org.uma.cloud.common.model.RaceRefund;
 import org.uma.cloud.common.model.RacingDetails;
 import org.uma.cloud.common.model.Trainer;
 import org.uma.cloud.common.model.VoteCount;
+import org.uma.cloud.common.model.odds.Exacta;
+import org.uma.cloud.common.model.odds.Quinella;
+import org.uma.cloud.common.model.odds.QuinellaPlace;
+import org.uma.cloud.common.model.odds.Trifecta;
+import org.uma.cloud.common.model.odds.Trio;
+import org.uma.cloud.common.model.odds.WinsPlaceBracketQuinella;
 
 import java.util.function.Function;
 
@@ -118,6 +124,43 @@ public class JvLinkProcessors {
                 .andThen(jvLinkFunction::voteCountFunction));
     }
 
+    @Bean
+    public ItemProcessor<String, WinsPlaceBracketQuinella> winsPlaceBracketQuinellaItemProcessor() {
+        return new JvLinkFunctionItemProcessor<>(jvLinkFunction.decode()
+                .andThen(jvLinkFunction::winsPlaceBracketQuinellaFunction));
+    }
+
+    @Bean
+    public ItemProcessor<String, Quinella> quinellaItemProcessor() {
+        return new JvLinkFunctionItemProcessor<>(jvLinkFunction.decode()
+                .andThen(jvLinkFunction::quinellaFunction));
+    }
+
+    @Bean
+    public ItemProcessor<String, QuinellaPlace> quinellaPlaceItemProcessor() {
+        return new JvLinkFunctionItemProcessor<>(jvLinkFunction.decode()
+                .andThen(jvLinkFunction::quinellaPlaceFunction));
+    }
+
+    @Bean
+    public ItemProcessor<String, Exacta> exactaItemProcessor() {
+        return new JvLinkFunctionItemProcessor<>(jvLinkFunction.decode()
+                .andThen(jvLinkFunction::exactaFunction));
+    }
+
+    @Bean
+    public ItemProcessor<String, Trio> trioItemProcessor() {
+        return new JvLinkFunctionItemProcessor<>(jvLinkFunction.decode()
+                .andThen(jvLinkFunction::trioFunction));
+    }
+
+    @Bean
+    public ItemProcessor<String, Trifecta> trifectaItemProcessor() {
+        return new JvLinkFunctionItemProcessor<>(jvLinkFunction.decode()
+                .andThen(jvLinkFunction::trifectaFunction));
+    }
+
+
     @Slf4j
     public static class JvLinkFunctionItemProcessor<I, O extends BaseModel> implements ItemProcessor<I, O> {
 
@@ -134,6 +177,7 @@ public class JvLinkProcessors {
         /**
          * @param item シリアライズ文字列データ
          * @return nullの場合、writerで書き込まれない。
+         * <p>
          * 不要なデータをここでフィルターする。
          * @throws Exception
          */

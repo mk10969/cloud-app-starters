@@ -19,25 +19,26 @@ class JvLinkProcessorsTest {
                 .sorted()
                 .forEach(i -> System.out.println(create(i)));
     }
-
+    
     @Test
-    void test111() {
-        String className = "AccRooo";
-        String aaa = Character.toLowerCase(className.charAt(0)) + className.substring(1);
-        System.out.println(aaa);
+    void test_odds() {
+        Set<Class<?>> modelClazz = getClassesFrom("org.uma.cloud.common.model.odds");
+        modelClazz.stream()
+                .map(Class::getSimpleName)
+                .sorted()
+                .forEach(i -> System.out.println(create(i)));
     }
+
 
     private String create(String className) {
-        return String.format("    @Bean\n" +
+        return String.format(
+                "    @Bean\n" +
                         "    public ItemProcessor<String, %1$s> %2$sItemProcessor() {\n" +
-                        "        return data -> jvLinkFunction.decode()\n" +
-                        "                .andThen(jvLinkFunction::%2$sFunction)\n" +
-                        "                .apply(data);\n" +
-                        "    }"
-
+                        "        return new JvLinkFunctionItemProcessor<>(jvLinkFunction.decode()\n" +
+                        "                .andThen(jvLinkFunction::%2$sFunction));\n" +
+                        "    }\n"
                 , className, Character.toLowerCase(className.charAt(0)) + className.substring(1));
     }
-
 
     public static Set<Class<?>> getClassesFrom(String packagee) {
         ClassLoader loader = Thread.currentThread().getContextClassLoader();
@@ -45,12 +46,19 @@ class JvLinkProcessorsTest {
             return ClassPath.from(loader)
                     .getTopLevelClasses(packagee)
                     .stream()
-                    .map(info -> info.load())
+                    .map(ClassPath.ClassInfo::load)
                     .collect(Collectors.toSet());
         } catch (IOException e) {
             e.printStackTrace();
             return Collections.emptySet();
         }
+    }
+
+    @Test
+    void test111() {
+        String className = "AccRooo";
+        String aaa = Character.toLowerCase(className.charAt(0)) + className.substring(1);
+        System.out.println(aaa);
     }
 
 }

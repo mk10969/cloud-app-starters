@@ -20,13 +20,19 @@ import org.uma.cloud.common.model.RaceRefund;
 import org.uma.cloud.common.model.RacingDetails;
 import org.uma.cloud.common.model.Trainer;
 import org.uma.cloud.common.model.VoteCount;
+import org.uma.cloud.common.model.odds.Exacta;
+import org.uma.cloud.common.model.odds.Quinella;
+import org.uma.cloud.common.model.odds.QuinellaPlace;
+import org.uma.cloud.common.model.odds.Trifecta;
+import org.uma.cloud.common.model.odds.Trio;
+import org.uma.cloud.common.model.odds.WinsPlaceBracketQuinella;
 
 import javax.persistence.EntityManagerFactory;
 
 @Profile("prod")
 @Configuration
 public class JvLinkWriters {
-    
+
     @Autowired
     public EntityManagerFactory entityManagerFactory;
 
@@ -112,6 +118,43 @@ public class JvLinkWriters {
     @Bean
     public ItemWriter<VoteCount> voteCountItemWriter() {
         return new JpaItemWriterBuilder<VoteCount>()
+                .entityManagerFactory(entityManagerFactory).build();
+    }
+
+    @Bean
+    public ItemWriter<WinsPlaceBracketQuinella> winsPlaceBracketQuinellaItemWriter() {
+        return new JpaItemWriterBuilder<WinsPlaceBracketQuinella>()
+                .entityManagerFactory(entityManagerFactory).build();
+    }
+
+    @Bean
+    public ItemWriter<Quinella> quinellaItemWriter() {
+        return new JpaItemWriterBuilder<Quinella>()
+                .entityManagerFactory(entityManagerFactory).build();
+    }
+
+    @Bean
+    public ItemWriter<QuinellaPlace> quinellaPlaceItemWriter() {
+        return new JpaItemWriterBuilder<QuinellaPlace>()
+                .entityManagerFactory(entityManagerFactory).build();
+    }
+
+    @Bean
+    public ItemWriter<Exacta> exactaItemWriter() {
+        return new JpaItemWriterBuilder<Exacta>()
+                .entityManagerFactory(entityManagerFactory).build();
+    }
+
+
+    @Bean
+    public ItemWriter<Trio> trioItemWriter() {
+        return new JpaItemWriterBuilder<Trio>()
+                .entityManagerFactory(entityManagerFactory).build();
+    }
+
+    @Bean
+    public ItemWriter<Trifecta> trifectaItemWriter() {
+        return new JpaItemWriterBuilder<Trifecta>()
                 .entityManagerFactory(entityManagerFactory).build();
     }
 
