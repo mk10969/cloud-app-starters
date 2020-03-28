@@ -24,7 +24,7 @@ import java.util.List;
  */
 @Getter
 @Entity
-@Table
+@Table(name = "odds_trifecta")
 public class Trifecta extends BaseModel {
 
     /**

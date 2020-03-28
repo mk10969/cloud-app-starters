@@ -22,7 +22,7 @@ import java.time.LocalDate;
 @Getter
 @Entity
 @IdClass(RaceHorseExclusion.RaceHorseExclusionId.class)
-@Table
+@Table(name = "uma_race_horse_exclusion")
 public class RaceHorseExclusion extends BaseModel {
 
     /**

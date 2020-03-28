@@ -22,7 +22,7 @@ import java.util.List;
  */
 @Getter
 @Entity
-@Table
+@Table(name = "odds_wins_place_bracket_quinella")
 public class WinsPlaceBracketQuinella extends BaseModel {
 
     /**

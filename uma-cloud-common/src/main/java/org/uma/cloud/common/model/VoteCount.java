@@ -22,7 +22,7 @@ import java.util.List;
  */
 @Getter
 @Entity
-@Table
+@Table(name = "uma_vote_count")
 public class VoteCount extends BaseModel {
 
     /**

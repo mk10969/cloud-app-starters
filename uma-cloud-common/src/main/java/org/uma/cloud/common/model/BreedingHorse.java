@@ -18,7 +18,7 @@ import javax.persistence.Table;
  */
 @Getter
 @Entity
-@Table
+@Table(name = "uma_breeding_horse")
 public class BreedingHorse extends BaseModel {
 
     /**

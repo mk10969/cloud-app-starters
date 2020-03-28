@@ -33,7 +33,7 @@ import java.util.List;
 @Getter
 @Entity
 @IdClass(HorseRacingDetails.HorseRacingDetailsId.class)
-@Table
+@Table(name = "uma_horse_racing_details")
 public class HorseRacingDetails extends BaseModel {
 
     /**

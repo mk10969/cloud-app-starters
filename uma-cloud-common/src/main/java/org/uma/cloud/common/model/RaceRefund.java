@@ -21,7 +21,7 @@ import java.util.List;
  */
 @Getter
 @Entity
-@Table
+@Table(name = "uma_race_refund")
 public class RaceRefund extends BaseModel {
 
     /**

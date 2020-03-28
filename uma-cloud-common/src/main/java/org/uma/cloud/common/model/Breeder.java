@@ -13,7 +13,7 @@ import javax.persistence.Table;
  */
 @Getter
 @Entity
-@Table
+@Table(name = "uma_breeder")
 public class Breeder extends BaseModel {
 
     /**

@@ -27,7 +27,7 @@ import java.util.List;
  */
 @Getter
 @Entity
-@Table
+@Table(name = "uma_racing_details")
 public class RacingDetails extends BaseModel {
 
     /**

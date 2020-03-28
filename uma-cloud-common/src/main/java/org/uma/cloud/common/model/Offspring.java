@@ -21,7 +21,7 @@ import java.util.List;
  */
 @Getter
 @Entity
-@Table
+@Table(name = "uma_offspring")
 public class Offspring extends BaseModel {
 
     /**

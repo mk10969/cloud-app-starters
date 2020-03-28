@@ -19,7 +19,7 @@ import java.time.LocalDate;
  */
 @Getter
 @Entity
-@Table
+@Table(name = "uma_jockey")
 public class Jockey extends BaseModel {
 
     /**
