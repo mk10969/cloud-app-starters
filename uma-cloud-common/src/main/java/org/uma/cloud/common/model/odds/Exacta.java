@@ -37,6 +37,7 @@ public class Exacta extends BaseModel {
 
     private LocalDate holdingDate;
 
+    @Column(length = 20)
     @Enumerated(EnumType.STRING)
     private RaceCourseCode courseCd;
 

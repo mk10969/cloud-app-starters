@@ -48,6 +48,7 @@ public class Trainer extends BaseModel {
 
     private Integer trainerSex;
 
+    @Column(length = 20)
     @Enumerated(EnumType.STRING)
     private EastOrWestBelongCode ewBelongCd;
 

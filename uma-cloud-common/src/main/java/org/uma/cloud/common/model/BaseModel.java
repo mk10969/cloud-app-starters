@@ -27,6 +27,7 @@ public class BaseModel implements Serializable {
     /**
      * レコード識別子
      */
+    @Column(length = 20)
     @Enumerated(EnumType.STRING)
     private RecordSpec recordType;
 

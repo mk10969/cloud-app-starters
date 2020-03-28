@@ -41,6 +41,7 @@ public class RacingDetails extends BaseModel {
 
     private LocalDate holdingDate;
 
+    @Column(length = 20)
     @Enumerated(EnumType.STRING)
     private RaceCourseCode courseCd;
 
@@ -50,6 +51,7 @@ public class RacingDetails extends BaseModel {
 
     private Integer raceNo;
 
+    @Column(length = 20)
     @Enumerated(EnumType.STRING)
     private WeekDayCode weekDayCd;
 
@@ -86,18 +88,23 @@ public class RacingDetails extends BaseModel {
 
     private Integer gradeTimes;
 
+    @Column(length = 20)
     @Enumerated(EnumType.STRING)
     private RaceGradeCode gradeCd;
 
+    @Column(length = 20)
     @Enumerated(EnumType.STRING)
     private RaceGradeCode gradeCdBefore;
 
+    @Column(length = 20)
     @Enumerated(EnumType.STRING)
     private RaceTypeCode raceTypeCd;
 
+    @Column(length = 20)
     @Enumerated(EnumType.STRING)
     private RaceSignCode raceSignCd;
 
+    @Column(length = 20)
     @Enumerated(EnumType.STRING)
     private WeightTypeCode weightTypeCd;
 
@@ -124,9 +131,11 @@ public class RacingDetails extends BaseModel {
     @Column(length = 4)
     private String distanceBefore;
 
+    @Column(length = 20)
     @Enumerated(EnumType.STRING)
     private TrackCode trackCd;
 
+    @Column(length = 20)
     @Enumerated(EnumType.STRING)
     private TrackCode trackCdBefore;
 
@@ -164,12 +173,15 @@ public class RacingDetails extends BaseModel {
 
     private Integer finishedCount;
 
+    @Column(length = 20)
     @Enumerated(EnumType.STRING)
     private WeatherCode weatherCd;
 
+    @Column(length = 20)
     @Enumerated(EnumType.STRING)
     private TurfOrDirtConditionCode turfConditionCd;
 
+    @Column(length = 20)
     @Enumerated(EnumType.STRING)
     private TurfOrDirtConditionCode dirtConditionCd;
 

@@ -50,12 +50,15 @@ public class BreedingHorse extends BaseModel {
 
     private Integer birthYear;
 
+    @Column(length = 20)
     @Enumerated(EnumType.STRING)
     private SexCode sexCd;
 
+    @Column(length = 20)
     @Enumerated(EnumType.STRING)
     private BreedCode breedCd;
 
+    @Column(length = 20)
     @Enumerated(EnumType.STRING)
     private HairColorCode hairColorCd;
 

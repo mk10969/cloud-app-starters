@@ -45,6 +45,7 @@ public class HorseRacingDetails extends BaseModel {
 
     private LocalDate holdingDate;
 
+    @Column(length = 20)
     @Enumerated(EnumType.STRING)
     private RaceCourseCode courseCd;
 
@@ -69,21 +70,26 @@ public class HorseRacingDetails extends BaseModel {
     @Column(length = 36)
     private String horseName;
 
+    @Column(length = 20)
     @Enumerated(EnumType.STRING)
     private HorseSignCode horseSignCd;
 
+    @Column(length = 20)
     @Enumerated(EnumType.STRING)
     private SexCode sexCd;
 
+    @Column(length = 20)
     @Enumerated(EnumType.STRING)
     private BreedCode bredCd;
 
+    @Column(length = 20)
     @Enumerated(EnumType.STRING)
     private HairColorCode hairColorCd;
 
     private Integer age;
 
     // 競走馬の東西
+    @Column(length = 20)
     @Enumerated(EnumType.STRING)
     private EastOrWestBelongCode ewBelongCd;
 
@@ -123,9 +129,11 @@ public class HorseRacingDetails extends BaseModel {
     @Column(length = 8)
     private String jockeyNameShortBefore;
 
+    @Column(length = 20)
     @Enumerated(EnumType.STRING)
     private JockeyApprenticeCode jockeyApprenticeCd;
 
+    @Column(length = 20)
     @Enumerated(EnumType.STRING)
     private JockeyApprenticeCode jockeyApprenticeCdBefore;
 
@@ -136,6 +144,7 @@ public class HorseRacingDetails extends BaseModel {
 
     private Integer changeAmount;
 
+    @Column(length = 20)
     @Enumerated(EnumType.STRING)
     private AbnormalDivisionCode abnormalDivCd;
 
@@ -149,12 +158,15 @@ public class HorseRacingDetails extends BaseModel {
 
     private LocalTime runningTime;
 
+    @Column(length = 20)
     @Enumerated(EnumType.STRING)
     private MarginCode marginCd;
 
+    @Column(length = 20)
     @Enumerated(EnumType.STRING)
     private MarginCode marginCd2;
 
+    @Column(length = 20)
     @Enumerated(EnumType.STRING)
     private MarginCode marginCd3;
 
@@ -210,6 +222,7 @@ public class HorseRacingDetails extends BaseModel {
          * {@link Offspring.bloodlineNo}
          */
         private Long bloodlineNo;
+
         private String horseName;
     }
 

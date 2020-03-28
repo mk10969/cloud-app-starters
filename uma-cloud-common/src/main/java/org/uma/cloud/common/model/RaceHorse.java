@@ -54,15 +54,19 @@ public class RaceHorse extends BaseModel {
     @Column(length = 19)
     private String spare1;
 
+    @Column(length = 20)
     @Enumerated(EnumType.STRING)
     private HorseSignCode horseSignCd;
 
+    @Column(length = 20)
     @Enumerated(EnumType.STRING)
     private SexCode sexCd;
 
+    @Column(length = 20)
     @Enumerated(EnumType.STRING)
     private BreedCode breedCd;
 
+    @Column(length = 20)
     @Enumerated(EnumType.STRING)
     private HairColorCode hairColorCd;
 
@@ -75,6 +79,7 @@ public class RaceHorse extends BaseModel {
     @Column(columnDefinition = "jsonb")
     private List<Breeding> breeding3rd;
 
+    @Column(length = 20)
     @Enumerated(EnumType.STRING)
     private EastOrWestBelongCode ewBelongCd;
 
@@ -119,6 +124,7 @@ public class RaceHorse extends BaseModel {
          * {@link BreedingHorse.breedingNo}
          */
         private Integer breedingNo;
+
         private String horseName;
 
     }

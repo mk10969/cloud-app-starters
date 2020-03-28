@@ -29,6 +29,7 @@ public class Course extends BaseModel {
      * コースコード
      */
     @Id
+    @Column(length = 20)
     @Enumerated(EnumType.STRING)
     private RaceCourseCode courseCd;
 
@@ -36,6 +37,7 @@ public class Course extends BaseModel {
     private Integer distance;
 
     @Id
+    @Column(length = 20)
     @Enumerated(EnumType.STRING)
     private TrackCode trackCd;
 
@@ -49,11 +51,13 @@ public class Course extends BaseModel {
     @Data
     public static class CourseId implements Serializable {
 
+        @Column(length = 20)
         @Enumerated(EnumType.STRING)
         private RaceCourseCode courseCd;
 
         private Integer distance;
 
+        @Column(length = 20)
         @Enumerated(EnumType.STRING)
         private TrackCode trackCd;
 

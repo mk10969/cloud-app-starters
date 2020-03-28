@@ -53,12 +53,15 @@ public class Jockey extends BaseModel {
 
     private Integer jockeySex;
 
+    @Column(length = 20)
     @Enumerated(EnumType.STRING)
     private JockeyLicenseCode jockeyLicenseCd;
 
+    @Column(length = 20)
     @Enumerated(EnumType.STRING)
     private JockeyApprenticeCode jockeyApprenticeCd;
 
+    @Column(length = 20)
     @Enumerated(EnumType.STRING)
     private EastOrWestBelongCode ewBelongCd;
 
