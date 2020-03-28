@@ -25,8 +25,11 @@ public class Trainer extends BaseModel {
     private Integer trainerCd;
 
     private Boolean isTrainerErase;
+
     private LocalDate trainerLicenseIssueDate;
+
     private LocalDate trainerLicenseEraseDate;
+
     private LocalDate birthDate;
 
     @Column(length = 34)
@@ -42,6 +45,7 @@ public class Trainer extends BaseModel {
     private String trainerNameEng;
 
     private Integer trainerSex;
+
     private EastOrWestBelongCode ewBelongCd;
 
     @Column(length = 20)

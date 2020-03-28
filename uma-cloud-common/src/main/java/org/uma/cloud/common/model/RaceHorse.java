@@ -31,8 +31,11 @@ public class RaceHorse extends BaseModel {
     private Long bloodlineNo;
 
     private Boolean isRaceHorseErase;
+
     private LocalDate raceHorseEntryDate;
+
     private LocalDate raceHorseEraseDate;
+
     private LocalDate birthDate;
 
     @Column(length = 36)
@@ -50,8 +53,11 @@ public class RaceHorse extends BaseModel {
     private String spare1;
 
     private HorseSignCode horseSignCd;
+
     private SexCode sexCd;
+
     private BreedCode breedCd;
+
     private HairColorCode hairColorCd;
 
     /**
@@ -62,6 +68,7 @@ public class RaceHorse extends BaseModel {
     @Type(type = "jsonb")
     @Column(columnDefinition = "jsonb")
     private List<Breeding> breeding3rd;
+
     private EastOrWestBelongCode ewBelongCd;
 
     private Integer trainerCd;
@@ -86,10 +93,15 @@ public class RaceHorse extends BaseModel {
     private String ownerNameWithoutCorp;
 
     private Integer addedMoneyTotalFlat;
+
     private Integer addedMoneyTotalJump;
+
     private Integer stakesMoneyTotalFlat;
+
     private Integer stakesMoneyTotalJump;
+
     private Integer allMoneyTotalFlat;
+
     private Integer allMoneyTotalJump;
 
 

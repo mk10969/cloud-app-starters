@@ -31,9 +31,13 @@ public class RaceHorseExclusion extends BaseModel {
     private String raceId;
 
     private LocalDate holdingDate;
+
     private RaceCourseCode courseCd;
+
     private Integer holdingNo;
+
     private Integer holdingDay;
+
     private Integer raceNo;
 
     /**

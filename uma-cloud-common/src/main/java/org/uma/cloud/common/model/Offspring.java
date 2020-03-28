@@ -31,11 +31,17 @@ public class Offspring extends BaseModel {
     private Long bloodlineNo;
 
     private LocalDate birthDate;
+
     private SexCode sexCd;
+
     private BreedCode breedCd;
+
     private HairColorCode hairColorCd;
+
     private Integer sonBringingDiv;
+
     private Integer importYear;
+
     private Integer breederCd;
 
     @Column(length = 20)

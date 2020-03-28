@@ -30,47 +30,76 @@ public class RaceRefund extends BaseModel {
     private String raceId;
 
     private LocalDate holdingDate;
+
     private RaceCourseCode courseCd;
+
     private Integer holdingNo;
+
     private Integer holdingDay;
+
     private Integer raceNo;
+
     private Integer entryCount;
+
     private Integer starterCount;
 
     private Integer failureFlagWin;
+
     private Integer failureFlagPlace;
+
     private Integer failureFlagBracketQuinella;
+
     private Integer failureFlagQuinella;
+
     private Integer failureFlagQuinellaPlace;
+
     @Column(length = 1)
     private String spare1;
+
     private Integer failureFlagExacta;
+
     private Integer failureFlagTrio;
+
     private Integer failureFlagTrifecta;
 
     private Integer specialRefundFlagWin;
+
     private Integer specialRefundFlagPlace;
+
     private Integer specialRefundFlagBracketQuinella;
+
     private Integer specialRefundFlagQuinella;
+
     private Integer specialRefundFlagQuinellaPlace;
+
     @Column(length = 1)
     private String spare2;
+
     private Integer specialRefundFlagExacta;
+
     private Integer specialRefundFlagTrio;
+
     private Integer specialRefundFlagTrifecta;
 
     private Integer restoreFlagWin;
+
     private Integer restoreFlagPlace;
+
     private Integer restoreFlagBracketQuinella;
+
     private Integer restoreFlagQuinella;
+
     private Integer restoreFlagQuinellaPlace;
+
     @Column(length = 1)
     private String spare3;
+
     private Integer restoreFlagExacta;
+
     private Integer restoreFlagTrio;
+
     private Integer restoreFlagTrifecta;
 
-    // ここは特殊
     @Type(type = "list")
     @Column(columnDefinition = "integer[]")
     private List<Integer> restoreHorseNoItems;
@@ -185,6 +214,5 @@ public class RaceRefund extends BaseModel {
          */
         private Integer betRank;
     }
-
 
 }

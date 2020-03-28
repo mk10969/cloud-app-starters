@@ -31,19 +31,33 @@ public class VoteCount extends BaseModel {
     private String raceId;
 
     private LocalDate holdingDate;
+
     private RaceCourseCode courseCd;
+
     private Integer holdingNo;
+
     private Integer holdingDay;
+
     private Integer raceNo;
+
     private Integer entryCount;
+
     private Integer starterCount;
+
     private Integer saleFlagWin;
+
     private Integer saleFlagPlace;
+
     private Integer saleFlagBracketQuinella;
+
     private Integer saleFlagQuinella;
+
     private Integer saleFlagQuinellaPlace;
+
     private Integer saleFlagExacta;
+
     private Integer saleFlagTrio;
+
     private Integer placeCashKey;
 
     // 返還
@@ -90,26 +104,32 @@ public class VoteCount extends BaseModel {
     @Column(columnDefinition = "jsonb")
     private List<VoteTriplet> voteCountTrios;
 
-    /**
-     * 初期値スペース => null に変換される。
-     */
     private Long voteCountTotalWin;
+
     private Long voteCountTotalPlace;
+
     private Long voteCountTotalBracketQuinella;
+
     private Long voteCountTotalQuinella;
+
     private Long voteCountTotalQuinellaPlace;
+
     private Long voteCountTotalExacta;
+
     private Long voteCountTotalTrio;
 
-    /**
-     * 初期値スペース => null に変換される。
-     */
     private Long restoreVoteCountTotalWin;
+
     private Long restoreVoteCountTotalPlace;
+
     private Long restoreVoteCountTotalBracketQuinella;
+
     private Long restoreVoteCountTotalQuinella;
+
     private Long restoreVoteCountTotalQuinellaPlace;
+
     private Long restoreVoteCountTotalExacta;
+
     private Long restoreVoteCountTotalTrio;
 
 

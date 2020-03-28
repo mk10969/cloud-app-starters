@@ -179,9 +179,13 @@ public class RacingDetails extends BaseModel {
 
     @Getter
     public static class CornerPassageRank {
+
         private Integer corner;
+
         private Integer aroundCount;
+
         private String passageRank;
+
     }
 
 }

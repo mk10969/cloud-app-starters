@@ -27,8 +27,11 @@ public class Jockey extends BaseModel {
     private Integer jockeyCd;
 
     private Boolean isJockeyErase;
+
     private LocalDate jockeyLicenseIssueDate;
+
     private LocalDate jockeyLicenseEraseDate;
+
     private LocalDate birthDate;
 
     @Column(length = 34)
@@ -47,8 +50,11 @@ public class Jockey extends BaseModel {
     private String jockeyNameEng;
 
     private Integer jockeySex;
+
     private JockeyLicenseCode jockeyLicenseCd;
+
     private JockeyApprenticeCode jockeyApprenticeCd;
+
     private EastOrWestBelongCode ewBelongCd;
 
     @Column(length = 20)
