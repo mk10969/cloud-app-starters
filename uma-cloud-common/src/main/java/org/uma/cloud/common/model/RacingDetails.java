@@ -55,22 +55,31 @@ public class RacingDetails extends BaseModel {
 
     private Integer specialRaceNo;
 
+    @Column(length = 60)
     private String raceNameFull;
 
+    @Column(length = 60)
     private String raceNameSub;
 
+    @Column(length = 60)
     private String raceNameNote;
 
+    @Column(length = 120)
     private String raceNameFullEng;
 
+    @Column(length = 120)
     private String raceNameSubEng;
 
+    @Column(length = 120)
     private String raceNameNoteEng;
 
+    @Column(length = 20)
     private String raceNameShortChar10;
 
+    @Column(length = 12)
     private String raceNameShortChar6;
 
+    @Column(length = 6)
     private String raceNameShortChar3;
 
     private Integer raceNameDiv;
@@ -106,10 +115,13 @@ public class RacingDetails extends BaseModel {
 
     private Integer raceConditionCdYoungest;
 
+    @Column(length = 60)
     private String raceConditionName;
 
+    @Column(length = 4)
     private String distance;
 
+    @Column(length = 4)
     private String distanceBefore;
 
     @Enumerated(EnumType.STRING)
@@ -118,8 +130,10 @@ public class RacingDetails extends BaseModel {
     @Enumerated(EnumType.STRING)
     private TrackCode trackCdBefore;
 
+    @Column(length = 2)
     private String courseDiv;
 
+    @Column(length = 2)
     private String courseDivBefore;
 
     @Type(type = "list")
@@ -138,15 +152,17 @@ public class RacingDetails extends BaseModel {
     @Column(columnDefinition = "integer[]")
     private List<Integer> stakesMoneyBeforeItems;
 
-    private String startTime;
+    // 時間だけど、Integer
+    private Integer startTime;
 
-    private String startTimeBefore;
+    // 時間だけど、Integer
+    private Integer startTimeBefore;
 
-    private String entryCount;
+    private Integer entryCount;
 
-    private String starterCount;
+    private Integer starterCount;
 
-    private String finishedCount;
+    private Integer finishedCount;
 
     @Enumerated(EnumType.STRING)
     private WeatherCode weatherCd;
@@ -175,6 +191,7 @@ public class RacingDetails extends BaseModel {
     @Column(columnDefinition = "jsonb")
     private List<CornerPassageRank> cornerPassageRanks;
 
+    @Column(length = 1)
     private String recordUpdateDiv;
 
     @Getter
