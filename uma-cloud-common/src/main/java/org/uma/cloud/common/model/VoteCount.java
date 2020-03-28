@@ -122,8 +122,8 @@ public class VoteCount extends BaseModel {
         private String horseNo;
 
         /**
-         * ALL 0   :発売前取消し or 発売票数なし => 0 に変換される。←だぶん
-         * スペース :登録なし                   => null に変換される。←Longだけこうなる。Integerはエラー
+         * ALL 0   :発売前取消し or 発売票数なし => 0 に変換される。
+         * スペース :登録なし                   => null に変換される。
          */
         private Long voteCount;
 
@@ -144,8 +144,8 @@ public class VoteCount extends BaseModel {
         private Pair<String, String> pairNo;
 
         /**
-         * ALL 0   :発売前取消し or 発売票数なし => 0 に変換される。←だぶん
-         * スペース :登録なし                   => null に変換される。←Longだけこうなる。Integerはエラー
+         * ALL 0   :発売前取消し or 発売票数なし => 0 に変換される。
+         * スペース :登録なし                   => null に変換される。
          */
         private Long voteCount;
 
@@ -166,8 +166,8 @@ public class VoteCount extends BaseModel {
         private Triplet<String, String, String> tripletNo;
 
         /**
-         * ALL 0   :発売前取消し or 発売票数なし => 0 に変換される。←だぶん
-         * スペース :登録なし                   => null に変換される。←Longだけこうなる。Integerはエラー
+         * ALL 0   :発売前取消し or 発売票数なし => 0 に変換される。
+         * スペース :登録なし                   => null に変換される。
          */
         private Long voteCount;
 

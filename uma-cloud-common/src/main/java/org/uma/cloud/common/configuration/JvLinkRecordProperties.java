@@ -1,4 +1,4 @@
-package org.uma.cloud.common.component;
+package org.uma.cloud.common.configuration;
 
 import lombok.Data;
 import lombok.Getter;
@@ -10,7 +10,6 @@ import org.springframework.context.annotation.PropertySource;
 
 import java.util.ArrayList;
 import java.util.List;
-
 
 @Configuration
 @PropertySource(value = "classpath:JvLinkRecord.properties")

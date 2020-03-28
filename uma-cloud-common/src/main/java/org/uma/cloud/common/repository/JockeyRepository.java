@@ -1,10 +1,7 @@
-package org.uma.cloud.batch.repository;
+package org.uma.cloud.common.repository;
 
-import org.springframework.data.repository.CrudRepository;
-import org.springframework.stereotype.Repository;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.uma.cloud.common.model.Jockey;
 
-
-@Repository
-public interface JockeyRepository extends CrudRepository<Jockey, Integer> {
+public interface JockeyRepository extends JpaRepository<Jockey, Integer> {
 }

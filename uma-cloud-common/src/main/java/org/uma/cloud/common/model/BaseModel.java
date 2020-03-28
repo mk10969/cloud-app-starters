@@ -8,6 +8,7 @@ import org.hibernate.annotations.TypeDefs;
 import org.uma.cloud.common.recordSpec.RecordSpec;
 import org.uma.cloud.common.utils.lang.ModelUtil;
 
+import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -29,6 +30,7 @@ public class BaseModel implements Serializable {
     /**
      * データ区分
      */
+    @Column(length = 1)
     private String dataDiv;
 
     /**

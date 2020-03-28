@@ -19,6 +19,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.IdClass;
 import javax.persistence.Table;
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -41,10 +42,15 @@ public class HorseRacingDetails extends BaseModel {
     private String raceId;
 
     private LocalDate holdingDate;
+
     private RaceCourseCode courseCd;
+
     private Integer holdingNo;
+
     private Integer holdingDay;
+
     private Integer raceNo;
+
     private Integer bracketNo;
 
     @Id
@@ -61,12 +67,18 @@ public class HorseRacingDetails extends BaseModel {
     private String horseName;
 
     private HorseSignCode horseSignCd;
+
     private SexCode sexCd;
+
     private BreedCode bredCd;
+
     private HairColorCode hairColorCd;
+
     private Integer age;
+
     // 競走馬の東西
     private EastOrWestBelongCode ewBelongCd;
+
     private Integer trainerCd;
 
     @Column(length = 8)
@@ -85,7 +97,9 @@ public class HorseRacingDetails extends BaseModel {
 
     // 負担重量 0.1kg
     private Double loadWeight;
+
     private Integer loadWeightBefore;
+
     private Boolean isBlinker;
 
     @Column(length = 1)
@@ -102,28 +116,48 @@ public class HorseRacingDetails extends BaseModel {
     private String jockeyNameShortBefore;
 
     private JockeyApprenticeCode jockeyApprenticeCd;
+
     private JockeyApprenticeCode jockeyApprenticeCdBefore;
+
     private Integer horseWeight;
 
     @Column(length = 1)
     private String changeSign;
+
     private Integer changeAmount;
+
     private AbnormalDivisionCode abnormalDivCd;
+
     private Integer finishedArrivalOrder;
+
     private Integer fixedArrivalOrder;
+
     private Integer deadHeadDiv;
+
     private Integer deadHeadCount;
+
     private LocalTime runningTime;
+
     private MarginCode marginCd;
+
     private MarginCode marginCd2;
+
     private MarginCode marginCd3;
+
     private Integer rankCorner1;
+
     private Integer rankCorner2;
+
     private Integer rankCorner3;
+
     private Integer rankCorner4;
+
     private BigDecimal oddsWin;
+
     private Integer betRankWin;
+
     private Integer acquirementAddedMoney;
+
     private Integer acquirementStakesMoney;
 
     @Column(length = 3)
@@ -133,6 +167,7 @@ public class HorseRacingDetails extends BaseModel {
     private String spare5;
 
     private Double lastFurlong4;
+
     private Double lastFurlong3;
 
     @Type(type = "jsonb")
@@ -142,6 +177,7 @@ public class HorseRacingDetails extends BaseModel {
     // タイム差 +999 or -001 or 9999
     @Column(length = 4)
     private String timeMargin;
+
     private Integer recordUpdateDiv;
 
 //    private Integer miningDiv;
@@ -164,7 +200,7 @@ public class HorseRacingDetails extends BaseModel {
     }
 
     @Data
-    static class HorseRacingDetailsId {
+    public static class HorseRacingDetailsId implements Serializable {
 
         private String raceId;
 

@@ -4,14 +4,12 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.uma.cloud.common.BaseSpringBootTest;
+import org.uma.cloud.common.configuration.JvLinkRecordProperties;
 import org.uma.cloud.common.model.RacingDetails;
-import org.uma.cloud.common.component.JvLinkRecordProperties;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -20,14 +18,17 @@ import java.nio.charset.CharacterCodingException;
 import java.nio.charset.Charset;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 import static java.nio.file.Files.readAllLines;
 
-
-@ExtendWith(SpringExtension.class)
-@SpringBootTest
-public class PreJvLInkModelMapperTest {
+public class PreJvLInkModelMapperTest extends BaseSpringBootTest {
 
     private static final String directory = "/Users/m-kakiuchi/myApp/UmaApplication/uma-feed-app/src/test/java/org/uma/platform/feed/application/repository/impl";
 

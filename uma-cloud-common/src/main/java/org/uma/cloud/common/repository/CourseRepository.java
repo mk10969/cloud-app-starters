@@ -1,11 +1,7 @@
-package org.uma.cloud.batch.repository;
+package org.uma.cloud.common.repository;
 
-import org.springframework.data.repository.CrudRepository;
-import org.springframework.stereotype.Repository;
-import org.uma.cloud.common.code.RaceCourseCode;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.uma.cloud.common.model.Course;
 
-
-@Repository
-public interface CourseRepository extends CrudRepository<Course, Course.CourseId> {
+public interface CourseRepository extends JpaRepository<Course, Course.CourseId> {
 }

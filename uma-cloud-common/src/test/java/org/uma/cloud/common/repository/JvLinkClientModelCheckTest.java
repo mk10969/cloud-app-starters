@@ -8,7 +8,7 @@
 //import org.springframework.test.context.junit.jupiter.SpringExtension;
 //import org.uma.cloud.common.ReflectionUtils;
 //import org.uma.cloud.common.recordSpec.RecordSpec;
-//import org.uma.cloud.common.component.JvLinkRecordProperties;
+//import org.uma.cloud.common.configuration.JvLinkRecordProperties;
 //
 //
 //import reactor.core.publisher.Flux;

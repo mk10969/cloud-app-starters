@@ -2,44 +2,49 @@ package org.uma.cloud.common.model;
 
 import com.google.common.base.CaseFormat;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.uma.cloud.common.BaseSpringBootTest;
 import org.uma.cloud.common.ReflectionUtils;
+import org.uma.cloud.common.configuration.JvLinkRecordProperties;
 import org.uma.cloud.common.utils.javatuples.Pair;
+import org.uma.cloud.common.utils.javatuples.Triplet;
 
+import java.util.Map;
 import java.util.stream.Stream;
 
 
-class CreateModelToSql {
+class CreateModelToSql extends BaseSpringBootTest {
 
-//    @Autowired
-//    private Map<String, JvLinkRecordProperties.RecordSpecItems> recordSpecs;
-//
-//
-//    @Test
-//    void test_モデルからCREATE_SQLを出力する() {
-//        ReflectionUtils.getClassesFrom("org.uma.cloud.common.model")
-//                .stream()
-//                .map(clazz -> Stream.of(clazz.getDeclaredFields())
-//                        .map(field -> {
-//                            Integer length = recordSpecs.get("RA").getRecordItems().stream()
-//                                    .filter(j -> j.getColumn().equals(field.getName()))
-//                                    .map(JvLinkRecordProperties.RecordSpecItems.RecordItem::getLength)
-//                                    .findFirst().orElse(null);
-//
-//                            String name = CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, field.getName());
-//                            Mapper mapper = Mapper.mapper(field.getGenericType().getTypeName());
-//                            return Triplet.with(name, mapper, length);
-//                        })
-//                        .map(triplet -> {
-//                            if (triplet.getValue2() == Mapper.String
-//                                    && !triplet.getValue2().toString().contains("(15)")) {
-//                                return "   " + triplet.getValue1() + "     " + triplet.getValue2().getType() + "(" + triplet.getValue3() + ")";
-//                            } else {
-//                                return "   " + triplet.getValue1() + "     " + triplet.getValue2().getType();
-//                            }
-//                        })
-//                        .reduce(clazz.getSimpleName(), (i, j) -> i + ",\n" + j))
-//                .forEach(System.out::println);
-//    }
+    @Autowired
+    private Map<String, JvLinkRecordProperties.RecordSpecItems> recordSpecs;
+
+
+    @Test
+    void test_モデルからCREATE_SQLを出力する() {
+        ReflectionUtils.getClassesFrom("org.uma.cloud.common.model")
+                .stream()
+                .map(clazz -> Stream.of(clazz.getDeclaredFields())
+                        .map(field -> {
+                            Integer length = recordSpecs.get("RA").getRecordItems().stream()
+                                    .filter(j -> j.getColumn().equals(field.getName()))
+                                    .map(JvLinkRecordProperties.RecordSpecItems.RecordItem::getLength)
+                                    .findFirst().orElse(null);
+
+                            String name = CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, field.getName());
+                            Mapper mapper = Mapper.mapper(field.getGenericType().getTypeName());
+                            return Triplet.with(name, mapper, length);
+                        })
+                        .map(triplet -> {
+                            if (triplet.getValue2() == Mapper.String
+                                    && !triplet.getValue2().toString().contains("(15)")) {
+                                return "   " + triplet.getValue1() + "     " + triplet.getValue2().getType() + "(" + triplet.getValue3() + ")";
+                            } else {
+                                return "   " + triplet.getValue1() + "     " + triplet.getValue2().getType();
+                            }
+                        })
+                        .reduce(clazz.getSimpleName(), (i, j) -> i + ",\n" + j))
+                .forEach(System.out::println);
+    }
 
     @Test
     void test_type_check() {
@@ -47,7 +52,7 @@ class CreateModelToSql {
                 .stream()
                 .flatMap(clazz -> Stream.of(clazz.getDeclaredFields())
                         .map(i -> Pair.with(i.getName(), i.getGenericType())))
-                .filter(pair -> pair.getValue2().getTypeName().contains("Float"))
+                .filter(pair -> pair.getValue2().getTypeName().contains("LocalTime"))
 //                .map(Type::getTypeName)
 //                .sorted()
 //                .distinct()

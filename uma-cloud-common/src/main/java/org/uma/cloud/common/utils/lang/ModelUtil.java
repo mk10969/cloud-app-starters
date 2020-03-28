@@ -2,7 +2,6 @@ package org.uma.cloud.common.utils.lang;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.wnameless.json.flattener.JsonFlattener;
 import com.google.common.collect.Lists;
 import org.uma.cloud.common.model.BaseModel;
@@ -16,8 +15,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-
-final public class ModelUtil {
+public class ModelUtil {
 
     private ModelUtil() {
     }
@@ -31,30 +29,19 @@ final public class ModelUtil {
      */
     private static final Charset SHIFT_JIS = Charset.forName("MS932");
 
-    /**
-     * Json library ==> Use Jackson
-     * 別インスタンスで作成する。
-     */
-    private static final ObjectMapper objectMapper = new ObjectMapper();
-
-
-    public static ObjectMapper getObjectMapper() {
-        return objectMapper;
-    }
 
     public static String toJson(Object object) {
         try {
-            return objectMapper.writeValueAsString(object);
+            return JacksonUtil.getObjectMapper().writeValueAsString(object);
         } catch (JsonProcessingException e) {
             throw new IllegalArgumentException(e);
         }
     }
 
-
     public static Map<String, Integer> jsonToMap(String json) {
         Objects.requireNonNull(json);
         try {
-            return objectMapper.readValue(json, new TypeReference<>() {
+            return JacksonUtil.getObjectMapper().readValue(json, new TypeReference<>() {
             });
         } catch (JsonProcessingException e) {
             throw new IllegalArgumentException(e);

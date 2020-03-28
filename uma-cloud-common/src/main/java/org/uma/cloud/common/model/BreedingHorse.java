@@ -47,10 +47,15 @@ public class BreedingHorse extends BaseModel {
     private String horseNameEng;
 
     private Integer birthYear;
+
     private SexCode sexCd;
+
     private BreedCode breedCd;
+
     private HairColorCode hairColorCd;
+
     private Integer breedingHorseBringingDiv;
+
     private Integer importYear;
 
     @Column(length = 20)

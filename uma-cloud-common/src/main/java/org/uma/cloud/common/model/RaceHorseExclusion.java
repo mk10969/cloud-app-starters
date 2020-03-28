@@ -9,7 +9,9 @@ import org.uma.cloud.common.recordSpec.RecordSpec;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.IdClass;
 import javax.persistence.Table;
+import java.io.Serializable;
 import java.time.LocalDate;
 
 /**
@@ -17,6 +19,7 @@ import java.time.LocalDate;
  */
 @Getter
 @Entity
+@IdClass(RaceHorseExclusion.RaceHorseExclusionId.class)
 @Table
 public class RaceHorseExclusion extends BaseModel {
 
@@ -65,7 +68,7 @@ public class RaceHorseExclusion extends BaseModel {
 
 
     @Data
-    static class RaceHorseExclusionId {
+    public static class RaceHorseExclusionId implements Serializable {
 
         private String raceId;
 

@@ -1,18 +1,36 @@
-package org.uma.cloud.common.component;
+package org.uma.cloud.common.configuration;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.uma.cloud.common.configuration.ObjectMapperConfiguration;
-import org.uma.cloud.common.configuration.JvLinkRecordProperties;
-import org.uma.cloud.common.configuration.RecordSpecEnumMap;
+import org.uma.cloud.common.model.Ancestry;
 import org.uma.cloud.common.model.BaseModel;
+import org.uma.cloud.common.model.Breeder;
+import org.uma.cloud.common.model.BreedingHorse;
+import org.uma.cloud.common.model.Course;
+import org.uma.cloud.common.model.HorseRacingDetails;
+import org.uma.cloud.common.model.Jockey;
+import org.uma.cloud.common.model.Offspring;
+import org.uma.cloud.common.model.Owner;
+import org.uma.cloud.common.model.RaceHorse;
+import org.uma.cloud.common.model.RaceHorseExclusion;
+import org.uma.cloud.common.model.RaceRefund;
+import org.uma.cloud.common.model.RacingDetails;
+import org.uma.cloud.common.model.Trainer;
+import org.uma.cloud.common.model.VoteCount;
+import org.uma.cloud.common.model.odds.Exacta;
+import org.uma.cloud.common.model.odds.Quinella;
+import org.uma.cloud.common.model.odds.QuinellaPlace;
+import org.uma.cloud.common.model.odds.Trifecta;
+import org.uma.cloud.common.model.odds.Trio;
+import org.uma.cloud.common.model.odds.WinsPlaceBracketQuinella;
 import org.uma.cloud.common.recordSpec.RecordSpec;
 import org.uma.cloud.common.utils.exception.JvLinkModelMappingException;
 import org.uma.cloud.common.utils.lang.ByteUtil;
+import org.uma.cloud.common.utils.lang.JacksonUtil;
 import org.uma.cloud.common.utils.lang.ModelUtil;
 
+import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.HashMap;
@@ -22,26 +40,44 @@ import java.util.Objects;
 
 
 @Component
-@RequiredArgsConstructor
 public class JvLinkModelMapper {
 
-    /**
-     * {@link ObjectMapperConfiguration#objectMapper}
-     */
-    @Qualifier("jvLinkParser")
-    private final ObjectMapper objectMapper;
+    private final ObjectMapper objectMapper = JacksonUtil.getObjectMapper();
 
-    /**
-     * {@link RecordSpecEnumMap#recordSpecPairEnumMap}
-     */
-    private final EnumMap<RecordSpec, Class<? extends BaseModel>> recordSpecClass;
+    @Autowired
+    private Map<String, JvLinkRecordProperties.RecordSpecItems> recordSpecItems;
 
-    /**
-     * 同一型のBeanをMap化
-     * {@link JvLinkRecordProperties}
-     */
-    private final Map<String, JvLinkRecordProperties.RecordSpecItems> recordSpecItems;
+    private EnumMap<RecordSpec, Class<? extends BaseModel>> recordSpecClass = new EnumMap<>(RecordSpec.class);
 
+
+    @PostConstruct
+    void init() {
+        // RACE
+        recordSpecClass.put(RecordSpec.RA, RacingDetails.class);
+        recordSpecClass.put(RecordSpec.SE, HorseRacingDetails.class);
+        recordSpecClass.put(RecordSpec.HR, RaceRefund.class);
+        recordSpecClass.put(RecordSpec.H1, VoteCount.class);
+        recordSpecClass.put(RecordSpec.JG, RaceHorseExclusion.class);
+        // ODDS
+        recordSpecClass.put(RecordSpec.O1, WinsPlaceBracketQuinella.class);
+        recordSpecClass.put(RecordSpec.O2, Quinella.class);
+        recordSpecClass.put(RecordSpec.O3, QuinellaPlace.class);
+        recordSpecClass.put(RecordSpec.O4, Exacta.class);
+        recordSpecClass.put(RecordSpec.O5, Trio.class);
+        recordSpecClass.put(RecordSpec.O6, Trifecta.class);
+        // BLOD
+        recordSpecClass.put(RecordSpec.SK, Offspring.class);
+        recordSpecClass.put(RecordSpec.BT, Ancestry.class);
+        recordSpecClass.put(RecordSpec.HN, BreedingHorse.class);
+        // DIFF
+        recordSpecClass.put(RecordSpec.UM, RaceHorse.class);
+        recordSpecClass.put(RecordSpec.KS, Jockey.class);
+        recordSpecClass.put(RecordSpec.CH, Trainer.class);
+        recordSpecClass.put(RecordSpec.BR, Breeder.class);
+        recordSpecClass.put(RecordSpec.BN, Owner.class);
+        // COMM
+        recordSpecClass.put(RecordSpec.CS, Course.class);
+    }
 
     /**
      * clazzから、RecordSpecを抽出し、flatMapをつかって、RecordSpecから、RecordSpecItemsを抽出する。
@@ -69,7 +105,7 @@ public class JvLinkModelMapper {
         findRecordProperty(clazz).getRecordItems().forEach(record -> {
             // 繰り返しあり。
             if (record.getRepeat() != 0) {
-                int start = record.getStart(); // 止むを得ない
+                int start = record.getStart();
                 List<Object> tmpList = new ArrayList<>();
 
                 // オブジェクトを繰り返す。

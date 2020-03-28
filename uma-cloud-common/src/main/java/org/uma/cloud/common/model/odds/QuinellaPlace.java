@@ -37,11 +37,8 @@ public class QuinellaPlace extends BaseModel {
     private Integer holdingDay;
     private Integer raceNo;
 
-    // いらんから除去
-//    /**
-//     * 時系列オッズを使用する場合のみキーとして設定
-//     */
-//    private LocalDate announceDate;
+    @Column(length = 8)
+    private String announceDate;
 
     private Integer entryCount;
     private Integer starterCount;

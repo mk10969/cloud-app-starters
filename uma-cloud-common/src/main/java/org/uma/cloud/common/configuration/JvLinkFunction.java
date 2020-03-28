@@ -1,8 +1,8 @@
-package org.uma.cloud.common.component;
+package org.uma.cloud.common.configuration;
 
 
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Component;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.uma.cloud.common.model.Ancestry;
 import org.uma.cloud.common.model.Breeder;
 import org.uma.cloud.common.model.BreedingHorse;
@@ -27,17 +27,16 @@ import org.uma.cloud.common.utils.lang.ByteUtil;
 
 import java.util.function.Function;
 
-@Component
-@RequiredArgsConstructor
+@Service
 public class JvLinkFunction {
 
-    private final JvLinkModelMapper jvLinkModelMapper;
+    @Autowired
+    private JvLinkModelMapper jvLinkModelMapper;
 
 
     public Function<String, byte[]> decode() {
         return ByteUtil::base64Decode;
     }
-
 
     /**
      * recordSpecごとの、transform Configuration

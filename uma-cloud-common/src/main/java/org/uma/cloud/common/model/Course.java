@@ -11,6 +11,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.IdClass;
 import javax.persistence.Table;
+import java.io.Serializable;
 import java.time.LocalDate;
 
 /**
@@ -42,7 +43,7 @@ public class Course extends BaseModel {
 
 
     @Data
-    static class CourseId {
+    public static class CourseId implements Serializable {
 
         private RaceCourseCode courseCd;
 
