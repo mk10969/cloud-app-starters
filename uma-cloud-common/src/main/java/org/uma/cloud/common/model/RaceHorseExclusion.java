@@ -8,6 +8,8 @@ import org.uma.cloud.common.recordSpec.RecordSpec;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import javax.persistence.IdClass;
 import javax.persistence.Table;
@@ -32,6 +34,7 @@ public class RaceHorseExclusion extends BaseModel {
 
     private LocalDate holdingDate;
 
+    @Enumerated(EnumType.STRING)
     private RaceCourseCode courseCd;
 
     private Integer holdingNo;

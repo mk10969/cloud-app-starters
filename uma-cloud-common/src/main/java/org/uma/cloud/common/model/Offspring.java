@@ -1,14 +1,16 @@
 package org.uma.cloud.common.model;
 
 import lombok.Getter;
+import org.hibernate.annotations.Type;
 import org.uma.cloud.common.code.BreedCode;
 import org.uma.cloud.common.code.HairColorCode;
 import org.uma.cloud.common.code.SexCode;
 import org.uma.cloud.common.recordSpec.RecordSpec;
 
 import javax.persistence.Column;
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import java.time.LocalDate;
@@ -32,10 +34,13 @@ public class Offspring extends BaseModel {
 
     private LocalDate birthDate;
 
+    @Enumerated(EnumType.STRING)
     private SexCode sexCd;
 
+    @Enumerated(EnumType.STRING)
     private BreedCode breedCd;
 
+    @Enumerated(EnumType.STRING)
     private HairColorCode hairColorCd;
 
     private Integer sonBringingDiv;
@@ -56,7 +61,8 @@ public class Offspring extends BaseModel {
      * の順
      * {@link BreedingHorse.breedingNo}
      */
-    @ElementCollection
+    @Type(type = "list")
+    @Column(columnDefinition = "integer[]")
     private List<Integer> breeding3rd;
 
 }

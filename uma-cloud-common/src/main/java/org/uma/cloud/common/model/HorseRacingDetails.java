@@ -16,6 +16,8 @@ import org.uma.cloud.common.recordSpec.RecordSpec;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import javax.persistence.IdClass;
 import javax.persistence.Table;
@@ -43,6 +45,7 @@ public class HorseRacingDetails extends BaseModel {
 
     private LocalDate holdingDate;
 
+    @Enumerated(EnumType.STRING)
     private RaceCourseCode courseCd;
 
     private Integer holdingNo;
@@ -66,17 +69,22 @@ public class HorseRacingDetails extends BaseModel {
     @Column(length = 36)
     private String horseName;
 
+    @Enumerated(EnumType.STRING)
     private HorseSignCode horseSignCd;
 
+    @Enumerated(EnumType.STRING)
     private SexCode sexCd;
 
+    @Enumerated(EnumType.STRING)
     private BreedCode bredCd;
 
+    @Enumerated(EnumType.STRING)
     private HairColorCode hairColorCd;
 
     private Integer age;
 
     // 競走馬の東西
+    @Enumerated(EnumType.STRING)
     private EastOrWestBelongCode ewBelongCd;
 
     private Integer trainerCd;
@@ -115,8 +123,10 @@ public class HorseRacingDetails extends BaseModel {
     @Column(length = 8)
     private String jockeyNameShortBefore;
 
+    @Enumerated(EnumType.STRING)
     private JockeyApprenticeCode jockeyApprenticeCd;
 
+    @Enumerated(EnumType.STRING)
     private JockeyApprenticeCode jockeyApprenticeCdBefore;
 
     private Integer horseWeight;
@@ -126,6 +136,7 @@ public class HorseRacingDetails extends BaseModel {
 
     private Integer changeAmount;
 
+    @Enumerated(EnumType.STRING)
     private AbnormalDivisionCode abnormalDivCd;
 
     private Integer finishedArrivalOrder;
@@ -138,10 +149,13 @@ public class HorseRacingDetails extends BaseModel {
 
     private LocalTime runningTime;
 
+    @Enumerated(EnumType.STRING)
     private MarginCode marginCd;
 
+    @Enumerated(EnumType.STRING)
     private MarginCode marginCd2;
 
+    @Enumerated(EnumType.STRING)
     private MarginCode marginCd3;
 
     private Integer rankCorner1;

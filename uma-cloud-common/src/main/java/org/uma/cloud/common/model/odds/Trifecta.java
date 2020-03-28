@@ -11,6 +11,8 @@ import org.uma.cloud.common.utils.javatuples.Triplet;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import java.math.BigDecimal;
@@ -33,16 +35,23 @@ public class Trifecta extends BaseModel {
     private String raceId;
 
     private LocalDate holdingDate;
+
+    @Enumerated(EnumType.STRING)
     private RaceCourseCode courseCd;
+
     private Integer holdingNo;
+
     private Integer holdingDay;
+
     private Integer raceNo;
 
     @Column(length = 8)
     private String announceDate;
 
     private Integer entryCount;
+
     private Integer starterCount;
+
     private Integer saleFlag;
 
     // 三連単オッズ
@@ -55,13 +64,15 @@ public class Trifecta extends BaseModel {
 
     @Getter
     public static class TrifectaOdds {
-
         /**
          * 馬番の組み合わせ
          */
         private Triplet<String, String, String> pairNo;
+
         private BigDecimal odds;
+
         private Integer betRank;
+
     }
 
 }

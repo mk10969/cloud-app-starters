@@ -12,6 +12,8 @@ import org.uma.cloud.common.utils.javatuples.Pair;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import java.math.BigDecimal;
@@ -34,16 +36,23 @@ public class Quinella extends BaseModel {
     private String raceId;
 
     private LocalDate holdingDate;
+
+    @Enumerated(EnumType.STRING)
     private RaceCourseCode courseCd;
+
     private Integer holdingNo;
+
     private Integer holdingDay;
+
     private Integer raceNo;
 
     @Column(length = 8)
     private String announceDate;
 
     private Integer entryCount;
+
     private Integer starterCount;
+
     private Integer saleFlag;
 
     // 馬連オッズ
@@ -60,8 +69,11 @@ public class Quinella extends BaseModel {
          * 馬番の組み合わせ
          */
         private Pair<String, String> pairNo;
+
         private BigDecimal odds;
+
         private Integer betRank;
+
     }
 
 }

@@ -11,6 +11,8 @@ import org.uma.cloud.common.recordSpec.RecordSpec;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import java.time.LocalDate;
@@ -52,12 +54,16 @@ public class RaceHorse extends BaseModel {
     @Column(length = 19)
     private String spare1;
 
+    @Enumerated(EnumType.STRING)
     private HorseSignCode horseSignCd;
 
+    @Enumerated(EnumType.STRING)
     private SexCode sexCd;
 
+    @Enumerated(EnumType.STRING)
     private BreedCode breedCd;
 
+    @Enumerated(EnumType.STRING)
     private HairColorCode hairColorCd;
 
     /**
@@ -69,6 +75,7 @@ public class RaceHorse extends BaseModel {
     @Column(columnDefinition = "jsonb")
     private List<Breeding> breeding3rd;
 
+    @Enumerated(EnumType.STRING)
     private EastOrWestBelongCode ewBelongCd;
 
     private Integer trainerCd;

@@ -9,6 +9,8 @@ import org.uma.cloud.common.recordSpec.RecordSpec;
 import org.uma.cloud.common.utils.lang.ModelUtil;
 
 import javax.persistence.Column;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.MappedSuperclass;
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -25,6 +27,7 @@ public class BaseModel implements Serializable {
     /**
      * レコード識別子
      */
+    @Enumerated(EnumType.STRING)
     private RecordSpec recordType;
 
     /**
