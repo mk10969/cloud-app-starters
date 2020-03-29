@@ -11,13 +11,13 @@ public class JvLinkBatchProperties {
     /**
      * Java Object変換先のモデル名
      */
-    private String modelName = "horseRacingDetails";
+    private String modelName = "course";
 
     /**
      * input resource
      * ex: file:///tmp/xxx.txt or Http://localhost:8080/xxxxx
      */
-    private String inputPath = "file:///Users/m-kakiuchi/mydata/data/RACE_SE.txt";
+    private String inputPath = "file:///Users/m-kakiuchi/mydata/data/COMM_CS.txt";
 
 
     public String getModelName() {

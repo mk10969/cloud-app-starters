@@ -1,4 +1,4 @@
-package org.uma.cloud.batch;
+package org.uma.cloud.batch.listener;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.step.skip.SkipLimitExceededException;

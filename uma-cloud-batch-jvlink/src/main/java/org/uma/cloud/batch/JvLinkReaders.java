@@ -1,6 +1,7 @@
 package org.uma.cloud.batch;
 
 
+import lombok.Getter;
 import org.springframework.batch.item.ItemReader;
 import org.springframework.batch.item.file.FlatFileItemReader;
 import org.springframework.batch.item.file.builder.FlatFileItemReaderBuilder;
@@ -11,6 +12,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
+import org.uma.cloud.common.model.BusinessModel;
+import org.uma.cloud.common.repository.BusinessModelRepository;
 
 import javax.annotation.PostConstruct;
 import java.io.IOException;
@@ -18,6 +21,7 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.time.Duration;
+import java.time.ZonedDateTime;
 import java.util.stream.Stream;
 
 @Configuration
@@ -29,18 +33,14 @@ public class JvLinkReaders {
     @Autowired
     private JvLinkBatchProperties properties;
 
+    @Autowired
+    private BusinessModelRepository businessModelRepository;
+
+    @Getter
     private String readerName;
 
+    @Getter
     private Resource resource;
-
-
-    public String getReaderName() {
-        return this.readerName;
-    }
-
-    public Resource getResource() {
-        return this.resource;
-    }
 
 
     @PostConstruct
@@ -48,6 +48,11 @@ public class JvLinkReaders {
         String[] level = properties.getInputPath().split("/");
         this.readerName = level[level.length - 1];
         this.resource = resourceLoader.getResource(properties.getInputPath());
+
+        BusinessModel businessModel1 = new BusinessModel();
+        long time1 = ZonedDateTime.now().minusDays(1).toInstant().getEpochSecond();
+        businessModel1.setBaseDate(time1);
+        this.businessModelRepository.save(businessModel1);
     }
 
     @Bean
@@ -68,6 +73,9 @@ public class JvLinkReaders {
     }
 
     private IteratorItemReader<String> httpReader() throws IOException, InterruptedException {
+
+        // 最新の基準日を取得する
+
         HttpClient httpClient = HttpClient.newBuilder()
                 .version(HttpClient.Version.HTTP_1_1)
                 .connectTimeout(Duration.ofSeconds(5))

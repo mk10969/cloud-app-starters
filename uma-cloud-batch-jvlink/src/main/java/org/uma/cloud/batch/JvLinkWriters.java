@@ -1,11 +1,13 @@
 package org.uma.cloud.batch;
 
 import org.springframework.batch.item.ItemWriter;
+import org.springframework.batch.item.database.JpaItemWriter;
 import org.springframework.batch.item.database.builder.JpaItemWriterBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
+import org.springframework.stereotype.Component;
 import org.uma.cloud.common.model.Ancestry;
 import org.uma.cloud.common.model.Breeder;
 import org.uma.cloud.common.model.BreedingHorse;
@@ -28,13 +30,15 @@ import org.uma.cloud.common.model.odds.Trio;
 import org.uma.cloud.common.model.odds.WinsPlaceBracketQuinella;
 
 import javax.persistence.EntityManagerFactory;
+import javax.transaction.Transactional;
+import java.util.List;
 
 @Profile("prod")
 @Configuration
 public class JvLinkWriters {
 
     @Autowired
-    public EntityManagerFactory entityManagerFactory;
+    private EntityManagerFactory entityManagerFactory;
 
 
     @Bean
