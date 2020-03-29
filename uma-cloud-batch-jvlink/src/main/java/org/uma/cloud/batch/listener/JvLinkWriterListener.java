@@ -7,22 +7,23 @@ import org.uma.cloud.common.model.BaseModel;
 import java.util.List;
 
 @Slf4j
-public class JvLinkWriterListener implements ItemWriteListener<BaseModel> {
+public class JvLinkWriterListener<T extends BaseModel> implements ItemWriteListener<T> {
 
     @Override
-    public void beforeWrite(List<? extends BaseModel> items) {
-
-    }
-
-    @Override
-    public void afterWrite(List<? extends BaseModel> items) {
+    public void beforeWrite(List<? extends T> items) {
         // no ops
     }
 
     @Override
-    public void onWriteError(Exception exception, List<? extends BaseModel> items) {
+    public void afterWrite(List<? extends T> items) {
+        if (log.isDebugEnabled()) {
+            items.forEach(item -> log.info("{}", item));
+        }
+    }
+
+    @Override
+    public void onWriteError(Exception exception, List<? extends T> items) {
         log.error("Write Error: ", exception.getCause());
         log.info("Failed Write Data: {}", items);
     }
-
 }

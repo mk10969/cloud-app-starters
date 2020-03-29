@@ -15,12 +15,32 @@ public class JvLinkStepExecutionListener implements StepExecutionListener {
 
     @Override
     public ExitStatus afterStep(StepExecution stepExecution) {
-        log.info("afterStep: read count {}", stepExecution.getReadCount());
-        log.info("afterStep: write count {}", stepExecution.getWriteCount());
-        log.info("afterStep: commit count {}", stepExecution.getCommitCount());
-        log.info(stepExecution.getSummary());
-
+        summary(stepExecution);
         return stepExecution.getExitStatus();
+    }
+
+    private void summary(StepExecution stepExecution) {
+        log.info(String.format("summary\n" +
+                        "name=%s\n" +
+                        "status=%s\n" +
+                        "readCount=%d\n" +
+                        "readSkipCount=%d\n" +
+                        "filterCount=%d\n" +
+                        "processSkipCount=%d\n" +
+                        "writeCount=%d\n" +
+                        "writeSkipCount=%d\n" +
+                        "commitCount=%d\n" +
+                        "rollbackCount=%d",
+                stepExecution.getStepName(),
+                stepExecution.getStatus(),
+                stepExecution.getReadCount(),
+                stepExecution.getReadSkipCount(),
+                stepExecution.getFilterCount(),
+                stepExecution.getProcessSkipCount(),
+                stepExecution.getWriteCount(),
+                stepExecution.getWriteSkipCount(),
+                stepExecution.getCommitCount(),
+                stepExecution.getRollbackCount()));
     }
 
 }

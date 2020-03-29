@@ -29,6 +29,8 @@ import org.uma.cloud.common.model.odds.QuinellaPlace;
 import org.uma.cloud.common.model.odds.Trifecta;
 import org.uma.cloud.common.model.odds.Trio;
 import org.uma.cloud.common.model.odds.WinsPlaceBracketQuinella;
+import org.uma.cloud.common.utils.exception.JvLinkModelNullPointException;
+import org.uma.cloud.common.utils.lang.ModelUtil;
 
 import java.util.function.Function;
 
@@ -176,7 +178,7 @@ public class JvLinkProcessors {
 
         /**
          * @param item シリアライズ文字列データ
-         * @return nullの場合、writerで書き込まれない。
+         * @return nullの場合、writerで書き込まれない。or デシリアライズしたModelオブジェクトを返す。
          * <p>
          * 不要なデータをここでフィルターする。
          * @throws Exception
@@ -186,10 +188,27 @@ public class JvLinkProcessors {
         public O process(I item) throws Exception {
             O o = this.function.apply(item);
             if (o.isNecessary()) {
+                check(o);
                 return o;
             } else {
                 log.info("不要データ: {}", o);
                 return null;
+            }
+        }
+
+        /**
+         * {@link JvLinkProcessors}でtransformした後のmodelのフィールドに、nullがないかチェックを行う。
+         * <p>
+         * 例外的に、下記のフォールドは、nullを許容する。
+         * {@link ModelUtil#excludeList}
+         *
+         * @throws JvLinkModelNullPointException
+         */
+        private void check(O o) {
+            try {
+                ModelUtil.fieldNotNull(o);
+            } catch (NullPointerException e) {
+                throw new JvLinkModelNullPointException(e, o.toString());
             }
         }
     }

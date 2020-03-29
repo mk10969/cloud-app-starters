@@ -2,9 +2,12 @@ package org.uma.cloud.batch;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.item.ItemWriter;
+import org.springframework.batch.item.json.JacksonJsonObjectMarshaller;
+import org.springframework.batch.item.json.builder.JsonFileItemWriterBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
+import org.springframework.core.io.FileSystemResource;
 import org.uma.cloud.common.model.Ancestry;
 import org.uma.cloud.common.model.Breeder;
 import org.uma.cloud.common.model.BreedingHorse;
@@ -25,110 +28,126 @@ import org.uma.cloud.common.model.odds.QuinellaPlace;
 import org.uma.cloud.common.model.odds.Trifecta;
 import org.uma.cloud.common.model.odds.Trio;
 import org.uma.cloud.common.model.odds.WinsPlaceBracketQuinella;
+import org.uma.cloud.common.utils.lang.JacksonUtil;
 
 @Profile("local")
 @Slf4j
 @Configuration
 public class JvLInkWritersLocal {
 
+    private static final String URI = "/Users/m-kakiuchi/mydata/json/";
+
+
+    private <T> ItemWriter<T> createJsonWriter(Class<T> baseModel, String filename) {
+        JacksonJsonObjectMarshaller<T> jacksonJsonObjectMarshaller = new JacksonJsonObjectMarshaller<>();
+        jacksonJsonObjectMarshaller.setObjectMapper(JacksonUtil.getObjectMapper());
+
+        return new JsonFileItemWriterBuilder<T>()
+                .jsonObjectMarshaller(jacksonJsonObjectMarshaller)
+                .resource(new FileSystemResource(URI + filename))
+                .name(baseModel.getSimpleName())
+                .build();
+    }
+
+
     @Bean
     public ItemWriter<Ancestry> ancestryItemWriter() {
-        return items -> items.forEach(item -> log.info("{}", item));
+        return createJsonWriter(Ancestry.class, "BLOD_BT.json");
     }
 
     @Bean
     public ItemWriter<Breeder> breederItemWriter() {
-        return items -> items.forEach(item -> log.info("{}", item));
+        return createJsonWriter(Breeder.class, "DIFF_BR.json");
     }
 
     @Bean
     public ItemWriter<BreedingHorse> breedingHorseItemWriter() {
-        return items -> items.forEach(item -> log.info("{}", item));
+        return createJsonWriter(BreedingHorse.class, "BLOD_HN.json");
     }
 
     @Bean
     public ItemWriter<Course> courseItemWriter() {
-        return items -> items.forEach(item -> log.info("{}", item));
+        return createJsonWriter(Course.class, "COMM_CS.json");
     }
 
     @Bean
     public ItemWriter<HorseRacingDetails> horseRacingDetailsItemWriter() {
-        return items -> items.forEach(item -> log.info("{}", item));
+        return createJsonWriter(HorseRacingDetails.class, "RACE_SE.json");
     }
 
     @Bean
     public ItemWriter<Jockey> jockeyItemWriter() {
-        return items -> items.forEach(item -> log.info("{}", item));
+        return createJsonWriter(Jockey.class, "DIFF_KS.json");
     }
 
     @Bean
     public ItemWriter<Offspring> offspringItemWriter() {
-        return items -> items.forEach(item -> log.info("{}", item));
+        return createJsonWriter(Offspring.class, "BLOD_SK.json");
     }
 
     @Bean
     public ItemWriter<Owner> ownerItemWriter() {
-        return items -> items.forEach(item -> log.info("{}", item));
+        return createJsonWriter(Owner.class, "DIFF_BN.json");
     }
 
     @Bean
     public ItemWriter<RaceHorse> raceHorseItemWriter() {
-        return items -> items.forEach(item -> log.info("{}", item));
+        return createJsonWriter(RaceHorse.class, "DIFF_UM.json");
     }
 
     @Bean
     public ItemWriter<RaceHorseExclusion> raceHorseExclusionItemWriter() {
-        return items -> items.forEach(item -> log.info("{}", item));
+        return createJsonWriter(RaceHorseExclusion.class, "RACE_JG.json");
     }
 
     @Bean
     public ItemWriter<RaceRefund> raceRefundItemWriter() {
-        return items -> items.forEach(item -> log.info("{}", item));
+        return createJsonWriter(RaceRefund.class, "RACE_HR.json");
     }
 
     @Bean
     public ItemWriter<RacingDetails> racingDetailsItemWriter() {
-        return items -> items.forEach(item -> log.info("{}", item));
+        return createJsonWriter(RacingDetails.class, "RACE_RA.json");
     }
 
     @Bean
     public ItemWriter<Trainer> trainerItemWriter() {
-        return items -> items.forEach(item -> log.info("{}", item));
+        return createJsonWriter(Trainer.class, "DIFF_CH.json");
     }
 
     @Bean
     public ItemWriter<VoteCount> voteCountItemWriter() {
-        return items -> items.forEach(item -> log.info("{}", item));
+        return createJsonWriter(VoteCount.class, "RACE_H1.json");
     }
 
     @Bean
     public ItemWriter<WinsPlaceBracketQuinella> winsPlaceBracketQuinellaItemWriter() {
-        return items -> items.forEach(item -> log.info("{}", item));
+        return createJsonWriter(WinsPlaceBracketQuinella.class, "RACE_O1.json");
     }
 
     @Bean
     public ItemWriter<Quinella> quinellaItemWriter() {
-        return items -> items.forEach(item -> log.info("{}", item));
+        return createJsonWriter(Quinella.class, "RACE_O2.json");
     }
 
     @Bean
     public ItemWriter<QuinellaPlace> quinellaPlaceItemWriter() {
-        return items -> items.forEach(item -> log.info("{}", item));
+        return createJsonWriter(QuinellaPlace.class, "RACE_O3.json");
     }
 
     @Bean
     public ItemWriter<Exacta> exactaItemWriter() {
-        return items -> items.forEach(item -> log.info("{}", item));
+        return createJsonWriter(Exacta.class, "RACE_O4.json");
     }
 
     @Bean
     public ItemWriter<Trio> trioItemWriter() {
-        return items -> items.forEach(item -> log.info("{}", item));
+        return createJsonWriter(Trio.class, "RACE_O5.json");
     }
 
     @Bean
     public ItemWriter<Trifecta> trifectaItemWriter() {
-        return items -> items.forEach(item -> log.info("{}", item));
+        return createJsonWriter(Trifecta.class, "RACE_O6.json");
     }
 
 }

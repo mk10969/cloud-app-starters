@@ -9,11 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.orm.jpa.JpaTransactionManager;
-import org.uma.cloud.batch.listener.JvLinkProcessorListener;
 import org.uma.cloud.batch.listener.JvLinkSkipPolicy;
 import org.uma.cloud.batch.listener.JvLinkStepExecutionListener;
 import org.uma.cloud.batch.listener.JvLinkWriterListener;
 import org.uma.cloud.common.model.Ancestry;
+import org.uma.cloud.common.model.BaseModel;
 import org.uma.cloud.common.model.Breeder;
 import org.uma.cloud.common.model.BreedingHorse;
 import org.uma.cloud.common.model.Course;
@@ -40,6 +40,8 @@ import javax.persistence.EntityManagerFactory;
 @Configuration
 public class JvLinkSteps {
 
+    private static final int CHUNK_SIZE = 100;
+
     @Autowired
     private StepBuilderFactory stepBuilderFactory;
 
@@ -53,12 +55,6 @@ public class JvLinkSteps {
     private JvLinkStepExecutionListener jvLinkStepExecutionListener;
 
     @Autowired
-    private JvLinkProcessorListener jvLinkProcessorListener;
-
-    @Autowired
-    private JvLinkWriterListener jvLinkWriterListener;
-
-    @Autowired
     private JvLinkSkipPolicy jvLinkSkipPolicy;
 
     private JpaTransactionManager jpaTransactionManager;
@@ -69,19 +65,18 @@ public class JvLinkSteps {
     }
 
 
-    private <T> Step createStep(
+    private <T extends BaseModel> Step createStep(
             ItemProcessor<String, T> processor,
             ItemWriter<T> writer,
-            Class<T> stepBuilderClass) {
-        return stepBuilderFactory.get(stepBuilderClass.getSimpleName())
-                .<String, T>chunk(100)
+            Class<T> name) {
+        return stepBuilderFactory.get(name.getSimpleName())
+                .<String, T>chunk(CHUNK_SIZE)
                 .reader(reader)
                 .processor(processor)
                 .writer(writer)
                 .transactionManager(jpaTransactionManager)
                 .listener(jvLinkStepExecutionListener)
-                .listener(jvLinkProcessorListener)
-                .listener(jvLinkWriterListener)
+                .listener(new JvLinkWriterListener<>())
                 .faultTolerant()
                 .skipPolicy(jvLinkSkipPolicy)
                 .build();

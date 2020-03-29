@@ -12,7 +12,7 @@ import javax.sql.DataSource;
 public class DataSourceConfiguration {
 
     /**
-     * use application DataSource
+     * use application DataSource ==> postgres
      */
     @Bean
     @Primary
@@ -23,7 +23,7 @@ public class DataSourceConfiguration {
 
 
     /**
-     * use spring batch and spring task DataSource
+     * use spring batch and spring task DataSource ==> MySQL
      */
     @Bean("batchDataSource")
     @ConfigurationProperties("spring.batch.datasource")
