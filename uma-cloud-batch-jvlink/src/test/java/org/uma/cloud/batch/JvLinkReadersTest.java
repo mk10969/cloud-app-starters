@@ -17,15 +17,7 @@ class JvLinkReadersTest {
 
     @Autowired
     private BusinessModelRepository businessModelRepository;
-
-
-    @Test
-    void test() {
-        System.out.println(jvLinkReaders.getResource());
-        System.out.println(jvLinkReaders.getResource().isFile());
-        System.out.println(jvLinkReaders.getReaderName());
-    }
-
+    
     @Test
     void testtest() {
         String path = "file:///c://config/app.properties";

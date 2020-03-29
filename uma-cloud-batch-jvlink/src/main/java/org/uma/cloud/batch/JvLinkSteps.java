@@ -183,17 +183,4 @@ public class JvLinkSteps {
         return createStep(processor, writer, Trifecta.class);
     }
 
-
-    // taskletの例
-//    @Bean
-//    public Step step1(ItemReader<String> reader,
-//                     ItemProcessor<String, RacingDetails> processor,
-//                     ItemWriter<RacingDetails> writer) {
-//
-//        return stepBuilderFactory.get(RacingDetails.class.getSimpleName())
-//                .tasklet((contribution, chunkContext) -> null)
-//                .build();
-//
-//    }
-
 }
