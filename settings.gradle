@@ -1,7 +1,9 @@
 // main app
 include 'uma-cloud-common'
+include 'uma-cloud-batch-basedate'
 include 'uma-cloud-batch-jvlink'
 include 'uma-cloud-processor-jvlink-transform'
+include 'uma-cloud-sink-influxdb'
 include 'uma-cloud-source-jvlink-http'
 include 'uma-cloud-task-ipatgo'
 include 'uma-cloud-task-pod-cleaner'

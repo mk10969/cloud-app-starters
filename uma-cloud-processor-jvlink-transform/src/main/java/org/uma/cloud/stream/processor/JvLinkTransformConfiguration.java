@@ -9,7 +9,7 @@
 //import org.springframework.messaging.handler.annotation.SendTo;
 //import org.uma.cloud.common.model.BaseModel;
 //import org.uma.cloud.common.recordSpec.RecordSpec;
-//import org.uma.cloud.common.component.JvLinkModelMapper;
+//import org.uma.cloud.common.configuration.JvLinkModelMapper;
 //
 //import java.util.EnumMap;
 //import java.util.function.Function;
