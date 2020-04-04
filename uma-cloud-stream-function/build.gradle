@@ -3,11 +3,17 @@ apply plugin: 'com.google.cloud.tools.jib'
 
 
 dependencies {
+    implementation project(':uma-cloud-common')
+
     implementation 'org.springframework.cloud:spring-cloud-stream'
-    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-webflux'
     // kafka
     implementation 'org.springframework.kafka:spring-kafka'
     implementation 'org.springframework.cloud:spring-cloud-stream-binder-kafka'
+    // use influxdb
+    implementation 'org.influxdb:influxdb-java:2.17'
+    // use postgresql
+    runtimeOnly 'org.postgresql:postgresql'
 
     testImplementation 'org.springframework.cloud:spring-cloud-stream-test-support'
     testImplementation 'org.springframework.kafka:spring-kafka-test'
