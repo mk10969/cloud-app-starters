@@ -1,7 +1,0 @@
-recordType	0	2	0
-dataDiv	2	1	0
-dataCreateDate	3	8	0
-BreedingNo	11	8	0
-ancestryId	19	30	0
-ancestryName	49	36	0
-ancestryDescription	85	6800	0

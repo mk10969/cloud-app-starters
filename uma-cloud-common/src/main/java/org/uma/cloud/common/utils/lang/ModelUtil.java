@@ -2,6 +2,7 @@ package org.uma.cloud.common.utils.lang;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.wnameless.json.flattener.JsonFlattener;
 import com.google.common.collect.Lists;
 import org.uma.cloud.common.model.BaseModel;
@@ -29,10 +30,12 @@ public class ModelUtil {
      */
     private static final Charset SHIFT_JIS = Charset.forName("MS932");
 
+    private static final ObjectMapper objectMapper = JacksonUtil.getObjectMapper();
+
 
     public static String toJson(Object object) {
         try {
-            return JacksonUtil.getObjectMapper().writeValueAsString(object);
+            return objectMapper.writeValueAsString(object);
         } catch (JsonProcessingException e) {
             throw new IllegalArgumentException(e);
         }
@@ -41,7 +44,7 @@ public class ModelUtil {
     public static Map<String, Integer> jsonToMap(String json) {
         Objects.requireNonNull(json);
         try {
-            return JacksonUtil.getObjectMapper().readValue(json, new TypeReference<>() {
+            return objectMapper.readValue(json, new TypeReference<>() {
             });
         } catch (JsonProcessingException e) {
             throw new IllegalArgumentException(e);

@@ -20,6 +20,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 /**
@@ -161,11 +162,11 @@ public class RacingDetails extends BaseModel {
     @Column(columnDefinition = "integer[]")
     private List<Integer> stakesMoneyBeforeItems;
 
-    // 時間だけど、Integer
-    private Integer startTime;
+    // 時間 -> LocalTime
+    private LocalTime startTime;
 
-    // 時間だけど、Integer
-    private Integer startTimeBefore;
+    // 時間 -> LocalTime
+    private LocalTime startTimeBefore;
 
     private Integer entryCount;
 

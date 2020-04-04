@@ -1,10 +1,15 @@
 package org.uma.cloud.common.utils.lang;
 
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.common.base.StandardSystemProperty;
+import com.fasterxml.jackson.databind.module.SimpleModule;
 import lombok.Getter;
 import org.junit.jupiter.api.Test;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
@@ -27,9 +32,11 @@ class JacksonUtilTest {
     void test_long() {
         // spaceは、nullに変換されるのか。。convertorを設定するとそっち優先か。。なるほど
         ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.registerModule(new SimpleModule().addDeserializer(Integer.class, new IntegerDeserializer()));
+
         Map<String, String> map = new HashMap<>();
         map.put("numberLong", "       ");
-        map.put("numberIntger", "       ");
+        map.put("numberIntger", "11111");
         Once once = objectMapper.convertValue(map, Once.class);
         System.out.println(once.getNumberLong());
         System.out.println(once.getNumberIntger());
@@ -43,6 +50,16 @@ class JacksonUtilTest {
 
     }
 
+
+    private static final class IntegerDeserializer extends JsonDeserializer<Integer> {
+        @Override
+        public Integer deserialize(JsonParser p, DeserializationContext ctxt) throws IOException, JsonProcessingException {
+            // field name とれるのね！
+            System.out.println("getCurrentName: " +p.getCurrentName());
+            String source = p.getValueAsString();
+            return Integer.valueOf(source);
+        }
+    }
 
 
 }

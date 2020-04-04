@@ -13,22 +13,22 @@ import java.util.List;
 public class BusinessModelService {
 
     @Autowired
-    private BusinessModelRepository businessModelRepository;
+    private BusinessModelRepository repository;
 
 
     public long getLatestBaseDate() {
-        return this.businessModelRepository.findTopByOrderByIdDesc().getBaseDate();
+        return this.repository.findTopByOrderByIdDesc().getBaseDate();
     }
 
     public List<BusinessModel> findAll() {
-        return businessModelRepository.findAll();
+        return repository.findAll();
     }
 
     @Transactional
     public void insertBaseDate() {
         BusinessModel businessModel = new BusinessModel();
         businessModel.setBaseDate(ZonedDateTime.now().toInstant().getEpochSecond());
-        this.businessModelRepository.save(businessModel);
+        this.repository.save(businessModel);
     }
 
 }

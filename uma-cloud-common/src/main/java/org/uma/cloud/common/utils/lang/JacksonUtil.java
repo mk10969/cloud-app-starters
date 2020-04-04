@@ -7,7 +7,6 @@ import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
-import com.fasterxml.jackson.datatype.jsr310.ser.LocalTimeSerializer;
 import org.uma.cloud.common.code.AbnormalDivisionCode;
 import org.uma.cloud.common.code.BreedCode;
 import org.uma.cloud.common.code.EastOrWestBelongCode;
@@ -52,7 +51,7 @@ public class JacksonUtil {
         public static final SimpleModule simpleModule = new SimpleModule()
                 // Serializer
                 .addSerializer(new LocalDateSerializer(DateTimeFormatter.ofPattern("yyyy/MM/dd")))
-                .addSerializer(new LocalTimeSerializer(DateTimeFormatter.ofPattern("mm:ss.SSS")))
+//                .addSerializer(new LocalTimeSerializer(DateTimeFormatter.ofPattern("mm:ss.SSS")))
                 // Deserializer
                 // my enum
                 .addDeserializer(RaceCourseCode.class, new RaceCourseCodeDeserializer())
@@ -272,31 +271,27 @@ public class JacksonUtil {
                 String source = p.getValueAsString();
                 if ("    ".equals(source)) {
                     return LocalTime.of(0, 0, 0);
-                } else {
+                    /**
+                     * BaseModelのサブクラスに、annotationをつけたくなかったので名前で判定
+                     * @see org.uma.cloud.common.model.HorseRacingDetails#runningTime
+                     */
+                } else if ("runningTime".equals(p.getCurrentName())) {
                     int minute = Integer.parseInt(source.substring(0, 1));
                     int second = Integer.parseInt(source.substring(1, 3));
                     int nano = Integer.parseInt(source.substring(3, 4)) * 100 * 1000 * 1000;
                     return LocalTime.of(0, minute, second, nano);
+                    /**
+                     * @see org.uma.cloud.common.model.RacingDetails#startTime
+                     * @see org.uma.cloud.common.model.RacingDetails#startTimeBefore
+                     */
+                } else {
+                    int hour = Integer.parseInt(source.substring(0, 2));
+                    int minute = Integer.parseInt(source.substring(2, 4));
+                    return LocalTime.of(hour, minute, 0, 0);
                 }
             }
         }
 
-//    private static final class LocalDateTimeDeserializer extends JsonDeserializer<LocalDateTime> {
-//        @Override
-//        public LocalDateTime deserialize(JsonParser p, DeserializationContext ctxt) throws IOException, JsonProcessingException {
-//            String source = p.getValueAsString();
-//            if ("        ".equals(source)) {
-//                return LocalDateTime.of(0, 0, 0, 0, 0);
-//            } else {
-//                int month = Integer.parseInt(source.substring(0, 2));
-//                int day = Integer.parseInt(source.substring(2, 4));
-//                int hour = Integer.parseInt(source.substring(4, 6));
-//                int minute = Integer.parseInt(source.substring(6, 8));
-//                return LocalDateTime.of(LocalDate.now().getYear(), month, day, hour, minute);
-//            }
-//        }
-//    }
-        
         private static final class IntegerDeserializer extends JsonDeserializer<Integer> {
             @Override
             public Integer deserialize(JsonParser p, DeserializationContext ctxt) throws IOException, JsonProcessingException {
@@ -378,7 +373,6 @@ public class JacksonUtil {
                 return Boolean.valueOf(p.getValueAsString());
             }
         }
-
     }
 
 }
