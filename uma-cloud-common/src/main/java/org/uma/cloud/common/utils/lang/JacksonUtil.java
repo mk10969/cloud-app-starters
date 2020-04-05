@@ -50,8 +50,9 @@ public class JacksonUtil {
 
         public static final SimpleModule simpleModule = new SimpleModule()
                 // Serializer
+                // LocalTimeは、設定しない。(表示があまりうざくないので)
+                // LocalDateは、設定する。(表示がうざいので)
                 .addSerializer(new LocalDateSerializer(DateTimeFormatter.ofPattern("yyyy/MM/dd")))
-//                .addSerializer(new LocalTimeSerializer(DateTimeFormatter.ofPattern("mm:ss.SSS")))
                 // Deserializer
                 // my enum
                 .addDeserializer(RaceCourseCode.class, new RaceCourseCodeDeserializer())

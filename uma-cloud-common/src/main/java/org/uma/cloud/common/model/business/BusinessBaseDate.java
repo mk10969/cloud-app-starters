@@ -1,4 +1,4 @@
-package org.uma.cloud.common.model;
+package org.uma.cloud.common.model.business;
 
 
 import lombok.Data;
@@ -12,8 +12,8 @@ import javax.persistence.Table;
 
 @Data
 @Entity
-@Table(name = "business_model")
-public class BusinessModel {
+@Table(name = "business_base_date")
+public class BusinessBaseDate {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
