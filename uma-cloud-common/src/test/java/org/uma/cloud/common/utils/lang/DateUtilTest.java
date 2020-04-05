@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -55,6 +56,19 @@ class DateUtilTest {
         LocalDateTime datetime = DateUtil.of(str);
         String expect = DateUtil.format("yyyyMMddHHmmss", datetime);
         assertEquals(expect, "20190101000000");
+    }
+
+    @Test
+    void test_エポック() {
+        // milli secondにしないとバグる。
+        long time1 = ZonedDateTime.now().minusWeeks(2).toInstant().toEpochMilli();
+        long now = System.currentTimeMillis();
+        System.out.println(time1);
+
+        System.out.println(now);
+
+        LocalDateTime localDateTime = DateUtil.toLocalDateTime(now);
+        System.out.println(localDateTime);
     }
 
 }

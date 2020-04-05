@@ -5,8 +5,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.uma.cloud.common.model.business.BusinessBaseDate;
 import org.uma.cloud.common.repository.business.BusinessBaseDateRepository;
+import org.uma.cloud.common.utils.lang.DateUtil;
 
-import java.time.ZonedDateTime;
 import java.util.List;
 
 @Service
@@ -21,13 +21,18 @@ public class BusinessBaseDateService {
     }
 
     public List<BusinessBaseDate> findAll() {
-        return repository.findAll();
+        return this.repository.findAll();
+    }
+
+    @Transactional
+    public void save(BusinessBaseDate businessBaseDate) {
+        this.repository.save(businessBaseDate);
     }
 
     @Transactional
     public void insertBaseDate() {
         BusinessBaseDate businessBaseDate = new BusinessBaseDate();
-        businessBaseDate.setBaseDate(ZonedDateTime.now().toInstant().getEpochSecond());
+        businessBaseDate.setBaseDate(DateUtil.now());
         this.repository.save(businessBaseDate);
     }
 

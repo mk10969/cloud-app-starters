@@ -3,10 +3,7 @@ package org.uma.cloud.batch;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.uma.cloud.common.model.BusinessModel;
-import org.uma.cloud.common.repository.BusinessModelRepository;
 
-import java.time.ZonedDateTime;
 import java.util.Arrays;
 
 @SpringBootTest
@@ -15,9 +12,6 @@ class JvLinkReadersTest {
     @Autowired
     private JvLinkReaders jvLinkReaders;
 
-    @Autowired
-    private BusinessModelRepository businessModelRepository;
-    
     @Test
     void testtest() {
         String path = "file:///c://config/app.properties";
@@ -29,27 +23,5 @@ class JvLinkReadersTest {
         String aa = level[level.length - 1];
     }
 
-    @Test
-    void test_BusinessModelRepository() throws InterruptedException {
-        BusinessModel businessModel1 = new BusinessModel();
-        long time1 = ZonedDateTime.now().minusDays(1).toInstant().getEpochSecond();
-//        businessModel1.setId(1);
-        businessModel1.setBaseDate(time1);
-
-        BusinessModel businessModel2 = new BusinessModel();
-        long time2 = ZonedDateTime.now().minusDays(2).toInstant().getEpochSecond();
-//        businessModel1.setId(2);
-        businessModel2.setBaseDate(time2);
-
-        BusinessModel businessModel3 = new BusinessModel();
-        long time3 = ZonedDateTime.now().minusDays(3).toInstant().getEpochSecond();
-//        businessModel1.setId(3);
-        businessModel3.setBaseDate(time3);
-
-        businessModelRepository.save(businessModel1);
-        businessModelRepository.save(businessModel2);
-        businessModelRepository.save(businessModel3);
-
-    }
 
 }

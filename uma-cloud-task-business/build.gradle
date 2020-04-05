@@ -1,0 +1,27 @@
+apply plugin: 'org.springframework.boot'
+apply plugin: 'com.google.cloud.tools.jib'
+
+
+dependencies {
+    implementation project(':uma-cloud-common')
+
+    implementation 'org.springframework.cloud:spring-cloud-starter-task'
+
+    // schema for spring batch metadata
+    runtimeOnly 'mysql:mysql-connector-java'
+    // schema for app data
+    runtimeOnly 'org.postgresql:postgresql'
+}
+
+
+jib {
+    from {
+        image = 'openjdk:11-jre-slim'
+    }
+    to {
+        image = "mk10969/${project.name.replace('uma-cloud-', '')}:${project.version}"
+    }
+    container {
+        creationTime = 'USE_CURRENT_TIMESTAMP'
+    }
+}

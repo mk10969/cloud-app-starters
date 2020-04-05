@@ -1,4 +1,4 @@
-package org.uma.cloud.batch.configuration;
+package org.uma.cloud.task.configuration;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;

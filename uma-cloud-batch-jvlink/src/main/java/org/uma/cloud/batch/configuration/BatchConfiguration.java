@@ -19,14 +19,14 @@ public class BatchConfiguration extends DefaultBatchConfigurer {
 
     @Override
     @Autowired
-    public void setDataSource(@Qualifier("batchDataSource") DataSource batchDataSource) {
-        super.setDataSource(batchDataSource);
+    public void setDataSource(@Qualifier("taskDataSource") DataSource dataSource) {
+        super.setDataSource(dataSource);
     }
 
     @Bean
     public BatchDataSourceInitializer batchDataSourceInitializer(
-            @Qualifier("batchDataSource") DataSource batchDataSource,
+            @Qualifier("taskDataSource") DataSource dataSource,
             ResourceLoader resourceLoader) {
-        return new BatchDataSourceInitializer(batchDataSource, resourceLoader, new BatchProperties());
+        return new BatchDataSourceInitializer(dataSource, resourceLoader, new BatchProperties());
     }
 }

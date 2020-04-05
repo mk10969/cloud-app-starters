@@ -1,4 +1,4 @@
-package org.uma.cloud.batch.configuration;
+package org.uma.cloud.task.configuration;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.jdbc.DataSourceBuilder;
@@ -23,11 +23,11 @@ public class DataSourceConfiguration {
 
 
     /**
-     * use spring batch and spring task DataSource ==> MySQL
+     * use spring task DataSource ==> MySQL
      */
     @Bean("taskDataSource")
     @ConfigurationProperties("spring.task.datasource")
-    public DataSource taskDataSource() {
+    public DataSource batchDataSource() {
         return DataSourceBuilder.create().build();
     }
 

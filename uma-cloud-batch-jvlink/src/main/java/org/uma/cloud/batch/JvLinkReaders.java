@@ -1,6 +1,8 @@
 package org.uma.cloud.batch;
 
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.item.ItemReader;
 import org.springframework.batch.item.file.FlatFileItemReader;
@@ -12,21 +14,26 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
-import org.uma.cloud.common.service.BusinessModelService;
+import org.uma.cloud.common.service.business.BusinessBaseDateService;
 import org.uma.cloud.common.utils.lang.DateUtil;
 
 import javax.annotation.PostConstruct;
 import java.io.IOException;
+import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.time.Duration;
 import java.time.format.DateTimeFormatter;
-import java.util.stream.Stream;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Configuration
 public class JvLinkReaders {
+
+    private static final ObjectMapper objectMapper = new ObjectMapper();
 
     @Autowired
     private ResourceLoader resourceLoader;
@@ -35,7 +42,7 @@ public class JvLinkReaders {
     private JvLinkBatchProperties properties;
 
     @Autowired
-    private BusinessModelService businessModelService;
+    private BusinessBaseDateService businessBaseDateService;
 
     // no Getter and Setter
     private String readerName;
@@ -68,30 +75,46 @@ public class JvLinkReaders {
                 .build();
     }
 
+    /**
+     * RestTemplate or WebClient 使わないとセンスなくなるw
+     * @return
+     * @throws IOException
+     * @throws InterruptedException
+     */
     private IteratorItemReader<String> httpReader() throws IOException, InterruptedException {
-
         // 最新の基準日を取得する
-        long baseDate = businessModelService.getLatestBaseDate();
-        log.info("BaseDate: {}", DateUtil.tolocalDateTime(baseDate)
-                .format(DateTimeFormatter.ofPattern("yyyy/MM/dd")));
+        long baseDate = businessBaseDateService.getLatestBaseDate();
+        log.info("BaseDate: {}", DateUtil.toLocalDateTime(baseDate).format(DateTimeFormatter.ofPattern("yyyy/MM/dd")));
 
         HttpClient httpClient = HttpClient.newBuilder()
-                .version(HttpClient.Version.HTTP_1_1)
+                .version(HttpClient.Version.HTTP_2)
                 .connectTimeout(Duration.ofSeconds(5))
                 .build();
 
-        HttpRequest httpRequest = HttpRequest.newBuilder()
-                .uri(resource.getURI()).GET().build();
+        URI uri = resourceLoader.getResource(properties.getInputPath() + "/" + baseDate).getURI();
 
-        HttpResponse<Stream<String>> response = httpClient
-                .send(httpRequest, HttpResponse.BodyHandlers.ofLines());
+        HttpRequest httpRequest = HttpRequest.newBuilder().GET()
+                .uri(uri)
+                .build();
+
+        HttpResponse<String> response = httpClient
+                .send(httpRequest, HttpResponse.BodyHandlers.ofString());
 
         if (response.statusCode() != 200) {
             throw new RuntimeException("Status Code: [" + response.statusCode() + "]" +
                     " データの読み込みに失敗しました。");
         }
 
-        return new IteratorItemReader<>(response.body().iterator());
+        return new IteratorItemReader<>(parse(response.body()));
+    }
+
+    private List<String> parse(String json) {
+        try {
+            return Arrays.stream(objectMapper.readValue(json, String[].class))
+                    .collect(Collectors.toList());
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
     }
 
 }

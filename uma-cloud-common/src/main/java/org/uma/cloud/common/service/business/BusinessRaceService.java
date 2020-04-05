@@ -5,15 +5,15 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.uma.cloud.common.model.business.BusinessRace;
 import org.uma.cloud.common.repository.business.BusinessRaceRepository;
+import org.uma.cloud.common.utils.lang.DateUtil;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.function.Supplier;
 
 @Service
 public class BusinessRaceService {
 
-    private static final Supplier<LocalDateTime> now = LocalDateTime::now;
+    private static final Supplier<Long> now = System::currentTimeMillis;
 
 
     @Autowired
@@ -21,7 +21,7 @@ public class BusinessRaceService {
 
 
     public List<BusinessRace> findCommingRaces() {
-        return repository.findByRaceStartDateTime(now.get());
+        return repository.findByRaceStartDateTime(DateUtil.toLocalDateTime(now.get()));
     }
 
     @Transactional

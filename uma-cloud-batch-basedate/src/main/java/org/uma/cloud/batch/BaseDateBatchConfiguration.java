@@ -11,7 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.orm.jpa.JpaTransactionManager;
-import org.uma.cloud.common.service.BusinessModelService;
+import org.uma.cloud.common.service.business.BusinessBaseDateService;
 
 import javax.annotation.PostConstruct;
 import javax.persistence.EntityManagerFactory;
@@ -26,7 +26,7 @@ public class BaseDateBatchConfiguration {
     private StepBuilderFactory stepBuilderFactory;
 
     @Autowired
-    private BusinessModelService service;
+    private BusinessBaseDateService service;
 
     @Autowired
     private EntityManagerFactory entityManagerFactory;

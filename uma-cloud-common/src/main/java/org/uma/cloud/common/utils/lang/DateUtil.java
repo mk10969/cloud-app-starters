@@ -1,9 +1,10 @@
 package org.uma.cloud.common.utils.lang;
 
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.time.ZoneOffset;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.time.format.ResolverStyle;
 
@@ -11,6 +12,9 @@ public class DateUtil {
 
     private DateUtil() {
     }
+
+    private static final String timeZone = "Asia/Tokyo";
+
 
     public static String format(String format, LocalDateTime dateTime) {
         return DateTimeFormatter
@@ -25,14 +29,22 @@ public class DateUtil {
         return LocalDateTime.of(LocalDate.parse(yyyyMMdd, df), LocalTime.of(0, 0));
     }
 
-    public static LocalDateTime tolocalDateTime(long epochSecond) {
-        return LocalDateTime.ofEpochSecond(epochSecond, 0, ZoneOffset.UTC);
+    public static long now() {
+        return LocalDateTime.now()
+                .atZone(ZoneId.of(timeZone))
+                .toInstant()
+                .toEpochMilli();
     }
 
-    public static LocalDateTime tolocalDateTime(String epochSecond) {
-        return LocalDateTime.ofEpochSecond(Long.parseLong(epochSecond), 0, ZoneOffset.UTC);
+    public static LocalDateTime toLocalDateTime(long epochSecond) {
+        // milliseconds check
+        if (String.valueOf(epochSecond).length() != 13) {
+            throw new IllegalArgumentException("milliseconds にしてください。");
+        }
+        return Instant.ofEpochMilli(epochSecond)
+                .atZone(ZoneId.of(timeZone))
+                .toLocalDateTime();
     }
-
 
     public static LocalDateTime within3years(LocalDateTime dateTime) {
         // 現在時刻より、３年以内である。
