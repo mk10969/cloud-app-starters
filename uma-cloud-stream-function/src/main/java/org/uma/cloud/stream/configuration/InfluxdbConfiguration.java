@@ -11,10 +11,13 @@ public class InfluxdbConfiguration {
 
     private static final String url = "http://localhost:8086";
 
+    private static final String databaseName = "uma";
+
 
     @Bean
     public InfluxDB influxDB() {
-        return InfluxDBFactory.connect(url);
+        return InfluxDBFactory.connect(url)
+                .setDatabase(databaseName);
     }
 
 }

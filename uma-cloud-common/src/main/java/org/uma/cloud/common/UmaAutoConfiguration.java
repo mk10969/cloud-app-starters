@@ -11,7 +11,7 @@ import javax.sql.DataSource;
 
 
 /**
- * デフォルトで、JvLinkFunctionは、bean登録しておく。
+ * デフォルトで、JvLinkDeserializerは、bean登録しておく。
  */
 @Configuration
 @ComponentScan(basePackages = "org.uma.cloud.common.configuration")

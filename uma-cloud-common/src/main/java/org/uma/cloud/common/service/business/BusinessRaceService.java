@@ -20,7 +20,7 @@ public class BusinessRaceService {
     private BusinessRaceRepository repository;
 
 
-    public List<BusinessRace> findCommingRaces() {
+    public List<BusinessRace> findComingRaces() {
         return repository.findByRaceStartDateTime(DateUtil.toLocalDateTime(now.get()));
     }
 

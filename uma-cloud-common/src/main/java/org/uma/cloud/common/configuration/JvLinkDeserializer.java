@@ -28,7 +28,7 @@ import org.uma.cloud.common.utils.lang.ByteUtil;
 import java.util.function.Function;
 
 @Service
-public class JvLinkFunction {
+public class JvLinkDeserializer {
 
     @Autowired
     private JvLinkModelMapper jvLinkModelMapper;
@@ -57,27 +57,27 @@ public class JvLinkFunction {
 
     public RaceRefund raceRefundFunction(byte[] data) {
         RaceRefund model = jvLinkModelMapper.deserialize(data, RaceRefund.class);
-        model.getRefundWins().removeIf(JvLinkFunction::refundFilter);
-        model.getRefundPlaces().removeIf(JvLinkFunction::refundFilter);
-        model.getRefundBracketQuinellas().removeIf(JvLinkFunction::refundFilter);
-        model.getRefundQuinellas().removeIf(JvLinkFunction::refundFilter);
-        model.getRefundQuinellaPlaces().removeIf(JvLinkFunction::refundFilter);
-        model.getRefundSpares().removeIf(JvLinkFunction::refundFilter);
-        model.getRefundExactas().removeIf(JvLinkFunction::refundFilter);
-        model.getRefundTrios().removeIf(JvLinkFunction::refundFilter);
-        model.getRefundTrifectas().removeIf(JvLinkFunction::refundFilter);
+        model.getRefundWins().removeIf(JvLinkDeserializer::refundFilter);
+        model.getRefundPlaces().removeIf(JvLinkDeserializer::refundFilter);
+        model.getRefundBracketQuinellas().removeIf(JvLinkDeserializer::refundFilter);
+        model.getRefundQuinellas().removeIf(JvLinkDeserializer::refundFilter);
+        model.getRefundQuinellaPlaces().removeIf(JvLinkDeserializer::refundFilter);
+        model.getRefundSpares().removeIf(JvLinkDeserializer::refundFilter);
+        model.getRefundExactas().removeIf(JvLinkDeserializer::refundFilter);
+        model.getRefundTrios().removeIf(JvLinkDeserializer::refundFilter);
+        model.getRefundTrifectas().removeIf(JvLinkDeserializer::refundFilter);
         return model;
     }
 
     public VoteCount voteCountFunction(byte[] data) {
         VoteCount model = jvLinkModelMapper.deserialize(data, VoteCount.class);
-        model.getVoteCountWins().removeIf(JvLinkFunction::voteFilter);
-        model.getVoteCountPlaces().removeIf(JvLinkFunction::voteFilter);
-        model.getVoteCountBracketQuinellas().removeIf(JvLinkFunction::voteFilter);
-        model.getVoteCountQuinellas().removeIf(JvLinkFunction::voteFilter);
-        model.getVoteCountQuinellaPlaces().removeIf(JvLinkFunction::voteFilter);
-        model.getVoteCountExactas().removeIf(JvLinkFunction::voteFilter);
-        model.getVoteCountTrios().removeIf(JvLinkFunction::voteFilter);
+        model.getVoteCountWins().removeIf(JvLinkDeserializer::voteFilter);
+        model.getVoteCountPlaces().removeIf(JvLinkDeserializer::voteFilter);
+        model.getVoteCountBracketQuinellas().removeIf(JvLinkDeserializer::voteFilter);
+        model.getVoteCountQuinellas().removeIf(JvLinkDeserializer::voteFilter);
+        model.getVoteCountQuinellaPlaces().removeIf(JvLinkDeserializer::voteFilter);
+        model.getVoteCountExactas().removeIf(JvLinkDeserializer::voteFilter);
+        model.getVoteCountTrios().removeIf(JvLinkDeserializer::voteFilter);
         return model;
     }
 
@@ -87,39 +87,39 @@ public class JvLinkFunction {
 
     public WinsPlaceBracketQuinella winsPlaceBracketQuinellaFunction(byte[] data) {
         WinsPlaceBracketQuinella model = jvLinkModelMapper.deserialize(data, WinsPlaceBracketQuinella.class);
-        model.getWinOdds().removeIf(JvLinkFunction::winOddsFilter);
-        model.getPlaceOdds().removeIf(JvLinkFunction::placeOddsFilter);
-        model.getBracketQuinellaOdds().removeIf(JvLinkFunction::bracketQuinellaOddsFilter);
+        model.getWinOdds().removeIf(JvLinkDeserializer::winOddsFilter);
+        model.getPlaceOdds().removeIf(JvLinkDeserializer::placeOddsFilter);
+        model.getBracketQuinellaOdds().removeIf(JvLinkDeserializer::bracketQuinellaOddsFilter);
         return model;
     }
 
     public Quinella quinellaFunction(byte[] data) {
         Quinella model = jvLinkModelMapper.deserialize(data, Quinella.class);
-        model.getQuinellaOdds().removeIf(JvLinkFunction::quinellaOddsFilter);
+        model.getQuinellaOdds().removeIf(JvLinkDeserializer::quinellaOddsFilter);
         return model;
     }
 
     public QuinellaPlace quinellaPlaceFunction(byte[] data) {
         QuinellaPlace model = jvLinkModelMapper.deserialize(data, QuinellaPlace.class);
-        model.getQuinellaPlaceOdds().removeIf(JvLinkFunction::quinellaPlaceOddsFilter);
+        model.getQuinellaPlaceOdds().removeIf(JvLinkDeserializer::quinellaPlaceOddsFilter);
         return model;
     }
 
     public Exacta exactaFunction(byte[] data) {
         Exacta model = jvLinkModelMapper.deserialize(data, Exacta.class);
-        model.getExactaOdds().removeIf(JvLinkFunction::exactaOddsFilter);
+        model.getExactaOdds().removeIf(JvLinkDeserializer::exactaOddsFilter);
         return model;
     }
 
     public Trio trioFunction(byte[] data) {
         Trio model = jvLinkModelMapper.deserialize(data, Trio.class);
-        model.getTrioOdds().removeIf(JvLinkFunction::trioOddsFilter);
+        model.getTrioOdds().removeIf(JvLinkDeserializer::trioOddsFilter);
         return model;
     }
 
     public Trifecta trifectaFunction(byte[] data) {
         Trifecta model = jvLinkModelMapper.deserialize(data, Trifecta.class);
-        model.getTrifectaOdds().removeIf(JvLinkFunction::trifectaOddsFilter);
+        model.getTrifectaOdds().removeIf(JvLinkDeserializer::trifectaOddsFilter);
         return model;
     }
 

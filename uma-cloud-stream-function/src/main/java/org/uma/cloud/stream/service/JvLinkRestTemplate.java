@@ -1,12 +1,11 @@
-package org.uma.cloud.stream.function;
+package org.uma.cloud.stream.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
-import org.uma.cloud.common.configuration.JvLinkFunction;
+import org.uma.cloud.common.configuration.JvLinkDeserializer;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -14,14 +13,13 @@ import java.util.Arrays;
 import java.util.Objects;
 
 
-@Component
+@Service
 public class JvLinkRestTemplate {
 
     @Autowired
-    private JvLinkFunction jvLinkFunction;
+    private JvLinkDeserializer jvLinkDeserializer;
 
 
-    //    @PostConstruct
     public void init() throws URISyntaxException {
         RestTemplate restTemplate = new RestTemplate();
 
@@ -37,7 +35,7 @@ public class JvLinkRestTemplate {
         ResponseEntity<String[]> responseEntity = restTemplate.getForEntity(builder.toUriString(), String[].class);
 
         Arrays.stream(Objects.requireNonNull(responseEntity.getBody()))
-                .map(jvLinkFunction.decode().andThen(jvLinkFunction::quinellaFunction))
+                .map(jvLinkDeserializer.decode().andThen(jvLinkDeserializer::quinellaFunction))
                 .forEach(System.out::println);
 
 //        System.out.println("合計:" + count);
