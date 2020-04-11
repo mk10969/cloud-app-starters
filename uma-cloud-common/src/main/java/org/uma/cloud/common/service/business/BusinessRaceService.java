@@ -21,7 +21,7 @@ public class BusinessRaceService {
 
 
     public List<BusinessRace> findComingRaces() {
-        return repository.findByRaceStartDateTime(DateUtil.toLocalDateTime(now.get()));
+        return repository.findByRaceStartDateTimeAfter(DateUtil.toLocalDateTime(now.get()));
     }
 
     @Transactional

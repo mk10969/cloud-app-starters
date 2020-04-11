@@ -9,11 +9,11 @@ import java.util.List;
 public interface BusinessRaceRepository extends JpaRepository<BusinessRace, String> {
 
     /**
-     * 現在時刻で検索
+     * 現在時刻で検索し、未来日付を取得
      *
      * @param now
      * @return
      */
-    List<BusinessRace> findByRaceStartDateTime(LocalDateTime now);
+    List<BusinessRace> findByRaceStartDateTimeAfter(LocalDateTime now);
 
 }

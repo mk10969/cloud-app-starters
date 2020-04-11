@@ -12,7 +12,7 @@ import java.util.List;
 public interface RacingDetailsRepository extends JpaRepository<RacingDetails, String> {
 
     /**
-     * レース開催日で検索
+     * レース開催日を期間で検索
      *
      * @param bottom
      * @param top
