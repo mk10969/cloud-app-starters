@@ -3,6 +3,7 @@ package org.uma.cloud.batch;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.uma.cloud.common.service.business.BusinessBaseDateService;
 
 import java.util.Arrays;
 
@@ -11,6 +12,10 @@ class JvLinkReadersTest {
 
     @Autowired
     private JvLinkReaders jvLinkReaders;
+
+    @Autowired
+    private BusinessBaseDateService businessBaseDateService;
+
 
     @Test
     void testtest() {
@@ -23,5 +28,10 @@ class JvLinkReadersTest {
         String aa = level[level.length - 1];
     }
 
+    @Test
+    void test_optional() {
+        long l = businessBaseDateService.getLatestBaseDate();
+        System.out.println(l);
+    }
 
 }
