@@ -7,11 +7,14 @@ import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.time.format.ResolverStyle;
+import java.util.Objects;
 
 public class DateUtil {
 
     private DateUtil() {
     }
+
+    private static final String pattern = "uuuu/MM/dd";
 
     private static final String timeZone = "Asia/Tokyo";
 
@@ -23,7 +26,7 @@ public class DateUtil {
     }
 
     public static LocalDateTime of(String yyyyMMdd) {
-        final DateTimeFormatter df = DateTimeFormatter.ofPattern("uuuu/MM/dd")
+        final DateTimeFormatter df = DateTimeFormatter.ofPattern(pattern)
                 .withResolverStyle(ResolverStyle.STRICT);
         // localDateをlocalDateTimeに変換する。
         return LocalDateTime.of(LocalDate.parse(yyyyMMdd, df), LocalTime.of(0, 0));
@@ -44,6 +47,13 @@ public class DateUtil {
         return Instant.ofEpochMilli(epochSecond)
                 .atZone(ZoneId.of(timeZone))
                 .toLocalDateTime();
+    }
+
+    public static long toEpochMilli(LocalDateTime localDateTime) {
+        return Objects.requireNonNull(localDateTime, "localDateTimeがnullです。")
+                .atZone(ZoneId.of(timeZone))
+                .toInstant()
+                .toEpochMilli();
     }
 
     public static LocalDateTime within3years(LocalDateTime dateTime) {

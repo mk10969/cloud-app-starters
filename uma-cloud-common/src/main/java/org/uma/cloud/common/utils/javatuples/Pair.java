@@ -10,10 +10,6 @@ public class Pair<A, B> implements Tuple {
 
     private static final long serialVersionUID = -8813360138277013769L;
 
-    /**
-     * Jacksonでリフレクションを利用する場合、デフォルトコンストラクターが必須
-     * なので、final修飾子をとっておくしかない。(´・ω・｀)
-     */
     private final A value1;
     private final B value2;
 
@@ -44,10 +40,7 @@ public class Pair<A, B> implements Tuple {
 
     @Override
     public final String toString() {
-        return "Pair{" +
-                "value1=" + value1 +
-                ", value2=" + value2 +
-                '}';
+        return this.value1 + "-" + this.value2;
     }
 
 }

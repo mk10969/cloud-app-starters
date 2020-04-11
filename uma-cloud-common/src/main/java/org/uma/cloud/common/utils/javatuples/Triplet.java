@@ -10,10 +10,6 @@ public class Triplet<A, B, C> implements Tuple {
 
     private static final long serialVersionUID = 3468566296525061358L;
 
-    /**
-     * Jacksonでリフレクションを利用する場合、デフォルトコンストラクターが必須
-     * なので、final修飾子をとっておくしかない。(´・ω・｀)
-     */
     private final A value1;
     private final B value2;
     private final C value3;
@@ -53,11 +49,7 @@ public class Triplet<A, B, C> implements Tuple {
 
     @Override
     public String toString() {
-        return "Triplet{" +
-                "value1=" + value1 +
-                ", value2=" + value2 +
-                ", value3=" + value3 +
-                '}';
+        return this.value1 + "-" + this.value2 + "-" + this.value3;
     }
 
 }

@@ -18,7 +18,7 @@ import reactor.core.publisher.Mono;
 import java.util.Optional;
 
 @Service
-public class JvLinkWebClientService {
+public class JvLinkWebService {
 
     @Autowired
     private RestTemplate restTemplate;

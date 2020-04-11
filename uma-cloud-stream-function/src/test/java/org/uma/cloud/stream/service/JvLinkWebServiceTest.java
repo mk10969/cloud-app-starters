@@ -10,10 +10,10 @@ import reactor.core.publisher.Flux;
 
 
 @SpringBootTest
-class JvLinkWebClientServiceTest {
+class JvLinkWebServiceTest {
 
     @Autowired
-    private JvLinkWebClientService jvLinkWebClientService;
+    private JvLinkWebService jvLinkWebService;
 
     @Autowired
     private JvLinkDeserializer jvLinkDeserializer;
@@ -64,7 +64,7 @@ class JvLinkWebClientServiceTest {
 
     @Test
     void test_timeseriesQuinella() throws InterruptedException {
-        jvLinkWebClientService.timeseriesQuinella("2020040509020411")
+        jvLinkWebService.timeseriesQuinella("2020040509020411")
                 .subscribe(System.out::println);
 
         Thread.sleep(3000L);
@@ -72,7 +72,7 @@ class JvLinkWebClientServiceTest {
 
     @Test
     void test_timeseriesWinsPlaceBracketQuinella() throws InterruptedException {
-        jvLinkWebClientService.timeseriesWinsPlaceBracketQuinella("2020040509020411")
+        jvLinkWebService.timeseriesWinsPlaceBracketQuinella("2020040509020411")
                 .subscribe(System.out::println);
 
         Thread.sleep(3000L);
@@ -80,7 +80,7 @@ class JvLinkWebClientServiceTest {
 
     @Test
     void test_findAllRaceDetailsThisWeek() throws InterruptedException {
-        jvLinkWebClientService.raceDetailsThisWeek()
+        jvLinkWebService.raceDetailsThisWeek()
                 .subscribe(System.out::println);
 
         Thread.sleep(3000L);

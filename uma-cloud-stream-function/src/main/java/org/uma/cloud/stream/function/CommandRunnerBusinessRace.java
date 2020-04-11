@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Configuration;
 import org.uma.cloud.common.model.RacingDetails;
 import org.uma.cloud.common.model.business.BusinessRace;
 import org.uma.cloud.common.service.business.BusinessRaceService;
-import org.uma.cloud.stream.service.JvLinkWebClientService;
+import org.uma.cloud.stream.service.JvLinkWebService;
 
 import java.time.LocalDateTime;
 
@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 public class CommandRunnerBusinessRace {
 
     @Autowired
-    private JvLinkWebClientService jvLinkWebClientService;
+    private JvLinkWebService jvLinkWebService;
 
     @Autowired
     private BusinessRaceService businessRaceService;
@@ -26,7 +26,7 @@ public class CommandRunnerBusinessRace {
      */
     @Bean
     public CommandLineRunner initThisWeekRace() {
-        return args -> jvLinkWebClientService.raceDetailsThisWeek()
+        return args -> jvLinkWebService.raceDetailsThisWeek()
                 .map(this::createBusinessRace)
                 .toStream()
                 .forEach(businessRaceService::update);

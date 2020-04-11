@@ -24,7 +24,7 @@ import java.util.List;
 @Getter
 @Entity
 @Table(name = "odds_quinella_place")
-public class QuinellaPlace extends BaseModel {
+public class QuinellaPlace extends BaseModel implements Odds {
 
     /**
      * {@link RacingDetails.raceId}
