@@ -9,10 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.uma.cloud.common.configuration.JvLinkDeserializer;
-import org.uma.cloud.stream.SkipCommandLineRunnerTestConfiguration;
 
 
-@SpringBootTest(classes = SkipCommandLineRunnerTestConfiguration.class)
+@SpringBootTest
 class JvLinkWebServiceTest {
 
     @Autowired
@@ -24,13 +23,10 @@ class JvLinkWebServiceTest {
     @Autowired
     private WebClient webClient;
 
-//    @Autowired
-//    private RestTemplate restTemplate;
-
 
     @Getter
     @ToString
-    protected static class ExternalResponse {
+    static class ExternalResponse {
 
         private final String data;
 
@@ -45,26 +41,6 @@ class JvLinkWebServiceTest {
         }
     }
 
-//    private String[] findOne(String path, String raceId) {
-//        UriComponentsBuilder uriComponentsBuilder = UriComponentsBuilder
-//                .fromHttpUrl("http://192.168.56.104:8888" + path)
-//                .queryParam("raceId", raceId);
-//
-//        System.out.println(uriComponentsBuilder.toUriString());
-//
-//        return restTemplate.getForObject(
-//                uriComponentsBuilder.toUriString(),
-//                String[].class);
-//    }
-//
-//
-//    @Test
-//    void test_restTemplate() {
-//        Flux.fromArray(findOne("/timeseries/quinella", "2020040509020411"))
-//                .map(jvLinkDeserializer.decode()
-//                        .andThen(jvLinkDeserializer::quinellaFunction))
-//                .subscribe(System.out::println);
-//    }
 
     @Test
     void test_webClient_timeSeries() throws InterruptedException {
@@ -128,5 +104,56 @@ class JvLinkWebServiceTest {
 
         Thread.sleep(3000L);
     }
+
+
+    /**
+     * ボツ
+     */
+//    @Autowired
+//    private RestTemplate restTemplate;
+
+
+    //    private String[] findOne(String path, String raceId) {
+//        UriComponentsBuilder uriComponentsBuilder = UriComponentsBuilder
+//                .fromHttpUrl("http://192.168.56.104:8888" + path)
+//                .queryParam("raceId", raceId);
+//
+//        System.out.println(uriComponentsBuilder.toUriString());
+//
+//        return restTemplate.getForObject(
+//                uriComponentsBuilder.toUriString(),
+//                String[].class);
+//    }
+//
+//
+//    @Test
+//    void test_restTemplate() {
+//        Flux.fromArray(findOne("/timeseries/quinella", "2020040509020411"))
+//                .map(jvLinkDeserializer.decode()
+//                        .andThen(jvLinkDeserializer::quinellaFunction))
+//                .subscribe(System.out::println);
+//    }
+
+
+    //    private Mono<String> findOneByRaceId(String path, String raceId) {
+//        String body = restTemplate.getForObject(UriComponentsBuilder
+//                        .fromHttpUrl(baseUrl + path)
+//                        .queryParam(RACE_ID, raceId)
+//                        .toUriString(),
+//                String.class);
+//
+//        return Mono.just(Optional.ofNullable(body).orElseThrow());
+//    }
+
+//    private Flux<String> findAllByRaceId(String path, String raceId) {
+//        String[] body = restTemplate.getForObject(UriComponentsBuilder
+//                        .fromHttpUrl(baseUrl + path)
+//                        .queryParam(RACE_ID, raceId)
+//                        .toUriString(),
+//                String[].class);
+//
+//        return Flux.fromArray(Optional.ofNullable(body).orElseThrow());
+//    }
+
 
 }

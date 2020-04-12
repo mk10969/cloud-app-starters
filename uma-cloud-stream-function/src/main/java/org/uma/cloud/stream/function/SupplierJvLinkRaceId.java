@@ -3,7 +3,6 @@ package org.uma.cloud.stream.function;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.function.context.PollableBean;
 import org.springframework.context.annotation.Configuration;
-import org.uma.cloud.common.configuration.JvLinkDeserializer;
 import org.uma.cloud.common.model.business.BusinessRace;
 import org.uma.cloud.common.service.business.BusinessRaceService;
 import reactor.core.publisher.Flux;
@@ -16,12 +15,9 @@ public class SupplierJvLinkRaceId {
     @Autowired
     private BusinessRaceService businessRaceService;
 
-    @Autowired
-    private JvLinkDeserializer jvLinkDeserializer;
-
     /**
-     * fixedDelay -> Default: 1000L.
-     * maxMessagesPerPoll -> Default: 1L.
+     * fixedDelay          ->  Default: 1000L.
+     * maxMessagesPerPoll  ->  Default: 1L.
      */
     @PollableBean
     public Supplier<Flux<String>> comingRaceIds() {

@@ -1,9 +1,11 @@
 package org.uma.cloud.stream.service;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
-import org.springframework.web.util.UriComponentsBuilder;
+import org.springframework.web.reactive.function.client.WebClient;
 import org.uma.cloud.common.configuration.JvLinkDeserializer;
 import org.uma.cloud.common.model.RacingDetails;
 import org.uma.cloud.common.model.odds.Exacta;
@@ -15,19 +17,14 @@ import org.uma.cloud.common.model.odds.WinsPlaceBracketQuinella;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-import java.util.Optional;
-
 @Service
 public class JvLinkWebService {
 
     @Autowired
-    private RestTemplate restTemplate;
+    private WebClient webClient;
 
     @Autowired
     private JvLinkDeserializer jvLinkDeserializer;
-
-    // base url
-    private static final String baseUrl = "http://192.168.56.104:8888";
 
     // レースID
     private static final String RACE_ID = "raceId";
@@ -61,40 +58,35 @@ public class JvLinkWebService {
 
 
     private Mono<String> findOneByRaceId(String path, String raceId) {
-        String body = restTemplate.getForObject(UriComponentsBuilder
-                        .fromHttpUrl(baseUrl + path)
-                        .queryParam(RACE_ID, raceId)
-                        .toUriString(),
-                String.class);
-
-        return Mono.just(Optional.ofNullable(body).orElseThrow());
-
-//        return webClient.method(HttpMethod.GET)
-//                .uri(uriBuilder -> uriBuilder
-//                        .path(path)
-//                        .queryParam(RACE_ID, raceId)
-//                        .build())
-//                .retrieve()
-//                .bodyToMono(String.class);
+        return webClient.get().uri(uriBuilder -> uriBuilder
+                .path(path)
+                .queryParam(RACE_ID, raceId)
+                .build())
+                .retrieve()
+                .bodyToMono(ExternalResponse.class)
+                .map(ExternalResponse::getData);
     }
 
     private Flux<String> findAllByRaceId(String path, String raceId) {
-        String[] body = restTemplate.getForObject(UriComponentsBuilder
-                        .fromHttpUrl(baseUrl + path)
-                        .queryParam(RACE_ID, raceId)
-                        .toUriString(),
-                String[].class);
-
-        return Flux.fromArray(Optional.ofNullable(body).orElseThrow());
+        return webClient.get().uri(uriBuilder -> uriBuilder
+                .path(path)
+                .queryParam(RACE_ID, raceId)
+                .build())
+                .retrieve()
+                .bodyToFlux(ExternalResponse.class)
+                .map(ExternalResponse::getData);
     }
 
 
     public Flux<RacingDetails> raceDetailsThisWeek() {
-        String[] body = restTemplate.getForObject(baseUrl + racingDetailsThisWeek, String[].class);
-
-        return Flux.fromArray(Optional.ofNullable(body).orElseThrow())
+        return webClient.get().uri(uriBuilder -> uriBuilder
+                .path(racingDetailsThisWeek)
+                .build())
+                .retrieve()
+                .bodyToFlux(ExternalResponse.class)
+                .map(ExternalResponse::getData)
                 .map(jvLinkDeserializer.decode()
-                        .andThen(jvLinkDeserializer::racingDetailsFunction));
+                .andThen(jvLinkDeserializer::racingDetailsFunction));
     }
 
     public Mono<WinsPlaceBracketQuinella> winsPlaceBracketQuinella(String raceId) {
@@ -143,6 +135,23 @@ public class JvLinkWebService {
         return findAllByRaceId(timeseriesQuinella, raceId)
                 .map(jvLinkDeserializer.decode()
                         .andThen(jvLinkDeserializer::quinellaFunction));
+    }
+
+
+    @Getter
+    static class ExternalResponse {
+
+        private final String data;
+
+        private final String message;
+
+        @JsonCreator
+        public ExternalResponse(
+                @JsonProperty("data") String data,
+                @JsonProperty("message") String message) {
+            this.data = data;
+            this.message = message;
+        }
     }
 
 }
