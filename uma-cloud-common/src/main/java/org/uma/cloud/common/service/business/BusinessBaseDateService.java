@@ -8,6 +8,7 @@ import org.uma.cloud.common.repository.business.BusinessBaseDateRepository;
 import org.uma.cloud.common.utils.lang.DateUtil;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service
 public class BusinessBaseDateService {
@@ -17,7 +18,9 @@ public class BusinessBaseDateService {
 
 
     public long getLatestBaseDate() {
-        return this.repository.findTopByOrderByIdDesc().getBaseDate();
+        return this.repository.findTopByOrderByIdDesc()
+                .orElseThrow(() -> new NoSuchElementException("BusinessBaseDateにデータがありません。"))
+                .getBaseDate();
     }
 
     public List<BusinessBaseDate> findAll() {
