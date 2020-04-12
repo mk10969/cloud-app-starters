@@ -1,15 +1,18 @@
 package org.uma.cloud.stream.service;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Getter;
+import lombok.ToString;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.web.client.RestTemplate;
-import org.springframework.web.util.UriComponentsBuilder;
+import org.springframework.web.reactive.function.client.WebClient;
 import org.uma.cloud.common.configuration.JvLinkDeserializer;
-import reactor.core.publisher.Flux;
+import org.uma.cloud.stream.SkipCommandLineRunnerTestConfiguration;
 
 
-@SpringBootTest
+@SpringBootTest(classes = SkipCommandLineRunnerTestConfiguration.class)
 class JvLinkWebServiceTest {
 
     @Autowired
@@ -18,48 +21,88 @@ class JvLinkWebServiceTest {
     @Autowired
     private JvLinkDeserializer jvLinkDeserializer;
 
-//    @Autowired
-//    private WebClient webClient;
-
     @Autowired
-    private RestTemplate restTemplate;
+    private WebClient webClient;
+
+//    @Autowired
+//    private RestTemplate restTemplate;
 
 
-    private String[] findOne(String path, String raceId) {
-        UriComponentsBuilder uriComponentsBuilder = UriComponentsBuilder
-                .fromHttpUrl("http://192.168.56.104:8888" + path)
-                .queryParam("raceId", raceId);
+    @Getter
+    @ToString
+    protected static class ExternalResponse {
 
-        System.out.println(uriComponentsBuilder.toUriString());
+        private final String data;
 
-        return restTemplate.getForObject(
-                uriComponentsBuilder.toUriString(),
-                String[].class);
+        private final String message;
+
+        @JsonCreator
+        public ExternalResponse(
+                @JsonProperty("data") String data,
+                @JsonProperty("message") String message) {
+            this.data = data;
+            this.message = message;
+        }
     }
 
+//    private String[] findOne(String path, String raceId) {
+//        UriComponentsBuilder uriComponentsBuilder = UriComponentsBuilder
+//                .fromHttpUrl("http://192.168.56.104:8888" + path)
+//                .queryParam("raceId", raceId);
+//
+//        System.out.println(uriComponentsBuilder.toUriString());
+//
+//        return restTemplate.getForObject(
+//                uriComponentsBuilder.toUriString(),
+//                String[].class);
+//    }
+//
+//
+//    @Test
+//    void test_restTemplate() {
+//        Flux.fromArray(findOne("/timeseries/quinella", "2020040509020411"))
+//                .map(jvLinkDeserializer.decode()
+//                        .andThen(jvLinkDeserializer::quinellaFunction))
+//                .subscribe(System.out::println);
+//    }
 
     @Test
-    void test_restTemplate() {
-        Flux.fromArray(findOne("/timeseries/quinella", "2020040509020411"))
+    void test_webClient_timeSeries() throws InterruptedException {
+        webClient.get().uri(uriBuilder -> uriBuilder
+                .path("/timeseries/quinella")
+                .queryParam("raceId", "2020040509020411")
+                .build())
+                .retrieve()
+                .bodyToFlux(ExternalResponse.class)
+                .map(ExternalResponse::getData)
                 .map(jvLinkDeserializer.decode()
                         .andThen(jvLinkDeserializer::quinellaFunction))
-                .subscribe(System.out::println);
+                .subscribe(
+                        System.out::println,
+                        System.out::println,
+                        () -> System.out.println("完了")
+                );
+        Thread.sleep(3000L);
     }
 
-//    @Test
-//    void test_webClient() throws InterruptedException {
-//        webClient.method(HttpMethod.GET)
-//                .uri(uriBuilder -> uriBuilder
-//                        .path("/timeseries/quinella")
-//                        .queryParam("raceId", "2020040509020411")
-//                        .build())
-//                .retrieve()
-//                .bodyToMono(new ParameterizedTypeReference<List<String>>() {
-//                })
-//                .subscribe();
-//
-//        Thread.sleep(3000L);
-//    }
+    @Test
+    void test_webClient() throws InterruptedException {
+        webClient.get().uri(uriBuilder -> uriBuilder
+                .path("/racingDetails")
+                .queryParam("raceId", "2020040509020411")
+                .build())
+                .retrieve()
+                .bodyToMono(ExternalResponse.class)
+                .map(ExternalResponse::getData)
+                .map(jvLinkDeserializer.decode()
+                        .andThen(jvLinkDeserializer::racingDetailsFunction))
+                .subscribe(
+                        System.out::println,
+                        System.out::println,
+                        () -> System.out.println("完了")
+                );
+        Thread.sleep(3000L);
+    }
 
 
     @Test
