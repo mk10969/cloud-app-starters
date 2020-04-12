@@ -1,24 +1,23 @@
 package org.uma.cloud.stream.configuration;
 
-
 import org.influxdb.BatchOptions;
 import org.influxdb.InfluxDB;
 import org.influxdb.InfluxDBFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.uma.cloud.stream.StreamFunctionProperties;
 
 @Configuration
-public class InfluxdbConfiguration {
+public class InfluxDBConfiguration {
 
-    private static final String url = "http://localhost:8086";
-
-    private static final String databaseName = "uma";
-
+    @Autowired
+    private StreamFunctionProperties properties;
 
     @Bean
     public InfluxDB influxDB() {
-        return InfluxDBFactory.connect(url)
-                .setDatabase(databaseName)
+        return InfluxDBFactory.connect(properties.getInfluxDBUrl())
+                .setDatabase(properties.getInfluxDBDatabase())
                 .enableBatch(batchOptions());
     }
 

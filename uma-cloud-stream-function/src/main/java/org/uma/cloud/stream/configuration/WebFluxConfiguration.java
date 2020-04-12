@@ -4,13 +4,19 @@ import lombok.extern.slf4j.Slf4j;
 import org.influxdb.dto.Point;
 import org.reactivestreams.Subscriber;
 import org.reactivestreams.Subscription;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.uma.cloud.common.model.business.BusinessRace;
+import org.uma.cloud.stream.StreamFunctionProperties;
 
 @Slf4j
 @Configuration
-public class SubscriberConfiguration {
+public class WebFluxConfiguration {
+
+    @Autowired
+    private StreamFunctionProperties properties;
+
 
     @Bean
     public Subscriber<BusinessRace> businessRaceSubscriber() {
@@ -64,6 +70,5 @@ public class SubscriberConfiguration {
             }
         };
     }
-
 
 }

@@ -22,7 +22,7 @@ public class ConsumerCommandLineRunner {
 
     @Autowired
     private BusinessRaceService businessRaceService;
-    
+
     @Autowired
     private Subscriber<BusinessRace> subscriber;
 
@@ -35,7 +35,7 @@ public class ConsumerCommandLineRunner {
     public CommandLineRunner initThisWeekRace() {
         return args -> jvLinkWebService.raceDetailsThisWeek()
                 .map(ConsumerCommandLineRunner::createBusinessRace)
-                .doOnNext(businessRaceService::update)
+                .doOnNext(businessRaceService::update) //新しくなったら更新する。exist check不要
                 .subscribeOn(Schedulers.immediate())
                 .subscribe(subscriber);
     }

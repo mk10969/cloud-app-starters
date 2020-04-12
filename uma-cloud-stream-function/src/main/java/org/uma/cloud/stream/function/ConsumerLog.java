@@ -1,11 +1,13 @@
 package org.uma.cloud.stream.function;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import reactor.core.publisher.Flux;
 
 import java.util.function.Consumer;
 
+@Slf4j
 @Configuration
 public class ConsumerLog {
 
@@ -20,22 +22,22 @@ public class ConsumerLog {
 //    }
 
 
-    /**
-     * 下記いける！
-     */
-    @Bean
-    public Consumer<String> log() {
-        return i -> System.out.println("TEST: " + i);
-    }
-
 //    /**
-//     * subscribeするの忘れないこと！
+//     * 下記いける！
 //     */
 //    @Bean
-//    public Consumer<Flux<?>> log() {
-//        return data -> data
-//                .doOnNext(i -> System.out.println("TEST: " + i))
-//                .subscribe();
+//    public Consumer<String> log() {
+//        return i -> System.out.println("TEST: " + i);
 //    }
+
+    /**
+     * subscribeするの忘れないこと！
+     */
+    @Bean
+    public Consumer<Flux<?>> log() {
+        return data -> data
+                .doOnNext(i -> log.info("Consumer: {}", i))
+                .subscribe();
+    }
 
 }
