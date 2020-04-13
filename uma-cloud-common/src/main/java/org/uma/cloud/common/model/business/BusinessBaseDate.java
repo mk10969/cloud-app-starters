@@ -1,6 +1,5 @@
 package org.uma.cloud.common.model.business;
 
-
 import lombok.Data;
 
 import javax.persistence.Column;

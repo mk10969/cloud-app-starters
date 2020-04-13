@@ -28,11 +28,6 @@ public class BusinessBaseDateService {
     }
 
     @Transactional
-    public void save(BusinessBaseDate businessBaseDate) {
-        this.repository.save(businessBaseDate);
-    }
-
-    @Transactional
     public void insertBaseDate() {
         BusinessBaseDate businessBaseDate = new BusinessBaseDate();
         businessBaseDate.setBaseDate(DateUtil.now());
