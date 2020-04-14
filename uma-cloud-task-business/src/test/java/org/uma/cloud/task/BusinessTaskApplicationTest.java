@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.uma.cloud.common.model.business.BusinessBaseDate;
-import org.uma.cloud.common.service.business.BusinessBaseDateService;
+import org.uma.cloud.common.repository.business.BusinessBaseDateRepository;
 
 import java.time.ZonedDateTime;
 
@@ -12,7 +12,7 @@ import java.time.ZonedDateTime;
 class BusinessTaskApplicationTest {
 
     @Autowired
-    private BusinessBaseDateService service;
+    private BusinessBaseDateRepository service;
 
     @Test
     void test_BusinessModelRepository() throws InterruptedException {
