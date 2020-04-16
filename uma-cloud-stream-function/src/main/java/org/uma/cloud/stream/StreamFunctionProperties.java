@@ -11,7 +11,7 @@ public class StreamFunctionProperties {
 
     @Getter
     @Setter
-    private boolean isDebug = false;
+    private boolean debug = false;
 
     @Getter
     @Setter

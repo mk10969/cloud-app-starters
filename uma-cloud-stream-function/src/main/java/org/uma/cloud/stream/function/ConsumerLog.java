@@ -1,6 +1,7 @@
 package org.uma.cloud.stream.function;
 
 import lombok.extern.slf4j.Slf4j;
+import org.influxdb.dto.Point;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import reactor.core.publisher.Flux;
