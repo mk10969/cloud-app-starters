@@ -3,7 +3,7 @@ package org.uma.cloud.stream.function;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.uma.cloud.common.service.business.BusinessRaceService;
+import org.uma.cloud.common.service.business.BusinessRacingService;
 
 import java.time.Instant;
 import java.time.LocalDateTime;
@@ -16,7 +16,7 @@ class SupplierJvLinkRaceIdTest {
 
 
     @Autowired
-    private BusinessRaceService businessRaceService;
+    private BusinessRacingService businessRacingService;
 
 
     private static final Supplier<Long> now = System::currentTimeMillis;
@@ -24,7 +24,7 @@ class SupplierJvLinkRaceIdTest {
 
     @Test
     void test_getComingRaceId() {
-        long a = businessRaceService.findComingRaces().stream().count();
+        long a = businessRacingService.findComingRaces().size();
         System.out.println(a);
     }
 

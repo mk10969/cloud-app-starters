@@ -180,6 +180,15 @@ class JvLinkWebServiceTest {
     }
 
 
+    @Test
+    void test_findOneRaceDetails() throws InterruptedException {
+        jvLinkWebService.racingDetails("2020041909020804")
+                .subscribe(System.out::println);
+        Thread.sleep(5000L);
+    }
+
+
+
 
 
 //    @Test
