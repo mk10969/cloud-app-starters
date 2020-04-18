@@ -48,6 +48,7 @@ public class RaceHorseExclusion extends BaseModel {
      * 血統登録番号 10桁
      * {@link Offspring.bloodlineNo}
      */
+    @Id
     private Long bloodlineNo;
 
     @Column(length = 36)
@@ -56,6 +57,7 @@ public class RaceHorseExclusion extends BaseModel {
     /**
      * 同一業務日付で、同一馬を受付（出馬投票の追加、再投票）した順番
      */
+    @Id
     private Integer entryOrderNo;
 
     /**

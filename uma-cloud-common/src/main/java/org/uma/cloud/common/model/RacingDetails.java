@@ -126,11 +126,9 @@ public class RacingDetails extends BaseModel {
     @Column(length = 60)
     private String raceConditionName;
 
-    @Column(length = 4)
-    private String distance;
+    private Integer distance;
 
-    @Column(length = 4)
-    private String distanceBefore;
+    private Integer distanceBefore;
 
     @Column(length = 20)
     @Enumerated(EnumType.STRING)

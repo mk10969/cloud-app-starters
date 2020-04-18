@@ -53,10 +53,19 @@ public class HorseRacingDetails extends BaseModel {
 
     private Integer holdingDay;
 
+    /**
+     * レース番号
+     */
     private Integer raceNo;
 
+    /**
+     * 枠番
+     */
     private Integer bracketNo;
 
+    /**
+     * 馬番
+     */
     @Id
     @Column(length = 2)
     private String horseNo;
