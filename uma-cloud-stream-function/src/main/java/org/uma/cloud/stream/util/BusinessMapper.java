@@ -1,16 +1,16 @@
-package org.uma.cloud.stream.function;
+package org.uma.cloud.stream.util;
 
 import org.uma.cloud.common.model.HorseRacingDetails;
 import org.uma.cloud.common.model.RacingDetails;
-import org.uma.cloud.common.model.business.BusinessHorseRace;
-import org.uma.cloud.common.model.business.BusinessRace;
+import org.uma.cloud.common.model.business.BusinessRacingHorse;
+import org.uma.cloud.common.model.business.BusinessRacing;
 
 import java.time.LocalDateTime;
 
 public class BusinessMapper {
 
-    public static BusinessRace toBusinessRace(RacingDetails racingDetails) {
-        BusinessRace model = new BusinessRace();
+    public static BusinessRacing toBusinessRace(RacingDetails racingDetails) {
+        BusinessRacing model = new BusinessRacing();
         model.setRaceId(racingDetails.getRaceId());
         model.setDataDiv(racingDetails.getDataDiv());
         model.setRaceStartDateTime(LocalDateTime.of(racingDetails.getHoldingDate(), racingDetails.getStartTime()));
@@ -25,8 +25,8 @@ public class BusinessMapper {
         return model;
     }
 
-    public static BusinessHorseRace toBusinessHorseRace(HorseRacingDetails horseRacingDetails) {
-        BusinessHorseRace model = new BusinessHorseRace();
+    public static BusinessRacingHorse toBusinessHorseRace(HorseRacingDetails horseRacingDetails) {
+        BusinessRacingHorse model = new BusinessRacingHorse();
         model.setRaceId(horseRacingDetails.getRaceId());
         model.setDataDiv(horseRacingDetails.getDataDiv());
         model.setRaceNo(horseRacingDetails.getRaceNo());
