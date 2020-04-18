@@ -49,13 +49,13 @@ public class BaseModel implements Serializable {
      * Myデータ作成日時
      */
     @CreationTimestamp
-    private LocalDateTime createDateTime;
+    private LocalDateTime myCreateDateTime;
 
     /**
      * Myデータ更新日時
      */
     @UpdateTimestamp
-    private LocalDateTime updateDateTime;
+    private LocalDateTime myUpdateDateTime;
 
 
     /**

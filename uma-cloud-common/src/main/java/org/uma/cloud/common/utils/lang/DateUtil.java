@@ -1,5 +1,6 @@
 package org.uma.cloud.common.utils.lang;
 
+import java.time.DayOfWeek;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -65,8 +66,11 @@ public class DateUtil {
         throw new IllegalArgumentException("現在時刻から、３年以内のデータしか取得できません。");
     }
 
-    public static LocalDateTime lastWeek() {
-        return LocalDateTime.now().minusWeeks(1L);
+    public static long thisFriday() {
+        LocalDateTime thisFriday = LocalDateTime.now().with(DayOfWeek.FRIDAY);
+        return thisFriday.atZone(ZoneId.of(timeZone))
+                .toInstant()
+                .toEpochMilli();
     }
 
 }
