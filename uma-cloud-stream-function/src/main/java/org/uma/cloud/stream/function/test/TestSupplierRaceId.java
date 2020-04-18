@@ -1,9 +1,9 @@
-package org.uma.cloud.stream.function;
+package org.uma.cloud.stream.function.test;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.function.context.PollableBean;
 import org.springframework.context.annotation.Configuration;
-import org.uma.cloud.common.model.business.BusinessRace;
+import org.uma.cloud.common.model.business.BusinessRacing;
 import reactor.core.publisher.Flux;
 
 import java.time.Duration;
@@ -19,15 +19,15 @@ public class TestSupplierRaceId {
     @PollableBean
     public Supplier<Flux<String>> testRaceId() {
         return () -> Flux.defer(fluxSupplier())
-                .map(BusinessRace::getRaceId)
+                .map(BusinessRacing::getRaceId)
                 .sort()
                 .delayElements(Duration.ofMillis(300L)) //データをdelayさせることができる。
                 .log();
     }
 
-    private Supplier<Flux<BusinessRace>> fluxSupplier() {
+    private Supplier<Flux<BusinessRacing>> fluxSupplier() {
         return () -> baseDate().zipWith(startTime(), (a, b) -> {
-            BusinessRace model = new BusinessRace();
+            BusinessRacing model = new BusinessRacing();
             model.setRaceId(a);
             model.setRaceStartDateTime(b);
             return model;

@@ -1,4 +1,4 @@
-package org.uma.cloud.stream.function;
+package org.uma.cloud.stream.function.test;
 
 import lombok.extern.slf4j.Slf4j;
 import org.influxdb.dto.Point;
