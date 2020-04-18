@@ -3,7 +3,9 @@ package org.uma.cloud.stream.service;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.uma.cloud.common.configuration.JvLinkDeserializer;
@@ -14,9 +16,12 @@ import org.uma.cloud.common.model.odds.QuinellaPlace;
 import org.uma.cloud.common.model.odds.Trifecta;
 import org.uma.cloud.common.model.odds.Trio;
 import org.uma.cloud.common.model.odds.WinsPlaceBracketQuinella;
+import org.uma.cloud.common.utils.lang.DateUtil;
+import org.uma.cloud.stream.configuration.WebClientConfiguration.JvLinkWebClientException;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+@Slf4j
 @Service
 public class JvLinkWebService {
 
@@ -30,7 +35,8 @@ public class JvLinkWebService {
     private static final String RACE_ID = "raceId";
 
     // 今週のレース情報
-    private static final String racingDetailsThisWeek = "/racingDetails/thisWeek";
+    // TODO: 今週金曜日時点のデータを取得
+    private static final String racingDetailsWithFriday = "/racingDetails/{epochMilli}";
 
     // 単勝・複勝・枠連
     private static final String winsPlaceBracketQuinella = "/winsPlaceBracketQuinella";
@@ -57,6 +63,21 @@ public class JvLinkWebService {
     private static final String timeseriesQuinella = "/timeseries/quinella";
 
 
+    private void errorHandle(Throwable throwable) {
+        if (throwable instanceof JvLinkWebClientException) {
+            if (HttpStatus.NOT_FOUND == ((JvLinkWebClientException) throwable).getHttpStatus()) {
+                log.warn(throwable.getMessage());
+            } else {
+                // リクエスト形式に誤りあり。
+                log.error("クライアントのリクエストに問題あり : ", throwable);
+            }
+        } else {
+            // サーバ側に問題あり。
+            log.error("JvLinkWebServiceでエラー発生: ", throwable);
+        }
+    }
+
+
     private Mono<String> findOneByRaceId(String path, String raceId) {
         return webClient.get().uri(uriBuilder -> uriBuilder
                 .path(path)
@@ -64,7 +85,8 @@ public class JvLinkWebService {
                 .build())
                 .retrieve()
                 .bodyToMono(ExternalResponse.class)
-                .map(ExternalResponse::getData);
+                .map(ExternalResponse::getData)
+                .doOnError(this::errorHandle);
     }
 
     private Flux<String> findAllByRaceId(String path, String raceId) {
@@ -74,20 +96,27 @@ public class JvLinkWebService {
                 .build())
                 .retrieve()
                 .bodyToFlux(ExternalResponse.class)
-                .map(ExternalResponse::getData);
+                .map(ExternalResponse::getData)
+                .doOnError(this::errorHandle);
     }
 
-
-    public Flux<RacingDetails> raceDetailsThisWeek() {
+    /**
+     * 今週金曜日を基準日として設定して、蓄積系のracingDetailsを叩く。
+     * 欲しいデータがとれている！
+     * @return
+     */
+    public Flux<RacingDetails> raceDetailsWithFriday() {
         return webClient.get().uri(uriBuilder -> uriBuilder
-                .path(racingDetailsThisWeek)
-                .build())
+                .path(racingDetailsWithFriday)
+                .build(DateUtil.thisFriday()))
                 .retrieve()
                 .bodyToFlux(ExternalResponse.class)
                 .map(ExternalResponse::getData)
                 .map(jvLinkDeserializer.decode()
-                .andThen(jvLinkDeserializer::racingDetailsFunction));
+                        .andThen(jvLinkDeserializer::racingDetailsFunction))
+                .doOnError(this::errorHandle);
     }
+
 
     public Mono<WinsPlaceBracketQuinella> winsPlaceBracketQuinella(String raceId) {
         return findOneByRaceId(winsPlaceBracketQuinella, raceId)
@@ -139,7 +168,7 @@ public class JvLinkWebService {
 
 
     @Getter
-    static class ExternalResponse {
+    public static class ExternalResponse {
 
         private final String data;
 

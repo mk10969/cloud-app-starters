@@ -7,6 +7,7 @@ import org.uma.cloud.common.model.business.BusinessRace;
 import org.uma.cloud.common.service.business.BusinessRaceService;
 import reactor.core.publisher.Flux;
 
+import java.time.Duration;
 import java.util.function.Supplier;
 
 @Configuration
@@ -24,6 +25,7 @@ public class SupplierJvLinkRaceId {
         return () -> Flux.defer(() -> Flux.fromIterable(businessRaceService.findComingRaces()))
                 .map(BusinessRace::getRaceId)
                 .sort()
+                .delayElements(Duration.ofMillis(200L)) // 気持ちdelayかませる。
                 .log();
     }
 

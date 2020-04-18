@@ -4,15 +4,36 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.ToString;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpStatus;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.uma.cloud.common.configuration.JvLinkDeserializer;
+import org.uma.cloud.stream.StreamFunctionProperties;
+import org.uma.cloud.stream.configuration.WebClientConfiguration;
 
-
-@SpringBootTest
+@Slf4j
+@SpringBootTest(classes = {
+        WebClientConfiguration.class,
+        StreamFunctionProperties.class,
+        JvLinkWebService.class,
+        JvLinkWebServiceTest.DefaultTestConfiguration.class,
+})
 class JvLinkWebServiceTest {
+
+    @Configuration
+    @EnableConfigurationProperties
+    @TestPropertySource(value = "classpath:JvLinkRecord.properties")
+    @ComponentScan(basePackages = "org.uma.cloud.common.configuration")
+    public static class DefaultTestConfiguration {
+    }
+
 
     @Autowired
     private JvLinkWebService jvLinkWebService;
@@ -39,6 +60,60 @@ class JvLinkWebServiceTest {
             this.data = data;
             this.message = message;
         }
+    }
+
+
+    @Test
+    void test_webClient_raceDetails() throws InterruptedException {
+        String WEDNESDAY = "1586886877189";
+        String FRIDAY = "1587059893206";
+
+        webClient.get().uri(uriBuilder -> uriBuilder
+                .path("/racingDetails/1587059893206")
+                .build())
+                .retrieve()
+                .bodyToFlux(ExternalResponse.class)
+                .map(ExternalResponse::getData)
+                .map(jvLinkDeserializer.decode()
+                        .andThen(jvLinkDeserializer::racingDetailsFunction))
+                .subscribe(
+                        System.out::println,
+                        System.out::println,
+                        () -> System.out.println("完了")
+                );
+        Thread.sleep(5000L);
+    }
+
+
+    @Test
+    void test_webClient_thisWeek() throws InterruptedException {
+        webClient.get().uri(uriBuilder -> uriBuilder
+                .path("/racingDetails/thisWeek")
+                .build())
+                .retrieve()
+                .bodyToFlux(ExternalResponse.class)
+                .map(ExternalResponse::getData)
+                .map(jvLinkDeserializer.decode()
+                        .andThen(jvLinkDeserializer::racingDetailsFunction))
+                .doOnError(throwable -> {
+                    if (throwable instanceof WebClientConfiguration.JvLinkWebClientException) {
+                        if (HttpStatus.NOT_FOUND == ((WebClientConfiguration.JvLinkWebClientException) throwable).getHttpStatus()) {
+                            log.warn("データなし: {}", throwable);
+                        } else {
+                            // リクエスト形式に誤りあり。
+                            log.error("クライアントのリクエストに問題あり : ", throwable);
+                        }
+                    } else {
+                        // サーバ側に問題あり。
+                        log.error("JvLinkWebServiceでエラー発生: ", throwable);
+                    }
+                })
+                .subscribe(
+                        System.out::println,
+                        System.out::println,
+                        () -> System.out.println("完了")
+                );
+        Thread.sleep(5000L);
     }
 
 
@@ -99,11 +174,30 @@ class JvLinkWebServiceTest {
 
     @Test
     void test_findAllRaceDetailsThisWeek() throws InterruptedException {
-        jvLinkWebService.raceDetailsThisWeek()
+        jvLinkWebService.raceDetailsWithFriday()
                 .subscribe(System.out::println);
-
-        Thread.sleep(3000L);
+        Thread.sleep(5000L);
     }
+
+
+
+
+//    @Test
+//    void test_error_handle() {
+//        webClient.get()
+//                .uri("/")
+//                .exchange()
+//                .flatMap(clientResponse -> {
+//                     if (clientResponse.statusCode().is4xxClientError()) {
+//                         // ...
+//                     }
+//                     // ...
+//                    clientResponse.bodyToMono(ExampleResponse.class);
+//                .retrieve()
+//                .onStatus(HttpStatus::is4xxClientError, i -> Mono.just(new RuntimeException()))
+//                .onStatus(HttpStatus::is5xxServerError, i -> Mono.just(new RuntimeException()))
+//                .bodyToMono(MyPojo.class);
+//    }
 
 
     /**

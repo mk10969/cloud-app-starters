@@ -33,12 +33,44 @@ public class FunctionJvLinkOdds {
         }
     }
 
+
     @Bean
-    Function<Flux<String>, Mono<Void>> raceIdsToQuinellaPoint() {
+    Function<Flux<String>, Mono<Void>> raceIdToWinsPlaceBracketQuinellaToPoint() {
+        return raceIds -> raceIds
+                .flatMap(jvLinkWebService::winsPlaceBracketQuinella)
+                .doOnNext(this::debug)
+                .flatMap(timeSeriesService::oddsToPoint)
+                .doOnNext(timeSeriesService::writePoint)
+                .then();
+    }
+
+    @Bean
+    Function<Flux<String>, Mono<Void>> raceIdToQuinellaToPoint() {
         return raceIds -> raceIds
                 .flatMap(jvLinkWebService::quinella)
                 .doOnNext(this::debug)
-                .flatMap(timeSeriesService::toPointQuinella)
+                .flatMap(timeSeriesService::oddsToPoint)
+                .doOnNext(timeSeriesService::writePoint)
+                .then();
+    }
+
+    @Bean
+    Function<Flux<String>, Mono<Void>> raceIdToQuinellaPlaceToPoint() {
+        return raceIds -> raceIds
+                .flatMap(jvLinkWebService::quinellaPlace)
+                .doOnNext(this::debug)
+                .flatMap(timeSeriesService::oddsToPoint)
+                .doOnNext(timeSeriesService::writePoint)
+                .then();
+    }
+
+    @Bean
+    Function<Flux<String>, Mono<Void>> raceIdToExactaToPoint() {
+        return raceIds -> raceIds
+                .flatMap(jvLinkWebService::exacta)
+                .doOnNext(this::debug)
+                .flatMap(timeSeriesService::oddsToPoint)
+                .doOnNext(timeSeriesService::writePoint)
                 .then();
     }
 
