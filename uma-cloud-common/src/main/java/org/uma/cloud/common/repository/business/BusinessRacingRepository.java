@@ -16,4 +16,7 @@ public interface BusinessRacingRepository extends JpaRepository<BusinessRacing, 
      */
     List<BusinessRacing> findByRaceStartDateTimeAfter(LocalDateTime now);
 
+
+    List<BusinessRacing> findByDataDivAndRaceStartDateTimeBefore(String dataDiv, LocalDateTime now);
+
 }

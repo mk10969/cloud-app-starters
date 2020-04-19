@@ -1,7 +1,11 @@
 package org.uma.cloud.common.model.business;
 
+import com.vladmihalcea.hibernate.type.array.ListArrayType;
+import com.vladmihalcea.hibernate.type.json.JsonBinaryType;
 import lombok.Data;
 import org.hibernate.annotations.Type;
+import org.hibernate.annotations.TypeDef;
+import org.hibernate.annotations.TypeDefs;
 import org.uma.cloud.common.utils.javatuples.Pair;
 import org.uma.cloud.common.utils.javatuples.Triplet;
 
@@ -9,12 +13,17 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.io.Serializable;
 import java.util.List;
 
 @Data
 @Entity
+@TypeDefs({
+        @TypeDef(name = "list", typeClass = ListArrayType.class),
+        @TypeDef(name = "jsonb", typeClass = JsonBinaryType.class)
+})
 @Table(name = "business_racing_refund")
-public class BusinessRacingRefund {
+public class BusinessRacingRefund implements Serializable {
 
     /**
      * レースID
@@ -24,7 +33,8 @@ public class BusinessRacingRefund {
 
     /**
      * データ区分
-     * "2" になるデータになるはず
+     * "2" 出馬表（未確定）
+     * "6" 速報成績（確定）
      */
     @Column(length = 1)
     private String dataDiv;

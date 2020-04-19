@@ -8,11 +8,12 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.io.Serializable;
 
 @Data
 @Entity
 @Table(name = "business_base_date")
-public class BusinessBaseDate {
+public class BusinessBaseDate implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

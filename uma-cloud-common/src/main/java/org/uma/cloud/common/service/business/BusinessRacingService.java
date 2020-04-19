@@ -15,14 +15,27 @@ public class BusinessRacingService {
 
     private static final Supplier<Long> now = System::currentTimeMillis;
 
+    private static final String pending = "2";
+
 
     @Autowired
     private BusinessRacingRepository repository;
 
-
+    /**
+     * 現在時刻 以降のレース一覧を取得。
+     */
     public List<BusinessRacing> findComingRaces() {
         return repository.findByRaceStartDateTimeAfter(DateUtil.toLocalDateTime(now.get()));
     }
+
+    /**
+     * 現在時刻 以前の未確定レース一覧を取得。
+     */
+    public List<BusinessRacing> findFinishedRaces() {
+        return repository.findByDataDivAndRaceStartDateTimeBefore(
+                pending, DateUtil.toLocalDateTime(now.get()));
+    }
+
 
     @Transactional
     public void update(BusinessRacing model) {
