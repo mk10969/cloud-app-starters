@@ -1,28 +1,27 @@
 package org.uma.cloud.common.configuration;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.uma.cloud.common.model.Ancestry;
+import org.uma.cloud.common.model.BloodAncestry;
+import org.uma.cloud.common.model.BloodBreeding;
+import org.uma.cloud.common.model.BloodLine;
 import org.uma.cloud.common.model.Breeder;
-import org.uma.cloud.common.model.BreedingHorse;
 import org.uma.cloud.common.model.Course;
-import org.uma.cloud.common.model.HorseRacingDetails;
 import org.uma.cloud.common.model.Jockey;
-import org.uma.cloud.common.model.Offspring;
 import org.uma.cloud.common.model.Owner;
 import org.uma.cloud.common.model.RaceHorse;
-import org.uma.cloud.common.model.RaceHorseExclusion;
-import org.uma.cloud.common.model.RaceRefund;
-import org.uma.cloud.common.model.RacingDetails;
+import org.uma.cloud.common.model.RacingDetail;
+import org.uma.cloud.common.model.RacingHorseDetail;
+import org.uma.cloud.common.model.RacingHorseExclusion;
+import org.uma.cloud.common.model.RacingRefund;
+import org.uma.cloud.common.model.RacingVote;
 import org.uma.cloud.common.model.Trainer;
-import org.uma.cloud.common.model.VoteCount;
 import org.uma.cloud.common.model.odds.Exacta;
 import org.uma.cloud.common.model.odds.Quinella;
 import org.uma.cloud.common.model.odds.QuinellaPlace;
 import org.uma.cloud.common.model.odds.Trifecta;
 import org.uma.cloud.common.model.odds.Trio;
-import org.uma.cloud.common.model.odds.WinsPlaceBracketQuinella;
+import org.uma.cloud.common.model.odds.WinsShowBracketQ;
 import org.uma.cloud.common.utils.lang.ByteUtil;
 
 import java.util.function.Function;
@@ -41,8 +40,8 @@ public class JvLinkDeserializer {
     /**
      * recordSpecごとの、transform Configuration
      */
-    public RacingDetails racingDetailsFunction(byte[] data) {
-        RacingDetails model = jvLinkModelMapper.deserialize(data, RacingDetails.class);
+    public RacingDetail racingDetailFunction(byte[] data) {
+        RacingDetail model = jvLinkModelMapper.deserialize(data, RacingDetail.class);
         model.getLapTimeItems().removeIf(time -> time == 0.0);
         model.getCornerPassageRanks().removeIf(cornerPassageRank -> cornerPassageRank.getCorner() == 0
                 && cornerPassageRank.getAroundCount() == 0
@@ -50,16 +49,15 @@ public class JvLinkDeserializer {
         return model;
     }
 
-
-    public HorseRacingDetails horseRacingDetailsFunction(byte[] data) {
-        return jvLinkModelMapper.deserialize(data, HorseRacingDetails.class);
+    public RacingHorseDetail racingHorseDetailFunction(byte[] data) {
+        return jvLinkModelMapper.deserialize(data, RacingHorseDetail.class);
     }
 
-    public RaceRefund raceRefundFunction(byte[] data) {
-        RaceRefund model = jvLinkModelMapper.deserialize(data, RaceRefund.class);
+    public RacingRefund racingRefundFunction(byte[] data) {
+        RacingRefund model = jvLinkModelMapper.deserialize(data, RacingRefund.class);
         model.getRefundWins().removeIf(JvLinkDeserializer::refundFilter);
-        model.getRefundPlaces().removeIf(JvLinkDeserializer::refundFilter);
-        model.getRefundBracketQuinellas().removeIf(JvLinkDeserializer::refundFilter);
+        model.getRefundShows().removeIf(JvLinkDeserializer::refundFilter);
+        model.getRefundBracketQs().removeIf(JvLinkDeserializer::refundFilter);
         model.getRefundQuinellas().removeIf(JvLinkDeserializer::refundFilter);
         model.getRefundQuinellaPlaces().removeIf(JvLinkDeserializer::refundFilter);
         model.getRefundSpares().removeIf(JvLinkDeserializer::refundFilter);
@@ -69,11 +67,11 @@ public class JvLinkDeserializer {
         return model;
     }
 
-    public VoteCount voteCountFunction(byte[] data) {
-        VoteCount model = jvLinkModelMapper.deserialize(data, VoteCount.class);
+    public RacingVote racingVoteFunction(byte[] data) {
+        RacingVote model = jvLinkModelMapper.deserialize(data, RacingVote.class);
         model.getVoteCountWins().removeIf(JvLinkDeserializer::voteFilter);
-        model.getVoteCountPlaces().removeIf(JvLinkDeserializer::voteFilter);
-        model.getVoteCountBracketQuinellas().removeIf(JvLinkDeserializer::voteFilter);
+        model.getVoteCountShows().removeIf(JvLinkDeserializer::voteFilter);
+        model.getVoteCountBracketQs().removeIf(JvLinkDeserializer::voteFilter);
         model.getVoteCountQuinellas().removeIf(JvLinkDeserializer::voteFilter);
         model.getVoteCountQuinellaPlaces().removeIf(JvLinkDeserializer::voteFilter);
         model.getVoteCountExactas().removeIf(JvLinkDeserializer::voteFilter);
@@ -81,15 +79,15 @@ public class JvLinkDeserializer {
         return model;
     }
 
-    public RaceHorseExclusion raceHorseExclusionFunction(byte[] data) {
-        return jvLinkModelMapper.deserialize(data, RaceHorseExclusion.class);
+    public RacingHorseExclusion racingHorseExclusionFunction(byte[] data) {
+        return jvLinkModelMapper.deserialize(data, RacingHorseExclusion.class);
     }
 
-    public WinsPlaceBracketQuinella winsPlaceBracketQuinellaFunction(byte[] data) {
-        WinsPlaceBracketQuinella model = jvLinkModelMapper.deserialize(data, WinsPlaceBracketQuinella.class);
+    public WinsShowBracketQ winsShowBracketQFunction(byte[] data) {
+        WinsShowBracketQ model = jvLinkModelMapper.deserialize(data, WinsShowBracketQ.class);
         model.getWinOdds().removeIf(JvLinkDeserializer::winOddsFilter);
-        model.getPlaceOdds().removeIf(JvLinkDeserializer::placeOddsFilter);
-        model.getBracketQuinellaOdds().removeIf(JvLinkDeserializer::bracketQuinellaOddsFilter);
+        model.getShowOdds().removeIf(JvLinkDeserializer::showOddsFilter);
+        model.getBracketQOdds().removeIf(JvLinkDeserializer::bracketQOddsFilter);
         return model;
     }
 
@@ -123,16 +121,16 @@ public class JvLinkDeserializer {
         return model;
     }
 
-    public Offspring offspringFunction(byte[] data) {
-        return jvLinkModelMapper.deserialize(data, Offspring.class);
+    public BloodLine bloodLineFunction(byte[] data) {
+        return jvLinkModelMapper.deserialize(data, BloodLine.class);
     }
 
-    public Ancestry ancestryFunction(byte[] data) {
-        return jvLinkModelMapper.deserialize(data, Ancestry.class);
+    public BloodAncestry bloodAncestryFunction(byte[] data) {
+        return jvLinkModelMapper.deserialize(data, BloodAncestry.class);
     }
 
-    public BreedingHorse breedingHorseFunction(byte[] data) {
-        return jvLinkModelMapper.deserialize(data, BreedingHorse.class);
+    public BloodBreeding bloodBreedingFunction(byte[] data) {
+        return jvLinkModelMapper.deserialize(data, BloodBreeding.class);
     }
 
     public RaceHorse raceHorseFunction(byte[] data) {
@@ -163,21 +161,20 @@ public class JvLinkDeserializer {
     /**
      * 不要データのFilter static methods
      */
-    private static boolean winOddsFilter(WinsPlaceBracketQuinella.WinOdds winOdds) {
+    private static boolean winOddsFilter(WinsShowBracketQ.WinOdds winOdds) {
         return winOdds.getOdds() == null
                 && winOdds.getBetRank() == null;
     }
 
-    private static boolean placeOddsFilter(WinsPlaceBracketQuinella.PlaceOdds placeOdds) {
-        return placeOdds.getOddsMin() == null
-                && placeOdds.getOddsMax() == null
-                && placeOdds.getBetRank() == null;
+    private static boolean showOddsFilter(WinsShowBracketQ.ShowOdds showOdds) {
+        return showOdds.getOddsMin() == null
+                && showOdds.getOddsMax() == null
+                && showOdds.getBetRank() == null;
     }
 
-    private static boolean bracketQuinellaOddsFilter(WinsPlaceBracketQuinella.BracketQuinellaOdds
-                                                             bracketQuinellaOdds) {
-        return bracketQuinellaOdds.getOdds() == null
-                && bracketQuinellaOdds.getBetRank() == null;
+    private static boolean bracketQOddsFilter(WinsShowBracketQ.BracketQOdds bracketQOdds) {
+        return bracketQOdds.getOdds() == null
+                && bracketQOdds.getBetRank() == null;
     }
 
     private static boolean quinellaOddsFilter(Quinella.QuinellaOdds quinellaOdds) {
@@ -207,32 +204,32 @@ public class JvLinkDeserializer {
     }
 
 
-    private static boolean refundFilter(RaceRefund.refund refund) {
+    private static boolean refundFilter(RacingRefund.refund refund) {
         return refund.getBetRank() == null
                 && refund.getRefundMoney() == null;
     }
 
-    private static boolean refundFilter(RaceRefund.refundPair refundPair) {
+    private static boolean refundFilter(RacingRefund.refundPair refundPair) {
         return refundPair.getBetRank() == null
                 && refundPair.getRefundMoney() == null;
     }
 
-    private static boolean refundFilter(RaceRefund.refundTriplet refundTriplet) {
+    private static boolean refundFilter(RacingRefund.refundTriplet refundTriplet) {
         return refundTriplet.getBetRank() == null
                 && refundTriplet.getRefundMoney() == null;
     }
 
-    private static boolean voteFilter(VoteCount.Vote vote) {
+    private static boolean voteFilter(RacingVote.Vote vote) {
         return vote.getBetRank() == null
                 && vote.getVoteCount() == null;
     }
 
-    private static boolean voteFilter(VoteCount.VotePair votePair) {
+    private static boolean voteFilter(RacingVote.VotePair votePair) {
         return votePair.getBetRank() == null
                 && votePair.getVoteCount() == null;
     }
 
-    private static boolean voteFilter(VoteCount.VoteTriplet voteTriplet) {
+    private static boolean voteFilter(RacingVote.VoteTriplet voteTriplet) {
         return voteTriplet.getBetRank() == null
                 && voteTriplet.getVoteCount() == null;
     }

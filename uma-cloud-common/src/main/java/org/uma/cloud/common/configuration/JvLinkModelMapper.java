@@ -3,27 +3,33 @@ package org.uma.cloud.common.configuration;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.uma.cloud.common.model.Ancestry;
+import org.uma.cloud.common.model.BloodAncestry;
 import org.uma.cloud.common.model.BaseModel;
 import org.uma.cloud.common.model.Breeder;
-import org.uma.cloud.common.model.BreedingHorse;
+import org.uma.cloud.common.model.BloodBreeding;
 import org.uma.cloud.common.model.Course;
-import org.uma.cloud.common.model.HorseRacingDetails;
+import org.uma.cloud.common.model.RacingHorseDetail;
 import org.uma.cloud.common.model.Jockey;
-import org.uma.cloud.common.model.Offspring;
+import org.uma.cloud.common.model.BloodLine;
 import org.uma.cloud.common.model.Owner;
 import org.uma.cloud.common.model.RaceHorse;
-import org.uma.cloud.common.model.RaceHorseExclusion;
-import org.uma.cloud.common.model.RaceRefund;
-import org.uma.cloud.common.model.RacingDetails;
+import org.uma.cloud.common.model.RacingHorseExclusion;
+import org.uma.cloud.common.model.RacingRefund;
+import org.uma.cloud.common.model.RacingDetail;
 import org.uma.cloud.common.model.Trainer;
-import org.uma.cloud.common.model.VoteCount;
+import org.uma.cloud.common.model.RacingVote;
+import org.uma.cloud.common.model.event.Avoid;
+import org.uma.cloud.common.model.event.CourseChange;
+import org.uma.cloud.common.model.event.JockeyChange;
+import org.uma.cloud.common.model.event.TimeChange;
+import org.uma.cloud.common.model.event.Weather;
+import org.uma.cloud.common.model.event.Weight;
 import org.uma.cloud.common.model.odds.Exacta;
 import org.uma.cloud.common.model.odds.Quinella;
 import org.uma.cloud.common.model.odds.QuinellaPlace;
 import org.uma.cloud.common.model.odds.Trifecta;
 import org.uma.cloud.common.model.odds.Trio;
-import org.uma.cloud.common.model.odds.WinsPlaceBracketQuinella;
+import org.uma.cloud.common.model.odds.WinsShowBracketQ;
 import org.uma.cloud.common.recordSpec.RecordSpec;
 import org.uma.cloud.common.utils.exception.JvLinkModelMappingException;
 import org.uma.cloud.common.utils.lang.ByteUtil;
@@ -38,7 +44,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-
 @Component
 public class JvLinkModelMapper {
 
@@ -47,28 +52,28 @@ public class JvLinkModelMapper {
     @Autowired
     private Map<String, JvLinkRecordProperties.RecordSpecItems> recordSpecItems;
 
-    private EnumMap<RecordSpec, Class<? extends BaseModel>> recordSpecClass = new EnumMap<>(RecordSpec.class);
+    private final EnumMap<RecordSpec, Class<? extends BaseModel>> recordSpecClass = new EnumMap<>(RecordSpec.class);
 
 
     @PostConstruct
     void init() {
         // RACE
-        recordSpecClass.put(RecordSpec.RA, RacingDetails.class);
-        recordSpecClass.put(RecordSpec.SE, HorseRacingDetails.class);
-        recordSpecClass.put(RecordSpec.HR, RaceRefund.class);
-        recordSpecClass.put(RecordSpec.H1, VoteCount.class);
-        recordSpecClass.put(RecordSpec.JG, RaceHorseExclusion.class);
+        recordSpecClass.put(RecordSpec.RA, RacingDetail.class);
+        recordSpecClass.put(RecordSpec.SE, RacingHorseDetail.class);
+        recordSpecClass.put(RecordSpec.HR, RacingRefund.class);
+        recordSpecClass.put(RecordSpec.H1, RacingVote.class);
+        recordSpecClass.put(RecordSpec.JG, RacingHorseExclusion.class);
         // ODDS
-        recordSpecClass.put(RecordSpec.O1, WinsPlaceBracketQuinella.class);
+        recordSpecClass.put(RecordSpec.O1, WinsShowBracketQ.class);
         recordSpecClass.put(RecordSpec.O2, Quinella.class);
         recordSpecClass.put(RecordSpec.O3, QuinellaPlace.class);
         recordSpecClass.put(RecordSpec.O4, Exacta.class);
         recordSpecClass.put(RecordSpec.O5, Trio.class);
         recordSpecClass.put(RecordSpec.O6, Trifecta.class);
         // BLOD
-        recordSpecClass.put(RecordSpec.SK, Offspring.class);
-        recordSpecClass.put(RecordSpec.BT, Ancestry.class);
-        recordSpecClass.put(RecordSpec.HN, BreedingHorse.class);
+        recordSpecClass.put(RecordSpec.SK, BloodLine.class);
+        recordSpecClass.put(RecordSpec.BT, BloodAncestry.class);
+        recordSpecClass.put(RecordSpec.HN, BloodBreeding.class);
         // DIFF
         recordSpecClass.put(RecordSpec.UM, RaceHorse.class);
         recordSpecClass.put(RecordSpec.KS, Jockey.class);
@@ -77,6 +82,13 @@ public class JvLinkModelMapper {
         recordSpecClass.put(RecordSpec.BN, Owner.class);
         // COMM
         recordSpecClass.put(RecordSpec.CS, Course.class);
+        // event
+        recordSpecClass.put(RecordSpec.WH, Weight.class);
+        recordSpecClass.put(RecordSpec.AV, Avoid.class);
+        recordSpecClass.put(RecordSpec.CC, CourseChange.class);
+        recordSpecClass.put(RecordSpec.JC, JockeyChange.class);
+        recordSpecClass.put(RecordSpec.TC, TimeChange.class);
+        recordSpecClass.put(RecordSpec.WE, Weather.class);
     }
 
     /**

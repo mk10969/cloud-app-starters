@@ -1,37 +1,33 @@
 package org.uma.cloud.batch;
 
 import org.springframework.batch.item.ItemWriter;
-import org.springframework.batch.item.database.JpaItemWriter;
 import org.springframework.batch.item.database.builder.JpaItemWriterBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
-import org.springframework.stereotype.Component;
-import org.uma.cloud.common.model.Ancestry;
+import org.uma.cloud.common.model.BloodAncestry;
+import org.uma.cloud.common.model.BloodBreeding;
+import org.uma.cloud.common.model.BloodLine;
 import org.uma.cloud.common.model.Breeder;
-import org.uma.cloud.common.model.BreedingHorse;
 import org.uma.cloud.common.model.Course;
-import org.uma.cloud.common.model.HorseRacingDetails;
 import org.uma.cloud.common.model.Jockey;
-import org.uma.cloud.common.model.Offspring;
 import org.uma.cloud.common.model.Owner;
 import org.uma.cloud.common.model.RaceHorse;
-import org.uma.cloud.common.model.RaceHorseExclusion;
-import org.uma.cloud.common.model.RaceRefund;
-import org.uma.cloud.common.model.RacingDetails;
+import org.uma.cloud.common.model.RacingDetail;
+import org.uma.cloud.common.model.RacingHorseDetail;
+import org.uma.cloud.common.model.RacingHorseExclusion;
+import org.uma.cloud.common.model.RacingRefund;
+import org.uma.cloud.common.model.RacingVote;
 import org.uma.cloud.common.model.Trainer;
-import org.uma.cloud.common.model.VoteCount;
 import org.uma.cloud.common.model.odds.Exacta;
 import org.uma.cloud.common.model.odds.Quinella;
 import org.uma.cloud.common.model.odds.QuinellaPlace;
 import org.uma.cloud.common.model.odds.Trifecta;
 import org.uma.cloud.common.model.odds.Trio;
-import org.uma.cloud.common.model.odds.WinsPlaceBracketQuinella;
+import org.uma.cloud.common.model.odds.WinsShowBracketQ;
 
 import javax.persistence.EntityManagerFactory;
-import javax.transaction.Transactional;
-import java.util.List;
 
 @Profile("prod")
 @Configuration
@@ -42,8 +38,8 @@ public class JvLinkWriters {
 
 
     @Bean
-    public ItemWriter<Ancestry> ancestryItemWriter() {
-        return new JpaItemWriterBuilder<Ancestry>()
+    public ItemWriter<BloodAncestry> bloodAncestryItemWriter() {
+        return new JpaItemWriterBuilder<BloodAncestry>()
                 .entityManagerFactory(entityManagerFactory).build();
     }
 
@@ -54,8 +50,8 @@ public class JvLinkWriters {
     }
 
     @Bean
-    public ItemWriter<BreedingHorse> breedingHorseItemWriter() {
-        return new JpaItemWriterBuilder<BreedingHorse>()
+    public ItemWriter<BloodBreeding> bloodBreedingItemWriter() {
+        return new JpaItemWriterBuilder<BloodBreeding>()
                 .entityManagerFactory(entityManagerFactory).build();
     }
 
@@ -66,8 +62,8 @@ public class JvLinkWriters {
     }
 
     @Bean
-    public ItemWriter<HorseRacingDetails> horseRacingDetailsItemWriter() {
-        return new JpaItemWriterBuilder<HorseRacingDetails>()
+    public ItemWriter<RacingHorseDetail> racingHorseDetailItemWriter() {
+        return new JpaItemWriterBuilder<RacingHorseDetail>()
                 .entityManagerFactory(entityManagerFactory).build();
     }
 
@@ -78,8 +74,8 @@ public class JvLinkWriters {
     }
 
     @Bean
-    public ItemWriter<Offspring> offspringItemWriter() {
-        return new JpaItemWriterBuilder<Offspring>()
+    public ItemWriter<BloodLine> bloodLineItemWriter() {
+        return new JpaItemWriterBuilder<BloodLine>()
                 .entityManagerFactory(entityManagerFactory).build();
     }
 
@@ -96,20 +92,20 @@ public class JvLinkWriters {
     }
 
     @Bean
-    public ItemWriter<RaceHorseExclusion> raceHorseExclusionItemWriter() {
-        return new JpaItemWriterBuilder<RaceHorseExclusion>()
+    public ItemWriter<RacingHorseExclusion> racingHorseExclusionItemWriter() {
+        return new JpaItemWriterBuilder<RacingHorseExclusion>()
                 .entityManagerFactory(entityManagerFactory).build();
     }
 
     @Bean
-    public ItemWriter<RaceRefund> raceRefundItemWriter() {
-        return new JpaItemWriterBuilder<RaceRefund>()
+    public ItemWriter<RacingRefund> racingRefundItemWriter() {
+        return new JpaItemWriterBuilder<RacingRefund>()
                 .entityManagerFactory(entityManagerFactory).build();
     }
 
     @Bean
-    public ItemWriter<RacingDetails> racingDetailsItemWriter() {
-        return new JpaItemWriterBuilder<RacingDetails>()
+    public ItemWriter<RacingDetail> racingDetailItemWriter() {
+        return new JpaItemWriterBuilder<RacingDetail>()
                 .entityManagerFactory(entityManagerFactory).build();
     }
 
@@ -120,14 +116,14 @@ public class JvLinkWriters {
     }
 
     @Bean
-    public ItemWriter<VoteCount> voteCountItemWriter() {
-        return new JpaItemWriterBuilder<VoteCount>()
+    public ItemWriter<RacingVote> racingVoteItemWriter() {
+        return new JpaItemWriterBuilder<RacingVote>()
                 .entityManagerFactory(entityManagerFactory).build();
     }
 
     @Bean
-    public ItemWriter<WinsPlaceBracketQuinella> winsPlaceBracketQuinellaItemWriter() {
-        return new JpaItemWriterBuilder<WinsPlaceBracketQuinella>()
+    public ItemWriter<WinsShowBracketQ> winsShowBracketQItemWriter() {
+        return new JpaItemWriterBuilder<WinsShowBracketQ>()
                 .entityManagerFactory(entityManagerFactory).build();
     }
 

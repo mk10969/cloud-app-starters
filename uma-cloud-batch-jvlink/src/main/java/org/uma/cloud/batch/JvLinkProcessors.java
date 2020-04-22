@@ -8,32 +8,31 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 import org.uma.cloud.common.configuration.JvLinkDeserializer;
-import org.uma.cloud.common.model.Ancestry;
 import org.uma.cloud.common.model.BaseModel;
+import org.uma.cloud.common.model.BloodAncestry;
+import org.uma.cloud.common.model.BloodBreeding;
+import org.uma.cloud.common.model.BloodLine;
 import org.uma.cloud.common.model.Breeder;
-import org.uma.cloud.common.model.BreedingHorse;
 import org.uma.cloud.common.model.Course;
-import org.uma.cloud.common.model.HorseRacingDetails;
 import org.uma.cloud.common.model.Jockey;
-import org.uma.cloud.common.model.Offspring;
 import org.uma.cloud.common.model.Owner;
 import org.uma.cloud.common.model.RaceHorse;
-import org.uma.cloud.common.model.RaceHorseExclusion;
-import org.uma.cloud.common.model.RaceRefund;
-import org.uma.cloud.common.model.RacingDetails;
+import org.uma.cloud.common.model.RacingDetail;
+import org.uma.cloud.common.model.RacingHorseDetail;
+import org.uma.cloud.common.model.RacingHorseExclusion;
+import org.uma.cloud.common.model.RacingRefund;
+import org.uma.cloud.common.model.RacingVote;
 import org.uma.cloud.common.model.Trainer;
-import org.uma.cloud.common.model.VoteCount;
 import org.uma.cloud.common.model.odds.Exacta;
 import org.uma.cloud.common.model.odds.Quinella;
 import org.uma.cloud.common.model.odds.QuinellaPlace;
 import org.uma.cloud.common.model.odds.Trifecta;
 import org.uma.cloud.common.model.odds.Trio;
-import org.uma.cloud.common.model.odds.WinsPlaceBracketQuinella;
+import org.uma.cloud.common.model.odds.WinsShowBracketQ;
 import org.uma.cloud.common.utils.exception.JvLinkModelNullPointException;
 import org.uma.cloud.common.utils.lang.ModelUtil;
 
 import java.util.function.Function;
-
 
 @Configuration
 public class JvLinkProcessors {
@@ -43,9 +42,9 @@ public class JvLinkProcessors {
 
 
     @Bean
-    public ItemProcessor<String, Ancestry> ancestryItemProcessor() {
+    public ItemProcessor<String, BloodAncestry> bloodAncestryItemProcessor() {
         return new JvLinkFunctionItemProcessor<>(jvLinkDeserializer.decode()
-                .andThen(jvLinkDeserializer::ancestryFunction));
+                .andThen(jvLinkDeserializer::bloodAncestryFunction));
     }
 
     @Bean
@@ -55,9 +54,9 @@ public class JvLinkProcessors {
     }
 
     @Bean
-    public ItemProcessor<String, BreedingHorse> breedingHorseItemProcessor() {
+    public ItemProcessor<String, BloodBreeding> bloodBreedingItemProcessor() {
         return new JvLinkFunctionItemProcessor<>(jvLinkDeserializer.decode()
-                .andThen(jvLinkDeserializer::breedingHorseFunction));
+                .andThen(jvLinkDeserializer::bloodBreedingFunction));
     }
 
     @Bean
@@ -67,9 +66,9 @@ public class JvLinkProcessors {
     }
 
     @Bean
-    public ItemProcessor<String, HorseRacingDetails> horseRacingDetailsItemProcessor() {
+    public ItemProcessor<String, RacingHorseDetail> racingHorseDetailItemProcessor() {
         return new JvLinkFunctionItemProcessor<>(jvLinkDeserializer.decode()
-                .andThen(jvLinkDeserializer::horseRacingDetailsFunction));
+                .andThen(jvLinkDeserializer::racingHorseDetailFunction));
     }
 
     @Bean
@@ -79,9 +78,9 @@ public class JvLinkProcessors {
     }
 
     @Bean
-    public ItemProcessor<String, Offspring> offspringItemProcessor() {
+    public ItemProcessor<String, BloodLine> bloodLineItemProcessor() {
         return new JvLinkFunctionItemProcessor<>(jvLinkDeserializer.decode()
-                .andThen(jvLinkDeserializer::offspringFunction));
+                .andThen(jvLinkDeserializer::bloodLineFunction));
     }
 
     @Bean
@@ -97,21 +96,21 @@ public class JvLinkProcessors {
     }
 
     @Bean
-    public ItemProcessor<String, RaceHorseExclusion> raceHorseExclusionItemProcessor() {
+    public ItemProcessor<String, RacingHorseExclusion> racingHorseExclusionItemProcessor() {
         return new JvLinkFunctionItemProcessor<>(jvLinkDeserializer.decode()
-                .andThen(jvLinkDeserializer::raceHorseExclusionFunction));
+                .andThen(jvLinkDeserializer::racingHorseExclusionFunction));
     }
 
     @Bean
-    public ItemProcessor<String, RaceRefund> raceRefundItemProcessor() {
+    public ItemProcessor<String, RacingRefund> racingRefundItemProcessor() {
         return new JvLinkFunctionItemProcessor<>(jvLinkDeserializer.decode()
-                .andThen(jvLinkDeserializer::raceRefundFunction));
+                .andThen(jvLinkDeserializer::racingRefundFunction));
     }
 
     @Bean
-    public ItemProcessor<String, RacingDetails> racingDetailsItemProcessor() {
+    public ItemProcessor<String, RacingDetail> racingDetailItemProcessor() {
         return new JvLinkFunctionItemProcessor<>(jvLinkDeserializer.decode()
-                .andThen(jvLinkDeserializer::racingDetailsFunction));
+                .andThen(jvLinkDeserializer::racingDetailFunction));
     }
 
     @Bean
@@ -121,13 +120,13 @@ public class JvLinkProcessors {
     }
 
     @Bean
-    public ItemProcessor<String, VoteCount> voteCountItemProcessor() {
+    public ItemProcessor<String, RacingVote> racingVoteItemProcessor() {
         return new JvLinkFunctionItemProcessor<>(jvLinkDeserializer.decode()
-                .andThen(jvLinkDeserializer::voteCountFunction));
+                .andThen(jvLinkDeserializer::racingVoteFunction));
     }
 
     @Bean
-    public ItemProcessor<String, WinsPlaceBracketQuinella> winsPlaceBracketQuinellaItemProcessor() {
+    public ItemProcessor<String, WinsShowBracketQ> winsShowBracketQItemProcessor() {
         return new JvLinkFunctionItemProcessor<>(jvLinkDeserializer.decode()
                 .andThen(jvLinkDeserializer::winsPlaceBracketQuinellaFunction));
     }

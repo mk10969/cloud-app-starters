@@ -209,20 +209,20 @@ public class JvLinkRecordProperties {
     }
 
     /**
-     * @return 天候馬場状態
-     */
-    @Bean(name = "WE")
-    @ConfigurationProperties(prefix = "we")
-    RecordSpecItems configWE() {
-        return new RecordSpecItems();
-    }
-
-    /**
      * @return 出走取消競争除外
      */
     @Bean(name = "AV")
     @ConfigurationProperties(prefix = "av")
     RecordSpecItems configAV() {
+        return new RecordSpecItems();
+    }
+
+    /**
+     * @return コース変更
+     */
+    @Bean(name = "CC")
+    @ConfigurationProperties(prefix = "cc")
+    RecordSpecItems configCC() {
         return new RecordSpecItems();
     }
 
@@ -241,6 +241,15 @@ public class JvLinkRecordProperties {
     @Bean(name = "TC")
     @ConfigurationProperties(prefix = "tc")
     RecordSpecItems configTC() {
+        return new RecordSpecItems();
+    }
+
+    /**
+     * @return 天候馬場状態
+     */
+    @Bean(name = "WE")
+    @ConfigurationProperties(prefix = "we")
+    RecordSpecItems configWE() {
         return new RecordSpecItems();
     }
 

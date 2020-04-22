@@ -8,26 +8,26 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.core.io.FileSystemResource;
-import org.uma.cloud.common.model.Ancestry;
+import org.uma.cloud.common.model.BloodAncestry;
+import org.uma.cloud.common.model.BloodBreeding;
+import org.uma.cloud.common.model.BloodLine;
 import org.uma.cloud.common.model.Breeder;
-import org.uma.cloud.common.model.BreedingHorse;
 import org.uma.cloud.common.model.Course;
-import org.uma.cloud.common.model.HorseRacingDetails;
 import org.uma.cloud.common.model.Jockey;
-import org.uma.cloud.common.model.Offspring;
 import org.uma.cloud.common.model.Owner;
 import org.uma.cloud.common.model.RaceHorse;
-import org.uma.cloud.common.model.RaceHorseExclusion;
-import org.uma.cloud.common.model.RaceRefund;
-import org.uma.cloud.common.model.RacingDetails;
+import org.uma.cloud.common.model.RacingDetail;
+import org.uma.cloud.common.model.RacingHorseDetail;
+import org.uma.cloud.common.model.RacingHorseExclusion;
+import org.uma.cloud.common.model.RacingRefund;
+import org.uma.cloud.common.model.RacingVote;
 import org.uma.cloud.common.model.Trainer;
-import org.uma.cloud.common.model.VoteCount;
 import org.uma.cloud.common.model.odds.Exacta;
 import org.uma.cloud.common.model.odds.Quinella;
 import org.uma.cloud.common.model.odds.QuinellaPlace;
 import org.uma.cloud.common.model.odds.Trifecta;
 import org.uma.cloud.common.model.odds.Trio;
-import org.uma.cloud.common.model.odds.WinsPlaceBracketQuinella;
+import org.uma.cloud.common.model.odds.WinsShowBracketQ;
 import org.uma.cloud.common.utils.lang.JacksonUtil;
 
 @Profile("local")
@@ -51,8 +51,8 @@ public class JvLInkWritersLocal {
 
 
     @Bean
-    public ItemWriter<Ancestry> ancestryItemWriter() {
-        return createJsonWriter(Ancestry.class, "BLOD_BT.json");
+    public ItemWriter<BloodAncestry> bloodAncestryItemWriter() {
+        return createJsonWriter(BloodAncestry.class, "BLOD_BT.json");
     }
 
     @Bean
@@ -61,8 +61,8 @@ public class JvLInkWritersLocal {
     }
 
     @Bean
-    public ItemWriter<BreedingHorse> breedingHorseItemWriter() {
-        return createJsonWriter(BreedingHorse.class, "BLOD_HN.json");
+    public ItemWriter<BloodBreeding> bloodBreedingItemWriter() {
+        return createJsonWriter(BloodBreeding.class, "BLOD_HN.json");
     }
 
     @Bean
@@ -71,8 +71,8 @@ public class JvLInkWritersLocal {
     }
 
     @Bean
-    public ItemWriter<HorseRacingDetails> horseRacingDetailsItemWriter() {
-        return createJsonWriter(HorseRacingDetails.class, "RACE_SE.json");
+    public ItemWriter<RacingHorseDetail> racingHorseDetailItemWriter() {
+        return createJsonWriter(RacingHorseDetail.class, "RACE_SE.json");
     }
 
     @Bean
@@ -81,8 +81,8 @@ public class JvLInkWritersLocal {
     }
 
     @Bean
-    public ItemWriter<Offspring> offspringItemWriter() {
-        return createJsonWriter(Offspring.class, "BLOD_SK.json");
+    public ItemWriter<BloodLine> bloodLineItemWriter() {
+        return createJsonWriter(BloodLine.class, "BLOD_SK.json");
     }
 
     @Bean
@@ -96,18 +96,18 @@ public class JvLInkWritersLocal {
     }
 
     @Bean
-    public ItemWriter<RaceHorseExclusion> raceHorseExclusionItemWriter() {
-        return createJsonWriter(RaceHorseExclusion.class, "RACE_JG.json");
+    public ItemWriter<RacingHorseExclusion> racingHorseExclusionItemWriter() {
+        return createJsonWriter(RacingHorseExclusion.class, "RACE_JG.json");
     }
 
     @Bean
-    public ItemWriter<RaceRefund> raceRefundItemWriter() {
-        return createJsonWriter(RaceRefund.class, "RACE_HR.json");
+    public ItemWriter<RacingRefund> racingRefundItemWriter() {
+        return createJsonWriter(RacingRefund.class, "RACE_HR.json");
     }
 
     @Bean
-    public ItemWriter<RacingDetails> racingDetailsItemWriter() {
-        return createJsonWriter(RacingDetails.class, "RACE_RA.json");
+    public ItemWriter<RacingDetail> racingDetailItemWriter() {
+        return createJsonWriter(RacingDetail.class, "RACE_RA.json");
     }
 
     @Bean
@@ -116,13 +116,13 @@ public class JvLInkWritersLocal {
     }
 
     @Bean
-    public ItemWriter<VoteCount> voteCountItemWriter() {
-        return createJsonWriter(VoteCount.class, "RACE_H1.json");
+    public ItemWriter<RacingVote> racingVoteItemWriter() {
+        return createJsonWriter(RacingVote.class, "RACE_H1.json");
     }
 
     @Bean
-    public ItemWriter<WinsPlaceBracketQuinella> winsPlaceBracketQuinellaItemWriter() {
-        return createJsonWriter(WinsPlaceBracketQuinella.class, "RACE_O1.json");
+    public ItemWriter<WinsShowBracketQ> winsShowBracketQItemWriter() {
+        return createJsonWriter(WinsShowBracketQ.class, "RACE_O1.json");
     }
 
     @Bean

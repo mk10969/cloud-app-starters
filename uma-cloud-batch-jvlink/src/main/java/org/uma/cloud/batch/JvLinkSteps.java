@@ -12,27 +12,27 @@ import org.springframework.orm.jpa.JpaTransactionManager;
 import org.uma.cloud.batch.listener.JvLinkSkipPolicy;
 import org.uma.cloud.batch.listener.JvLinkStepExecutionListener;
 import org.uma.cloud.batch.listener.JvLinkWriterListener;
-import org.uma.cloud.common.model.Ancestry;
 import org.uma.cloud.common.model.BaseModel;
+import org.uma.cloud.common.model.BloodAncestry;
+import org.uma.cloud.common.model.BloodBreeding;
+import org.uma.cloud.common.model.BloodLine;
 import org.uma.cloud.common.model.Breeder;
-import org.uma.cloud.common.model.BreedingHorse;
 import org.uma.cloud.common.model.Course;
-import org.uma.cloud.common.model.HorseRacingDetails;
 import org.uma.cloud.common.model.Jockey;
-import org.uma.cloud.common.model.Offspring;
 import org.uma.cloud.common.model.Owner;
 import org.uma.cloud.common.model.RaceHorse;
-import org.uma.cloud.common.model.RaceHorseExclusion;
-import org.uma.cloud.common.model.RaceRefund;
-import org.uma.cloud.common.model.RacingDetails;
+import org.uma.cloud.common.model.RacingDetail;
+import org.uma.cloud.common.model.RacingHorseDetail;
+import org.uma.cloud.common.model.RacingHorseExclusion;
+import org.uma.cloud.common.model.RacingRefund;
+import org.uma.cloud.common.model.RacingVote;
 import org.uma.cloud.common.model.Trainer;
-import org.uma.cloud.common.model.VoteCount;
 import org.uma.cloud.common.model.odds.Exacta;
 import org.uma.cloud.common.model.odds.Quinella;
 import org.uma.cloud.common.model.odds.QuinellaPlace;
 import org.uma.cloud.common.model.odds.Trifecta;
 import org.uma.cloud.common.model.odds.Trio;
-import org.uma.cloud.common.model.odds.WinsPlaceBracketQuinella;
+import org.uma.cloud.common.model.odds.WinsShowBracketQ;
 
 import javax.annotation.PostConstruct;
 import javax.persistence.EntityManagerFactory;
@@ -83,103 +83,103 @@ public class JvLinkSteps {
     }
 
 
-    @Bean(name = "ancestry")
-    public Step ancestryStep(ItemProcessor<String, Ancestry> processor, ItemWriter<Ancestry> writer) throws Exception {
-        return createStep(processor, writer, Ancestry.class);
+    @Bean
+    public Step bloodAncestry(ItemProcessor<String, BloodAncestry> processor, ItemWriter<BloodAncestry> writer) throws Exception {
+        return createStep(processor, writer, BloodAncestry.class);
     }
 
-    @Bean(name = "breeder")
-    public Step breederStep(ItemProcessor<String, Breeder> processor, ItemWriter<Breeder> writer) throws Exception {
+    @Bean
+    public Step breeder(ItemProcessor<String, Breeder> processor, ItemWriter<Breeder> writer) throws Exception {
         return createStep(processor, writer, Breeder.class);
     }
 
-    @Bean(name = "breedingHorse")
-    public Step breedingHorseStep(ItemProcessor<String, BreedingHorse> processor, ItemWriter<BreedingHorse> writer) throws Exception {
-        return createStep(processor, writer, BreedingHorse.class);
+    @Bean
+    public Step bloodBreeding(ItemProcessor<String, BloodBreeding> processor, ItemWriter<BloodBreeding> writer) throws Exception {
+        return createStep(processor, writer, BloodBreeding.class);
     }
 
-    @Bean(name = "course")
-    public Step courseStep(ItemProcessor<String, Course> processor, ItemWriter<Course> writer) throws Exception {
+    @Bean
+    public Step course(ItemProcessor<String, Course> processor, ItemWriter<Course> writer) throws Exception {
         return createStep(processor, writer, Course.class);
     }
 
-    @Bean(name = "horseRacingDetails")
-    public Step horseRacingDetailsStep(ItemProcessor<String, HorseRacingDetails> processor, ItemWriter<HorseRacingDetails> writer) throws Exception {
-        return createStep(processor, writer, HorseRacingDetails.class);
+    @Bean
+    public Step racingHorseDetail(ItemProcessor<String, RacingHorseDetail> processor, ItemWriter<RacingHorseDetail> writer) throws Exception {
+        return createStep(processor, writer, RacingHorseDetail.class);
     }
 
-    @Bean(name = "jockey")
-    public Step jockeyStep(ItemProcessor<String, Jockey> processor, ItemWriter<Jockey> writer) throws Exception {
+    @Bean
+    public Step jockey(ItemProcessor<String, Jockey> processor, ItemWriter<Jockey> writer) throws Exception {
         return createStep(processor, writer, Jockey.class);
     }
 
-    @Bean(name = "offspring")
-    public Step offspringStep(ItemProcessor<String, Offspring> processor, ItemWriter<Offspring> writer) throws Exception {
-        return createStep(processor, writer, Offspring.class);
+    @Bean
+    public Step bloodLine(ItemProcessor<String, BloodLine> processor, ItemWriter<BloodLine> writer) throws Exception {
+        return createStep(processor, writer, BloodLine.class);
     }
 
-    @Bean(name = "owner")
+    @Bean
     public Step ownerStep(ItemProcessor<String, Owner> processor, ItemWriter<Owner> writer) throws Exception {
         return createStep(processor, writer, Owner.class);
     }
 
-    @Bean(name = "raceHorse")
-    public Step raceHorseStep(ItemProcessor<String, RaceHorse> processor, ItemWriter<RaceHorse> writer) throws Exception {
+    @Bean
+    public Step raceHorse(ItemProcessor<String, RaceHorse> processor, ItemWriter<RaceHorse> writer) throws Exception {
         return createStep(processor, writer, RaceHorse.class);
     }
 
-    @Bean(name = "raceHorseExclusion")
-    public Step raceHorseExclusionStep(ItemProcessor<String, RaceHorseExclusion> processor, ItemWriter<RaceHorseExclusion> writer) throws Exception {
-        return createStep(processor, writer, RaceHorseExclusion.class);
+    @Bean
+    public Step racingHorseExclusion(ItemProcessor<String, RacingHorseExclusion> processor, ItemWriter<RacingHorseExclusion> writer) throws Exception {
+        return createStep(processor, writer, RacingHorseExclusion.class);
     }
 
-    @Bean(name = "raceRefund")
-    public Step raceRefundStep(ItemProcessor<String, RaceRefund> processor, ItemWriter<RaceRefund> writer) throws Exception {
-        return createStep(processor, writer, RaceRefund.class);
+    @Bean
+    public Step racingRefund(ItemProcessor<String, RacingRefund> processor, ItemWriter<RacingRefund> writer) throws Exception {
+        return createStep(processor, writer, RacingRefund.class);
     }
 
-    @Bean(name = "racingDetails")
-    public Step racingDetailsStep(ItemProcessor<String, RacingDetails> processor, ItemWriter<RacingDetails> writer) throws Exception {
-        return createStep(processor, writer, RacingDetails.class);
+    @Bean
+    public Step racingDetail(ItemProcessor<String, RacingDetail> processor, ItemWriter<RacingDetail> writer) throws Exception {
+        return createStep(processor, writer, RacingDetail.class);
     }
 
-    @Bean(name = "trainer")
-    public Step trainerStep(ItemProcessor<String, Trainer> processor, ItemWriter<Trainer> writer) throws Exception {
+    @Bean
+    public Step trainer(ItemProcessor<String, Trainer> processor, ItemWriter<Trainer> writer) throws Exception {
         return createStep(processor, writer, Trainer.class);
     }
 
-    @Bean(name = "voteCount")
-    public Step voteCountStep(ItemProcessor<String, VoteCount> processor, ItemWriter<VoteCount> writer) throws Exception {
-        return createStep(processor, writer, VoteCount.class);
+    @Bean
+    public Step racingVote(ItemProcessor<String, RacingVote> processor, ItemWriter<RacingVote> writer) throws Exception {
+        return createStep(processor, writer, RacingVote.class);
     }
 
-    @Bean(name = "winsPlaceBracketQuinella")
-    public Step winsPlaceBracketQuinellaStep(ItemProcessor<String, WinsPlaceBracketQuinella> processor, ItemWriter<WinsPlaceBracketQuinella> writer) throws Exception {
-        return createStep(processor, writer, WinsPlaceBracketQuinella.class);
+    @Bean
+    public Step winsShowBracketQ(ItemProcessor<String, WinsShowBracketQ> processor, ItemWriter<WinsShowBracketQ> writer) throws Exception {
+        return createStep(processor, writer, WinsShowBracketQ.class);
     }
 
-    @Bean(name = "quinella")
-    public Step quinellaStep(ItemProcessor<String, Quinella> processor, ItemWriter<Quinella> writer) throws Exception {
+    @Bean
+    public Step quinella(ItemProcessor<String, Quinella> processor, ItemWriter<Quinella> writer) throws Exception {
         return createStep(processor, writer, Quinella.class);
     }
 
-    @Bean(name = "quinellaPlace")
-    public Step quinellaPlaceStep(ItemProcessor<String, QuinellaPlace> processor, ItemWriter<QuinellaPlace> writer) throws Exception {
+    @Bean
+    public Step quinellaPlace(ItemProcessor<String, QuinellaPlace> processor, ItemWriter<QuinellaPlace> writer) throws Exception {
         return createStep(processor, writer, QuinellaPlace.class);
     }
 
-    @Bean(name = "exacta")
-    public Step exactaStep(ItemProcessor<String, Exacta> processor, ItemWriter<Exacta> writer) throws Exception {
+    @Bean
+    public Step exacta(ItemProcessor<String, Exacta> processor, ItemWriter<Exacta> writer) throws Exception {
         return createStep(processor, writer, Exacta.class);
     }
 
-    @Bean(name = "trio")
-    public Step trioStep(ItemProcessor<String, Trio> processor, ItemWriter<Trio> writer) throws Exception {
+    @Bean
+    public Step trio(ItemProcessor<String, Trio> processor, ItemWriter<Trio> writer) throws Exception {
         return createStep(processor, writer, Trio.class);
     }
 
-    @Bean(name = "trifecta")
-    public Step trifectaStep(ItemProcessor<String, Trifecta> processor, ItemWriter<Trifecta> writer) throws Exception {
+    @Bean
+    public Step trifecta(ItemProcessor<String, Trifecta> processor, ItemWriter<Trifecta> writer) throws Exception {
         return createStep(processor, writer, Trifecta.class);
     }
 
