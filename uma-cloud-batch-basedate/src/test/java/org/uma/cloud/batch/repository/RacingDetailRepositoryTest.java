@@ -4,21 +4,21 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.uma.cloud.common.code.RaceCourseCode;
-import org.uma.cloud.common.model.RacingDetails;
-import org.uma.cloud.common.repository.RacingDetailsRepository;
+import org.uma.cloud.common.model.RacingDetail;
+import org.uma.cloud.common.repository.RacingDetailRepository;
 
 import java.time.LocalDate;
 
 @SpringBootTest
-class RacingDetailsRepositoryTest {
+class RacingDetailRepositoryTest {
 
     @Autowired
-    private RacingDetailsRepository repository;
+    private RacingDetailRepository repository;
 
     @Test
     void test_find() {
         repository.findByCourseCd(RaceCourseCode.TOKYO).stream()
-                .map(RacingDetails::getRaceId)
+                .map(RacingDetail::getRaceId)
                 .forEach(System.out::println);
     }
 
@@ -29,7 +29,7 @@ class RacingDetailsRepositoryTest {
         LocalDate b = LocalDate.now().minusYears(1);
 
         long count = repository.findByHoldingDateBetween(a, b).stream()
-                .map(RacingDetails::getHoldingDate)
+                .map(RacingDetail::getHoldingDate)
                 .sorted()
                 .peek(System.out::println)
                 .count();

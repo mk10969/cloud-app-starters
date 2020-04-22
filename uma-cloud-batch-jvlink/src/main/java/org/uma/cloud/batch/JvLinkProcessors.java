@@ -128,7 +128,7 @@ public class JvLinkProcessors {
     @Bean
     public ItemProcessor<String, WinsShowBracketQ> winsShowBracketQItemProcessor() {
         return new JvLinkFunctionItemProcessor<>(jvLinkDeserializer.decode()
-                .andThen(jvLinkDeserializer::winsPlaceBracketQuinellaFunction));
+                .andThen(jvLinkDeserializer::winsShowBracketQFunction));
     }
 
     @Bean

@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.uma.cloud.common.BaseSpringBootTest;
 import org.uma.cloud.common.configuration.JvLinkRecordProperties;
-import org.uma.cloud.common.model.RacingDetails;
+import org.uma.cloud.common.model.RacingDetail;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -57,7 +57,7 @@ public class PreJvLInkModelMapperTest extends BaseSpringBootTest {
         ObjectMapper objectMapper = new ObjectMapper();
 
         readJvlinkData("RA").stream()
-                .map(line -> mapper(line, RacingDetails.class))
+                .map(line -> mapper(line, RacingDetail.class))
                 .map(model -> {
                     try {
                         return objectMapper.writeValueAsString(model);
