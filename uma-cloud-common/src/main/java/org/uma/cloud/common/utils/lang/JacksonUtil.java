@@ -25,6 +25,7 @@ import org.uma.cloud.common.code.TurfOrDirtConditionCode;
 import org.uma.cloud.common.code.WeatherCode;
 import org.uma.cloud.common.code.WeekDayCode;
 import org.uma.cloud.common.code.WeightTypeCode;
+import org.uma.cloud.common.model.RacingHorseDetail;
 import org.uma.cloud.common.utils.javatuples.Pair;
 import org.uma.cloud.common.utils.javatuples.Triplet;
 
@@ -274,7 +275,7 @@ public class JacksonUtil {
                     return LocalTime.of(0, 0, 0);
                     /**
                      * BaseModelのサブクラスに、annotationをつけたくなかったので名前で判定
-                     * @see org.uma.cloud.common.model.HorseRacingDetails#runningTime
+                     * @see RacingHorseDetail#runningTime
                      */
                 } else if ("runningTime".equals(p.getCurrentName())) {
                     int minute = Integer.parseInt(source.substring(0, 1));

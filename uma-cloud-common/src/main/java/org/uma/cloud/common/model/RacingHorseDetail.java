@@ -33,7 +33,7 @@ import java.util.List;
 @Getter
 @Entity
 @IdClass(HorseRacingDetails.HorseRacingDetailsId.class)
-@Table(name = "uma_horse_racing_details")
+@Table
 public class HorseRacingDetails extends BaseModel {
 
     /**
@@ -73,7 +73,6 @@ public class HorseRacingDetails extends BaseModel {
     /**
      * {@link Offspring.bloodlineNo}
      */
-    @Id
     private Long bloodlineNo;
 
     @Column(length = 36)
@@ -241,8 +240,6 @@ public class HorseRacingDetails extends BaseModel {
         private String raceId;
 
         private String horseNo;
-
-        private Long bloodlineNo;
     }
 
 }

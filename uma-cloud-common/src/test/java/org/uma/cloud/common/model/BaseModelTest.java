@@ -36,5 +36,14 @@ class BaseModelTest {
                 .forEach(System.out::println);
     }
 
+    @Test
+    void test_model一覧取得() {
+        Set<Class<?>> modelClazz = getClassesFrom("org.uma.cloud.common.model");
+        modelClazz.stream()
+                .map(Class::getSimpleName)
+                .forEach(System.out::println);
+
+    }
+
 
 }

@@ -1,6 +1,5 @@
 package org.uma.cloud.common.model.odds;
 
-
 import lombok.Getter;
 import org.hibernate.annotations.Type;
 import org.uma.cloud.common.code.RaceCourseCode;

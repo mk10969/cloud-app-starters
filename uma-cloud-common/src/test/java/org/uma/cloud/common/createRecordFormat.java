@@ -3,47 +3,42 @@ package org.uma.cloud.common;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.core.io.ResourceLoader;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
 
+import java.io.BufferedReader;
 import java.io.IOException;
-import java.nio.file.Files;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
-import java.util.stream.Stream;
 
-
-@SpringBootTest
-@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class createRecordFormat {
-
-    private final ResourceLoader resourceLoader;
 
     @Test
     void test_Format作成() throws IOException {
-        createRecord("jg.txt");
+        createRecord("wh.txt");
     }
 
-    private Stream<String> readLine(String filename) throws IOException {
-        return Files.lines(resourceLoader
-                .getResource("classpath:test-record-format/" + filename)
-                .getFile()
-                .toPath());
+    private List<Header> readLine(String filename) throws IOException {
+        Resource resource = new ClassPathResource("record-format/" + filename);
+        try (BufferedReader reader = new BufferedReader(
+                new InputStreamReader(resource.getInputStream()))) {
+            return reader.lines()
+                    .filter(Objects::nonNull)
+                    .map(format -> format.split("\t"))
+                    .map(format -> new Header(format[0], format[1], format[2], format[3]))
+                    .collect(Collectors.toList());
+        }
     }
 
     private void createRecord(String filename) throws IOException {
         Objects.requireNonNull(filename);
         String prefix = filename.substring(0, 2);
 
-        List<Header> once = readLine(filename)
-                .filter(Objects::nonNull)
-                .map(format -> format.split("\t"))
-                .map(format -> new Header(format[0], format[1], format[2], format[3]))
-                .collect(Collectors.toList());
+        List<Header> once = readLine(filename);
 
         List<String> result = new ArrayList<>();
         IntStream.range(0, once.size())
