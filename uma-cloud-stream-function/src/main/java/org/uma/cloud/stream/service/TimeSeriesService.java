@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import org.uma.cloud.common.model.odds.Exacta;
 import org.uma.cloud.common.model.odds.Quinella;
 import org.uma.cloud.common.model.odds.QuinellaPlace;
-import org.uma.cloud.common.model.odds.WinsPlaceBracketQuinella;
+import org.uma.cloud.common.model.odds.WinsShowBracketQ;
 import org.uma.cloud.common.utils.lang.DateUtil;
 import reactor.core.publisher.Flux;
 
@@ -24,26 +24,26 @@ public class TimeSeriesService {
         influxDB.write(point);
     }
 
-
-    public Flux<Point> oddsToPoint(WinsPlaceBracketQuinella winsPlaceBracketQuinella) {
+    
+    public Flux<Point> oddsToPoint(WinsShowBracketQ winsShowBracketQ) {
         // 枠連は捨てる。
         // winsPlaceBracketQuinella.getBracketQuinellaOdds();
 
-        long timestamp = DateUtil.toEpochMilli(winsPlaceBracketQuinella.getTimestamp());
+        long timestamp = DateUtil.toEpochMilli(winsShowBracketQ.getTimestamp());
 
-        Flux<Point> winFlux = Flux.fromStream(winsPlaceBracketQuinella.getWinOdds().stream())
+        Flux<Point> winFlux = Flux.fromStream(winsShowBracketQ.getWinOdds().stream())
                 .map(winOdds -> Point.measurement(winOdds.getClass().getSimpleName())
                         .time(timestamp, TimeUnit.MILLISECONDS)
-                        .tag("raceId", winsPlaceBracketQuinella.getRaceId())
+                        .tag("raceId", winsShowBracketQ.getRaceId())
                         .tag("horseNo", winOdds.getHorseNo())
                         .addField("odds", winOdds.getOdds())
                         .addField("rank", winOdds.getBetRank())
                         .build());
 
-        Flux<Point> placeFlux = Flux.fromStream(winsPlaceBracketQuinella.getPlaceOdds().stream())
+        Flux<Point> placeFlux = Flux.fromStream(winsShowBracketQ.getShowOdds().stream())
                 .map(placeOdds -> Point.measurement(placeOdds.getClass().getSimpleName())
                         .time(timestamp, TimeUnit.MILLISECONDS)
-                        .tag("raceId", winsPlaceBracketQuinella.getRaceId())
+                        .tag("raceId", winsShowBracketQ.getRaceId())
                         .tag("horseNo", placeOdds.getHorseNo())
                         .addField("oddsMin", placeOdds.getOddsMin())
                         .addField("oddsMax", placeOdds.getOddsMax())
@@ -54,9 +54,6 @@ public class TimeSeriesService {
     }
 
 
-    /**
-     * TODO: tagは検討→今のところ、おそらくユニーク。ただどのデータかわかりにくい・・・
-     */
     public Flux<Point> oddsToPoint(Quinella quinella) {
         long timestamp = DateUtil.toEpochMilli(quinella.getTimestamp());
 

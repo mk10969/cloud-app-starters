@@ -75,7 +75,7 @@ class JvLinkWebServiceTest {
                 .bodyToFlux(ExternalResponse.class)
                 .map(ExternalResponse::getData)
                 .map(jvLinkDeserializer.decode()
-                        .andThen(jvLinkDeserializer::racingDetailsFunction))
+                        .andThen(jvLinkDeserializer::racingDetailFunction))
                 .subscribe(
                         System.out::println,
                         System.out::println,
@@ -94,7 +94,7 @@ class JvLinkWebServiceTest {
                 .bodyToFlux(ExternalResponse.class)
                 .map(ExternalResponse::getData)
                 .map(jvLinkDeserializer.decode()
-                        .andThen(jvLinkDeserializer::racingDetailsFunction))
+                        .andThen(jvLinkDeserializer::racingDetailFunction))
                 .doOnError(throwable -> {
                     if (throwable instanceof WebClientConfiguration.JvLinkWebClientException) {
                         if (HttpStatus.NOT_FOUND == ((WebClientConfiguration.JvLinkWebClientException) throwable).getHttpStatus()) {
@@ -146,7 +146,7 @@ class JvLinkWebServiceTest {
                 .bodyToMono(ExternalResponse.class)
                 .map(ExternalResponse::getData)
                 .map(jvLinkDeserializer.decode()
-                        .andThen(jvLinkDeserializer::racingDetailsFunction))
+                        .andThen(jvLinkDeserializer::racingDetailFunction))
                 .subscribe(
                         System.out::println,
                         System.out::println,
@@ -166,7 +166,7 @@ class JvLinkWebServiceTest {
 
     @Test
     void test_timeseriesWinsPlaceBracketQuinella() throws InterruptedException {
-        jvLinkWebService.timeseriesWinsPlaceBracketQuinella("2020040509020411")
+        jvLinkWebService.timeseriesWinsShowBracketQ("2020040509020411")
                 .subscribe(System.out::println);
 
         Thread.sleep(3000L);
@@ -174,7 +174,7 @@ class JvLinkWebServiceTest {
 
     @Test
     void test_findAllRaceDetailsThisWeek() throws InterruptedException {
-        jvLinkWebService.raceDetailsWithFriday()
+        jvLinkWebService.raceDetailWithFriday()
                 .subscribe(System.out::println);
         Thread.sleep(5000L);
     }
@@ -182,7 +182,15 @@ class JvLinkWebServiceTest {
 
     @Test
     void test_findOneRaceDetails() throws InterruptedException {
-        jvLinkWebService.racingDetails("2020041909020804")
+        jvLinkWebService.racingDetail("2020041903010405")
+                .subscribe(System.out::println);
+        Thread.sleep(5000L);
+    }
+
+
+    @Test
+    void test_findAllHorseRacingDetails() throws InterruptedException {
+        jvLinkWebService.racingHorseDetail("2020041903010401")
                 .subscribe(System.out::println);
         Thread.sleep(5000L);
     }

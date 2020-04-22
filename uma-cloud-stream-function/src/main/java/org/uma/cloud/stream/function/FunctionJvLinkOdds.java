@@ -35,9 +35,9 @@ public class FunctionJvLinkOdds {
 
 
     @Bean
-    public Function<Flux<String>, Mono<Void>> raceIdToWinsPlaceBracketQuinellaToPoint() {
+    public Function<Flux<String>, Mono<Void>> raceIdToWinsShowBracketQToPoint() {
         return raceIds -> raceIds
-                .flatMap(jvLinkWebService::winsPlaceBracketQuinella)
+                .flatMap(jvLinkWebService::winsShowBracketQ)
                 .doOnNext(this::debug)
                 .flatMap(timeSeriesService::oddsToPoint)
                 .doOnNext(timeSeriesService::writePoint)

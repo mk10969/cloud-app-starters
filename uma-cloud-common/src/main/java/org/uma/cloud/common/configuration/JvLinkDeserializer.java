@@ -16,6 +16,12 @@ import org.uma.cloud.common.model.RacingHorseExclusion;
 import org.uma.cloud.common.model.RacingRefund;
 import org.uma.cloud.common.model.RacingVote;
 import org.uma.cloud.common.model.Trainer;
+import org.uma.cloud.common.model.event.Avoid;
+import org.uma.cloud.common.model.event.CourseChange;
+import org.uma.cloud.common.model.event.JockeyChange;
+import org.uma.cloud.common.model.event.TimeChange;
+import org.uma.cloud.common.model.event.Weather;
+import org.uma.cloud.common.model.event.Weight;
 import org.uma.cloud.common.model.odds.Exacta;
 import org.uma.cloud.common.model.odds.Quinella;
 import org.uma.cloud.common.model.odds.QuinellaPlace;
@@ -37,9 +43,11 @@ public class JvLinkDeserializer {
         return ByteUtil::base64Decode;
     }
 
+
     /**
-     * recordSpecごとの、transform Configuration
+     * レースデータ
      */
+
     public RacingDetail racingDetailFunction(byte[] data) {
         RacingDetail model = jvLinkModelMapper.deserialize(data, RacingDetail.class);
         model.getLapTimeItems().removeIf(time -> time == 0.0);
@@ -83,6 +91,11 @@ public class JvLinkDeserializer {
         return jvLinkModelMapper.deserialize(data, RacingHorseExclusion.class);
     }
 
+
+    /**
+     * オッズデータ
+     */
+
     public WinsShowBracketQ winsShowBracketQFunction(byte[] data) {
         WinsShowBracketQ model = jvLinkModelMapper.deserialize(data, WinsShowBracketQ.class);
         model.getWinOdds().removeIf(JvLinkDeserializer::winOddsFilter);
@@ -121,6 +134,11 @@ public class JvLinkDeserializer {
         return model;
     }
 
+
+    /**
+     * 血統データ
+     */
+
     public BloodLine bloodLineFunction(byte[] data) {
         return jvLinkModelMapper.deserialize(data, BloodLine.class);
     }
@@ -132,6 +150,11 @@ public class JvLinkDeserializer {
     public BloodBreeding bloodBreedingFunction(byte[] data) {
         return jvLinkModelMapper.deserialize(data, BloodBreeding.class);
     }
+
+
+    /**
+     * 競馬データ
+     */
 
     public RaceHorse raceHorseFunction(byte[] data) {
         return jvLinkModelMapper.deserialize(data, RaceHorse.class);
@@ -155,6 +178,36 @@ public class JvLinkDeserializer {
 
     public Course courseFunction(byte[] data) {
         return jvLinkModelMapper.deserialize(data, Course.class);
+    }
+
+
+    /**
+     * イベント通知データ
+     */
+
+    public Avoid avoidFunction(byte[] data) {
+        return jvLinkModelMapper.deserialize(data, Avoid.class);
+    }
+
+    public Weight weightFunction(byte[] data) {
+        // TODO: filterかけるかも
+        return jvLinkModelMapper.deserialize(data, Weight.class);
+    }
+
+    public Weather weatherFunction(byte[] data) {
+        return jvLinkModelMapper.deserialize(data, Weather.class);
+    }
+
+    public CourseChange courseChangeFunction(byte[] data) {
+        return jvLinkModelMapper.deserialize(data, CourseChange.class);
+    }
+
+    public JockeyChange jockeyChangeFunction(byte[] data) {
+        return jvLinkModelMapper.deserialize(data, JockeyChange.class);
+    }
+
+    public TimeChange timeChangeFunction(byte[] data) {
+        return jvLinkModelMapper.deserialize(data, TimeChange.class);
     }
 
 
