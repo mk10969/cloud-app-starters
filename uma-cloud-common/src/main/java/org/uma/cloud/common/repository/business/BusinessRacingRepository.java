@@ -9,14 +9,20 @@ import java.util.List;
 public interface BusinessRacingRepository extends JpaRepository<BusinessRacing, String> {
 
     /**
-     * 現在時刻で検索し、未来日付を取得
+     * 現在時刻で検索し、未来日付のデータを取得
      *
-     * @param now
-     * @return
+     * @param now    現在時刻
+     * @return       BusinessRacing
      */
     List<BusinessRacing> findByRaceStartDateTimeAfter(LocalDateTime now);
 
-
+    /**
+     * 現在時刻とデータ区分で検索し、過去日付のデータを取得
+     *
+     * @param dataDiv データ区分
+     * @param now     現在時刻
+     * @return        BusinessRacing
+     */
     List<BusinessRacing> findByDataDivAndRaceStartDateTimeBefore(String dataDiv, LocalDateTime now);
 
 }

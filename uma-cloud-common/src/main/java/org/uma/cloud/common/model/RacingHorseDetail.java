@@ -32,7 +32,7 @@ import java.util.List;
  */
 @Getter
 @Entity
-@IdClass(RacingHorseDetail.HorseRacingDetailsId.class)
+@IdClass(RacingHorseDetail.CompositeId.class)
 @Table
 public class RacingHorseDetail extends BaseModel {
 
@@ -235,7 +235,7 @@ public class RacingHorseDetail extends BaseModel {
     }
 
     @Data
-    public static class HorseRacingDetailsId implements Serializable {
+    public static class CompositeId implements Serializable {
 
         private String raceId;
 

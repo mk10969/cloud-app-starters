@@ -4,12 +4,12 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.uma.cloud.common.code.RaceCourseCode;
 import org.uma.cloud.common.code.RaceGradeCode;
 import org.uma.cloud.common.code.TurfOrDirtConditionCode;
-import org.uma.cloud.common.model.RacingDetails;
+import org.uma.cloud.common.model.RacingDetail;
 
 import java.time.LocalDate;
 import java.util.List;
 
-public interface RacingDetailsRepository extends JpaRepository<RacingDetails, String> {
+public interface RacingDetailRepository extends JpaRepository<RacingDetail, String> {
 
     /**
      * レース開催日を期間で検索
@@ -18,7 +18,7 @@ public interface RacingDetailsRepository extends JpaRepository<RacingDetails, St
      * @param top
      * @return
      */
-    List<RacingDetails> findByHoldingDateBetween(LocalDate bottom, LocalDate top);
+    List<RacingDetail> findByHoldingDateBetween(LocalDate bottom, LocalDate top);
 
     /**
      * レースコードで検索
@@ -26,7 +26,7 @@ public interface RacingDetailsRepository extends JpaRepository<RacingDetails, St
      * @param raceCourseCode
      * @return
      */
-    List<RacingDetails> findByCourseCd(RaceCourseCode raceCourseCode);
+    List<RacingDetail> findByCourseCd(RaceCourseCode raceCourseCode);
 
     /**
      * レースのグレードで検索
@@ -34,7 +34,7 @@ public interface RacingDetailsRepository extends JpaRepository<RacingDetails, St
      * @param raceGradeCode
      * @return
      */
-    List<RacingDetails> findByGradeCd(RaceGradeCode raceGradeCode);
+    List<RacingDetail> findByGradeCd(RaceGradeCode raceGradeCode);
 
     /**
      * 馬場状態で検索
@@ -42,7 +42,7 @@ public interface RacingDetailsRepository extends JpaRepository<RacingDetails, St
      * @param turfOrDirtConditionCode
      * @return
      */
-    List<RacingDetails> findByTurfConditionCd(TurfOrDirtConditionCode turfOrDirtConditionCode);
+    List<RacingDetail> findByTurfConditionCd(TurfOrDirtConditionCode turfOrDirtConditionCode);
 
 
 }

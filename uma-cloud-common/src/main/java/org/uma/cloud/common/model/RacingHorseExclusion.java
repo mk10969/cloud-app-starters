@@ -20,7 +20,7 @@ import java.time.LocalDate;
  */
 @Getter
 @Entity
-@IdClass(RacingHorseExclusion.RaceHorseExclusionId.class)
+@IdClass(RacingHorseExclusion.CompositeId.class)
 @Table
 public class RacingHorseExclusion extends BaseModel {
 
@@ -77,7 +77,7 @@ public class RacingHorseExclusion extends BaseModel {
 
 
     @Data
-    public static class RaceHorseExclusionId implements Serializable {
+    public static class CompositeId implements Serializable {
 
         private String raceId;
 

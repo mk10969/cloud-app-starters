@@ -21,7 +21,7 @@ import java.time.LocalDate;
  */
 @Getter
 @Entity
-@IdClass(Course.CourseId.class)
+@IdClass(Course.CompositeId.class)
 @Table
 public class Course extends BaseModel {
 
@@ -49,7 +49,7 @@ public class Course extends BaseModel {
 
 
     @Data
-    public static class CourseId implements Serializable {
+    public static class CompositeId implements Serializable {
 
         @Column(length = 20)
         @Enumerated(EnumType.STRING)

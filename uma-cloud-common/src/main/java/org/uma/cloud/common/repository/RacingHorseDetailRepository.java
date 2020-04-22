@@ -2,11 +2,11 @@ package org.uma.cloud.common.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.uma.cloud.common.code.RaceCourseCode;
-import org.uma.cloud.common.model.HorseRacingDetails;
+import org.uma.cloud.common.model.RacingHorseDetail;
 
 import java.util.List;
 
-public interface HorseRacingDetailsRepository extends JpaRepository<HorseRacingDetails, HorseRacingDetails.HorseRacingDetailsId> {
+public interface RacingHorseDetailRepository extends JpaRepository<RacingHorseDetail, RacingHorseDetail.CompositeId> {
 
     /**
      * レースIDで検索
@@ -14,7 +14,7 @@ public interface HorseRacingDetailsRepository extends JpaRepository<HorseRacingD
      * @param raceId
      * @return
      */
-    List<HorseRacingDetails> findByRaceId(String raceId);
+    List<RacingHorseDetail> findByRaceId(String raceId);
 
     /**
      * 血統登録番号で検索
@@ -22,7 +22,7 @@ public interface HorseRacingDetailsRepository extends JpaRepository<HorseRacingD
      * @param bloodlineNo
      * @return
      */
-    List<HorseRacingDetails> findByBloodlineNo(Long bloodlineNo);
+    List<RacingHorseDetail> findByBloodlineNo(Long bloodlineNo);
 
     /**
      * レースコードで検索
@@ -30,7 +30,7 @@ public interface HorseRacingDetailsRepository extends JpaRepository<HorseRacingD
      * @param raceCourseCode
      * @return
      */
-    List<HorseRacingDetails> findByCourseCd(RaceCourseCode raceCourseCode);
+    List<RacingHorseDetail> findByCourseCd(RaceCourseCode raceCourseCode);
 
 
 }
