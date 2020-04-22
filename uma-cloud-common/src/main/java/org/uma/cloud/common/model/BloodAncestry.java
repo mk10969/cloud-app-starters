@@ -14,7 +14,7 @@ import javax.persistence.Table;
 @Getter
 @Entity
 @Table
-public class Ancestry extends BaseModel {
+public class BloodAncestry extends BaseModel {
 
     /**
      * 繁殖登録番号 8桁

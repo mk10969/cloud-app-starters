@@ -32,12 +32,12 @@ import java.util.List;
  */
 @Getter
 @Entity
-@IdClass(HorseRacingDetails.HorseRacingDetailsId.class)
+@IdClass(RacingHorseDetail.HorseRacingDetailsId.class)
 @Table
-public class HorseRacingDetails extends BaseModel {
+public class RacingHorseDetail extends BaseModel {
 
     /**
-     * {@link RacingDetails.raceId}
+     * {@link RacingDetail.raceId}
      */
     @Id
     @Column(length = 16)
@@ -71,7 +71,7 @@ public class HorseRacingDetails extends BaseModel {
     private String horseNo;
 
     /**
-     * {@link Offspring.bloodlineNo}
+     * {@link BloodLine.bloodlineNo}
      */
     private Long bloodlineNo;
 
@@ -227,7 +227,7 @@ public class HorseRacingDetails extends BaseModel {
 
         /**
          * 血統登録番号 10桁
-         * {@link Offspring.bloodlineNo}
+         * {@link BloodLine.bloodlineNo}
          */
         private Long bloodlineNo;
 

@@ -21,11 +21,11 @@ import java.util.List;
  */
 @Getter
 @Entity
-@Table(name = "uma_race_refund")
-public class RaceRefund extends BaseModel {
+@Table
+public class RacingRefund extends BaseModel {
 
     /**
-     * {@link RacingDetails.raceId}
+     * {@link RacingDetail.raceId}
      */
     @Id
     @Column(length = 16)
@@ -49,9 +49,9 @@ public class RaceRefund extends BaseModel {
 
     private Integer failureFlagWin;
 
-    private Integer failureFlagPlace;
+    private Integer failureFlagShow;
 
-    private Integer failureFlagBracketQuinella;
+    private Integer failureFlagBracketQ;
 
     private Integer failureFlagQuinella;
 
@@ -68,9 +68,9 @@ public class RaceRefund extends BaseModel {
 
     private Integer specialRefundFlagWin;
 
-    private Integer specialRefundFlagPlace;
+    private Integer specialRefundFlagShow;
 
-    private Integer specialRefundFlagBracketQuinella;
+    private Integer specialRefundFlagBracketQ;
 
     private Integer specialRefundFlagQuinella;
 
@@ -87,9 +87,9 @@ public class RaceRefund extends BaseModel {
 
     private Integer restoreFlagWin;
 
-    private Integer restoreFlagPlace;
+    private Integer restoreFlagShow;
 
-    private Integer restoreFlagBracketQuinella;
+    private Integer restoreFlagBracketQ;
 
     private Integer restoreFlagQuinella;
 
@@ -124,12 +124,12 @@ public class RaceRefund extends BaseModel {
     // 複勝
     @Type(type = "jsonb")
     @Column(columnDefinition = "jsonb")
-    private List<refund> refundPlaces;
+    private List<refund> refundShows;
 
     // 枠連
     @Type(type = "jsonb")
     @Column(columnDefinition = "jsonb")
-    private List<refund> refundBracketQuinellas;
+    private List<refund> refundBracketQs;
 
     // 馬連
     @Type(type = "jsonb")

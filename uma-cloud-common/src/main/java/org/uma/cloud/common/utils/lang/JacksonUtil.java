@@ -25,6 +25,7 @@ import org.uma.cloud.common.code.TurfOrDirtConditionCode;
 import org.uma.cloud.common.code.WeatherCode;
 import org.uma.cloud.common.code.WeekDayCode;
 import org.uma.cloud.common.code.WeightTypeCode;
+import org.uma.cloud.common.model.RacingDetail;
 import org.uma.cloud.common.model.RacingHorseDetail;
 import org.uma.cloud.common.utils.javatuples.Pair;
 import org.uma.cloud.common.utils.javatuples.Triplet;
@@ -283,8 +284,8 @@ public class JacksonUtil {
                     int nano = Integer.parseInt(source.substring(3, 4)) * 100 * 1000 * 1000;
                     return LocalTime.of(0, minute, second, nano);
                     /**
-                     * @see org.uma.cloud.common.model.RacingDetails#startTime
-                     * @see org.uma.cloud.common.model.RacingDetails#startTimeBefore
+                     * @see RacingDetail#startTime
+                     * @see RacingDetail#startTimeBefore
                      */
                 } else {
                     int hour = Integer.parseInt(source.substring(0, 2));

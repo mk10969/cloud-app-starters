@@ -17,7 +17,7 @@ import java.time.LocalDate;
  */
 @Getter
 @Entity
-@Table(name = "uma_trainer")
+@Table
 public class Trainer extends BaseModel {
 
     /**

@@ -1,7 +1,7 @@
 package org.uma.cloud.common.model.business;
 
 import lombok.Data;
-import org.uma.cloud.common.model.Offspring;
+import org.uma.cloud.common.model.BloodLine;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -51,7 +51,7 @@ public class BusinessRacingHorse implements Serializable {
     private String horseNo;
 
     /**
-     * {@link Offspring.bloodlineNo}
+     * {@link BloodLine.bloodlineNo}
      */
     @Id
     private Long bloodlineNo;

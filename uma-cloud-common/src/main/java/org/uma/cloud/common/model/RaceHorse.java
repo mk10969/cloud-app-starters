@@ -23,7 +23,7 @@ import java.util.List;
  */
 @Getter
 @Entity
-@Table(name = "uma_race_horse")
+@Table
 public class RaceHorse extends BaseModel {
 
     /**
@@ -121,7 +121,7 @@ public class RaceHorse extends BaseModel {
     public static class Breeding {
         /**
          * 繁殖登録番号 8桁
-         * {@link BreedingHorse.breedingNo}
+         * {@link BloodBreeding.breedingNo}
          */
         private Integer breedingNo;
 

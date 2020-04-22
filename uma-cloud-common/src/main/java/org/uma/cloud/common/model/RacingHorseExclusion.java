@@ -1,6 +1,5 @@
 package org.uma.cloud.common.model;
 
-
 import lombok.Data;
 import lombok.Getter;
 import org.uma.cloud.common.code.RaceCourseCode;
@@ -21,12 +20,12 @@ import java.time.LocalDate;
  */
 @Getter
 @Entity
-@IdClass(RaceHorseExclusion.RaceHorseExclusionId.class)
-@Table(name = "uma_race_horse_exclusion")
-public class RaceHorseExclusion extends BaseModel {
+@IdClass(RacingHorseExclusion.RaceHorseExclusionId.class)
+@Table
+public class RacingHorseExclusion extends BaseModel {
 
     /**
-     * {@link RacingDetails.raceId}
+     * {@link RacingDetail.raceId}
      */
     @Id
     @Column(length = 16)
@@ -46,7 +45,7 @@ public class RaceHorseExclusion extends BaseModel {
 
     /**
      * 血統登録番号 10桁
-     * {@link Offspring.bloodlineNo}
+     * {@link BloodLine.bloodlineNo}
      */
     @Id
     private Long bloodlineNo;

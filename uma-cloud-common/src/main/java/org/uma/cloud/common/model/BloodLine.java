@@ -21,13 +21,13 @@ import java.util.List;
  */
 @Getter
 @Entity
-@Table(name = "uma_offspring")
-public class Offspring extends BaseModel {
+@Table
+public class BloodLine extends BaseModel {
 
     /**
      * 血統登録番号 10桁
-     * {@link HorseRacingDetails.bloodlineNo}
-     * {@link BreedingHorse.bloodlineNo}
+     * {@link RacingHorseDetail.bloodlineNo}
+     * {@link BloodBreeding.bloodlineNo}
      */
     @Id
     private Long bloodlineNo;
@@ -62,7 +62,7 @@ public class Offspring extends BaseModel {
      * 父父･父母･母父･母母･
      * 父父父･父父母･父母父･父母母･母父父･母父母･母母父･母母母
      * の順
-     * {@link BreedingHorse.breedingNo}
+     * {@link BloodBreeding.breedingNo}
      */
     @Type(type = "list")
     @Column(columnDefinition = "integer[]")

@@ -1,6 +1,5 @@
 package org.uma.cloud.common.model;
 
-
 import lombok.Getter;
 import org.hibernate.annotations.Type;
 import org.uma.cloud.common.code.RaceCourseCode;
@@ -22,11 +21,11 @@ import java.util.List;
  */
 @Getter
 @Entity
-@Table(name = "uma_vote_count")
-public class VoteCount extends BaseModel {
+@Table
+public class RacingVote extends BaseModel {
 
     /**
-     * {@link RacingDetails.raceId}
+     * {@link RacingDetail.raceId}
      */
     @Id
     @Column(length = 16)
@@ -50,9 +49,9 @@ public class VoteCount extends BaseModel {
 
     private Integer saleFlagWin;
 
-    private Integer saleFlagPlace;
+    private Integer saleFlagShow;
 
-    private Integer saleFlagBracketQuinella;
+    private Integer saleFlagBracketQ;
 
     private Integer saleFlagQuinella;
 
@@ -62,7 +61,7 @@ public class VoteCount extends BaseModel {
 
     private Integer saleFlagTrio;
 
-    private Integer placeCashKey;
+    private Integer showCashKey;
 
     // 返還
     @Type(type = "list")
@@ -86,11 +85,11 @@ public class VoteCount extends BaseModel {
 
     @Type(type = "jsonb")
     @Column(columnDefinition = "jsonb")
-    private List<Vote> voteCountPlaces;
+    private List<Vote> voteCountShows;
 
     @Type(type = "jsonb")
     @Column(columnDefinition = "jsonb")
-    private List<Vote> voteCountBracketQuinellas;
+    private List<Vote> voteCountBracketQs;
 
     @Type(type = "jsonb")
     @Column(columnDefinition = "jsonb")
@@ -110,9 +109,9 @@ public class VoteCount extends BaseModel {
 
     private Long voteCountTotalWin;
 
-    private Long voteCountTotalPlace;
+    private Long voteCountTotalShow;
 
-    private Long voteCountTotalBracketQuinella;
+    private Long voteCountTotalBracketQ;
 
     private Long voteCountTotalQuinella;
 
@@ -124,9 +123,9 @@ public class VoteCount extends BaseModel {
 
     private Long restoreVoteCountTotalWin;
 
-    private Long restoreVoteCountTotalPlace;
+    private Long restoreVoteCountTotalShow;
 
-    private Long restoreVoteCountTotalBracketQuinella;
+    private Long restoreVoteCountTotalBracketQ;
 
     private Long restoreVoteCountTotalQuinella;
 

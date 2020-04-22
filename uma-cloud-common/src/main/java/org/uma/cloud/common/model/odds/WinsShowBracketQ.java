@@ -4,7 +4,7 @@ import lombok.Getter;
 import org.hibernate.annotations.Type;
 import org.uma.cloud.common.code.RaceCourseCode;
 import org.uma.cloud.common.model.BaseModel;
-import org.uma.cloud.common.model.RacingDetails;
+import org.uma.cloud.common.model.RacingDetail;
 import org.uma.cloud.common.recordSpec.RecordSpec;
 
 import javax.persistence.Column;
@@ -22,11 +22,11 @@ import java.util.List;
  */
 @Getter
 @Entity
-@Table(name = "odds_wins_place_bracket_quinella")
-public class WinsPlaceBracketQuinella extends BaseModel implements Odds {
+@Table(name = "odds_wins_show_bracketQ")
+public class WinsShowBracketQ extends BaseModel implements Odds {
 
     /**
-     * {@link RacingDetails.raceId}
+     * {@link RacingDetail.raceId}
      */
     @Id
     @Column(length = 16)
@@ -53,11 +53,11 @@ public class WinsPlaceBracketQuinella extends BaseModel implements Odds {
 
     private Integer saleFlagWin;
 
-    private Integer saleFlagPlace;
+    private Integer saleFlagShow;
 
-    private Integer saleFlagbracket;
+    private Integer saleFlagbracketQ;
 
-    private Integer placeCashKey;
+    private Integer showCashKey;
 
     // 単勝オッズ
     @Type(type = "jsonb")
@@ -67,18 +67,18 @@ public class WinsPlaceBracketQuinella extends BaseModel implements Odds {
     // 複勝オッズ
     @Type(type = "jsonb")
     @Column(columnDefinition = "jsonb")
-    private List<PlaceOdds> placeOdds;
+    private List<ShowOdds> showOdds;
 
     // 枠連オッズ
     @Type(type = "jsonb")
     @Column(columnDefinition = "jsonb")
-    private List<BracketQuinellaOdds> bracketQuinellaOdds;
+    private List<BracketQOdds> bracketQOdds;
 
     private Long voteCountTotalWin;
 
-    private Long voteCountTotalPlace;
+    private Long voteCountTotalShow;
 
-    private Long voteCountTotalBracketQuinella;
+    private Long voteCountTotalBracketQ;
 
 
     @Getter
@@ -95,7 +95,7 @@ public class WinsPlaceBracketQuinella extends BaseModel implements Odds {
     }
 
     @Getter
-    public static class PlaceOdds {
+    public static class ShowOdds {
         /**
          * 馬番は、String型を使う。
          */
@@ -110,7 +110,7 @@ public class WinsPlaceBracketQuinella extends BaseModel implements Odds {
     }
 
     @Getter
-    public static class BracketQuinellaOdds {
+    public static class BracketQOdds {
         /**
          * 枠連は、Pairオブジェクトを利用するのでが正しいが、
          * どうせ使わないので、String型にしておく。

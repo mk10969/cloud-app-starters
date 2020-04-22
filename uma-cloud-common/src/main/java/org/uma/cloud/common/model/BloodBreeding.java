@@ -18,8 +18,8 @@ import javax.persistence.Table;
  */
 @Getter
 @Entity
-@Table(name = "uma_breeding_horse")
-public class BreedingHorse extends BaseModel {
+@Table
+public class BloodBreeding extends BaseModel {
 
     /**
      * 繁殖登録番号 8桁
@@ -32,7 +32,7 @@ public class BreedingHorse extends BaseModel {
 
     /**
      * 血統登録番号 10桁
-     * {@link Offspring.bloodlineNo}
+     * {@link BloodLine.bloodlineNo}
      */
     private Long bloodlineNo;
 

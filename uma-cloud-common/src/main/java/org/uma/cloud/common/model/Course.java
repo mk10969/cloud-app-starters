@@ -22,7 +22,7 @@ import java.time.LocalDate;
 @Getter
 @Entity
 @IdClass(Course.CourseId.class)
-@Table(name = "umm_course")
+@Table
 public class Course extends BaseModel {
 
     /**

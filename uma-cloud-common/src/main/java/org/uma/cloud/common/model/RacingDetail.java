@@ -28,13 +28,13 @@ import java.util.List;
  */
 @Getter
 @Entity
-@Table(name = "uma_racing_details")
-public class RacingDetails extends BaseModel {
+@Table
+public class RacingDetail extends BaseModel {
 
     /**
-     * {@link HorseRacingDetails.raceId}
-     * {@link RaceRefund.raceId}
-     * {@link VoteCount.raceId}
+     * {@link RacingHorseDetail.raceId}
+     * {@link RacingRefund.raceId}
+     * {@link RacingVote.raceId}
      */
     @Id
     @Column(length = 16)

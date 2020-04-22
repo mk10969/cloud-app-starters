@@ -5,7 +5,7 @@ import lombok.Getter;
 import org.hibernate.annotations.Type;
 import org.uma.cloud.common.code.RaceCourseCode;
 import org.uma.cloud.common.model.BaseModel;
-import org.uma.cloud.common.model.RacingDetails;
+import org.uma.cloud.common.model.RacingDetail;
 import org.uma.cloud.common.recordSpec.RecordSpec;
 import org.uma.cloud.common.utils.javatuples.Pair;
 
@@ -28,7 +28,7 @@ import java.util.List;
 public class Quinella extends BaseModel implements Odds {
 
     /**
-     * {@link RacingDetails.raceId}
+     * {@link RacingDetail.raceId}
      */
     @Id
     @Column(length = 16)
