@@ -11,7 +11,7 @@ import java.time.Duration;
 import java.util.function.Supplier;
 
 @Configuration
-public class SupplierJvLinkRaceId {
+public class JvRaceSupplier {
 
     @Autowired
     private BusinessRacingService businessRacingService;

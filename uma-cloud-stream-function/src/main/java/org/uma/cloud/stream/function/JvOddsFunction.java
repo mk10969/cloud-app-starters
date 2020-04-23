@@ -15,7 +15,7 @@ import java.util.function.Function;
 
 @Slf4j
 @Configuration
-public class FunctionJvLinkOdds {
+public class JvOddsFunction {
 
     @Autowired
     private JvLinkWebService jvLinkWebService;

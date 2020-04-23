@@ -27,7 +27,7 @@ public class WebClientConfiguration {
     @Bean
     public WebClient webClient() {
         return WebClient.builder()
-                .baseUrl(properties.getWebClientUrl())
+                .baseUrl(properties.getJvLinkWebUrl())
                 .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
                 .filter(statusError(HttpStatus::is4xxClientError, WebClientConfiguration::is4xxErrorFunction))
                 .filter(statusError(HttpStatus::is5xxServerError, WebClientConfiguration::is5xxErrorFunction))
@@ -35,8 +35,9 @@ public class WebClientConfiguration {
     }
 
 
-    public static ExchangeFilterFunction statusError(Predicate<HttpStatus> statusPredicate,
-                                                     Function<ClientResponse, Mono<? extends Throwable>> exceptionFunction) {
+    public static ExchangeFilterFunction statusError(
+            Predicate<HttpStatus> statusPredicate,
+            Function<ClientResponse, Mono<? extends Throwable>> exceptionFunction) {
 
         Assert.notNull(statusPredicate, "Predicate must not be null");
         Assert.notNull(exceptionFunction, "Function must not be null");

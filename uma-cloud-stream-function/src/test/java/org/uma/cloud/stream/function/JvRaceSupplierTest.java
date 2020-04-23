@@ -12,7 +12,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.function.Supplier;
 
 @SpringBootTest
-class SupplierJvLinkRaceIdTest {
+class JvRaceSupplierTest {
 
 
     @Autowired

@@ -1,7 +1,7 @@
 package org.uma.cloud.stream.util;
 
-import org.uma.cloud.common.model.HorseRacingDetails;
-import org.uma.cloud.common.model.RacingDetails;
+import org.uma.cloud.common.model.RacingHorseDetail;
+import org.uma.cloud.common.model.RacingDetail;
 import org.uma.cloud.common.model.business.BusinessRacingHorse;
 import org.uma.cloud.common.model.business.BusinessRacing;
 
@@ -9,42 +9,43 @@ import java.time.LocalDateTime;
 
 public class BusinessMapper {
 
-    public static BusinessRacing toBusinessRace(RacingDetails racingDetails) {
+    public static BusinessRacing toBusinessRacing(RacingDetail racingDetail) {
         BusinessRacing model = new BusinessRacing();
-        model.setRaceId(racingDetails.getRaceId());
-        model.setDataDiv(racingDetails.getDataDiv());
-        model.setRaceStartDateTime(LocalDateTime.of(racingDetails.getHoldingDate(), racingDetails.getStartTime()));
-        model.setRaceNameFull(racingDetails.getRaceNameFull());
-        model.setCourse(racingDetails.getCourseCd().getRaceCourseNameShort());
-        model.setRaceType(racingDetails.getRaceTypeCd().getRaceTypeNameShort());
-        model.setDistance(racingDetails.getDistance());
-        model.setTrack(racingDetails.getTrackCd().getCodeName());
-        model.setTurfCondition(racingDetails.getTurfConditionCd().getCodeName());
-        model.setDirtCondition(racingDetails.getDirtConditionCd().getCodeName());
-        model.setWeather(racingDetails.getWeatherCd().getCodeName());
+        model.setRaceId(racingDetail.getRaceId());
+        model.setDataDiv(racingDetail.getDataDiv());
+        model.setRaceStartDateTime(LocalDateTime.of(racingDetail.getHoldingDate(), racingDetail.getStartTime()));
+        model.setRaceNo(racingDetail.getRaceNo());
+        model.setRaceNameFull(racingDetail.getRaceNameFull());
+        model.setCourse(racingDetail.getCourseCd().getRaceCourseNameShort());
+        model.setRaceType(racingDetail.getRaceTypeCd().getRaceTypeNameShort());
+        model.setDistance(racingDetail.getDistance());
+        model.setTrack(racingDetail.getTrackCd().getCodeName());
+//        model.setTurfCondition(racingDetails.getTurfConditionCd().getCodeName());
+//        model.setDirtCondition(racingDetails.getDirtConditionCd().getCodeName());
+//        model.setWeather(racingDetails.getWeatherCd().getCodeName());
         return model;
     }
 
-    public static BusinessRacingHorse toBusinessHorseRace(HorseRacingDetails horseRacingDetails) {
+    public static BusinessRacingHorse toBusinessRacingHorse(RacingHorseDetail racingHorseDetail) {
         BusinessRacingHorse model = new BusinessRacingHorse();
-        model.setRaceId(horseRacingDetails.getRaceId());
-        model.setDataDiv(horseRacingDetails.getDataDiv());
-        model.setRaceNo(horseRacingDetails.getRaceNo());
-        model.setBracketNo(horseRacingDetails.getBracketNo());
-        model.setHorseNo(horseRacingDetails.getHorseNo());
-        model.setBloodlineNo(horseRacingDetails.getBloodlineNo());
-        model.setHorseName(horseRacingDetails.getHorseName());
-        model.setSex(horseRacingDetails.getSexCd().getCodeName());
-        model.setHairColor(horseRacingDetails.getHairColorCd().getCodeName());
-        model.setAge(horseRacingDetails.getAge());
-        model.setEwBelong(horseRacingDetails.getEwBelongCd().getCodeName());
-        model.setJockeyNameShort(horseRacingDetails.getJockeyNameShort());
-        model.setLoadWeight(horseRacingDetails.getLoadWeight());
-        model.setTrainerNameShort(horseRacingDetails.getTrainerNameShort());
-        model.setOwnerNameWithoutCorp(horseRacingDetails.getOwnerNameWithoutCorp());
-        model.setHorseWeight(horseRacingDetails.getHorseWeight());
-        model.setOddsWin(horseRacingDetails.getOddsWin());
-        model.setBetRankWin(horseRacingDetails.getBetRankWin());
+        model.setRaceId(racingHorseDetail.getRaceId());
+        model.setDataDiv(racingHorseDetail.getDataDiv());
+        model.setRaceNo(racingHorseDetail.getRaceNo());
+        model.setBracketNo(racingHorseDetail.getBracketNo());
+        model.setHorseNo(racingHorseDetail.getHorseNo());
+        model.setBloodlineNo(racingHorseDetail.getBloodlineNo());
+        model.setHorseName(racingHorseDetail.getHorseName());
+        model.setSex(racingHorseDetail.getSexCd().getCodeName());
+        model.setHairColor(racingHorseDetail.getHairColorCd().getCodeName());
+        model.setAge(racingHorseDetail.getAge());
+        model.setEwBelong(racingHorseDetail.getEwBelongCd().getCodeName());
+        model.setJockeyNameShort(racingHorseDetail.getJockeyNameShort());
+        model.setLoadWeight(racingHorseDetail.getLoadWeight());
+        model.setTrainerNameShort(racingHorseDetail.getTrainerNameShort());
+        model.setOwnerNameWithoutCorp(racingHorseDetail.getOwnerNameWithoutCorp());
+        model.setHorseWeight(racingHorseDetail.getHorseWeight());
+        model.setOddsWin(racingHorseDetail.getOddsWin());
+        model.setBetRankWin(racingHorseDetail.getBetRankWin());
         return model;
     }
 

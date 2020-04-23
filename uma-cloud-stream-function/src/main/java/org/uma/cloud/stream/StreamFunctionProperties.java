@@ -23,7 +23,9 @@ public class StreamFunctionProperties {
 
     @Getter
     @Setter
-    private String webClientUrl = "http://192.168.56.104:8888";
+    private String JvLinkWebUrl = "http://192.168.56.104:8888";
 
-
+    @Getter
+    @Setter
+    private String JvLinkWebSocketUrl = "ws://192.168.56.104:8888/jvWatchEvent";
 }
