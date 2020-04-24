@@ -1,7 +1,10 @@
 package org.uma.cloud.common.code;
 
+import com.fasterxml.jackson.annotation.JsonValue;
 import org.uma.cloud.common.utils.constants.CodeEnum;
 
+import javax.persistence.AttributeConverter;
+import javax.persistence.Converter;
 import java.util.Objects;
 
 /**
@@ -23,9 +26,9 @@ public enum AbnormalDivisionCode implements CodeEnum<Integer, AbnormalDivisionCo
 
     ;
 
-    private Integer code;
-    private String codeName;
-    private String codeNameEng;
+    private final Integer code;
+    private final String codeName;
+    private final String codeNameEng;
 
     AbnormalDivisionCode(Integer code, String codeName, String codeNameEng) {
         this.code = code;
@@ -38,6 +41,8 @@ public enum AbnormalDivisionCode implements CodeEnum<Integer, AbnormalDivisionCo
         return this.code;
     }
 
+    @Override
+    @JsonValue
     public String getCodeName() {
         return this.codeName;
     }
@@ -52,6 +57,24 @@ public enum AbnormalDivisionCode implements CodeEnum<Integer, AbnormalDivisionCo
             return DEFAULT;
         }
         return CodeEnum.reversibleFindOne(code, AbnormalDivisionCode.class);
+    }
+
+    /**
+     * Jpa enum converter impl
+     */
+    @Converter(autoApply = true)
+    public static class AbnormalDivisionCodeConvert
+            implements AttributeConverter<AbnormalDivisionCode, String> {
+
+        @Override
+        public String convertToDatabaseColumn(AbnormalDivisionCode attribute) {
+            return attribute.getCodeName();
+        }
+
+        @Override
+        public AbnormalDivisionCode convertToEntityAttribute(String dbData) {
+            return CodeEnum.convertOf(dbData, AbnormalDivisionCode.class);
+        }
     }
 
 }

@@ -47,7 +47,7 @@ class JacksonUtilTest {
 
     @Test
     void test_フィールド名とjsonが一致しないとき() {
-        ObjectMapper objectMapper = JacksonUtil.getObjectMapper();
+        ObjectMapper objectMapper = JacksonUtil.getJvLinkObjectMapper();
         Map<String, Number> map = new HashMap<>();
         map.put("numberLong", 111);
         map.put("numberIntger", 222222);
@@ -58,7 +58,7 @@ class JacksonUtilTest {
 
     @Test
     void test_Jsonプロパティが欠損しているとき() {
-        ObjectMapper objectMapper = JacksonUtil.getObjectMapper();
+        ObjectMapper objectMapper = JacksonUtil.getJvLinkObjectMapper();
         Map<String, Object> map = new HashMap<>();
         map.put("recordType", "BN");
         map.put("dataDiv", "1");

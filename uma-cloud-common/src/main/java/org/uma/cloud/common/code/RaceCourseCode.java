@@ -1,5 +1,6 @@
 package org.uma.cloud.common.code;
 
+import com.fasterxml.jackson.annotation.JsonValue;
 import org.uma.cloud.common.utils.constants.CodeEnum;
 
 import java.util.Objects;
@@ -121,26 +122,29 @@ public enum RaceCourseCode implements CodeEnum<String, RaceCourseCode> {
     Qatar("M8", "カタール", "カタル"),
     ;
 
-    private String code;
-    private String raceCourseName;
-    private String raceCourseNameShort;
+    private final String code;
+    private final String codeName;
+    private final String codeNameShort;
 
-    RaceCourseCode(String code, String raceCourseName, String raceCourseNameShort) {
+    RaceCourseCode(String code, String codeName, String codeNameShort) {
         this.code = code;
-        this.raceCourseName = raceCourseName;
-        this.raceCourseNameShort = raceCourseNameShort;
+        this.codeName = codeName;
+        this.codeNameShort = codeNameShort;
     }
 
+    @Override
     public String getCode() {
         return this.code;
     }
 
-    public String getRaceCourseName() {
-        return this.raceCourseName;
+    @Override
+    public String getCodeName() {
+        return this.codeName;
     }
 
-    public String getRaceCourseNameShort() {
-        return this.raceCourseNameShort;
+    @JsonValue
+    public String getCodeNameShort() {
+        return this.codeNameShort;
     }
 
 

@@ -1,5 +1,6 @@
 package org.uma.cloud.common.code;
 
+import com.fasterxml.jackson.annotation.JsonValue;
 import org.uma.cloud.common.utils.constants.CodeEnum;
 
 import java.util.Objects;
@@ -12,31 +13,37 @@ public enum JockeyApprenticeCode implements CodeEnum<Integer, JockeyApprenticeCo
     /**
      * 未設備時のデフォルト値
      */
-    DEFAULT(0, ""),
-    _1Kg(1, "☆"),
-    _2Kg(2, "△"),
-    _3Kg(3, "▲"),
+    DEFAULT(0, "", ""),
+    _1Kg(1, "1Kg減", "☆"),
+    _2Kg(2, "2Kg減", "△"),
+    _3Kg(3, "3Kg減", "▲"),
 
     /**
      * 女性騎手専用コード
      */
-    _4Kg_F(4, "★"),
-    _2Kg_F(9, "◇")
-
-    ;
+    _4Kg_F(4, "4Kg減", "★"),
+    _2Kg_F(9, "2Kg減", "◇");
 
 
-    private Integer code;
-    private String codeMark;
+    private final Integer code;
+    private final String codeName;
+    private final String codeMark;
 
-    JockeyApprenticeCode(Integer code, String codeMark) {
+    JockeyApprenticeCode(Integer code, String codeName, String codeMark) {
         this.code = code;
+        this.codeName = codeName;
         this.codeMark = codeMark;
     }
 
     @Override
     public Integer getCode() {
         return this.code;
+    }
+
+    @Override
+    @JsonValue
+    public String getCodeName() {
+        return this.codeName;
     }
 
     public String getCodeMark() {

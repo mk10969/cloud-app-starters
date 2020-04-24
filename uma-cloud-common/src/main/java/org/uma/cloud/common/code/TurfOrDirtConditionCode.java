@@ -1,5 +1,6 @@
 package org.uma.cloud.common.code;
 
+import com.fasterxml.jackson.annotation.JsonValue;
 import org.uma.cloud.common.utils.constants.CodeEnum;
 
 import java.util.Objects;
@@ -35,8 +36,8 @@ public enum TurfOrDirtConditionCode implements CodeEnum<Integer, TurfOrDirtCondi
      */
     ;
 
-    private Integer code;
-    private String codeName;
+    private final Integer code;
+    private final String codeName;
 
     TurfOrDirtConditionCode(Integer code, String codeName) {
         this.code = code;
@@ -48,6 +49,8 @@ public enum TurfOrDirtConditionCode implements CodeEnum<Integer, TurfOrDirtCondi
         return this.code;
     }
 
+    @Override
+    @JsonValue
     public String getCodeName() {
         return this.codeName;
     }

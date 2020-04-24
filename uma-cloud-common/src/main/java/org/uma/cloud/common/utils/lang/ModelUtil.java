@@ -3,7 +3,6 @@ package org.uma.cloud.common.utils.lang;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.github.wnameless.json.flattener.JsonFlattener;
 import com.google.common.collect.Lists;
 import org.uma.cloud.common.model.BaseModel;
 import org.uma.cloud.common.utils.exception.CharacterCodingRuntimeException;
@@ -30,7 +29,7 @@ public class ModelUtil {
      */
     private static final Charset SHIFT_JIS = Charset.forName("MS932");
 
-    private static final ObjectMapper objectMapper = JacksonUtil.getObjectMapper();
+    private static final ObjectMapper objectMapper = JacksonUtil.getDefaultObjectMapper();
 
 
     public static String toJson(Object object) {
@@ -98,7 +97,8 @@ public class ModelUtil {
     );
 
     public static void fieldNotNull(BaseModel model) {
-        Map<String, Object> json = JsonFlattener.flattenAsMap(toJson(model));
+        Map<String, Object> json = objectMapper.convertValue(model, new TypeReference<>() {
+        });
         json.entrySet().stream()
                 .filter(ModelUtil::nullOkFieldName)
                 .forEach(e -> Objects.requireNonNull(e.getValue(), e.getKey() + "が、nullです。"));

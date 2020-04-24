@@ -1,5 +1,6 @@
 package org.uma.cloud.common.code;
 
+import com.fasterxml.jackson.annotation.JsonValue;
 import org.uma.cloud.common.utils.constants.CodeEnum;
 
 import java.util.Objects;
@@ -24,8 +25,8 @@ public enum BreedCode implements CodeEnum<Integer, BreedCode> {
 
     ;
 
-    private Integer code;
-    private String codeName;
+    private final Integer code;
+    private final String codeName;
 
     BreedCode(Integer code, String codeName) {
         this.code = code;
@@ -37,6 +38,8 @@ public enum BreedCode implements CodeEnum<Integer, BreedCode> {
         return this.code;
     }
 
+    @Override
+    @JsonValue
     public String getCodeName() {
         return this.codeName;
     }

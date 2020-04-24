@@ -1,9 +1,9 @@
 package org.uma.cloud.common.code;
 
+import com.fasterxml.jackson.annotation.JsonValue;
 import org.uma.cloud.common.utils.constants.CodeEnum;
 
 import java.util.Objects;
-
 
 /**
  * 2005.競走種別コード
@@ -26,14 +26,14 @@ public enum RaceTypeCode implements CodeEnum<Integer, RaceTypeCode> {
     ARA4MORE(24, "アラブ系４歳以上", "アラ４上"),
     ;
 
-    private Integer code;
-    private String raceTypeName;
-    private String raceTypeNameShort;
+    private final Integer code;
+    private final String codeName;
+    private final String codeNameShort;
 
-    RaceTypeCode(Integer code, String raceTypeName, String raceTypeNameShort) {
+    RaceTypeCode(Integer code, String codeName, String codeNameShort) {
         this.code = code;
-        this.raceTypeName = raceTypeName;
-        this.raceTypeNameShort = raceTypeNameShort;
+        this.codeName = codeName;
+        this.codeNameShort = codeNameShort;
     }
 
     @Override
@@ -41,12 +41,14 @@ public enum RaceTypeCode implements CodeEnum<Integer, RaceTypeCode> {
         return this.code;
     }
 
-    public String getRaceTypeName() {
-        return this.raceTypeName;
+    @Override
+    public String getCodeName() {
+        return this.codeName;
     }
 
-    public String getRaceTypeNameShort() {
-        return this.raceTypeNameShort;
+    @JsonValue
+    public String getCodeNameShort() {
+        return this.codeNameShort;
     }
 
     public static RaceTypeCode of(Integer code) {

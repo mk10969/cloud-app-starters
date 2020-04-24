@@ -47,7 +47,7 @@ import java.util.Objects;
 @Component
 public class JvLinkModelMapper {
 
-    private final ObjectMapper objectMapper = JacksonUtil.getObjectMapper();
+    private final ObjectMapper objectMapper = JacksonUtil.getJvLinkObjectMapper();
 
     @Autowired
     private Map<String, JvLinkRecordProperties.RecordSpecItems> recordSpecItems;
@@ -82,7 +82,7 @@ public class JvLinkModelMapper {
         recordSpecClass.put(RecordSpec.BN, Owner.class);
         // COMM
         recordSpecClass.put(RecordSpec.CS, Course.class);
-        // event
+        // EVENT
         recordSpecClass.put(RecordSpec.WH, Weight.class);
         recordSpecClass.put(RecordSpec.AV, Avoid.class);
         recordSpecClass.put(RecordSpec.CC, CourseChange.class);

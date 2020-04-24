@@ -1,5 +1,6 @@
 package org.uma.cloud.common.code;
 
+import com.fasterxml.jackson.annotation.JsonValue;
 import org.uma.cloud.common.utils.constants.CodeEnum;
 
 import java.util.Objects;
@@ -12,26 +13,25 @@ public enum WeekDayCode implements CodeEnum<Integer, WeekDayCode> {
     /**
      * デフォルト "0"の文字列から、Integer 0 にコンバートする。
      */
-    DEFAULT(0, "", ""),
-    SATURDAY(1, "土曜日", "土"),
-    SUNDAY(2, "日曜日", "日"),
-    HOLIDAY(3, "祝日", "祝"),
-    MONDAY(4, "月曜日", "月"),
-    TUESDAY(5, "火曜日", "火"),
-    WEDNESDAY(6, "水曜日", "水"),
-    THURSDAY(7, "木曜日", "木"),
-    FRIDAY(8, "金曜日", "金"),
+    DEFAULT(0, ""),
+    SATURDAY(1, "土曜日"),
+    SUNDAY(2, "日曜日"),
+    HOLIDAY(3, "祝日"),
+    MONDAY(4, "月曜日"),
+    TUESDAY(5, "火曜日"),
+    WEDNESDAY(6, "水曜日"),
+    THURSDAY(7, "木曜日"),
+    FRIDAY(8, "金曜日"),
 
     ;
 
-    private Integer code;
-    private String weekDay;
-    private String weekDayShort;
+    private final Integer code;
+    private final String codeName;
 
-    WeekDayCode(Integer code, String weekDay, String weekDayShort) {
+
+    WeekDayCode(Integer code, String codeName) {
         this.code = code;
-        this.weekDay = weekDay;
-        this.weekDayShort = weekDayShort;
+        this.codeName = codeName;
     }
 
     @Override
@@ -39,13 +39,12 @@ public enum WeekDayCode implements CodeEnum<Integer, WeekDayCode> {
         return this.code;
     }
 
-    public String getWeekDay() {
-        return this.weekDay;
+    @Override
+    @JsonValue
+    public String getCodeName() {
+        return this.codeName;
     }
 
-    public String getWeekDayShort() {
-        return this.weekDayShort;
-    }
 
     public static WeekDayCode of(Integer code) {
         Objects.requireNonNull(code);
@@ -54,6 +53,5 @@ public enum WeekDayCode implements CodeEnum<Integer, WeekDayCode> {
         }
         return CodeEnum.reversibleFindOne(code, WeekDayCode.class);
     }
-
 
 }

@@ -1,5 +1,6 @@
 package org.uma.cloud.common.code;
 
+import com.fasterxml.jackson.annotation.JsonValue;
 import org.uma.cloud.common.utils.constants.CodeEnum;
 
 import java.util.Objects;
@@ -25,12 +26,12 @@ public enum RaceGradeCode implements CodeEnum<String, RaceGradeCode> {
 
     ;
 
-    private String code;
-    private String gradeName;
+    private final String code;
+    private final String codeName;
 
-    RaceGradeCode(String code, String gradeName) {
+    RaceGradeCode(String code, String codeName) {
         this.code = code;
-        this.gradeName = gradeName;
+        this.codeName = codeName;
     }
 
     @Override
@@ -38,8 +39,10 @@ public enum RaceGradeCode implements CodeEnum<String, RaceGradeCode> {
         return this.code;
     }
 
-    public String getGradeName() {
-        return this.gradeName;
+    @Override
+    @JsonValue
+    public String getCodeName() {
+        return this.codeName;
     }
 
     public static RaceGradeCode of(String code) {

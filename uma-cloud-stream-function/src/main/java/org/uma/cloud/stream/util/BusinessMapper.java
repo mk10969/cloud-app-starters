@@ -16,8 +16,8 @@ public class BusinessMapper {
         model.setRaceStartDateTime(LocalDateTime.of(racingDetail.getHoldingDate(), racingDetail.getStartTime()));
         model.setRaceNo(racingDetail.getRaceNo());
         model.setRaceNameFull(racingDetail.getRaceNameFull());
-        model.setCourse(racingDetail.getCourseCd().getRaceCourseNameShort());
-        model.setRaceType(racingDetail.getRaceTypeCd().getRaceTypeNameShort());
+        model.setCourse(racingDetail.getCourseCd().getCodeNameShort());
+        model.setRaceType(racingDetail.getRaceTypeCd().getCodeNameShort());
         model.setDistance(racingDetail.getDistance());
         model.setTrack(racingDetail.getTrackCd().getCodeName());
 //        model.setTurfCondition(racingDetails.getTurfConditionCd().getCodeName());

@@ -1,5 +1,6 @@
 package org.uma.cloud.common.code;
 
+import com.fasterxml.jackson.annotation.JsonValue;
 import org.uma.cloud.common.utils.constants.CodeEnum;
 
 import java.util.Objects;
@@ -26,8 +27,8 @@ public enum HairColorCode implements CodeEnum<String, HairColorCode> {
     SHIROGE("11", "白毛"),
     ;
 
-    private String code;
-    private String codeName;
+    private final String code;
+    private final String codeName;
 
     HairColorCode(String code, String codeName) {
         this.code = code;
@@ -39,6 +40,8 @@ public enum HairColorCode implements CodeEnum<String, HairColorCode> {
         return this.code;
     }
 
+    @Override
+    @JsonValue
     public String getCodeName() {
         return this.codeName;
     }

@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalTimeSerializer;
 import org.uma.cloud.common.code.AbnormalDivisionCode;
 import org.uma.cloud.common.code.BreedCode;
 import org.uma.cloud.common.code.EastOrWestBelongCode;
@@ -38,23 +39,40 @@ import java.time.format.DateTimeFormatter;
 
 public class JacksonUtil {
 
-    public static ObjectMapper getObjectMapper() {
-        return MyObjectMapper.objectMapper;
+    /**
+     * デフォルト ObjectMapper
+     */
+    public static ObjectMapper getDefaultObjectMapper() {
+        return DefaultObjectMapper.objectMapper;
     }
 
-
-    private static class MyObjectMapper {
+    private static class DefaultObjectMapper {
         public static final ObjectMapper objectMapper = new ObjectMapper()
-                .registerModule(MySimpleModule.simpleModule);
+                .registerModule(DefaultModule.simpleModule);
     }
 
-    private static class MySimpleModule {
-
+    private static class DefaultModule {
         public static final SimpleModule simpleModule = new SimpleModule()
                 // Serializer
-                // LocalTimeは、設定しない。(表示があまりうざくないので)
-                // LocalDateは、設定する。(表示がうざいので)
                 .addSerializer(new LocalDateSerializer(DateTimeFormatter.ofPattern("yyyy/MM/dd")))
+                .addSerializer(new LocalTimeSerializer(DateTimeFormatter.ofPattern("HH:mm:ss")));
+    }
+
+    /**
+     * JvLink専用 ObjectMapper
+     */
+    public static ObjectMapper getJvLinkObjectMapper() {
+        return JvLinkObjectMapper.objectMapper;
+    }
+
+    private static class JvLinkObjectMapper {
+        public static final ObjectMapper objectMapper = new ObjectMapper()
+                .registerModule(JvLinkDeserializerModule.simpleModule);
+    }
+
+    private static class JvLinkDeserializerModule {
+
+        public static final SimpleModule simpleModule = new SimpleModule()
                 // Deserializer
                 // my enum
                 .addDeserializer(RaceCourseCode.class, new RaceCourseCodeDeserializer())

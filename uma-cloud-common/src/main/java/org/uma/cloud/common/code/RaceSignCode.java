@@ -1,5 +1,6 @@
 package org.uma.cloud.common.code;
 
+import com.fasterxml.jackson.annotation.JsonValue;
 import org.uma.cloud.common.utils.constants.CodeEnum;
 
 import java.util.Objects;
@@ -101,8 +102,8 @@ public enum RaceSignCode implements CodeEnum<String, RaceSignCode> {
     N44("N44", "(国際) 牡・牝 (特指)"),
     ;
 
-    private String code;
-    private String codeName;
+    private final String code;
+    private final String codeName;
 
     RaceSignCode(String code, String codeName) {
         this.code = code;
@@ -114,6 +115,8 @@ public enum RaceSignCode implements CodeEnum<String, RaceSignCode> {
         return this.code;
     }
 
+    @Override
+    @JsonValue
     public String getCodeName() {
         return this.codeName;
     }

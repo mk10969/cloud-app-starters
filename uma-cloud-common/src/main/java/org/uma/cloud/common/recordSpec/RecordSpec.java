@@ -45,12 +45,12 @@ public enum RecordSpec implements CodeEnum<String, RecordSpec> {
     CC("CC", "コース変更"),
     ;
 
-    private String code;
-    private String name;
+    private final String code;
+    private final String codeName;
 
-    RecordSpec(String code, String name) {
+    RecordSpec(String code, String codeName) {
         this.code = code;
-        this.name = name;
+        this.codeName = codeName;
     }
 
     @Override
@@ -58,8 +58,8 @@ public enum RecordSpec implements CodeEnum<String, RecordSpec> {
         return this.code;
     }
 
-    public String getName() {
-        return this.name;
+    public String getCodeName() {
+        return this.codeName;
     }
 
 

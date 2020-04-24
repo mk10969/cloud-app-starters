@@ -1,5 +1,6 @@
 package org.uma.cloud.common.code;
 
+import com.fasterxml.jackson.annotation.JsonValue;
 import org.uma.cloud.common.utils.constants.CodeEnum;
 
 import java.util.Objects;
@@ -44,8 +45,8 @@ public enum TrackCode implements CodeEnum<Integer, TrackCode> {
     JUMP59(59, "芝・外２周"),
     ;
 
-    private Integer code;
-    private String codeName;
+    private final Integer code;
+    private final String codeName;
 
     TrackCode(Integer code, String codeName) {
         this.code = code;
@@ -57,6 +58,8 @@ public enum TrackCode implements CodeEnum<Integer, TrackCode> {
         return this.code;
     }
 
+    @Override
+    @JsonValue
     public String getCodeName() {
         return this.codeName;
     }
@@ -68,6 +71,5 @@ public enum TrackCode implements CodeEnum<Integer, TrackCode> {
         }
         return CodeEnum.reversibleFindOne(code, TrackCode.class);
     }
-
 
 }

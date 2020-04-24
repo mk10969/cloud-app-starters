@@ -1,5 +1,6 @@
 package org.uma.cloud.common.code;
 
+import com.fasterxml.jackson.annotation.JsonValue;
 import org.uma.cloud.common.utils.constants.CodeEnum;
 
 import java.util.Objects;
@@ -43,8 +44,8 @@ public enum HorseSignCode implements CodeEnum<String, HorseSignCode> {
     U41("41", "(父)(外)[地]"),
     ;
 
-    private String code;
-    private String codeName;
+    private final String code;
+    private final String codeName;
 
     HorseSignCode(String code, String codeName) {
         this.code = code;
@@ -56,6 +57,8 @@ public enum HorseSignCode implements CodeEnum<String, HorseSignCode> {
         return this.code;
     }
 
+    @Override
+    @JsonValue
     public String getCodeName() {
         return this.codeName;
     }

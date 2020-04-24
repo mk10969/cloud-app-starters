@@ -40,7 +40,7 @@ public class JvLInkWritersLocal {
 
     private <T> ItemWriter<T> createJsonWriter(Class<T> baseModel, String filename) {
         JacksonJsonObjectMarshaller<T> jacksonJsonObjectMarshaller = new JacksonJsonObjectMarshaller<>();
-        jacksonJsonObjectMarshaller.setObjectMapper(JacksonUtil.getObjectMapper());
+        jacksonJsonObjectMarshaller.setObjectMapper(JacksonUtil.getJvLinkObjectMapper());
 
         return new JsonFileItemWriterBuilder<T>()
                 .jsonObjectMarshaller(jacksonJsonObjectMarshaller)

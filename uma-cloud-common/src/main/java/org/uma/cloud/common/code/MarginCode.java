@@ -1,5 +1,6 @@
 package org.uma.cloud.common.code;
 
+import com.fasterxml.jackson.annotation.JsonValue;
 import org.uma.cloud.common.utils.constants.CodeEnum;
 
 import java.util.Objects;
@@ -60,8 +61,8 @@ public enum MarginCode implements CodeEnum<String, MarginCode> {
     BY_DISTANCE("T  ", "大差"),
     ;
 
-    private String code;
-    private String codeName;
+    private final String code;
+    private final String codeName;
 
     MarginCode(String code, String codeName) {
         this.code = code;
@@ -73,6 +74,8 @@ public enum MarginCode implements CodeEnum<String, MarginCode> {
         return this.code;
     }
 
+    @Override
+    @JsonValue
     public String getCodeName() {
         return this.codeName;
     }

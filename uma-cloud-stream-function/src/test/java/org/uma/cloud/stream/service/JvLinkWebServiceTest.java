@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
+import org.junit.Ignore;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -69,7 +70,7 @@ class JvLinkWebServiceTest {
         String FRIDAY = "1587059893206";
 
         webClient.get().uri(uriBuilder -> uriBuilder
-                .path("/racingDetails/1587059893206")
+                .path("/racingDetail/1587059893206")
                 .build())
                 .retrieve()
                 .bodyToFlux(ExternalResponse.class)
@@ -86,9 +87,10 @@ class JvLinkWebServiceTest {
 
 
     @Test
+    @Ignore
     void test_webClient_thisWeek() throws InterruptedException {
         webClient.get().uri(uriBuilder -> uriBuilder
-                .path("/racingDetails/thisWeek")
+                .path("/racingDetail/thisWeek")
                 .build())
                 .retrieve()
                 .bodyToFlux(ExternalResponse.class)
@@ -139,7 +141,7 @@ class JvLinkWebServiceTest {
     @Test
     void test_webClient() throws InterruptedException {
         webClient.get().uri(uriBuilder -> uriBuilder
-                .path("/racingDetails")
+                .path("/racingDetail")
                 .queryParam("raceId", "2020040509020411")
                 .build())
                 .retrieve()
