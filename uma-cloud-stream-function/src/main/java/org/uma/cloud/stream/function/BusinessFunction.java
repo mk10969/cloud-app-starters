@@ -10,13 +10,11 @@ import org.uma.cloud.common.model.business.BusinessRacing;
 import org.uma.cloud.common.service.business.BusinessRacingHorseService;
 import org.uma.cloud.common.service.business.BusinessRacingRefundService;
 import org.uma.cloud.common.service.business.BusinessRacingService;
-import org.uma.cloud.common.utils.javatuples.Pair;
 import org.uma.cloud.stream.service.JvLinkWebService;
 import org.uma.cloud.stream.util.BusinessMapper;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-import java.time.LocalDateTime;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
@@ -44,25 +42,25 @@ public class BusinessFunction {
     public CommandLineRunner initThisWeekRace() {
         return args -> updateBusinessRace().get()
                 .toStream()
-                .forEach(i -> log.info("今週のレース: {} {}", i.getValue1(), i.getValue2()));
+                .forEach(raceId -> log.info("今週のレース: {}", raceId));
     }
 
     /**
      * レースを更新する
      */
     @Bean
-    public Supplier<Flux<Pair<String, LocalDateTime>>> updateBusinessRace() {
+    public Supplier<Flux<String>> updateBusinessRace() {
         return () -> jvLinkWebService.raceDetailWithFriday()
                 .map(BusinessMapper::toBusinessRacing)
                 .doOnNext(racingService::update) //新しくなったら更新する。exist check不要
-                .map(BusinessFunction::toPair);
+                .map(BusinessRacing::getRaceId);
     }
 
     /**
      * TODO: 変更がかかった時に、走らせたいね！
      */
     @Bean
-    public Function<Flux<String>, Mono<Void>> updateBusinessHorseRace() {
+    public Function<Flux<String>, Mono<Void>> updateBusinessRacingHorse() {
         return raceId -> raceId
                 .flatMap(jvLinkWebService::racingHorseDetail)
                 .map(BusinessMapper::toBusinessRacingHorse)
@@ -70,10 +68,6 @@ public class BusinessFunction {
                 .then();
     }
 
-
-    private static Pair<String, LocalDateTime> toPair(BusinessRacing businessRacing) {
-        return Pair.with(businessRacing.getRaceId(), businessRacing.getRaceStartDateTime());
-    }
 
     /**
      * データ区分　2 or 6でフィルターでOK

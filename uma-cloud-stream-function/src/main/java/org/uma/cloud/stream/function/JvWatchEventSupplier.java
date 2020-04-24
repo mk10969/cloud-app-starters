@@ -28,15 +28,10 @@ public class JvWatchEventSupplier {
     @Autowired
     private StreamFunctionProperties properties;
 
+//    private final EmitterProcessor<String>でもいいかも
+
     private final UnicastProcessor<String> processor =
             UnicastProcessor.create(new ConcurrentLinkedQueue<>());
-
-//    private Flux<String> hotPublisher;
-//
-//    @PostConstruct
-//    void init() {
-//        this.hotPublisher = processor.publish().autoConnect();
-//    }
 
 
     @Bean

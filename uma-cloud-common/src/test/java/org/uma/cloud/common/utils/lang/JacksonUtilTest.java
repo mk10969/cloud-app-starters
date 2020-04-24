@@ -7,7 +7,9 @@ import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import lombok.Getter;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.uma.cloud.common.model.BaseModel;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -43,8 +45,32 @@ class JacksonUtilTest {
 
     }
 
+    @Test
+    void test_フィールド名とjsonが一致しないとき() {
+        ObjectMapper objectMapper = JacksonUtil.getObjectMapper();
+        Map<String, Number> map = new HashMap<>();
+        map.put("numberLong", 111);
+        map.put("numberIntger", 222222);
+        map.put("value", 3333);
+        Assertions.assertThrows(IllegalArgumentException.class, () ->
+                objectMapper.convertValue(map, Once.class));
+    }
+
+    @Test
+    void test_Jsonプロパティが欠損しているとき() {
+        ObjectMapper objectMapper = JacksonUtil.getObjectMapper();
+        Map<String, Object> map = new HashMap<>();
+        map.put("recordType", "BN");
+        map.put("dataDiv", "1");
+        map.put("dataCreateDate", "20201111");
+        map.put("numberLong", 111);
+        Once once = objectMapper.convertValue(map, Once.class);
+        ModelUtil.fieldNotNull(once);
+    }
+
+
     @Getter
-    public static class Once {
+    public static class Once extends BaseModel {
         private Long numberLong;
         private Integer numberIntger;
 
@@ -55,11 +81,10 @@ class JacksonUtilTest {
         @Override
         public Integer deserialize(JsonParser p, DeserializationContext ctxt) throws IOException, JsonProcessingException {
             // field name とれるのね！
-            System.out.println("getCurrentName: " +p.getCurrentName());
+            System.out.println("getCurrentName: " + p.getCurrentName());
             String source = p.getValueAsString();
             return Integer.valueOf(source);
         }
     }
-
 
 }

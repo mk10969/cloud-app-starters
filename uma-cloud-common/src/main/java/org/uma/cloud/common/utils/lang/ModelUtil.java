@@ -70,6 +70,9 @@ public class ModelUtil {
 
 
     private static final List<String> excludeList = Lists.newArrayList(
+            // postgresのMetadata
+            "myCreateDateTime",
+            "myUpdateDateTime",
             "changeAmount",
             // 枠連は、出走頭数が少ないと、発売されない場合がある
             "voteCountTotalBracketQuinella",

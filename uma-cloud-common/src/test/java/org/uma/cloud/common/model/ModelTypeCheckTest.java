@@ -21,4 +21,25 @@ public class ModelTypeCheckTest {
                 .forEach(System.out::println);
     }
 
+
+    @Test
+    void test_show_ALL() {
+        ReflectionUtils.getClassesFrom("org.uma.cloud.common.model")
+                .stream()
+                .map(Class::getSimpleName)
+                .map(i -> i.substring(0, 1).toLowerCase() + i.substring(1))
+                .sorted()
+                .forEach(System.out::println);
+    }
+
+    @Test
+    void test_showOdds_ALL() {
+        ReflectionUtils.getClassesFrom("org.uma.cloud.common.model.odds")
+                .stream()
+                .map(Class::getSimpleName)
+                .map(i -> i.substring(0, 1).toLowerCase() + i.substring(1))
+                .sorted()
+                .forEach(System.out::println);
+    }
+
 }
