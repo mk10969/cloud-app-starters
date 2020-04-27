@@ -3,6 +3,8 @@ package org.uma.cloud.common.code;
 import com.fasterxml.jackson.annotation.JsonValue;
 import org.uma.cloud.common.utils.constants.CodeEnum;
 
+import javax.persistence.AttributeConverter;
+import javax.persistence.Converter;
 import java.util.Objects;
 
 /**
@@ -129,5 +131,20 @@ public enum RaceSignCode implements CodeEnum<String, RaceSignCode> {
         return CodeEnum.reversibleFindOne(code, RaceSignCode.class);
     }
 
+    /**
+     * Jpa enum converter impl
+     */
+    @Converter(autoApply = true)
+    public static class converterImpl implements AttributeConverter<RaceSignCode, String> {
+        @Override
+        public String convertToDatabaseColumn(RaceSignCode attribute) {
+            return attribute.getCodeName();
+        }
+
+        @Override
+        public RaceSignCode convertToEntityAttribute(String dbData) {
+            return CodeEnum.convertOf(dbData, RaceSignCode.class);
+        }
+    }
 
 }

@@ -3,6 +3,8 @@ package org.uma.cloud.common.code;
 import com.fasterxml.jackson.annotation.JsonValue;
 import org.uma.cloud.common.utils.constants.CodeEnum;
 
+import javax.persistence.AttributeConverter;
+import javax.persistence.Converter;
 import java.util.Objects;
 
 /**
@@ -46,5 +48,21 @@ public enum EastOrWestBelongCode implements CodeEnum<Integer, EastOrWestBelongCo
             return DEFAULT;
         }
         return CodeEnum.reversibleFindOne(code, EastOrWestBelongCode.class);
+    }
+
+    /**
+     * Jpa enum converter impl
+     */
+    @Converter(autoApply = true)
+    public static class converterImpl implements AttributeConverter<EastOrWestBelongCode, String> {
+        @Override
+        public String convertToDatabaseColumn(EastOrWestBelongCode attribute) {
+            return attribute.getCodeName();
+        }
+
+        @Override
+        public EastOrWestBelongCode convertToEntityAttribute(String dbData) {
+            return CodeEnum.convertOf(dbData, EastOrWestBelongCode.class);
+        }
     }
 }

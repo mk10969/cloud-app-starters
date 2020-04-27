@@ -3,6 +3,8 @@ package org.uma.cloud.common.code;
 import com.fasterxml.jackson.annotation.JsonValue;
 import org.uma.cloud.common.utils.constants.CodeEnum;
 
+import javax.persistence.AttributeConverter;
+import javax.persistence.Converter;
 import java.util.Objects;
 
 /**
@@ -53,6 +55,21 @@ public enum RaceGradeCode implements CodeEnum<String, RaceGradeCode> {
         return CodeEnum.reversibleFindOne(code, RaceGradeCode.class);
     }
 
+    /**
+     * Jpa enum converter impl
+     */
+    @Converter(autoApply = true)
+    public static class converterImpl implements AttributeConverter<RaceGradeCode, String> {
+        @Override
+        public String convertToDatabaseColumn(RaceGradeCode attribute) {
+            return attribute.getCodeName();
+        }
+
+        @Override
+        public RaceGradeCode convertToEntityAttribute(String dbData) {
+            return CodeEnum.convertOf(dbData, RaceGradeCode.class);
+        }
+    }
 
 //    競走レベルをソートする。
 //    public static List<> sort(){

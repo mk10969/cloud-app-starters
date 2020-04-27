@@ -3,6 +3,8 @@ package org.uma.cloud.common.code;
 import com.fasterxml.jackson.annotation.JsonValue;
 import org.uma.cloud.common.utils.constants.CodeEnum;
 
+import javax.persistence.AttributeConverter;
+import javax.persistence.Converter;
 import java.util.Objects;
 
 /**
@@ -52,6 +54,22 @@ public enum WeekDayCode implements CodeEnum<Integer, WeekDayCode> {
             return DEFAULT;
         }
         return CodeEnum.reversibleFindOne(code, WeekDayCode.class);
+    }
+
+    /**
+     * Jpa enum converter impl
+     */
+    @Converter(autoApply = true)
+    public static class converterImpl implements AttributeConverter<WeekDayCode, String> {
+        @Override
+        public String convertToDatabaseColumn(WeekDayCode attribute) {
+            return attribute.getCodeName();
+        }
+
+        @Override
+        public WeekDayCode convertToEntityAttribute(String dbData) {
+            return CodeEnum.convertOf(dbData, WeekDayCode.class);
+        }
     }
 
 }

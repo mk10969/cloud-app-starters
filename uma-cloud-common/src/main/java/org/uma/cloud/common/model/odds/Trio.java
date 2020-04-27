@@ -5,13 +5,12 @@ import org.hibernate.annotations.Type;
 import org.uma.cloud.common.code.RaceCourseCode;
 import org.uma.cloud.common.model.BaseModel;
 import org.uma.cloud.common.model.RacingDetail;
+import org.uma.cloud.common.model.TimeSeries;
 import org.uma.cloud.common.recordSpec.RecordSpec;
 import org.uma.cloud.common.utils.javatuples.Triplet;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import java.math.BigDecimal;
@@ -24,7 +23,7 @@ import java.util.List;
 @Getter
 @Entity
 @Table(name = "odds_trio")
-public class Trio extends BaseModel implements Odds {
+public class Trio extends BaseModel implements TimeSeries {
 
     /**
      * {@link RacingDetail.raceId}
@@ -35,8 +34,7 @@ public class Trio extends BaseModel implements Odds {
 
     private LocalDate holdingDate;
 
-    @Column(length = 20)
-    @Enumerated(EnumType.STRING)
+    @Column(length = 6)
     private RaceCourseCode courseCd;
 
     private Integer holdingNo;

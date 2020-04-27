@@ -3,6 +3,8 @@ package org.uma.cloud.common.code;
 import com.fasterxml.jackson.annotation.JsonValue;
 import org.uma.cloud.common.utils.constants.CodeEnum;
 
+import javax.persistence.AttributeConverter;
+import javax.persistence.Converter;
 import java.util.Objects;
 
 /**
@@ -70,6 +72,22 @@ public enum TrackCode implements CodeEnum<Integer, TrackCode> {
             return DEFAULT;
         }
         return CodeEnum.reversibleFindOne(code, TrackCode.class);
+    }
+
+    /**
+     * Jpa enum converter impl
+     */
+    @Converter(autoApply = true)
+    public static class converterImpl implements AttributeConverter<TrackCode, String> {
+        @Override
+        public String convertToDatabaseColumn(TrackCode attribute) {
+            return attribute.getCodeName();
+        }
+
+        @Override
+        public TrackCode convertToEntityAttribute(String dbData) {
+            return CodeEnum.convertOf(dbData, TrackCode.class);
+        }
     }
 
 }

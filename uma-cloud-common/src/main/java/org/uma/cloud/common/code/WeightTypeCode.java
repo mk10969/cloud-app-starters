@@ -3,6 +3,8 @@ package org.uma.cloud.common.code;
 import com.fasterxml.jackson.annotation.JsonValue;
 import org.uma.cloud.common.utils.constants.CodeEnum;
 
+import javax.persistence.AttributeConverter;
+import javax.persistence.Converter;
 import java.util.Objects;
 
 /**
@@ -46,4 +48,21 @@ public enum WeightTypeCode implements CodeEnum<Integer, WeightTypeCode> {
         }
         return CodeEnum.reversibleFindOne(code, WeightTypeCode.class);
     }
+
+    /**
+     * Jpa enum converter impl
+     */
+    @Converter(autoApply = true)
+    public static class converterImpl implements AttributeConverter<WeightTypeCode, String> {
+        @Override
+        public String convertToDatabaseColumn(WeightTypeCode attribute) {
+            return attribute.getCodeName();
+        }
+
+        @Override
+        public WeightTypeCode convertToEntityAttribute(String dbData) {
+            return CodeEnum.convertOf(dbData, WeightTypeCode.class);
+        }
+    }
+
 }

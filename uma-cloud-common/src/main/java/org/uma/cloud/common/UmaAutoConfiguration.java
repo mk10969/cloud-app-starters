@@ -26,9 +26,14 @@ public class UmaAutoConfiguration {
     @ConditionalOnBean({DataSource.class})
     @Import(EnableComponentScanOnDataSourceBean.class)
     @EnableJpaRepositories(basePackages = "org.uma.cloud.common.repository")
-    @EntityScan(basePackages = "org.uma.cloud.common.model")
+    @EntityScan(basePackages = {"org.uma.cloud.common.model", "org.uma.cloud.common.code"})
     protected static class EnableJpaRepositoryAndEntityScanOnDataSourceBean {
 
+//        public LocalContainerEntityManagerFactoryBean entityManager(DataSource dataSource) {
+//            LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
+//            em.setPackagesToScan("your.converter.package", "your.entities.package");
+//            ...
+//        }
     }
 
     /**

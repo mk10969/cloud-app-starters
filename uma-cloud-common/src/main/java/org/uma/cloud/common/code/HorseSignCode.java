@@ -3,6 +3,8 @@ package org.uma.cloud.common.code;
 import com.fasterxml.jackson.annotation.JsonValue;
 import org.uma.cloud.common.utils.constants.CodeEnum;
 
+import javax.persistence.AttributeConverter;
+import javax.persistence.Converter;
 import java.util.Objects;
 
 /**
@@ -69,5 +71,21 @@ public enum HorseSignCode implements CodeEnum<String, HorseSignCode> {
             return DEFAULT;
         }
         return CodeEnum.reversibleFindOne(code, HorseSignCode.class);
+    }
+
+    /**
+     * Jpa enum converter impl
+     */
+    @Converter(autoApply = true)
+    public static class converterImpl implements AttributeConverter<HorseSignCode, String> {
+        @Override
+        public String convertToDatabaseColumn(HorseSignCode attribute) {
+            return attribute.getCodeName();
+        }
+
+        @Override
+        public HorseSignCode convertToEntityAttribute(String dbData) {
+            return CodeEnum.convertOf(dbData, HorseSignCode.class);
+        }
     }
 }

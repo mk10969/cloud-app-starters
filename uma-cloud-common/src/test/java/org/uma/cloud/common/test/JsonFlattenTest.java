@@ -2,13 +2,9 @@ package org.uma.cloud.common.test;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.github.wnameless.json.flattener.JsonFlattener;
 import lombok.Data;
-import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class JsonFlattenTest {
 
@@ -36,26 +32,23 @@ public class JsonFlattenTest {
     }
 
 
-    @Test
-    void test__() {
-
-        List<String> context = new ArrayList<>();
-        context.add("aaa");
-        context.add(null);
-        context.add("ccc");
-        Message message = new Message("111", 123, context);
-
-        String json = toJson(message);
-        System.out.println(json);
-        Map<String, Object> jsonMap = JsonFlattener.flattenAsMap(json);
-        System.out.println(jsonMap);
-
-        jsonMap.entrySet().stream()
-                .filter(e -> e.getValue() == null)
-                .forEach(System.out::println);
-
-
-    }
-
+//    @Test
+//    void test__() {
+//
+//        List<String> context = new ArrayList<>();
+//        context.add("aaa");
+//        context.add(null);
+//        context.add("ccc");
+//        Message message = new Message("111", 123, context);
+//
+//        String json = toJson(message);
+//        System.out.println(json);
+//        Map<String, Object> jsonMap = JsonFlattener.flattenAsMap(json);
+//        System.out.println(jsonMap);
+//
+//        jsonMap.entrySet().stream()
+//                .filter(e -> e.getValue() == null)
+//                .forEach(System.out::println);
+//    }
 
 }

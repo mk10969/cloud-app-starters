@@ -3,6 +3,8 @@ package org.uma.cloud.common.code;
 import com.fasterxml.jackson.annotation.JsonValue;
 import org.uma.cloud.common.utils.constants.CodeEnum;
 
+import javax.persistence.AttributeConverter;
+import javax.persistence.Converter;
 import java.util.Objects;
 
 /**
@@ -14,26 +16,26 @@ public enum RaceTypeCode implements CodeEnum<Integer, RaceTypeCode> {
      * デフォルト "00"の文字列から、Integer 0 にコンバートする。
      */
     DEFAULT(0, "", ""),
-    SARA2JUST(11, "サラ系２歳", "サラ２才"),
-    SARA3JUST(12, "サラ系３歳", "サラ３才"),
-    SARA3MORE(13, "サラ系３歳以上", "サラ３上"),
-    SARA4MORE(14, "サラ系４歳以上", "サラ４上"),
-    JSARA3MORE(18, "サラ障害３歳以上", "障害３上"),
-    JSARA4MORE(19, "サラ障害４歳以上", "障害４上"),
-    ARA2JUST(21, "アラブ系２歳", "アラ２才"),
-    ARA3JUST(22, "アラブ系３歳", "アラ３才"),
-    ARA3MORE(23, "アラブ系３歳以上", "アラ３上"),
-    ARA4MORE(24, "アラブ系４歳以上", "アラ４上"),
+    SARA2JUST(11, "サラ２才", "サラ系２歳"),
+    SARA3JUST(12, "サラ３才", "サラ系３歳"),
+    SARA3MORE(13, "サラ３上", "サラ系３歳以上"),
+    SARA4MORE(14, "サラ４上", "サラ系４歳以上"),
+    JSARA3MORE(18, "障害３上", "サラ障害３歳以上"),
+    JSARA4MORE(19, "障害４上", "サラ障害４歳以上"),
+    ARA2JUST(21, "アラ２才", "アラブ系２歳"),
+    ARA3JUST(22, "アラ３才", "アラブ系３歳"),
+    ARA3MORE(23, "アラ３上", "アラブ系３歳以上"),
+    ARA4MORE(24, "アラ４上", "アラブ系４歳以上"),
     ;
 
     private final Integer code;
     private final String codeName;
-    private final String codeNameShort;
+    private final String codeNameFull;
 
-    RaceTypeCode(Integer code, String codeName, String codeNameShort) {
+    RaceTypeCode(Integer code, String codeName, String codeNameFull) {
         this.code = code;
         this.codeName = codeName;
-        this.codeNameShort = codeNameShort;
+        this.codeNameFull = codeNameFull;
     }
 
     @Override
@@ -42,13 +44,13 @@ public enum RaceTypeCode implements CodeEnum<Integer, RaceTypeCode> {
     }
 
     @Override
+    @JsonValue
     public String getCodeName() {
         return this.codeName;
     }
 
-    @JsonValue
-    public String getCodeNameShort() {
-        return this.codeNameShort;
+    public String getCodeNameFull() {
+        return this.codeNameFull;
     }
 
     public static RaceTypeCode of(Integer code) {
@@ -58,4 +60,21 @@ public enum RaceTypeCode implements CodeEnum<Integer, RaceTypeCode> {
         }
         return CodeEnum.reversibleFindOne(code, RaceTypeCode.class);
     }
+
+    /**
+     * Jpa enum converter impl
+     */
+    @Converter(autoApply = true)
+    public static class converterImpl implements AttributeConverter<RaceTypeCode, String> {
+        @Override
+        public String convertToDatabaseColumn(RaceTypeCode attribute) {
+            return attribute.getCodeName();
+        }
+
+        @Override
+        public RaceTypeCode convertToEntityAttribute(String dbData) {
+            return CodeEnum.convertOf(dbData, RaceTypeCode.class);
+        }
+    }
+
 }

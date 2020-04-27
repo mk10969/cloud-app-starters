@@ -63,8 +63,7 @@ public enum AbnormalDivisionCode implements CodeEnum<Integer, AbnormalDivisionCo
      * Jpa enum converter impl
      */
     @Converter(autoApply = true)
-    public static class AbnormalDivisionCodeConvert
-            implements AttributeConverter<AbnormalDivisionCode, String> {
+    public static class converterImpl implements AttributeConverter<AbnormalDivisionCode, String> {
 
         @Override
         public String convertToDatabaseColumn(AbnormalDivisionCode attribute) {
