@@ -49,19 +49,18 @@ public class BusinessRacingService {
     public void updateWeather(Weather weather) {
         List<BusinessRacing> updatingRacing = repository.findByRaceStartDateTimeAfter(weather.getTimestamp())
                 .stream()
-                .filter(racing -> racing.getCourse()
-                        .equals(weather.getCourseCd().getCodeName()))
+                .filter(racing -> racing.getCourse() == weather.getCourseCd())
                 .peek(racing -> {
                     switch (weather.getChangeId()) {
                         case 1:
-                            racing.setWeather(weather.getWeatherNow().getCodeName());
-                            racing.setTurf(weather.getTurfNow().getCodeName());
-                            racing.setDirt(weather.getDirtNow().getCodeName());
+                            racing.setWeather(weather.getWeatherNow());
+                            racing.setTurf(weather.getTurfNow());
+                            racing.setDirt(weather.getDirtNow());
                         case 2:
-                            racing.setWeather(weather.getWeatherNow().getCodeName());
+                            racing.setWeather(weather.getWeatherNow());
                         case 3:
-                            racing.setTurf(weather.getTurfNow().getCodeName());
-                            racing.setDirt(weather.getDirtNow().getCodeName());
+                            racing.setTurf(weather.getTurfNow());
+                            racing.setDirt(weather.getDirtNow());
                         default:
                             throw new IllegalArgumentException("weather: " + weather);
                     }
@@ -93,7 +92,7 @@ public class BusinessRacingService {
     public void updateCourseChange(CourseChange courseChange) {
         BusinessRacing updatingRacing = repository.findById(courseChange.getRaceId()).orElseThrow();
         updatingRacing.setDistance(courseChange.getDistanceAfter());
-        updatingRacing.setTrack(courseChange.getTrackCdAfter().getCodeName());
+        updatingRacing.setTrack(courseChange.getTrackCdAfter());
         updatingRacing.setCourseChangeReason(courseChange.getReason());
 
         this.update(updatingRacing);

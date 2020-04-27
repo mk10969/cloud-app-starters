@@ -36,8 +36,8 @@ public class BusinessRacingHorseService {
                 .stream()
                 .flatMap(horseWeight -> this.findAllByRaceId(weight.getRaceId())
                         .stream()
-                        .filter(racingHorse -> racingHorse.getHorseNo()
-                                .equals(horseWeight.getHorseNo())) // 同じhorseNoのものだけ更新。
+                        // 同じhorseNoのものだけ更新。
+                        .filter(racingHorse -> racingHorse.getHorseNo().equals(horseWeight.getHorseNo()))
                         .peek(racingHorse -> {
                             racingHorse.setHorseWeight(horseWeight.getHorseWeight());
                             racingHorse.setChangeSign(horseWeight.getChangeSign());
@@ -59,7 +59,7 @@ public class BusinessRacingHorseService {
         BusinessRacingHorse racingHorse = repository.findById(id).orElseThrow(); // ないのはおかしい。
         racingHorse.setJockeyNameShort(jockeyChange.getJockeyNameAfter());
         racingHorse.setLoadWeight(jockeyChange.getLoadWeightAfter());
-        racingHorse.setJockeyApprentice(jockeyChange.getJockeyApprenticeCdAfter().getCodeName());
+        racingHorse.setJockeyApprentice(jockeyChange.getJockeyApprenticeCdAfter());
 
         this.update(racingHorse);
     }
