@@ -34,10 +34,11 @@ public class JockeyChange extends BaseModel {
     /**
      * Id
      */
-    private Integer horseNo;
+    private String horseNo;
 
     private String horseName;
 
+    // after
     private Double loadWeightAfter;
 
     private Integer jockeyCdAfter;
@@ -46,6 +47,7 @@ public class JockeyChange extends BaseModel {
 
     private JockeyApprenticeCode jockeyApprenticeCdAfter;
 
+    // before
     private Double loadWeightBefore;
 
     private Integer jockeyCdBefore;

@@ -45,6 +45,6 @@ public class CourseChange extends BaseModel {
      * 3:雪
      * 4:その他
      */
-    private String reason;
+    private Integer reason;
 
 }

@@ -101,7 +101,7 @@ public class ModelUtil {
         });
         json.entrySet().stream()
                 .filter(ModelUtil::nullOkFieldName)
-                .forEach(e -> Objects.requireNonNull(e.getValue(), e.getKey() + "が、nullです。"));
+                .forEach(e -> Objects.requireNonNull(e.getValue(), e.getKey() + "が、nullです。\n" + model));
     }
 
     private static boolean nullOkFieldName(Map.Entry<String, Object> stringObjectEntry) {

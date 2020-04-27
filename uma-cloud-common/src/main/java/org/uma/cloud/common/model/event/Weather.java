@@ -2,7 +2,10 @@ package org.uma.cloud.common.model.event;
 
 import lombok.Getter;
 import org.uma.cloud.common.code.RaceCourseCode;
+import org.uma.cloud.common.code.TurfOrDirtConditionCode;
+import org.uma.cloud.common.code.WeatherCode;
 import org.uma.cloud.common.model.BaseModel;
+import org.uma.cloud.common.model.TimeSeries;
 import org.uma.cloud.common.recordSpec.RecordSpec;
 
 import java.time.LocalDate;
@@ -11,7 +14,7 @@ import java.time.LocalDate;
  * {@link RecordSpec.WE}
  */
 @Getter
-public class Weather extends BaseModel {
+public class Weather extends BaseModel implements TimeSeries {
 
     ///// TODO このデータを蓄積するかどうか /////
     /**
@@ -39,16 +42,16 @@ public class Weather extends BaseModel {
      */
     private Integer changeId;
 
-    private Integer weatherNow;
+    private WeatherCode weatherNow;
 
-    private Integer turfNow;
+    private TurfOrDirtConditionCode turfNow;
 
-    private Integer dirtNow;
+    private TurfOrDirtConditionCode dirtNow;
 
-    private Integer weatherBefere;
+    private WeatherCode weatherBefere;
 
-    private Integer turfBefore;
+    private TurfOrDirtConditionCode turfBefore;
 
-    private Integer dirtBefore;
+    private TurfOrDirtConditionCode dirtBefore;
 
 }

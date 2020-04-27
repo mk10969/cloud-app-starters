@@ -40,7 +40,7 @@ public class Avoid extends BaseModel {
     /**
      * 馬番特定キー
      */
-    private Integer horseNo;
+    private String horseNo;
 
     private String horseName;
 
