@@ -29,6 +29,11 @@ public class Triplet<A, B, C> implements Tuple {
         return new Triplet<>(value1, value2, value3);
     }
 
+    public static <A, B, C> Triplet<A, B, C> copyOf(final Triplet<A, B, C> triplet) {
+        return new Triplet<>(triplet.getValue1(), triplet.getValue2(), triplet.getValue3());
+    }
+
+
     public A getValue1() {
         return this.value1;
     }

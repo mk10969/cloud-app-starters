@@ -42,9 +42,9 @@ public class BusinessRacingService {
     }
 
     /**
-     * イベント通知 => Weather => 天候 or 馬場状態を変更
+     * イベント通知 => Weather => 天候 or 馬場状態 のみ変更
      *
-     * @param weather
+     * @param weather 天候 or 馬場状態
      */
     public void updateWeather(Weather weather) {
         List<BusinessRacing> updatingRacing = repository.findByRaceStartDateTimeAfter(weather.getTimestamp())
@@ -72,9 +72,9 @@ public class BusinessRacingService {
     }
 
     /**
-     * イベント通知 => TimeChange => 発走時刻変更
+     * イベント通知 => TimeChange => 発走時刻のみ変更
      *
-     * @param timeChange
+     * @param timeChange 発走時刻変更
      */
     public void updateTimeChange(TimeChange timeChange) {
         BusinessRacing updatingRacing = repository.findById(timeChange.getRaceId()).orElseThrow();
@@ -85,9 +85,9 @@ public class BusinessRacingService {
     }
 
     /**
-     * イベント通知 => CourseChange => コース変更   *ほぼないけどw
+     * イベント通知 => CourseChange => コースのみ変更   *ほぼないけどw
      *
-     * @param courseChange
+     * @param courseChange コース変更
      */
     public void updateCourseChange(CourseChange courseChange) {
         BusinessRacing updatingRacing = repository.findById(courseChange.getRaceId()).orElseThrow();

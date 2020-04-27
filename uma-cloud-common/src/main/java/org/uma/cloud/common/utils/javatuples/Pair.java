@@ -23,6 +23,11 @@ public class Pair<A, B> implements Tuple {
         return new Pair<>(value1, value2);
     }
 
+    public static <A, B> Pair<A, B> copyOf(final Pair<A, B> pair) {
+        return new Pair<>(pair.getValue1(), pair.getValue2());
+    }
+
+
     public A getValue1() {
         return this.value1;
     }

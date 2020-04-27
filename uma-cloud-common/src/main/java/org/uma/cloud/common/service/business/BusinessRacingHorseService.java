@@ -29,7 +29,7 @@ public class BusinessRacingHorseService {
     /**
      * イベント通知 => Weight => 馬体重のみ更新
      *
-     * @param weight
+     * @param weight 馬体重変更
      */
     public void updateWeight(Weight weight) {
         List<BusinessRacingHorse> updatingRacingHorse = weight.getHorseWeights()
@@ -52,7 +52,7 @@ public class BusinessRacingHorseService {
     /**
      * イベント通知 => jockeyChange => 騎手のみ更新
      *
-     * @param jockeyChange
+     * @param jockeyChange 騎手変更
      */
     public void updateJockeyChange(JockeyChange jockeyChange) {
         BusinessRacingHorse.CompositeId id = createId(jockeyChange.getRaceId(), jockeyChange.getHorseNo());
@@ -65,9 +65,9 @@ public class BusinessRacingHorseService {
     }
 
     /**
-     * イベント通知 => avoid => 出走取消 or 競走除外 更新
+     * イベント通知 => avoid => 出走取消 or 競走除外 のみ更新
      *
-     * @param avoid
+     * @param avoid 出走取消 or 競走除外
      */
     public void updateAvoid(Avoid avoid) {
         BusinessRacingHorse.CompositeId id = createId(avoid.getRaceId(), avoid.getHorseNo());
