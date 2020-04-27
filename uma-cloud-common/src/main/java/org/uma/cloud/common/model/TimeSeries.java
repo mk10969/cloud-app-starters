@@ -3,7 +3,7 @@ package org.uma.cloud.common.model.odds;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-public interface Odds {
+public interface TimeSeriesable {
 
     LocalDate getHoldingDate();
 

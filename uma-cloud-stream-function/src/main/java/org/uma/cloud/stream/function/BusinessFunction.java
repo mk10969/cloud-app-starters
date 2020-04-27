@@ -7,16 +7,13 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.uma.cloud.common.model.business.BusinessRacing;
-import org.uma.cloud.common.service.business.BusinessRacingHorseService;
-import org.uma.cloud.common.service.business.BusinessRacingRefundService;
-import org.uma.cloud.common.service.business.BusinessRacingService;
+import org.uma.cloud.common.model.business.BusinessRacingRefund;
+import org.uma.cloud.stream.service.BusinessRxService;
 import org.uma.cloud.stream.service.JvLinkWebService;
-import org.uma.cloud.stream.util.BusinessMapper;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.util.function.Function;
-import java.util.function.Supplier;
 
 @Slf4j
 @Configuration
@@ -26,13 +23,8 @@ public class BusinessFunction {
     private JvLinkWebService jvLinkWebService;
 
     @Autowired
-    private BusinessRacingService racingService;
+    private BusinessRxService rxService;
 
-    @Autowired
-    private BusinessRacingHorseService racingHorseService;
-
-    @Autowired
-    private BusinessRacingRefundService racingRefundService;
 
     /**
      * Steam起動時に、今週のレースIDとレース開始時刻モデルを生成する。
@@ -40,32 +32,33 @@ public class BusinessFunction {
     @Bean
     @ConditionalOnProperty(prefix = "spring.init", name = "enabled", havingValue = "true")
     public CommandLineRunner initThisWeekRace() {
-        return args -> updateBusinessRace().get()
-                .toStream()
+        return args -> updateRacing().apply(jvLinkWebService.getRaceIds()).toStream()
                 .forEach(raceId -> log.info("今週のレース: {}", raceId));
     }
 
-    /**
-     * レースを更新する
-     */
+
     @Bean
-    public Supplier<Flux<String>> updateBusinessRace() {
-        return () -> jvLinkWebService.raceDetailWithFriday()
-                .map(BusinessMapper::toBusinessRacing)
-                .doOnNext(racingService::update) //新しくなったら更新する。exist check不要
+    public Function<Flux<String>, Flux<String>> updateRacing() {
+        return raceId -> raceId
+                .flatMap(rxService::updateOneRacing)
                 .map(BusinessRacing::getRaceId);
     }
 
-    /**
-     * TODO: 変更がかかった時に、走らせたいね！
-     */
+
     @Bean
-    public Function<Flux<String>, Mono<Void>> updateBusinessRacingHorse() {
+    public Function<Flux<String>, Mono<Void>> updateRacingHorse() {
         return raceId -> raceId
-                .flatMap(jvLinkWebService::racingHorseDetail)
-                .map(BusinessMapper::toBusinessRacingHorse)
-                .doOnNext(racingHorseService::update)
+                .flatMap(rxService::updateAllRacingHorse)
                 .then();
+    }
+
+
+    @Bean
+    public Function<Flux<JvWatchEventFunction.Event>, Flux<String>> updateRacingRefund() {
+        return event -> event
+                .map(JvWatchEventFunction.Event::getRaceId)
+                .flatMap(rxService::updateRacingRefund)
+                .map(BusinessRacingRefund::getRaceId);
     }
 
 

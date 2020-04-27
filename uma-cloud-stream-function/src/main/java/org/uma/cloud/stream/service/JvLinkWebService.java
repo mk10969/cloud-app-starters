@@ -145,9 +145,11 @@ public class JvLinkWebService {
 
     /**
      * 今週金曜日を基準日として設定して、蓄積系のracingDetailsを叩く。
-     * 欲しいデータがとれている！
+     * データ区分＝2
+     * ただし、weatherCd, turfConditionCd, dirtConditionCdが取れない。
+     * ==> raceIdを取得する専用APIにする。
      */
-    public Flux<RacingDetail> raceDetailWithFriday() {
+    public Flux<String> getRaceIds() {
         return webClient.get()
                 .uri(uriBuilder -> uriBuilder
                         .path(racingDetailWithFriday)
@@ -157,9 +159,14 @@ public class JvLinkWebService {
                 .map(ExternalResponse::getData)
                 .map(jvLinkDeserializer.decode()
                         .andThen(jvLinkDeserializer::racingDetailFunction))
+                .map(RacingDetail::getRaceId)
                 .doOnError(this::errorHandle);
     }
 
+    /**
+     * データ区分＝2
+     * weatherCd, turfConditionCd, dirtConditionCd が取れる。
+     */
     public Mono<RacingDetail> racingDetail(String raceId) {
         return findOneByRaceId(racingDetail, raceId)
                 .map(jvLinkDeserializer.decode()
@@ -167,11 +174,14 @@ public class JvLinkWebService {
                 .doOnNext(ModelUtil::fieldNotNull);
     }
 
+    /**
+     * データ区分＝2 のとき、馬体重が、nullになる。
+     * null check外しておく。
+     */
     public Flux<RacingHorseDetail> racingHorseDetail(String raceId) {
         return findAllByRaceId(racingHorseDetail, raceId)
                 .map(jvLinkDeserializer.decode()
-                        .andThen(jvLinkDeserializer::racingHorseDetailFunction))
-                .doOnNext(ModelUtil::fieldNotNull);
+                        .andThen(jvLinkDeserializer::racingHorseDetailFunction));
     }
 
     public Mono<WinsShowBracketQ> winsShowBracketQ(String raceId) {
@@ -248,6 +258,14 @@ public class JvLinkWebService {
                 .doOnNext(ModelUtil::fieldNotNull);
     }
 
+    public Mono<TimeChange> eventTimeChange(String raceId) {
+        return findOneByRaceId(timeChange, raceId)
+                .map(jvLinkDeserializer.decode()
+                        .andThen(jvLinkDeserializer::timeChangeFunction))
+                .doOnNext(ModelUtil::fieldNotNull);
+    }
+
+
     public Mono<JockeyChange> eventJockeyChange(String raceId) {
         return findOneByRaceId(jockeyChange, raceId)
                 .map(jvLinkDeserializer.decode()
@@ -273,13 +291,6 @@ public class JvLinkWebService {
         return findOneByRaceId(courseChange, raceId)
                 .map(jvLinkDeserializer.decode()
                         .andThen(jvLinkDeserializer::courseChangeFunction))
-                .doOnNext(ModelUtil::fieldNotNull);
-    }
-
-    public Mono<TimeChange> eventTimeChange(String raceId) {
-        return findOneByRaceId(timeChange, raceId)
-                .map(jvLinkDeserializer.decode()
-                        .andThen(jvLinkDeserializer::timeChangeFunction))
                 .doOnNext(ModelUtil::fieldNotNull);
     }
 

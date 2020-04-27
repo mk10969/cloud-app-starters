@@ -28,7 +28,8 @@ public class BusinessXXXXXServiceTest {
 
     @Test
     void test_RaceIdをとってSEのデータをとってDB書き込み() {
-        jvLinkWebService.raceDetailWithFriday()
+        jvLinkWebService.getRaceIds()
+                .flatMap(jvLinkWebService::racingDetail)
                 .map(BusinessMapper::toBusinessRacing)
                 .doOnNext(racingService::update)
                 .map(BusinessRacing::getRaceId)

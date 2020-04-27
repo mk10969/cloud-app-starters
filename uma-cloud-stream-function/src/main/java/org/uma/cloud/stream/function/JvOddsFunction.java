@@ -36,7 +36,7 @@ public class JvOddsFunction {
 
     @Bean
     public Function<Flux<String>, Mono<Void>> raceIdToWinsShowBracketQToPoint() {
-        return raceIds -> raceIds
+        return raceId -> raceId
                 .flatMap(jvLinkWebService::winsShowBracketQ)
                 .doOnNext(this::debug)
                 .flatMap(timeSeriesService::oddsToPoint)
@@ -46,7 +46,7 @@ public class JvOddsFunction {
 
     @Bean
     public Function<Flux<String>, Mono<Void>> raceIdToQuinellaToPoint() {
-        return raceIds -> raceIds
+        return raceId -> raceId
                 .flatMap(jvLinkWebService::quinella)
                 .doOnNext(this::debug)
                 .flatMap(timeSeriesService::oddsToPoint)
@@ -56,7 +56,7 @@ public class JvOddsFunction {
 
     @Bean
     public Function<Flux<String>, Mono<Void>> raceIdToQuinellaPlaceToPoint() {
-        return raceIds -> raceIds
+        return raceId -> raceId
                 .flatMap(jvLinkWebService::quinellaPlace)
                 .doOnNext(this::debug)
                 .flatMap(timeSeriesService::oddsToPoint)
@@ -66,7 +66,7 @@ public class JvOddsFunction {
 
     @Bean
     public Function<Flux<String>, Mono<Void>> raceIdToExactaToPoint() {
-        return raceIds -> raceIds
+        return raceId -> raceId
                 .flatMap(jvLinkWebService::exacta)
                 .doOnNext(this::debug)
                 .flatMap(timeSeriesService::oddsToPoint)

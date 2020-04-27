@@ -2,8 +2,10 @@ package org.uma.cloud.stream.util;
 
 import org.uma.cloud.common.model.RacingHorseDetail;
 import org.uma.cloud.common.model.RacingDetail;
+import org.uma.cloud.common.model.RacingRefund;
 import org.uma.cloud.common.model.business.BusinessRacingHorse;
 import org.uma.cloud.common.model.business.BusinessRacing;
+import org.uma.cloud.common.model.business.BusinessRacingRefund;
 
 import java.time.LocalDateTime;
 
@@ -16,8 +18,8 @@ public class BusinessMapper {
         model.setRaceStartDateTime(LocalDateTime.of(racingDetail.getHoldingDate(), racingDetail.getStartTime()));
         model.setRaceNo(racingDetail.getRaceNo());
         model.setRaceNameFull(racingDetail.getRaceNameFull());
-        model.setCourse(racingDetail.getCourseCd().getCodeNameShort());
-        model.setRaceType(racingDetail.getRaceTypeCd().getCodeNameShort());
+        model.setCourse(racingDetail.getCourseCd().getCodeName());
+        model.setRaceType(racingDetail.getRaceTypeCd().getCodeName());
         model.setDistance(racingDetail.getDistance());
         model.setTrack(racingDetail.getTrackCd().getCodeName());
 //        model.setTurfCondition(racingDetails.getTurfConditionCd().getCodeName());
@@ -46,6 +48,11 @@ public class BusinessMapper {
         model.setHorseWeight(racingHorseDetail.getHorseWeight());
         model.setOddsWin(racingHorseDetail.getOddsWin());
         model.setBetRankWin(racingHorseDetail.getBetRankWin());
+        return model;
+    }
+
+    public static BusinessRacingRefund toBusinessRacingRefund(RacingRefund racingRefund) {
+        BusinessRacingRefund model = new BusinessRacingRefund();
         return model;
     }
 

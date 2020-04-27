@@ -14,7 +14,7 @@ import java.util.function.Supplier;
 public class JvRaceSupplier {
 
     @Autowired
-    private BusinessRacingService businessRacingService;
+    private BusinessRacingService racingService;
 
     /**
      * fixedDelay          ->  Default: 1000L.
@@ -22,7 +22,7 @@ public class JvRaceSupplier {
      */
     @PollableBean
     public Supplier<Flux<String>> comingRaceIds() {
-        return () -> Flux.defer(() -> Flux.fromIterable(businessRacingService.findComingRaces()))
+        return () -> Flux.defer(() -> Flux.fromIterable(racingService.findComingRaces()))
                 .map(BusinessRacing::getRaceId)
                 .sort()
                 .delayElements(Duration.ofMillis(200L)) // 気持ちdelayかませる。

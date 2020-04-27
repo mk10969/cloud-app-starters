@@ -176,7 +176,7 @@ class JvLinkWebServiceTest {
 
     @Test
     void test_findAllRaceDetailsThisWeek() throws InterruptedException {
-        jvLinkWebService.raceDetailWithFriday()
+        jvLinkWebService.getRaceIds()
                 .subscribe(System.out::println);
         Thread.sleep(5000L);
     }
@@ -184,7 +184,7 @@ class JvLinkWebServiceTest {
 
     @Test
     void test_findOneRaceDetails() throws InterruptedException {
-        jvLinkWebService.racingDetail("2020041903010405")
+        jvLinkWebService.racingDetail("2020042605020212")
                 .subscribe(System.out::println);
         Thread.sleep(5000L);
     }
@@ -192,11 +192,37 @@ class JvLinkWebServiceTest {
 
     @Test
     void test_findAllHorseRacingDetails() throws InterruptedException {
-        jvLinkWebService.racingHorseDetail("2020041903010401")
+        jvLinkWebService.racingHorseDetail("2020042605020212")
                 .subscribe(System.out::println);
         Thread.sleep(5000L);
     }
 
+
+    @Test
+    void test_event_weight() throws InterruptedException {
+        // OK
+        jvLinkWebService.eventWeight("202004260510")
+                .subscribe(System.out::println);
+        Thread.sleep(10000L);
+    }
+
+
+    @Test
+    void test_event_racingRefund() throws InterruptedException {
+        // OK
+        jvLinkWebService.eventRacingRefund("202004250510")
+                .subscribe(System.out::println);
+        Thread.sleep(10000L);
+    }
+
+
+    @Test
+    void test_event_eventWeather() throws InterruptedException {
+        // OK
+        jvLinkWebService.eventWeather("WE20200426080020200426131500")
+                .subscribe(System.out::println);
+        Thread.sleep(10000L);
+    }
 
 
 
