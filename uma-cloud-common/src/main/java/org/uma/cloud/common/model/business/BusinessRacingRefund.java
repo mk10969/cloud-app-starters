@@ -22,7 +22,7 @@ import java.util.List;
         @TypeDef(name = "list", typeClass = ListArrayType.class),
         @TypeDef(name = "jsonb", typeClass = JsonBinaryType.class)
 })
-@Table(name = "business_racing_refund")
+@Table
 public class BusinessRacingRefund implements Serializable {
 
     /**

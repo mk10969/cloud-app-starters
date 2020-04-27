@@ -9,8 +9,6 @@ import org.uma.cloud.common.recordSpec.RecordSpec;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import java.time.LocalDate;
@@ -34,16 +32,13 @@ public class BloodLine extends BaseModel {
 
     private LocalDate birthDate;
 
-    @Column(length = 20)
-    @Enumerated(EnumType.STRING)
+    @Column(length = 2)
     private SexCode sexCd;
 
-    @Column(length = 20)
-    @Enumerated(EnumType.STRING)
+    @Column(length = 8)
     private BreedCode breedCd;
 
-    @Column(length = 20)
-    @Enumerated(EnumType.STRING)
+    @Column(length = 3)
     private HairColorCode hairColorCd;
 
     private Integer sonBringingDiv;

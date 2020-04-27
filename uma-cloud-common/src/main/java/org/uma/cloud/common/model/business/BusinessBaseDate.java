@@ -12,7 +12,7 @@ import java.io.Serializable;
 
 @Data
 @Entity
-@Table(name = "business_base_date")
+@Table
 public class BusinessBaseDate implements Serializable {
 
     @Id

@@ -15,8 +15,6 @@ import org.uma.cloud.common.recordSpec.RecordSpec;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import java.time.LocalDate;
@@ -42,8 +40,7 @@ public class RacingDetail extends BaseModel {
 
     private LocalDate holdingDate;
 
-    @Column(length = 20)
-    @Enumerated(EnumType.STRING)
+    @Column(length = 6)
     private RaceCourseCode courseCd;
 
     private Integer holdingNo;
@@ -52,8 +49,7 @@ public class RacingDetail extends BaseModel {
 
     private Integer raceNo;
 
-    @Column(length = 20)
-    @Enumerated(EnumType.STRING)
+    @Column(length = 3)
     private WeekDayCode weekDayCd;
 
     private Integer specialRaceNo;
@@ -89,24 +85,19 @@ public class RacingDetail extends BaseModel {
 
     private Integer gradeTimes;
 
-    @Column(length = 20)
-    @Enumerated(EnumType.STRING)
+    @Column(length = 10)
     private RaceGradeCode gradeCd;
 
-    @Column(length = 20)
-    @Enumerated(EnumType.STRING)
+    @Column(length = 10)
     private RaceGradeCode gradeCdBefore;
 
-    @Column(length = 20)
-    @Enumerated(EnumType.STRING)
+    @Column(length = 4)
     private RaceTypeCode raceTypeCd;
 
     @Column(length = 20)
-    @Enumerated(EnumType.STRING)
     private RaceSignCode raceSignCd;
 
-    @Column(length = 20)
-    @Enumerated(EnumType.STRING)
+    @Column(length = 3)
     private WeightTypeCode weightTypeCd;
 
     /**
@@ -130,12 +121,10 @@ public class RacingDetail extends BaseModel {
 
     private Integer distanceBefore;
 
-    @Column(length = 20)
-    @Enumerated(EnumType.STRING)
+    @Column(length = 6)
     private TrackCode trackCd;
 
-    @Column(length = 20)
-    @Enumerated(EnumType.STRING)
+    @Column(length = 6)
     private TrackCode trackCdBefore;
 
     @Column(length = 2)
@@ -172,16 +161,13 @@ public class RacingDetail extends BaseModel {
 
     private Integer finishedCount;
 
-    @Column(length = 20)
-    @Enumerated(EnumType.STRING)
+    @Column(length = 2)
     private WeatherCode weatherCd;
 
-    @Column(length = 20)
-    @Enumerated(EnumType.STRING)
+    @Column(length = 2)
     private TurfOrDirtConditionCode turfConditionCd;
 
-    @Column(length = 20)
-    @Enumerated(EnumType.STRING)
+    @Column(length = 2)
     private TurfOrDirtConditionCode dirtConditionCd;
 
     @Type(type = "list")

@@ -1,9 +1,9 @@
-package org.uma.cloud.common.model.odds;
+package org.uma.cloud.common.model;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-public interface TimeSeriesable {
+public interface TimeSeries {
 
     LocalDate getHoldingDate();
 

@@ -16,8 +16,6 @@ import org.uma.cloud.common.recordSpec.RecordSpec;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import javax.persistence.IdClass;
 import javax.persistence.Table;
@@ -45,8 +43,7 @@ public class RacingHorseDetail extends BaseModel {
 
     private LocalDate holdingDate;
 
-    @Column(length = 20)
-    @Enumerated(EnumType.STRING)
+    @Column(length = 6)
     private RaceCourseCode courseCd;
 
     private Integer holdingNo;
@@ -78,27 +75,22 @@ public class RacingHorseDetail extends BaseModel {
     @Column(length = 36)
     private String horseName;
 
-    @Column(length = 20)
-    @Enumerated(EnumType.STRING)
+    @Column(length = 9)
     private HorseSignCode horseSignCd;
 
-    @Column(length = 20)
-    @Enumerated(EnumType.STRING)
+    @Column(length = 2)
     private SexCode sexCd;
 
-    @Column(length = 20)
-    @Enumerated(EnumType.STRING)
+    @Column(length = 8)
     private BreedCode bredCd;
 
-    @Column(length = 20)
-    @Enumerated(EnumType.STRING)
+    @Column(length = 3)
     private HairColorCode hairColorCd;
 
     private Integer age;
 
     // 競走馬の東西
-    @Column(length = 20)
-    @Enumerated(EnumType.STRING)
+    @Column(length = 4)
     private EastOrWestBelongCode ewBelongCd;
 
     private Integer trainerCd;
@@ -137,12 +129,10 @@ public class RacingHorseDetail extends BaseModel {
     @Column(length = 8)
     private String jockeyNameShortBefore;
 
-    @Column(length = 20)
-    @Enumerated(EnumType.STRING)
+    @Column(length = 4)
     private JockeyApprenticeCode jockeyApprenticeCd;
 
-    @Column(length = 20)
-    @Enumerated(EnumType.STRING)
+    @Column(length = 4)
     private JockeyApprenticeCode jockeyApprenticeCdBefore;
 
     private Integer horseWeight;
@@ -152,8 +142,7 @@ public class RacingHorseDetail extends BaseModel {
 
     private Integer changeAmount;
 
-    @Column(length = 20)
-    @Enumerated(EnumType.STRING)
+    @Column(length = 5)
     private AbnormalDivisionCode abnormalDivCd;
 
     private Integer finishedArrivalOrder;
@@ -166,16 +155,13 @@ public class RacingHorseDetail extends BaseModel {
 
     private LocalTime runningTime;
 
-    @Column(length = 20)
-    @Enumerated(EnumType.STRING)
+    @Column(length = 6)
     private MarginCode marginCd;
 
-    @Column(length = 20)
-    @Enumerated(EnumType.STRING)
+    @Column(length = 6)
     private MarginCode marginCd2;
 
-    @Column(length = 20)
-    @Enumerated(EnumType.STRING)
+    @Column(length = 6)
     private MarginCode marginCd3;
 
     private Integer rankCorner1;

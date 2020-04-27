@@ -8,8 +8,6 @@ import org.uma.cloud.common.recordSpec.RecordSpec;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import javax.persistence.IdClass;
 import javax.persistence.Table;
@@ -29,16 +27,14 @@ public class Course extends BaseModel {
      * コースコード
      */
     @Id
-    @Column(length = 20)
-    @Enumerated(EnumType.STRING)
+    @Column(length = 6)
     private RaceCourseCode courseCd;
 
     @Id
     private Integer distance;
 
     @Id
-    @Column(length = 20)
-    @Enumerated(EnumType.STRING)
+    @Column(length = 6)
     private TrackCode trackCd;
 
     @Id
@@ -51,14 +47,12 @@ public class Course extends BaseModel {
     @Data
     public static class CompositeId implements Serializable {
 
-        @Column(length = 20)
-        @Enumerated(EnumType.STRING)
+        @Column(length = 6)
         private RaceCourseCode courseCd;
 
         private Integer distance;
 
-        @Column(length = 20)
-        @Enumerated(EnumType.STRING)
+        @Column(length = 6)
         private TrackCode trackCd;
 
         private LocalDate courseRepairDate;

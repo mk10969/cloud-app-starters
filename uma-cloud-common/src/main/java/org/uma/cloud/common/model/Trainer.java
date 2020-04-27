@@ -6,8 +6,6 @@ import org.uma.cloud.common.recordSpec.RecordSpec;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import java.time.LocalDate;
@@ -48,8 +46,7 @@ public class Trainer extends BaseModel {
 
     private Integer trainerSex;
 
-    @Column(length = 20)
-    @Enumerated(EnumType.STRING)
+    @Column(length = 4)
     private EastOrWestBelongCode ewBelongCd;
 
     @Column(length = 20)

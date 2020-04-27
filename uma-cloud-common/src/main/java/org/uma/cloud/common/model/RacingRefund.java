@@ -9,8 +9,6 @@ import org.uma.cloud.common.utils.javatuples.Triplet;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import java.time.LocalDate;
@@ -33,8 +31,7 @@ public class RacingRefund extends BaseModel {
 
     private LocalDate holdingDate;
 
-    @Column(length = 20)
-    @Enumerated(EnumType.STRING)
+    @Column(length = 6)
     private RaceCourseCode courseCd;
 
     private Integer holdingNo;
