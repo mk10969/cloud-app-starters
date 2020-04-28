@@ -42,7 +42,6 @@ public class JvLinkWebService {
 
 
     // 今週のレース情報
-    // TODO: 今週金曜日時点のデータを取得
     private static final String racingDetailWithFriday = "/racingDetail/{epochMilli}";
 
 
@@ -103,7 +102,7 @@ public class JvLinkWebService {
     private static final String timeChange = "/event/timeChange";
 
 
-    private void errorHandle(Throwable throwable) {
+    private Mono<String> errorHandle(Throwable throwable) {
         if (throwable instanceof JvLinkWebClientException) {
             if (HttpStatus.NOT_FOUND == ((JvLinkWebClientException) throwable).getHttpStatus()) {
                 // 該当データなし。
@@ -116,6 +115,7 @@ public class JvLinkWebService {
             // サーバ側に問題あり。
             log.error("JvLinkWebServiceでエラー発生: ", throwable);
         }
+        return Mono.empty();
     }
 
 
@@ -128,7 +128,7 @@ public class JvLinkWebService {
                 .retrieve()
                 .bodyToMono(ExternalResponse.class)
                 .map(ExternalResponse::getData)
-                .doOnError(this::errorHandle);
+                .onErrorResume(this::errorHandle);
     }
 
     private Flux<String> findAllByRaceId(String path, String raceId) {
@@ -140,7 +140,7 @@ public class JvLinkWebService {
                 .retrieve()
                 .bodyToFlux(ExternalResponse.class)
                 .map(ExternalResponse::getData)
-                .doOnError(this::errorHandle);
+                .onErrorResume(this::errorHandle);
     }
 
     /**
@@ -160,7 +160,7 @@ public class JvLinkWebService {
                 .map(jvLinkDeserializer.decode()
                         .andThen(jvLinkDeserializer::racingDetailFunction))
                 .map(RacingDetail::getRaceId)
-                .doOnError(this::errorHandle);
+                .onErrorResume(this::errorHandle);
     }
 
     /**

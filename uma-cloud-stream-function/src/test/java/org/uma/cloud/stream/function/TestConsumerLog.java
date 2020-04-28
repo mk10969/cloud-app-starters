@@ -1,4 +1,4 @@
-package org.uma.cloud.stream.function.test;
+package org.uma.cloud.stream.function;
 
 import lombok.extern.slf4j.Slf4j;
 import org.influxdb.dto.Point;
@@ -10,7 +10,7 @@ import java.util.function.Consumer;
 
 @Slf4j
 @Configuration
-public class ConsumerLog {
+public class TestConsumerLog {
 
     /**
      * reactive consumer

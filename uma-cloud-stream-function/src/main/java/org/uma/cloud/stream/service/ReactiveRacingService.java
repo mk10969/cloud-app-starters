@@ -13,19 +13,19 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @Service
-public class BusinessRxService {
+public class ReactiveRacingService {
 
     @Autowired
     private JvLinkWebService jvLinkWebService;
 
     @Autowired
-    private BusinessRacingService racingService;
+    private BusinessRacingService businessRacingService;
 
     @Autowired
-    private BusinessRacingHorseService racingHorseService;
+    private BusinessRacingHorseService businessRacingHorseService;
 
     @Autowired
-    private BusinessRacingRefundService racingRefundService;
+    private BusinessRacingRefundService businessRacingRefundService;
 
 
     /**
@@ -35,11 +35,11 @@ public class BusinessRxService {
      * <p>
      * 新しくなったら更新する。exist check不要。
      */
-    public Mono<BusinessRacing> updateOneRacing(String raceId) {
+    public Mono<BusinessRacing> updateBusinessRacing(String raceId) {
         return Mono.just(raceId)
                 .flatMap(jvLinkWebService::racingDetail)
                 .map(BusinessMapper::toBusinessRacing)
-                .doOnNext(racingService::update);
+                .doOnNext(businessRacingService::update);
     }
 
     /**
@@ -49,11 +49,11 @@ public class BusinessRxService {
      * <p>
      * 新しくなったら更新する。exist check不要。
      */
-    public Flux<BusinessRacingHorse> updateAllRacingHorse(String raceId) {
+    public Flux<BusinessRacingHorse> updateAllBusinessRacingHorse(String raceId) {
         return Mono.just(raceId)
                 .flatMapMany(jvLinkWebService::racingHorseDetail)
                 .map(BusinessMapper::toBusinessRacingHorse)
-                .doOnNext(racingHorseService::update);
+                .doOnNext(businessRacingHorseService::update);
     }
 
     /**
@@ -63,11 +63,11 @@ public class BusinessRxService {
      * <p>
      * 確定レース払戻
      */
-    public Mono<BusinessRacingRefund> updateRacingRefund(String eventRaceId) {
+    public Mono<BusinessRacingRefund> updateBusinessRacingRefund(String eventRaceId) {
         return Mono.just(eventRaceId)
                 .flatMap(jvLinkWebService::eventRacingRefund)
                 .map(BusinessMapper::toBusinessRacingRefund)
-                .doOnNext(racingRefundService::update);
+                .doOnNext(businessRacingRefundService::update);
     }
 
     /**
@@ -76,7 +76,7 @@ public class BusinessRxService {
     public Mono<Void> updateWeight(String eventRaceId) {
         return Mono.just(eventRaceId)
                 .flatMap(jvLinkWebService::eventWeight)
-                .doOnNext(racingHorseService::updateWeight)
+                .doOnNext(businessRacingHorseService::updateWeight)
                 .then();
     }
 
@@ -86,7 +86,7 @@ public class BusinessRxService {
     public Mono<Void> updateWeather(String eventWeatherId) {
         return Mono.just(eventWeatherId)
                 .flatMap(jvLinkWebService::eventWeather)
-                .doOnNext(racingService::updateWeather)
+                .doOnNext(businessRacingService::updateWeather)
                 .then();
     }
 
@@ -96,7 +96,7 @@ public class BusinessRxService {
     public Mono<Void> updateJockeyChange(String eventRaceId) {
         return Mono.just(eventRaceId)
                 .flatMap(jvLinkWebService::eventJockeyChange)
-                .doOnNext(racingHorseService::updateJockeyChange)
+                .doOnNext(businessRacingHorseService::updateJockeyChange)
                 .then();
     }
 
@@ -106,7 +106,7 @@ public class BusinessRxService {
     public Mono<Void> updateAvoid(String eventRaceId) {
         return Mono.just(eventRaceId)
                 .flatMap(jvLinkWebService::eventAvoid)
-                .doOnNext(racingHorseService::updateAvoid)
+                .doOnNext(businessRacingHorseService::updateAvoid)
                 .then();
     }
 
@@ -116,7 +116,7 @@ public class BusinessRxService {
     public Mono<Void> updateTimeChange(String eventRaceId) {
         return Mono.just(eventRaceId)
                 .flatMap(jvLinkWebService::eventTimeChange)
-                .doOnNext(racingService::updateTimeChange)
+                .doOnNext(businessRacingService::updateTimeChange)
                 .then();
     }
 
@@ -126,7 +126,7 @@ public class BusinessRxService {
     public Mono<Void> updateCourseChange(String eventRaceId) {
         return Mono.just(eventRaceId)
                 .flatMap(jvLinkWebService::eventCourseChange)
-                .doOnNext(racingService::updateCourseChange)
+                .doOnNext(businessRacingService::updateCourseChange)
                 .then();
     }
 

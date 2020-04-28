@@ -46,7 +46,6 @@ public class BusinessRacingRefund implements Serializable {
     @Column(columnDefinition = "integer[]")
     private List<Integer> restoreHorseNoItems;
 
-
     /**
      * 単勝払戻
      */
@@ -59,14 +58,14 @@ public class BusinessRacingRefund implements Serializable {
      */
     @Type(type = "jsonb")
     @Column(columnDefinition = "jsonb")
-    private List<refund> refundPlaces;
+    private List<refund> refundShows;
 
     /**
      * 枠連払戻
      */
     @Type(type = "jsonb")
     @Column(columnDefinition = "jsonb")
-    private List<refund> refundBracketQuinellas;
+    private List<refund> refundBracketQs;
 
     /**
      * 馬連払戻

@@ -1,6 +1,10 @@
 package org.uma.cloud.common.model.business;
 
 import lombok.Data;
+import org.uma.cloud.common.code.EastOrWestBelongCode;
+import org.uma.cloud.common.code.HairColorCode;
+import org.uma.cloud.common.code.JockeyApprenticeCode;
+import org.uma.cloud.common.code.SexCode;
 import org.uma.cloud.common.model.BloodLine;
 
 import javax.persistence.Column;
@@ -13,8 +17,8 @@ import java.math.BigDecimal;
 
 @Data
 @Entity
-@IdClass(BusinessRacingHorse.BusinessRacingHorseId.class)
-@Table(name = "business_racing_horse")
+@IdClass(BusinessRacingHorse.CompositeId.class)
+@Table
 public class BusinessRacingHorse implements Serializable {
 
     /**
@@ -53,7 +57,7 @@ public class BusinessRacingHorse implements Serializable {
     /**
      * {@link BloodLine.bloodlineNo}
      */
-    @Id
+    @Column(nullable = false)
     private Long bloodlineNo;
 
     /**
@@ -64,17 +68,15 @@ public class BusinessRacingHorse implements Serializable {
 
     /**
      * 性別
-     * →Stringで保存する。
      */
     @Column(length = 2, nullable = false)
-    private String sex;
+    private SexCode sex;
 
     /**
      * 毛色
-     * →Stringで保存する。
      */
     @Column(length = 3, nullable = false)
-    private String hairColor;
+    private HairColorCode hairColor;
 
     /**
      * 年齢
@@ -84,10 +86,9 @@ public class BusinessRacingHorse implements Serializable {
 
     /**
      * 競走馬の東西
-     * →Stringで保存する。
      */
     @Column(length = 4, nullable = false)
-    private String ewBelong;
+    private EastOrWestBelongCode ewBelong;
 
     /**
      * ジョッキー
@@ -96,10 +97,16 @@ public class BusinessRacingHorse implements Serializable {
     private String jockeyNameShort;
 
     /**
-     * 負担重量 例:0.1kg
+     * ジョッキー負担重量 例:0.1kg
      */
     @Column(nullable = false)
     private Double loadWeight;
+
+    /**
+     * ジョッキー見習コード
+     */
+    @Column(length = 4, nullable = false)
+    private JockeyApprenticeCode jockeyApprentice;
 
     /**
      * 調教師
@@ -115,9 +122,22 @@ public class BusinessRacingHorse implements Serializable {
 
     /**
      * 馬体重
+     * @Nullable
      */
-    @Column(nullable = false)
     private Integer horseWeight;
+
+    /**
+     * 増減: + or -
+     * @Nullable
+     */
+    @Column(length = 1)
+    private String changeSign;
+
+    /**
+     * 馬体重変化量
+     * @Nullable
+     */
+    private Integer changeAmount;
 
     /**
      * 単勝オッズ
@@ -132,9 +152,25 @@ public class BusinessRacingHorse implements Serializable {
     private Integer betRankWin;
 
     /**
-     * 競走馬除外
+     * 競走馬出走可能フラグ
+     * <p>
+     * 0: 出走可能
+     * 1: 出走取消
+     * 2: 競走除外
      */
-    private boolean exclude = false;
+    @Column(nullable = false)
+    private Integer exclude = 0;
+
+    /**
+     * 競走馬除外理由
+     * <p>
+     * 000: 初期値
+     * 001: 疾病
+     * 002: 事故
+     * 003: その他
+     */
+    @Column(length = 3, nullable = false)
+    private String excludeReason = "000";
 
 
     /**
@@ -143,13 +179,11 @@ public class BusinessRacingHorse implements Serializable {
 
 
     @Data
-    public static class BusinessRacingHorseId implements Serializable {
+    public static class CompositeId implements Serializable {
 
         private String raceId;
 
         private String horseNo;
-
-        private Long bloodlineNo;
     }
 
 }

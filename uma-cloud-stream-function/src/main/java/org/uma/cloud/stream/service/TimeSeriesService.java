@@ -10,6 +10,7 @@ import org.uma.cloud.common.model.odds.QuinellaPlace;
 import org.uma.cloud.common.model.odds.WinsShowBracketQ;
 import org.uma.cloud.common.utils.lang.DateUtil;
 import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 import java.util.concurrent.TimeUnit;
 
@@ -24,8 +25,8 @@ public class TimeSeriesService {
         influxDB.write(point);
     }
 
-    
-    public Flux<Point> oddsToPoint(WinsShowBracketQ winsShowBracketQ) {
+
+    public Mono<String> oddsToPoint(WinsShowBracketQ winsShowBracketQ) {
         // 枠連は捨てる。
         // winsPlaceBracketQuinella.getBracketQuinellaOdds();
 
@@ -50,11 +51,13 @@ public class TimeSeriesService {
                         .addField("rank", placeOdds.getBetRank())
                         .build());
         // 合わせる。
-        return winFlux.concatWith(placeFlux);
+        return winFlux.concatWith(placeFlux)
+                .doOnNext(this::writePoint)
+                .then(Mono.just(winsShowBracketQ.getRaceId()));
     }
 
 
-    public Flux<Point> oddsToPoint(Quinella quinella) {
+    public Mono<String> oddsToPoint(Quinella quinella) {
         long timestamp = DateUtil.toEpochMilli(quinella.getTimestamp());
 
         return Flux.fromStream(quinella.getQuinellaOdds().stream())
@@ -64,10 +67,12 @@ public class TimeSeriesService {
                         .tag("pair", quinellaOdds.getPairNo().toString())
                         .addField("odds", quinellaOdds.getOdds())
                         .addField("rank", quinellaOdds.getBetRank())
-                        .build());
+                        .build())
+                .doOnNext(this::writePoint)
+                .then(Mono.just(quinella.getRaceId()));
     }
 
-    public Flux<Point> oddsToPoint(QuinellaPlace quinellaPlace) {
+    public Mono<String> oddsToPoint(QuinellaPlace quinellaPlace) {
         long timestamp = DateUtil.toEpochMilli(quinellaPlace.getTimestamp());
 
         return Flux.fromStream(quinellaPlace.getQuinellaPlaceOdds().stream())
@@ -78,10 +83,12 @@ public class TimeSeriesService {
                         .addField("oddsMin", quinellaPlaceOdds.getOddsMin())
                         .addField("oddsMax", quinellaPlaceOdds.getOddsMax())
                         .addField("rank", quinellaPlaceOdds.getBetRank())
-                        .build());
+                        .build())
+                .doOnNext(this::writePoint)
+                .then(Mono.just(quinellaPlace.getRaceId()));
     }
 
-    public Flux<Point> oddsToPoint(Exacta exacta) {
+    public Mono<String> oddsToPoint(Exacta exacta) {
         long timestamp = DateUtil.toEpochMilli(exacta.getTimestamp());
 
         return Flux.fromStream(exacta.getExactaOdds().stream())
@@ -91,7 +98,9 @@ public class TimeSeriesService {
                         .tag("pair", exactaOdds.getPairNo().toString())
                         .addField("odds", exactaOdds.getOdds())
                         .addField("rank", exactaOdds.getBetRank())
-                        .build());
+                        .build())
+                .doOnNext(this::writePoint)
+                .then(Mono.just(exacta.getRaceId()));
     }
 
 }

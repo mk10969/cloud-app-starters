@@ -1,6 +1,12 @@
 package org.uma.cloud.common.model.business;
 
 import lombok.Data;
+import org.uma.cloud.common.code.RaceCourseCode;
+import org.uma.cloud.common.code.RaceTypeCode;
+import org.uma.cloud.common.code.TrackCode;
+import org.uma.cloud.common.code.TurfOrDirtConditionCode;
+import org.uma.cloud.common.code.WeatherCode;
+import org.uma.cloud.common.model.event.Weather;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,7 +17,7 @@ import java.time.LocalDateTime;
 
 @Data
 @Entity
-@Table(name = "business_racing")
+@Table
 public class BusinessRacing implements Serializable {
 
     /**
@@ -49,17 +55,15 @@ public class BusinessRacing implements Serializable {
 
     /**
      * コース
-     * →コース名
      */
     @Column(length = 6, nullable = false)
-    private String course;
+    private RaceCourseCode course;
 
     /**
      * レースタイプ
-     * →レースタイプ ショート名
      */
     @Column(length = 4, nullable = false)
-    private String raceType;
+    private RaceTypeCode raceType;
 
     /**
      * レースの距離
@@ -69,34 +73,40 @@ public class BusinessRacing implements Serializable {
 
     /**
      * レースのトラック
-     * →トラック名
      */
     @Column(length = 6, nullable = false)
-    private String track;
-
+    private TrackCode track;
 
     /**
-     * データとれない・・・
+     * コース変更理由
+     * 0: なし
+     * 1: 強風
+     * 2: 台風
+     * 3: 雪
+     * 4: その他
      */
-//    /**
-//     * レースのターフコンディション
-//     * →コンディション名
-//     */
-//    @Column(length = 2, nullable = false)
-//    private String turfCondition;
-//
-//    /**
-//     * レースのダートコンディション
-//     * →コンディション名
-//     */
-//    @Column(length = 2, nullable = false)
-//    private String dirtCondition;
-//
-//    /**
-//     * レース天候
-//     * →天候名
-//     */
-//    @Column(length = 2, nullable = false)
-//    private String weather;
+    @Column(nullable = false)
+    private Integer courseChangeReason = 0;
+
+    /**
+     * レースのターフコンディション
+     * {@link Weather}
+     */
+    @Column(length = 2, nullable = false)
+    private TurfOrDirtConditionCode turf;
+
+    /**
+     * レースのダートコンディション
+     * {@link Weather}
+     */
+    @Column(length = 2, nullable = false)
+    private TurfOrDirtConditionCode dirt;
+
+    /**
+     * レース天候
+     * {@link Weather}
+     */
+    @Column(length = 2, nullable = false)
+    private WeatherCode weather;
 
 }

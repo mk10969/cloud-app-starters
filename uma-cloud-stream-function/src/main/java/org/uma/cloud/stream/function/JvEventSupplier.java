@@ -1,5 +1,6 @@
 package org.uma.cloud.stream.function;
 
+import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -20,7 +21,7 @@ import java.util.function.Supplier;
 
 @Slf4j
 @Configuration
-public class JvWatchEventSupplier {
+public class JvEventSupplier {
 
     @Autowired
     private WebSocketClient webSocketClient;
@@ -28,8 +29,7 @@ public class JvWatchEventSupplier {
     @Autowired
     private StreamFunctionProperties properties;
 
-//    private final EmitterProcessor<String>でもいいかも
-
+    @Getter
     private final UnicastProcessor<String> processor =
             UnicastProcessor.create(new ConcurrentLinkedQueue<>());
 
@@ -45,14 +45,16 @@ public class JvWatchEventSupplier {
 
     @Bean
     @ConditionalOnProperty(prefix = "spring.init", name = "enabled", havingValue = "true")
-    public CommandLineRunner commandLineRunner() {
+    public CommandLineRunner websocketSubscribe() {
         return args -> this.connectToJvLinkWebSocket().subscribe();
     }
+
 
     private Mono<Void> connectToJvLinkWebSocket() {
         return webSocketClient.execute(
                 URI.create(properties.getJvLinkWebSocketUrl()), this::handler);
     }
+
 
     private Mono<Void> handler(WebSocketSession session) {
         return session.receive()
