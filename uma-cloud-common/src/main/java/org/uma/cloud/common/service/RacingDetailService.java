@@ -9,34 +9,32 @@ import org.uma.cloud.common.repository.RacingDetailRepository;
 import java.util.List;
 
 @Service
-public class RacingDetailsService {
+public class RacingDetailService {
 
     @Autowired
     private RacingDetailRepository repository;
 
 
     public RacingDetail findOne(String raceId) {
-        return repository.findById(raceId).orElseThrow(() ->
-                new IllegalArgumentException(raceId + " のデータが見つかりませんでした。"));
+        return this.repository.findById(raceId).orElseThrow();
     }
 
-    public List<RacingDetail> findAllByRaceId(List<String> raceIds) {
-        return repository.findAllById(raceIds);
-    }
-
-    @Transactional
-    public void save(RacingDetail racingDetail) {
-        repository.save(racingDetail);
+    public boolean exists(String raceId) {
+        return this.repository.existsById(raceId);
     }
 
     @Transactional
-    public void saveAll(List<RacingDetail> racingDetails) {
-        repository.saveAll(racingDetails);
+    public RacingDetail save(RacingDetail racingDetail) {
+        return this.repository.save(racingDetail);
+    }
+
+    @Transactional
+    public List<RacingDetail> saveAll(List<RacingDetail> racingDetails) {
+        return this.repository.saveAll(racingDetails);
     }
 
     @Transactional
     public void delete(RacingDetail racingDetail) {
-        repository.delete(racingDetail);
+        this.repository.delete(racingDetail);
     }
-
 }
