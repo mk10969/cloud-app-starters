@@ -16,8 +16,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.uma.cloud.common.configuration.JvLinkDeserializer;
+import org.uma.cloud.common.model.RacingDetail;
+import org.uma.cloud.common.utils.lang.DateUtil;
 import org.uma.cloud.stream.StreamFunctionProperties;
 import org.uma.cloud.stream.configuration.WebClientConfiguration;
+
+import java.time.LocalDateTime;
 
 @Slf4j
 @SpringBootTest(classes = {
@@ -65,24 +69,29 @@ class JvLinkWebServiceTest {
 
 
     @Test
+    void test_DateTime() {
+        System.out.println(DateUtil.toEpochMilli(LocalDateTime.now().minusWeeks(1)));
+    }
+
+    @Test
     void test_webClient_raceDetails() throws InterruptedException {
-        String WEDNESDAY = "1586886877189";
-        String FRIDAY = "1587059893206";
+        String BaseDate = "1587535623206";
 
         webClient.get().uri(uriBuilder -> uriBuilder
-                .path("/racingDetail/1587059893206")
-                .build())
+                .path("/racingDetail/{BaseDate}")
+                .build(BaseDate))
                 .retrieve()
                 .bodyToFlux(ExternalResponse.class)
                 .map(ExternalResponse::getData)
                 .map(jvLinkDeserializer.decode()
                         .andThen(jvLinkDeserializer::racingDetailFunction))
+                .map(RacingDetail::getRaceId)
                 .subscribe(
                         System.out::println,
                         System.out::println,
                         () -> System.out.println("完了")
                 );
-        Thread.sleep(5000L);
+        Thread.sleep(50000L);
     }
 
 

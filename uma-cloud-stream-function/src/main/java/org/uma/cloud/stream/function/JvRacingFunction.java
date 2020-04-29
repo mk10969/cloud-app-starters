@@ -145,34 +145,45 @@ public class JvRacingFunction {
 
     /**
      * 払戻イベントだけ、ここでsubscribeしない。
-     *
+     * TODO: センスない
      * @see JvRacingFunction#eventToRacingRefund()
      * <p>
      * 配信パイプラインを分離している。
      * @see JvRacingFunction#JvWatchEventIdScatter()
      */
     @Bean
-    public Function<Flux<Event>, Flux<?>> eventSubscribe() {
+    public Function<Flux<Event>, Flux<String>> eventToRacingChange() {
         return event -> event
                 .flatMap(e -> {
                     switch (e.getRecordSpec()) {
                         case WH:
-                            return rxService.updateWeight(e.getRaceId());
+                            return rxService.updateAllWeight(e.getRaceId())
+                                    .doOnNext(this::debug)
+                                    .map(BusinessRacingHorse::getRaceId);
                         case WE:
-                            return rxService.updateWeather(e.getRaceId());
+                            return rxService.updateAllWeather(e.getRaceId())
+                                    .doOnNext(this::debug)
+                                    .map(BusinessRacing::getRaceId);
                         case JC:
-                            return rxService.updateJockeyChange(e.getRaceId());
+                            return rxService.updateJockeyChange(e.getRaceId())
+                                    .doOnNext(this::debug)
+                                    .map(BusinessRacingHorse::getRaceId);
                         case AV:
-                            return rxService.updateAvoid(e.getRaceId());
+                            return rxService.updateAvoid(e.getRaceId())
+                                    .doOnNext(this::debug)
+                                    .map(BusinessRacingHorse::getRaceId);
                         case TC:
-                            return rxService.updateTimeChange(e.getRaceId());
+                            return rxService.updateTimeChange(e.getRaceId())
+                                    .doOnNext(this::debug)
+                                    .map(BusinessRacing::getRaceId);
                         case CC:
-                            return rxService.updateCourseChange(e.getRaceId());
+                            return rxService.updateCourseChange(e.getRaceId())
+                                    .doOnNext(this::debug)
+                                    .map(BusinessRacing::getRaceId);
                         default:
                             throw new IllegalArgumentException(e + ": が正しくありません。");
                     }
-                })
-                .doOnNext(this::debug);
+                });
     }
 
 

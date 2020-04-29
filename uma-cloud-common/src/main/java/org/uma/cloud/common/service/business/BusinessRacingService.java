@@ -46,7 +46,7 @@ public class BusinessRacingService {
      *
      * @param weather 天候 or 馬場状態
      */
-    public List<BusinessRacing> updateWeather(Weather weather) {
+    public List<BusinessRacing> updateAllWeather(Weather weather) {
         List<BusinessRacing> updatingRacing = repository.findByRaceStartDateTimeAfter(weather.getTimestamp())
                 .stream()
                 .filter(racing -> racing.getCourse() == weather.getCourseCd())

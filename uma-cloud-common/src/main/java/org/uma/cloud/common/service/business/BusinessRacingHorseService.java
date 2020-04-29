@@ -31,7 +31,7 @@ public class BusinessRacingHorseService {
      *
      * @param weight 馬体重変更
      */
-    public List<BusinessRacingHorse> updateWeight(Weight weight) {
+    public List<BusinessRacingHorse> updateAllWeight(Weight weight) {
         List<BusinessRacingHorse> updatingRacingHorse = weight.getHorseWeights()
                 .stream()
                 .flatMap(horseWeight -> this.findAllByRaceId(weight.getRaceId())
