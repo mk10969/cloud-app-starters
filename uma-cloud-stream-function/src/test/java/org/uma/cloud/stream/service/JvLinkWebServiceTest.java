@@ -109,7 +109,7 @@ class JvLinkWebServiceTest {
                 .doOnError(throwable -> {
                     if (throwable instanceof WebClientConfiguration.JvLinkWebClientException) {
                         if (HttpStatus.NOT_FOUND == ((WebClientConfiguration.JvLinkWebClientException) throwable).getHttpStatus()) {
-                            log.warn("データなし: {}", throwable);
+                            log.warn("データなし: ", throwable);
                         } else {
                             // リクエスト形式に誤りあり。
                             log.error("クライアントのリクエストに問題あり : ", throwable);

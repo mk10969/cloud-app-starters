@@ -3,8 +3,9 @@ package org.uma.cloud.stream.service;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.uma.cloud.common.service.RacingDetailsService;
+import org.uma.cloud.common.service.RacingDetailService;
 import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 import java.util.Arrays;
 import java.util.List;
@@ -17,7 +18,7 @@ public class JvLinkWebServiceTest2 {
     private JvLinkWebService jvLinkWebService;
 
     @Autowired
-    private RacingDetailsService racingDetailsService;
+    private RacingDetailService racingDetailService;
 
 
     /**
@@ -27,7 +28,7 @@ public class JvLinkWebServiceTest2 {
     void test_RacingDetailのモデルをDBに登録する() throws InterruptedException {
         this.getRaceId()
                 .flatMap(jvLinkWebService::racingDetail)
-                .doOnNext(i -> racingDetailsService.save(i))
+                .flatMap(i -> Mono.fromCallable(() -> racingDetailService.save(i)))
                 .subscribe();
         Thread.sleep(10000L);
     }
@@ -38,7 +39,7 @@ public class JvLinkWebServiceTest2 {
                 "2020042505020107", "2020042505020108", "2020042505020109", "2020042505020110", "2020042505020111",
                 "2020042505020112", "2020042508030101", "2020042508030102", "2020042508030103", "2020042508030104",
                 "2020042508030105", "2020042508030106", "2020042508030107", "2020042508030108", "2020042508030109",
-                "2020042508030110", "2020042508030111", "2020042508030112" );
+                "2020042508030110", "2020042508030111", "2020042508030112");
         return Flux.fromIterable(tmp);
     }
 

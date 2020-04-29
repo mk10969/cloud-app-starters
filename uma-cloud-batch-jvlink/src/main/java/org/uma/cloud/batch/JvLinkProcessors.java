@@ -48,33 +48,9 @@ public class JvLinkProcessors {
     }
 
     @Bean
-    public ItemProcessor<String, Breeder> breederItemProcessor() {
-        return new JvLinkFunctionItemProcessor<>(jvLinkDeserializer.decode()
-                .andThen(jvLinkDeserializer::breederFunction));
-    }
-
-    @Bean
     public ItemProcessor<String, BloodBreeding> bloodBreedingItemProcessor() {
         return new JvLinkFunctionItemProcessor<>(jvLinkDeserializer.decode()
                 .andThen(jvLinkDeserializer::bloodBreedingFunction));
-    }
-
-    @Bean
-    public ItemProcessor<String, Course> courseItemProcessor() {
-        return new JvLinkFunctionItemProcessor<>(jvLinkDeserializer.decode()
-                .andThen(jvLinkDeserializer::courseFunction));
-    }
-
-    @Bean
-    public ItemProcessor<String, RacingHorseDetail> racingHorseDetailItemProcessor() {
-        return new JvLinkFunctionItemProcessor<>(jvLinkDeserializer.decode()
-                .andThen(jvLinkDeserializer::racingHorseDetailFunction));
-    }
-
-    @Bean
-    public ItemProcessor<String, Jockey> jockeyItemProcessor() {
-        return new JvLinkFunctionItemProcessor<>(jvLinkDeserializer.decode()
-                .andThen(jvLinkDeserializer::jockeyFunction));
     }
 
     @Bean
@@ -84,15 +60,15 @@ public class JvLinkProcessors {
     }
 
     @Bean
-    public ItemProcessor<String, Owner> ownerItemProcessor() {
+    public ItemProcessor<String, RacingDetail> racingDetailItemProcessor() {
         return new JvLinkFunctionItemProcessor<>(jvLinkDeserializer.decode()
-                .andThen(jvLinkDeserializer::ownerFunction));
+                .andThen(jvLinkDeserializer::racingDetailFunction));
     }
 
     @Bean
-    public ItemProcessor<String, RaceHorse> raceHorseItemProcessor() {
+    public ItemProcessor<String, RacingHorseDetail> racingHorseDetailItemProcessor() {
         return new JvLinkFunctionItemProcessor<>(jvLinkDeserializer.decode()
-                .andThen(jvLinkDeserializer::raceHorseFunction));
+                .andThen(jvLinkDeserializer::racingHorseDetailFunction));
     }
 
     @Bean
@@ -108,9 +84,27 @@ public class JvLinkProcessors {
     }
 
     @Bean
-    public ItemProcessor<String, RacingDetail> racingDetailItemProcessor() {
+    public ItemProcessor<String, RacingVote> racingVoteItemProcessor() {
         return new JvLinkFunctionItemProcessor<>(jvLinkDeserializer.decode()
-                .andThen(jvLinkDeserializer::racingDetailFunction));
+                .andThen(jvLinkDeserializer::racingVoteFunction));
+    }
+
+    @Bean
+    public ItemProcessor<String, RaceHorse> raceHorseItemProcessor() {
+        return new JvLinkFunctionItemProcessor<>(jvLinkDeserializer.decode()
+                .andThen(jvLinkDeserializer::raceHorseFunction));
+    }
+
+    @Bean
+    public ItemProcessor<String, Jockey> jockeyItemProcessor() {
+        return new JvLinkFunctionItemProcessor<>(jvLinkDeserializer.decode()
+                .andThen(jvLinkDeserializer::jockeyFunction));
+    }
+
+    @Bean
+    public ItemProcessor<String, Owner> ownerItemProcessor() {
+        return new JvLinkFunctionItemProcessor<>(jvLinkDeserializer.decode()
+                .andThen(jvLinkDeserializer::ownerFunction));
     }
 
     @Bean
@@ -120,9 +114,15 @@ public class JvLinkProcessors {
     }
 
     @Bean
-    public ItemProcessor<String, RacingVote> racingVoteItemProcessor() {
+    public ItemProcessor<String, Breeder> breederItemProcessor() {
         return new JvLinkFunctionItemProcessor<>(jvLinkDeserializer.decode()
-                .andThen(jvLinkDeserializer::racingVoteFunction));
+                .andThen(jvLinkDeserializer::breederFunction));
+    }
+
+    @Bean
+    public ItemProcessor<String, Course> courseItemProcessor() {
+        return new JvLinkFunctionItemProcessor<>(jvLinkDeserializer.decode()
+                .andThen(jvLinkDeserializer::courseFunction));
     }
 
     @Bean
