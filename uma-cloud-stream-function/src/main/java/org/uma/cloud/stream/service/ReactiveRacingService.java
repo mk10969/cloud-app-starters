@@ -11,12 +11,16 @@ import org.uma.cloud.common.service.business.BusinessRacingService;
 import org.uma.cloud.stream.util.BusinessMapper;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+import reactor.core.scheduler.Scheduler;
 
 @Service
 public class ReactiveRacingService {
 
     @Autowired
     private JvLinkWebService jvLinkWebService;
+
+    @Autowired
+    private Scheduler scheduler;
 
     @Autowired
     private BusinessRacingService businessRacingService;
@@ -39,7 +43,9 @@ public class ReactiveRacingService {
         return Mono.just(raceId)
                 .flatMap(jvLinkWebService::racingDetail)
                 .map(BusinessMapper::toBusinessRacing)
-                .doOnNext(businessRacingService::update);
+                .flatMap(model -> Mono.fromCallable(
+                        () -> businessRacingService.update(model)))
+                .publishOn(scheduler);
     }
 
     /**
@@ -53,7 +59,9 @@ public class ReactiveRacingService {
         return Mono.just(raceId)
                 .flatMapMany(jvLinkWebService::racingHorseDetail)
                 .map(BusinessMapper::toBusinessRacingHorse)
-                .doOnNext(businessRacingHorseService::update);
+                .flatMap(model -> Mono.fromCallable(
+                        () -> businessRacingHorseService.update(model)))
+                .publishOn(scheduler);
     }
 
     /**
@@ -67,67 +75,77 @@ public class ReactiveRacingService {
         return Mono.just(eventRaceId)
                 .flatMap(jvLinkWebService::eventRacingRefund)
                 .map(BusinessMapper::toBusinessRacingRefund)
-                .doOnNext(businessRacingRefundService::update);
+                .flatMap(model -> Mono.fromCallable(
+                        () -> businessRacingRefundService.update(model)))
+                .publishOn(scheduler);
     }
 
     /**
      * 馬体重更新
      */
-    public Mono<Void> updateWeight(String eventRaceId) {
+    public Flux<BusinessRacingHorse> updateWeight(String eventRaceId) {
         return Mono.just(eventRaceId)
                 .flatMap(jvLinkWebService::eventWeight)
-                .doOnNext(businessRacingHorseService::updateWeight)
-                .then();
+                .flatMap(model -> Mono.fromCallable(
+                        () -> businessRacingHorseService.updateWeight(model)))
+                .flatMapMany(Flux::fromIterable)
+                .publishOn(scheduler);
     }
 
     /**
      * 天候・馬場状態更新
      */
-    public Mono<Void> updateWeather(String eventWeatherId) {
+    public Flux<BusinessRacing> updateWeather(String eventWeatherId) {
         return Mono.just(eventWeatherId)
                 .flatMap(jvLinkWebService::eventWeather)
-                .doOnNext(businessRacingService::updateWeather)
-                .then();
+                .flatMap(model -> Mono.fromCallable(
+                        () -> businessRacingService.updateWeather(model)))
+                .flatMapMany(Flux::fromIterable)
+                .publishOn(scheduler);
     }
 
     /**
      * 騎手変更
      */
-    public Mono<Void> updateJockeyChange(String eventRaceId) {
+    public Mono<BusinessRacingHorse> updateJockeyChange(String eventRaceId) {
         return Mono.just(eventRaceId)
                 .flatMap(jvLinkWebService::eventJockeyChange)
-                .doOnNext(businessRacingHorseService::updateJockeyChange)
-                .then();
+                .flatMap(model -> Mono.fromCallable(
+                        () -> businessRacingHorseService.updateJockeyChange(model)))
+                .publishOn(scheduler);
     }
 
     /**
      * 出走取消 or 競走除外 更新
      */
-    public Mono<Void> updateAvoid(String eventRaceId) {
+    public Mono<BusinessRacingHorse> updateAvoid(String eventRaceId) {
         return Mono.just(eventRaceId)
                 .flatMap(jvLinkWebService::eventAvoid)
-                .doOnNext(businessRacingHorseService::updateAvoid)
-                .then();
+                .flatMap(model -> Mono.fromCallable(
+                        () -> businessRacingHorseService.updateAvoid(model)))
+                .publishOn(scheduler);
     }
 
     /**
      * 発走時刻変更
      */
-    public Mono<Void> updateTimeChange(String eventRaceId) {
+    public Mono<BusinessRacing> updateTimeChange(String eventRaceId) {
         return Mono.just(eventRaceId)
                 .flatMap(jvLinkWebService::eventTimeChange)
-                .doOnNext(businessRacingService::updateTimeChange)
-                .then();
+                .flatMap(model -> Mono.fromCallable(
+                        () -> businessRacingService.updateTimeChange(model)))
+                .publishOn(scheduler);
     }
 
     /**
      * コース変更
      */
-    public Mono<Void> updateCourseChange(String eventRaceId) {
+    public Mono<BusinessRacing> updateCourseChange(String eventRaceId) {
         return Mono.just(eventRaceId)
                 .flatMap(jvLinkWebService::eventCourseChange)
-                .doOnNext(businessRacingService::updateCourseChange)
-                .then();
+                .flatMap(model -> Mono.fromCallable(
+                        () -> businessRacingService.updateCourseChange(model)))
+                .publishOn(scheduler);
     }
 
 }

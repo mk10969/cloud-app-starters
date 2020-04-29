@@ -13,8 +13,8 @@ public class BusinessRacingRefundService {
     private BusinessRacingRefundRepository repository;
 
     @Transactional
-    public void update(BusinessRacingRefund businessRacingRefund) {
-        repository.save(businessRacingRefund);
+    public BusinessRacingRefund update(BusinessRacingRefund businessRacingRefund) {
+        return repository.save(businessRacingRefund);
     }
 
 }

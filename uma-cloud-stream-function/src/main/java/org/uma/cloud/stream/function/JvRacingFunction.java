@@ -15,11 +15,10 @@ import org.uma.cloud.stream.service.JvLinkWebService;
 import org.uma.cloud.stream.service.ReactiveRacingService;
 import org.uma.cloud.stream.service.TimeSeriesService;
 import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
-import reactor.core.publisher.UnicastProcessor;
 import reactor.util.function.Tuple2;
 import reactor.util.function.Tuples;
 
+import java.util.function.Consumer;
 import java.util.function.Function;
 
 @Slf4j
@@ -51,9 +50,22 @@ public class JvRacingFunction {
      * subscriber
      */
     @Bean
-    public Function<Flux<String>, Mono<Void>> subscribe() {
-        return Flux::then;
+    public Consumer<Flux<String>> subscribe() {
+        return data -> data
+                .doOnNext(i -> log.info("Consumer1: {}", i))
+                .subscribe();
     }
+
+    /**
+     * subscriber2
+     */
+    @Bean
+    public Consumer<Flux<String>> subscribe2() {
+        return data -> data
+                .doOnNext(i -> log.info("Consumer2: {}", i))
+                .subscribe();
+    }
+
 
     @Bean
     public Function<Flux<String>, Flux<String>> raceIdToBusinessRacing() {
@@ -125,14 +137,9 @@ public class JvRacingFunction {
     public Function<Flux<String>, Tuple2<Flux<Event>, Flux<Event>>> JvWatchEventIdScatter() {
         return eventId -> {
             Flux<Event> connectedFlux = eventId.map(Event::new).publish().autoConnect(2);
-            UnicastProcessor<Event> isRacingRefund = UnicastProcessor.create();
-            UnicastProcessor<Event> isNotRacingRefund = UnicastProcessor.create();
             Flux<Event> isRacingRefundFlux = connectedFlux.filter(Event::isRacingRefund);
             Flux<Event> isNotRacingRefundFlux = connectedFlux.filter(Event::isNotRacingRefund);
-            return Tuples.of(
-                    Flux.from(isRacingRefund).doOnSubscribe(e -> isRacingRefundFlux.subscribe()),
-                    Flux.from(isNotRacingRefund).doOnSubscribe(e -> isNotRacingRefundFlux.subscribe())
-            );
+            return Tuples.of(Flux.from(isRacingRefundFlux), Flux.from(isNotRacingRefundFlux));
         };
     }
 
@@ -145,7 +152,7 @@ public class JvRacingFunction {
      * @see JvRacingFunction#JvWatchEventIdScatter()
      */
     @Bean
-    public Function<Flux<Event>, Mono<Void>> eventSubscribe() {
+    public Function<Flux<Event>, Flux<?>> eventSubscribe() {
         return event -> event
                 .flatMap(e -> {
                     switch (e.getRecordSpec()) {
@@ -165,8 +172,7 @@ public class JvRacingFunction {
                             throw new IllegalArgumentException(e + ": が正しくありません。");
                     }
                 })
-                .doOnError(e -> log.error("JvWatchEvent Error: ", e))
-                .then();
+                .doOnNext(this::debug);
     }
 
 

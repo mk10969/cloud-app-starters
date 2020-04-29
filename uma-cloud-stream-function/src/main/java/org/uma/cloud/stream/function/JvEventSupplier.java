@@ -36,12 +36,8 @@ public class JvEventSupplier {
 
     @Bean
     public Supplier<Flux<String>> JvWatchEventId() {
-        return () -> processor.publish()
-                .autoConnect()
-                .doOnNext(JvWatchEventId ->
-                        log.info("JvWatchEventId: {}", JvWatchEventId));
+        return () -> processor.publish().autoConnect().log();
     }
-
 
     @Bean
     @ConditionalOnProperty(prefix = "spring.init", name = "enabled", havingValue = "true")
@@ -51,8 +47,7 @@ public class JvEventSupplier {
 
 
     private Mono<Void> connectToJvLinkWebSocket() {
-        return webSocketClient.execute(
-                URI.create(properties.getJvLinkWebSocketUrl()), this::handler);
+        return webSocketClient.execute(URI.create(properties.getJvLinkWebSocketUrl()), this::handler);
     }
 
 
@@ -63,5 +58,17 @@ public class JvEventSupplier {
                 .doOnSubscribe(i -> log.info("jvWatchEvent start !!!"))
                 .then();
     }
+
+
+//    @Bean
+//    @ConditionalOnProperty(prefix = "spring.init", name = "enabled", havingValue = "true")
+//    public CommandLineRunner websocketSubscribe() {
+//        return args -> {
+//            Flux.interval(Duration.ofSeconds(1))
+//                    .doOnNext(i -> processor.onNext("WH:202004260812"))
+//                    .log()
+//                    .subscribe();
+//        };
+//    }
 
 }

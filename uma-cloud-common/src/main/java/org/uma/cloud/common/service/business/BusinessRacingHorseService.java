@@ -31,7 +31,7 @@ public class BusinessRacingHorseService {
      *
      * @param weight 馬体重変更
      */
-    public void updateWeight(Weight weight) {
+    public List<BusinessRacingHorse> updateWeight(Weight weight) {
         List<BusinessRacingHorse> updatingRacingHorse = weight.getHorseWeights()
                 .stream()
                 .flatMap(horseWeight -> this.findAllByRaceId(weight.getRaceId())
@@ -44,9 +44,8 @@ public class BusinessRacingHorseService {
                             racingHorse.setChangeAmount(horseWeight.getChangeAmount());
                         }))
                 .collect(Collectors.toUnmodifiableList());
-        // update
-        // TODO : Transactionalされる？
-        this.updateAll(updatingRacingHorse);
+
+        return this.updateAll(updatingRacingHorse);
     }
 
     /**
@@ -54,14 +53,14 @@ public class BusinessRacingHorseService {
      *
      * @param jockeyChange 騎手変更
      */
-    public void updateJockeyChange(JockeyChange jockeyChange) {
+    public BusinessRacingHorse updateJockeyChange(JockeyChange jockeyChange) {
         BusinessRacingHorse.CompositeId id = createId(jockeyChange.getRaceId(), jockeyChange.getHorseNo());
         BusinessRacingHorse racingHorse = repository.findById(id).orElseThrow(); // ないのはおかしい。
         racingHorse.setJockeyNameShort(jockeyChange.getJockeyNameAfter());
         racingHorse.setLoadWeight(jockeyChange.getLoadWeightAfter());
         racingHorse.setJockeyApprentice(jockeyChange.getJockeyApprenticeCdAfter());
 
-        this.update(racingHorse);
+        return this.update(racingHorse);
     }
 
     /**
@@ -69,29 +68,29 @@ public class BusinessRacingHorseService {
      *
      * @param avoid 出走取消 or 競走除外
      */
-    public void updateAvoid(Avoid avoid) {
+    public BusinessRacingHorse updateAvoid(Avoid avoid) {
         BusinessRacingHorse.CompositeId id = createId(avoid.getRaceId(), avoid.getHorseNo());
         BusinessRacingHorse racingHorse = repository.findById(id).orElseThrow(); // ないのはおかしい。
         // ここセンスない。。
         racingHorse.setExclude(Integer.parseInt(avoid.getDataDiv()));
         racingHorse.setExcludeReason(avoid.getReason());
 
-        this.update(racingHorse);
+        return this.update(racingHorse);
     }
 
 
     @Transactional
-    public void update(BusinessRacingHorse businessRacingHorse) {
-        repository.save(businessRacingHorse);
+    public BusinessRacingHorse update(BusinessRacingHorse businessRacingHorse) {
+        return repository.save(businessRacingHorse);
     }
 
     @Transactional
-    public void updateAll(List<BusinessRacingHorse> model) {
-        repository.saveAll(model);
+    public List<BusinessRacingHorse> updateAll(List<BusinessRacingHorse> model) {
+        return repository.saveAll(model);
     }
 
 
-    private BusinessRacingHorse.CompositeId createId(String raceId, String horseNo) {
+    private static BusinessRacingHorse.CompositeId createId(String raceId, String horseNo) {
         BusinessRacingHorse.CompositeId id = new BusinessRacingHorse.CompositeId();
         id.setRaceId(raceId);
         id.setHorseNo(horseNo);

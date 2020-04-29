@@ -46,7 +46,7 @@ public class BusinessRacingService {
      *
      * @param weather 天候 or 馬場状態
      */
-    public void updateWeather(Weather weather) {
+    public List<BusinessRacing> updateWeather(Weather weather) {
         List<BusinessRacing> updatingRacing = repository.findByRaceStartDateTimeAfter(weather.getTimestamp())
                 .stream()
                 .filter(racing -> racing.getCourse() == weather.getCourseCd())
@@ -68,7 +68,7 @@ public class BusinessRacingService {
                 .collect(Collectors.toUnmodifiableList());
 
         // TODO: Transactionalされるか？
-        this.updateAll(updatingRacing);
+        return this.updateAll(updatingRacing);
     }
 
     /**
@@ -76,12 +76,12 @@ public class BusinessRacingService {
      *
      * @param timeChange 発走時刻変更
      */
-    public void updateTimeChange(TimeChange timeChange) {
+    public BusinessRacing updateTimeChange(TimeChange timeChange) {
         BusinessRacing updatingRacing = repository.findById(timeChange.getRaceId()).orElseThrow();
         updatingRacing.setRaceStartDateTime(LocalDateTime.of(
                 timeChange.getHoldingDate(), timeChange.getStartTimeAfter()));
 
-        this.update(updatingRacing);
+        return this.update(updatingRacing);
     }
 
     /**
@@ -89,24 +89,24 @@ public class BusinessRacingService {
      *
      * @param courseChange コース変更
      */
-    public void updateCourseChange(CourseChange courseChange) {
+    public BusinessRacing updateCourseChange(CourseChange courseChange) {
         BusinessRacing updatingRacing = repository.findById(courseChange.getRaceId()).orElseThrow();
         updatingRacing.setDistance(courseChange.getDistanceAfter());
         updatingRacing.setTrack(courseChange.getTrackCdAfter());
         updatingRacing.setCourseChangeReason(courseChange.getReason());
 
-        this.update(updatingRacing);
+        return this.update(updatingRacing);
     }
 
 
     @Transactional
-    public void update(BusinessRacing model) {
-        repository.save(model);
+    public BusinessRacing update(BusinessRacing model) {
+        return repository.save(model);
     }
 
     @Transactional
-    public void updateAll(List<BusinessRacing> model) {
-        repository.saveAll(model);
+    public List<BusinessRacing> updateAll(List<BusinessRacing> model) {
+        return repository.saveAll(model);
     }
 
     @Transactional
