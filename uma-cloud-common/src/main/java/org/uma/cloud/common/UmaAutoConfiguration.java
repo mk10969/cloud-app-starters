@@ -6,9 +6,9 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.sql.DataSource;
-
 
 /**
  * デフォルトで、JvLinkDeserializerは、bean登録しておく。
@@ -18,21 +18,53 @@ import javax.sql.DataSource;
 public class UmaAutoConfiguration {
 
     /**
-     * DataSourceがbean登録されていたら、JpaとEntityをスキャンする。
-     * <p>
-     * Embedded Databaseの場合は、JpaとEntityをスキャンしない。
+     * DataSourceがbean登録されていたら、
+     * Jpaの設定とserviceクラスをBean登録する。
      */
     @Configuration
     @ConditionalOnBean({DataSource.class})
     @Import(EnableComponentScanOnDataSourceBean.class)
     @EnableJpaRepositories(basePackages = "org.uma.cloud.common.repository")
     @EntityScan(basePackages = {"org.uma.cloud.common.model", "org.uma.cloud.common.code"})
-    protected static class EnableJpaRepositoryAndEntityScanOnDataSourceBean {
+    @EnableTransactionManagement
+    protected static class EnableJpaConfigurationOnDataSourceBean {
 
-//        public LocalContainerEntityManagerFactoryBean entityManager(DataSource dataSource) {
-//            LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
-//            em.setPackagesToScan("your.converter.package", "your.entities.package");
-//            ...
+        /**
+         * {@link HibernateJpaConfiguration} でAutoConfigurationされる。
+         */
+//        private static final String PostgreSQL82Dialect = "org.hibernate.dialect.PostgreSQL82Dialect";
+//        private static final String persistenceUnitName = "umaJpaPersistence";
+//        private static final String jpaRepositoryPackage = "org.uma.cloud.common.repository";
+//        private static final String entityClassPackage = "org.uma.cloud.common.model";
+//        private static final String enumConverterClassPackage = "org.uma.cloud.common.code";
+//        private static final String hibernateDdlAuto = "hibernate.hbm2ddl.auto";
+//        private static final String hibernateDialect = "hibernate.dialect";
+//        private static final String update = "update";
+//
+//        @Bean
+//        public LocalContainerEntityManagerFactoryBean entityManagerFactory(DataSource dataSource) {
+//            LocalContainerEntityManagerFactoryBean factory = new LocalContainerEntityManagerFactoryBean();
+//            factory.setDataSource(dataSource);
+//            factory.setPackagesToScan(jpaRepositoryPackage, entityClassPackage, enumConverterClassPackage);
+//            factory.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
+//            factory.setJpaProperties(hibernateProperties());
+//            factory.setPersistenceUnitName(persistenceUnitName);
+//            factory.afterPropertiesSet();
+//            return factory;
+//        }
+//
+//        @Bean
+//        public PlatformTransactionManager transactionManager(EntityManagerFactory entityManagerFactory) {
+//            JpaTransactionManager txManager = new JpaTransactionManager();
+//            txManager.setEntityManagerFactory(entityManagerFactory);
+//            return txManager;
+//        }
+//
+//        private Properties hibernateProperties() {
+//            Properties properties = new Properties();
+//            properties.setProperty(hibernateDdlAuto, update);
+//            properties.setProperty(hibernateDialect, PostgreSQL82Dialect);
+//            return properties;
 //        }
     }
 

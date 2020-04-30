@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
+import org.uma.cloud.common.model.BaseModel;
 import org.uma.cloud.common.model.BloodAncestry;
 import org.uma.cloud.common.model.BloodBreeding;
 import org.uma.cloud.common.model.BloodLine;
@@ -27,6 +28,7 @@ import org.uma.cloud.common.model.odds.Trifecta;
 import org.uma.cloud.common.model.odds.Trio;
 import org.uma.cloud.common.model.odds.WinsShowBracketQ;
 
+import javax.persistence.EntityExistsException;
 import javax.persistence.EntityManagerFactory;
 
 @Profile("prod")
@@ -36,166 +38,117 @@ public class JvLinkWriters {
     @Autowired
     private EntityManagerFactory entityManagerFactory;
 
-
-    @Bean
-    public ItemWriter<BloodAncestry> bloodAncestryItemWriter() {
-        JpaItemWriter<BloodAncestry> writer = new JpaItemWriter<>();
+    /**
+     * persist = true に設定する。
+     *
+     * @throws EntityExistsException if the entity already exists.
+     */
+    private <T extends BaseModel> JpaItemWriter<T> createJpaItemWriter() {
+        JpaItemWriter<T> writer = new JpaItemWriter<>();
         writer.setEntityManagerFactory(entityManagerFactory);
         writer.setUsePersist(true);
         return writer;
+    }
+
+    @Bean
+    public ItemWriter<BloodAncestry> bloodAncestryItemWriter() {
+        return createJpaItemWriter();
     }
 
     @Bean
     public ItemWriter<BloodBreeding> bloodBreedingItemWriter() {
-        JpaItemWriter<BloodBreeding> writer = new JpaItemWriter<>();
-        writer.setEntityManagerFactory(entityManagerFactory);
-        writer.setUsePersist(true);
-        return writer;
+        return createJpaItemWriter();
     }
 
     @Bean
     public ItemWriter<BloodLine> bloodLineItemWriter() {
-        JpaItemWriter<BloodLine> writer = new JpaItemWriter<>();
-        writer.setEntityManagerFactory(entityManagerFactory);
-        writer.setUsePersist(true);
-        return writer;
+        return createJpaItemWriter();
     }
 
     @Bean
     public ItemWriter<RacingDetail> racingDetailItemWriter() {
-        JpaItemWriter<RacingDetail> writer = new JpaItemWriter<>();
-        writer.setEntityManagerFactory(entityManagerFactory);
-        writer.setUsePersist(true);
-        return writer;
+        return createJpaItemWriter();
     }
 
     @Bean
     public ItemWriter<RacingHorseDetail> racingHorseDetailItemWriter() {
-        JpaItemWriter<RacingHorseDetail> writer = new JpaItemWriter<>();
-        writer.setEntityManagerFactory(entityManagerFactory);
-        writer.setUsePersist(true);
-        return writer;
+        return createJpaItemWriter();
     }
 
     @Bean
     public ItemWriter<RacingHorseExclusion> racingHorseExclusionItemWriter() {
-        JpaItemWriter<RacingHorseExclusion> writer = new JpaItemWriter<>();
-        writer.setEntityManagerFactory(entityManagerFactory);
-        writer.setUsePersist(true);
-        return writer;
+        return createJpaItemWriter();
     }
 
     @Bean
     public ItemWriter<RacingRefund> racingRefundItemWriter() {
-        JpaItemWriter<RacingRefund> writer = new JpaItemWriter<>();
-        writer.setEntityManagerFactory(entityManagerFactory);
-        writer.setUsePersist(true);
-        return writer;
+        return createJpaItemWriter();
     }
 
     @Bean
     public ItemWriter<RacingVote> racingVoteItemWriter() {
-        JpaItemWriter<RacingVote> writer = new JpaItemWriter<>();
-        writer.setEntityManagerFactory(entityManagerFactory);
-        writer.setUsePersist(true);
-        return writer;
+        return createJpaItemWriter();
     }
 
     @Bean
     public ItemWriter<RaceHorse> raceHorseItemWriter() {
-        JpaItemWriter<RaceHorse> writer = new JpaItemWriter<>();
-        writer.setEntityManagerFactory(entityManagerFactory);
-        writer.setUsePersist(true);
-        return writer;
+        return createJpaItemWriter();
     }
 
     @Bean
     public ItemWriter<Jockey> jockeyItemWriter() {
-        JpaItemWriter<Jockey> writer = new JpaItemWriter<>();
-        writer.setEntityManagerFactory(entityManagerFactory);
-        writer.setUsePersist(true);
-        return writer;
+        return createJpaItemWriter();
     }
 
     @Bean
     public ItemWriter<Owner> ownerItemWriter() {
-        JpaItemWriter<Owner> writer = new JpaItemWriter<>();
-        writer.setEntityManagerFactory(entityManagerFactory);
-        writer.setUsePersist(true);
-        return writer;
+        return createJpaItemWriter();
     }
 
     @Bean
     public ItemWriter<Breeder> breederItemWriter() {
-        JpaItemWriter<Breeder> writer = new JpaItemWriter<>();
-        writer.setEntityManagerFactory(entityManagerFactory);
-        writer.setUsePersist(true);
-        return writer;
+        return createJpaItemWriter();
     }
 
     @Bean
     public ItemWriter<Trainer> trainerItemWriter() {
-        JpaItemWriter<Trainer> writer = new JpaItemWriter<>();
-        writer.setEntityManagerFactory(entityManagerFactory);
-        writer.setUsePersist(true);
-        return writer;
+        return createJpaItemWriter();
     }
 
     @Bean
     public ItemWriter<Course> courseItemWriter() {
-        JpaItemWriter<Course> writer = new JpaItemWriter<>();
-        writer.setEntityManagerFactory(entityManagerFactory);
-        writer.setUsePersist(true);
-        return writer;
+        return createJpaItemWriter();
     }
 
     @Bean
     public ItemWriter<WinsShowBracketQ> winsShowBracketQItemWriter() {
-        JpaItemWriter<WinsShowBracketQ> writer = new JpaItemWriter<>();
-        writer.setEntityManagerFactory(entityManagerFactory);
-        writer.setUsePersist(true);
-        return writer;
+        return createJpaItemWriter();
     }
 
     @Bean
     public ItemWriter<Quinella> quinellaItemWriter() {
-        JpaItemWriter<Quinella> writer = new JpaItemWriter<>();
-        writer.setEntityManagerFactory(entityManagerFactory);
-        writer.setUsePersist(true);
-        return writer;
+        return createJpaItemWriter();
     }
 
     @Bean
     public ItemWriter<QuinellaPlace> quinellaPlaceItemWriter() {
-        JpaItemWriter<QuinellaPlace> writer = new JpaItemWriter<>();
-        writer.setEntityManagerFactory(entityManagerFactory);
-        writer.setUsePersist(true);
-        return writer;
+        return createJpaItemWriter();
     }
 
     @Bean
     public ItemWriter<Exacta> exactaItemWriter() {
-        JpaItemWriter<Exacta> writer = new JpaItemWriter<>();
-        writer.setEntityManagerFactory(entityManagerFactory);
-        writer.setUsePersist(true);
-        return writer;
+        return createJpaItemWriter();
     }
 
 
     @Bean
     public ItemWriter<Trio> trioItemWriter() {
-        JpaItemWriter<Trio> writer = new JpaItemWriter<>();
-        writer.setEntityManagerFactory(entityManagerFactory);
-        writer.setUsePersist(true);
-        return writer;
+        return createJpaItemWriter();
     }
 
     @Bean
     public ItemWriter<Trifecta> trifectaItemWriter() {
-        JpaItemWriter<Trifecta> writer = new JpaItemWriter<>();
-        writer.setEntityManagerFactory(entityManagerFactory);
-        writer.setUsePersist(true);
-        return writer;
+        return createJpaItemWriter();
     }
 
 }
