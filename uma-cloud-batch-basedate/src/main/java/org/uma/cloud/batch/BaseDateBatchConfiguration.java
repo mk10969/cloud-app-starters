@@ -10,11 +10,8 @@ import org.springframework.batch.repeat.RepeatStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.orm.jpa.JpaTransactionManager;
+import org.uma.cloud.common.model.business.BusinessBaseDate;
 import org.uma.cloud.common.service.business.BusinessBaseDateService;
-
-import javax.annotation.PostConstruct;
-import javax.persistence.EntityManagerFactory;
 
 @Configuration
 public class BaseDateBatchConfiguration {
@@ -26,17 +23,7 @@ public class BaseDateBatchConfiguration {
     private StepBuilderFactory stepBuilderFactory;
 
     @Autowired
-    private BusinessBaseDateService service;
-
-    @Autowired
-    private EntityManagerFactory entityManagerFactory;
-
-    private JpaTransactionManager jpaTransactionManager;
-
-    @PostConstruct
-    void init() {
-        this.jpaTransactionManager = new JpaTransactionManager(entityManagerFactory);
-    }
+    private BusinessBaseDateService baseDateService;
 
 
     @Bean
@@ -52,10 +39,9 @@ public class BaseDateBatchConfiguration {
     public Step step() {
         return stepBuilderFactory.get("baseDate Insert")
                 .tasklet((contribution, chunkContext) -> {
-                    service.insertBaseDate();
+                    BusinessBaseDate baseDate = baseDateService.insertBaseDate();
                     return RepeatStatus.FINISHED;
                 })
-                .transactionManager(jpaTransactionManager)
                 .build();
     }
 

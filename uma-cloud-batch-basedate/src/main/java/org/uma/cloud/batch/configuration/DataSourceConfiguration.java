@@ -25,8 +25,8 @@ public class DataSourceConfiguration {
     /**
      * use spring batch and spring task DataSource ==> MySQL
      */
-    @Bean("batchDataSource")
-    @ConfigurationProperties("spring.batch.datasource")
+    @Bean("taskDataSource")
+    @ConfigurationProperties("spring.task.datasource")
     public DataSource batchDataSource() {
         return DataSourceBuilder.create().build();
     }

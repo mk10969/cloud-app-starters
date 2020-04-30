@@ -13,7 +13,7 @@ import javax.sql.DataSource;
 public class TaskConfigurer extends DefaultTaskConfigurer {
 
     @Autowired
-    public TaskConfigurer(@Qualifier("batchDataSource") DataSource dataSource) {
+    public TaskConfigurer(@Qualifier("taskDataSource") DataSource dataSource) {
         super(dataSource);
     }
 
