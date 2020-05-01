@@ -1,4 +1,4 @@
-package org.uma.cloud.stream.service;
+package org.uma.cloud.stream.type;
 
 import org.influxdb.InfluxDB;
 import org.influxdb.dto.Point;
@@ -15,7 +15,7 @@ import reactor.core.publisher.Mono;
 import java.util.concurrent.TimeUnit;
 
 @Service
-public class TimeSeriesService {
+public class TimeSeriesSink {
 
     @Autowired
     private InfluxDB influxDB;

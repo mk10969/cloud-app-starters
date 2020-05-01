@@ -1,4 +1,4 @@
-package org.uma.cloud.stream.service;
+package org.uma.cloud.stream.type;
 
 import org.junit.jupiter.api.Test;
 
@@ -6,7 +6,7 @@ import java.time.DayOfWeek;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 
-public class TimeTest {
+public class TimeSinkTest {
 
     @Test
     void test_time() {

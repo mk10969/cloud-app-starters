@@ -1,4 +1,4 @@
-package org.uma.cloud.stream.service;
+package org.uma.cloud.stream.type;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +12,7 @@ import org.uma.cloud.stream.util.BusinessMapper;
 public class BusinessXXXXXServiceTest {
 
     @Autowired
-    private JvLinkWebService jvLinkWebService;
+    private JvLinkWebSource jvLinkWebSource;
 
     @Autowired
     private BusinessRacingService racingService;
@@ -28,12 +28,12 @@ public class BusinessXXXXXServiceTest {
 
     @Test
     void test_RaceIdをとってSEのデータをとってDB書き込み() {
-        jvLinkWebService.getRaceIds()
-                .flatMap(jvLinkWebService::racingDetail)
+        jvLinkWebSource.storeRacingDetail()
+                .flatMap(jvLinkWebSource::realtimeRacingDetail)
                 .map(BusinessMapper::toBusinessRacing)
                 .doOnNext(racingService::update)
                 .map(BusinessRacing::getRaceId)
-                .flatMap(jvLinkWebService::racingHorseDetail)
+                .flatMap(jvLinkWebSource::realtimeRacingHorseDetail)
                 .map(BusinessMapper::toBusinessRacingHorse)
                 .doOnNext(racingHorseService::update)
                 .toStream()

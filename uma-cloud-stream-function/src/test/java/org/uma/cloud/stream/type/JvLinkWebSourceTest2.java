@@ -1,4 +1,4 @@
-package org.uma.cloud.stream.service;
+package org.uma.cloud.stream.type;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,11 +11,11 @@ import java.util.Arrays;
 import java.util.List;
 
 @SpringBootTest
-public class JvLinkWebServiceTest2 {
+public class JvLinkWebSourceTest2 {
 
 
     @Autowired
-    private JvLinkWebService jvLinkWebService;
+    private JvLinkWebSource jvLinkWebSource;
 
     @Autowired
     private RacingDetailService racingDetailService;
@@ -27,7 +27,7 @@ public class JvLinkWebServiceTest2 {
     @Test
     void test_RacingDetailのモデルをDBに登録する() throws InterruptedException {
         this.getRaceId()
-                .flatMap(jvLinkWebService::racingDetail)
+                .flatMap(jvLinkWebSource::realtimeRacingDetail)
                 .flatMap(i -> Mono.fromCallable(() -> racingDetailService.save(i)))
                 .subscribe();
         Thread.sleep(10000L);

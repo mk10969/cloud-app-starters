@@ -11,7 +11,7 @@ import org.springframework.web.reactive.function.client.ClientResponse;
 import org.springframework.web.reactive.function.client.ExchangeFilterFunction;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.uma.cloud.stream.StreamFunctionProperties;
-import org.uma.cloud.stream.service.JvLinkWebService;
+import org.uma.cloud.stream.model.ResponseMessage;
 import reactor.core.publisher.Mono;
 
 import java.util.function.Function;
@@ -49,14 +49,14 @@ public class WebClientConfiguration {
     }
 
     private static Mono<JvLinkWebClientException> is4xxErrorFunction(ClientResponse clientResponse) {
-        return clientResponse.bodyToMono(JvLinkWebService.ExternalResponse.class)
-                .map(JvLinkWebService.ExternalResponse::getMessage)
+        return clientResponse.bodyToMono(ResponseMessage.class)
+                .map(ResponseMessage::getMessage)
                 .map(message -> new JvLinkWebClientException(message, clientResponse.statusCode()));
     }
 
     private static Mono<JvLinkWebServerException> is5xxErrorFunction(ClientResponse clientResponse) {
-        return clientResponse.bodyToMono(JvLinkWebService.ExternalResponse.class)
-                .map(JvLinkWebService.ExternalResponse::getMessage)
+        return clientResponse.bodyToMono(ResponseMessage.class)
+                .map(ResponseMessage::getMessage)
                 .map(message -> new JvLinkWebServerException(message, clientResponse.statusCode()));
     }
 
