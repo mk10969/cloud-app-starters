@@ -1,6 +1,5 @@
 package org.uma.cloud.batch.configuration;
 
-
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.uma.cloud.batch.listener.JvLinkSkipPolicy;

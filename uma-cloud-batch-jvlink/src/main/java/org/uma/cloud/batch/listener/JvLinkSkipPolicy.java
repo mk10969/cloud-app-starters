@@ -7,6 +7,7 @@ import org.uma.cloud.common.configuration.JvLinkRecordProperties;
 import org.uma.cloud.common.utils.exception.JvLinkModelMappingException;
 import org.uma.cloud.common.utils.exception.JvLinkModelNullPointException;
 
+import javax.persistence.PersistenceException;
 
 @Slf4j
 public class JvLinkSkipPolicy implements SkipPolicy {
@@ -33,6 +34,10 @@ public class JvLinkSkipPolicy implements SkipPolicy {
         } else if (t instanceof JvLinkModelNullPointException) {
             log.error("NullPoint Error", t);
             log.info("Failed NullPoint Data: {}", ((JvLinkModelNullPointException) t).getLineData());
+            return true;
+
+        } else if (t instanceof PersistenceException) {
+       //     log.error("Persistence Error: {}", t.getMessage());
             return true;
         }
 

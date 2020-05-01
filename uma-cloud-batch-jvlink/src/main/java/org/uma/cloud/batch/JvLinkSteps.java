@@ -8,7 +8,7 @@ import org.springframework.batch.item.ItemWriter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.orm.jpa.JpaTransactionManager;
+import org.uma.cloud.batch.listener.JvLinkSkipListener;
 import org.uma.cloud.batch.listener.JvLinkSkipPolicy;
 import org.uma.cloud.batch.listener.JvLinkStepExecutionListener;
 import org.uma.cloud.batch.listener.JvLinkWriterListener;
@@ -34,9 +34,6 @@ import org.uma.cloud.common.model.odds.Trifecta;
 import org.uma.cloud.common.model.odds.Trio;
 import org.uma.cloud.common.model.odds.WinsShowBracketQ;
 
-import javax.annotation.PostConstruct;
-import javax.persistence.EntityManagerFactory;
-
 @Configuration
 public class JvLinkSteps {
 
@@ -49,20 +46,10 @@ public class JvLinkSteps {
     private ItemReader<String> reader;
 
     @Autowired
-    private EntityManagerFactory entityManagerFactory;
-
-    @Autowired
     private JvLinkStepExecutionListener jvLinkStepExecutionListener;
 
     @Autowired
     private JvLinkSkipPolicy jvLinkSkipPolicy;
-
-    private JpaTransactionManager jpaTransactionManager;
-
-    @PostConstruct
-    void init() {
-        this.jpaTransactionManager = new JpaTransactionManager(entityManagerFactory);
-    }
 
 
     private <T extends BaseModel> Step createStep(
@@ -74,9 +61,9 @@ public class JvLinkSteps {
                 .reader(reader)
                 .processor(processor)
                 .writer(writer)
-                .transactionManager(jpaTransactionManager)
                 .listener(jvLinkStepExecutionListener)
                 .listener(new JvLinkWriterListener<>())
+                .listener(new JvLinkSkipListener<>())
                 .faultTolerant()
                 .skipPolicy(jvLinkSkipPolicy)
                 .build();
