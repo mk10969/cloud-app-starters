@@ -62,41 +62,41 @@ public class JvLinkWebSource {
         // 馬毎レース詳細情報
         private static final String racingHorseDetail = "/racingHorseDetail/{epochMilli}";
         // レース払戻
-        private static final String racingRefund = "/racingRefund/{epochSecond}";
+        private static final String racingRefund = "/racingRefund/{epochMilli}";
         // レース投票数（3連単除く）
-        private static final String racingVote = "/racingVote/{epochSecond}";
+        private static final String racingVote = "/racingVote/{epochMilli}";
         // レース除外情報
-        private static final String racingHorseExclusion = "/racingHorseExclusion/{epochSecond}";
+        private static final String racingHorseExclusion = "/racingHorseExclusion/{epochMilli}";
         // 単勝・複勝・枠連
-        private static final String winsShowBracketQ = "/winsShowBracketQ/{epochSecond}";
+        private static final String winsShowBracketQ = "/winsShowBracketQ/{epochMilli}";
         // 馬連
-        private static final String quinella = "/quinella/{epochSecond}";
+        private static final String quinella = "/quinella/{epochMilli}";
         // ワイド
-        private static final String quinellaPlace = "/quinellaPlace/{epochSecond}";
+        private static final String quinellaPlace = "/quinellaPlace/{epochMilli}";
         // 馬単
-        private static final String exacta = "/exacta/{epochSecond}";
+        private static final String exacta = "/exacta/{epochMilli}";
         // 三連複
-        private static final String trio = "/trio/{epochSecond}";
+        private static final String trio = "/trio/{epochMilli}";
         // 三連単
-        private static final String trifecta = "/trifecta/{epochSecond}";
+        private static final String trifecta = "/trifecta/{epochMilli}";
         // 系統情報
-        private static final String bloodAncestry = "/bloodAncestry/{epochSecond}";
+        private static final String bloodAncestry = "/bloodAncestry/{epochMilli}";
         // 繁殖牝馬
-        private static final String bloodBreeding = "/bloodBreeding/{epochSecond}";
+        private static final String bloodBreeding = "/bloodBreeding/{epochMilli}";
         // 産駒
-        private static final String bloodLine = "/bloodLine/{epochSecond}";
+        private static final String bloodLine = "/bloodLine/{epochMilli}";
         // 競走馬
-        private static final String raceHorse = "/raceHorse/{epochSecond}";
+        private static final String raceHorse = "/raceHorse/{epochMilli}";
         // 騎手
-        private static final String jockey = "/jockey/{epochSecond}";
+        private static final String jockey = "/jockey/{epochMilli}";
         // 調教師
-        private static final String trainer = "/trainer/{epochSecond}";
+        private static final String trainer = "/trainer/{epochMilli}";
         // 馬主
-        private static final String owner = "/owner/{epochSecond}";
+        private static final String owner = "/owner/{epochMilli}";
         // 生産者
-        private static final String breeder = "/breeder/{epochSecond}";
+        private static final String breeder = "/breeder/{epochMilli}";
         // コース
-        private static final String course = "/course/{epochSecond}";
+        private static final String course = "/course/{epochMilli}";
     }
 
     private static class RealTimePath {
