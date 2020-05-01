@@ -7,12 +7,10 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.TypeDef;
 import org.hibernate.annotations.TypeDefs;
 import org.hibernate.annotations.UpdateTimestamp;
-import org.uma.cloud.common.recordSpec.RecordSpec;
+import org.uma.cloud.common.code.RecordSpec;
 import org.uma.cloud.common.utils.lang.ModelUtil;
 
 import javax.persistence.Column;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.MappedSuperclass;
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -24,13 +22,12 @@ import java.time.LocalDateTime;
         @TypeDef(name = "jsonb", typeClass = JsonBinaryType.class)
 })
 @MappedSuperclass
-public class BaseModel implements Serializable {
+public abstract class BaseModel implements Serializable {
 
     /**
      * レコード識別子
      */
-    @Column(length = 20)
-    @Enumerated(EnumType.STRING)
+    @Column(length = 2)
     private RecordSpec recordType;
 
     /**
@@ -57,13 +54,15 @@ public class BaseModel implements Serializable {
     private LocalDateTime myUpdateDateTime;
 
 
-    /**
-     * this.dataDiv == "0" --> レース中止
-     * this.dataDiv == "9" --> 該当レコード削除（提供ミス）
-     */
-    public boolean isNecessary() {
-        return !("0".equals(this.dataDiv) || "9".equals(this.dataDiv));
-    }
+//    /**
+//     * this.dataDiv == "0" --> レース中止
+//     * this.dataDiv == "9" --> 該当レコード削除（提供ミス）
+//     */
+//    public abstract boolean isNecessary();
+//
+//
+//    public abstract T getPrimaryKey();
+
 
     /**
      * ToString => Json format

@@ -4,7 +4,7 @@ import lombok.Data;
 import lombok.Getter;
 import org.uma.cloud.common.code.RaceCourseCode;
 import org.uma.cloud.common.code.TrackCode;
-import org.uma.cloud.common.recordSpec.RecordSpec;
+import org.uma.cloud.common.code.RecordSpec;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

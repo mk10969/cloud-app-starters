@@ -2,7 +2,7 @@ package org.uma.cloud.common.model;
 
 import lombok.Getter;
 import org.uma.cloud.common.code.EastOrWestBelongCode;
-import org.uma.cloud.common.recordSpec.RecordSpec;
+import org.uma.cloud.common.code.RecordSpec;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

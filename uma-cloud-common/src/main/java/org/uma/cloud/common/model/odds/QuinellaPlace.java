@@ -6,7 +6,7 @@ import org.uma.cloud.common.code.RaceCourseCode;
 import org.uma.cloud.common.model.BaseModel;
 import org.uma.cloud.common.model.RacingDetail;
 import org.uma.cloud.common.model.TimeSeries;
-import org.uma.cloud.common.recordSpec.RecordSpec;
+import org.uma.cloud.common.code.RecordSpec;
 import org.uma.cloud.common.utils.javatuples.Pair;
 
 import javax.persistence.Column;

@@ -4,7 +4,7 @@ import lombok.Getter;
 import org.uma.cloud.common.code.BreedCode;
 import org.uma.cloud.common.code.HairColorCode;
 import org.uma.cloud.common.code.SexCode;
-import org.uma.cloud.common.recordSpec.RecordSpec;
+import org.uma.cloud.common.code.RecordSpec;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

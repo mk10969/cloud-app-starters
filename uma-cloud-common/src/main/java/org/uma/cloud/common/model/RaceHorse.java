@@ -7,7 +7,7 @@ import org.uma.cloud.common.code.EastOrWestBelongCode;
 import org.uma.cloud.common.code.HairColorCode;
 import org.uma.cloud.common.code.HorseSignCode;
 import org.uma.cloud.common.code.SexCode;
-import org.uma.cloud.common.recordSpec.RecordSpec;
+import org.uma.cloud.common.code.RecordSpec;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

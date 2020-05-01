@@ -7,7 +7,7 @@
 //import org.springframework.boot.test.context.SpringBootTest;
 //import org.springframework.test.context.junit.jupiter.SpringExtension;
 //import org.uma.cloud.common.ReflectionUtils;
-//import org.uma.cloud.common.recordSpec.RecordSpec;
+//import org.uma.cloud.common.code.RecordSpec;
 //import org.uma.cloud.common.configuration.JvLinkRecordProperties;
 //
 //

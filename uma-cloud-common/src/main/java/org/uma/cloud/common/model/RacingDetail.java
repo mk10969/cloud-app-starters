@@ -11,7 +11,7 @@ import org.uma.cloud.common.code.TurfOrDirtConditionCode;
 import org.uma.cloud.common.code.WeatherCode;
 import org.uma.cloud.common.code.WeekDayCode;
 import org.uma.cloud.common.code.WeightTypeCode;
-import org.uma.cloud.common.recordSpec.RecordSpec;
+import org.uma.cloud.common.code.RecordSpec;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

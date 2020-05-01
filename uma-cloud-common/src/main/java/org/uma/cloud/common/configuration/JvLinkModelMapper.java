@@ -30,7 +30,7 @@ import org.uma.cloud.common.model.odds.QuinellaPlace;
 import org.uma.cloud.common.model.odds.Trifecta;
 import org.uma.cloud.common.model.odds.Trio;
 import org.uma.cloud.common.model.odds.WinsShowBracketQ;
-import org.uma.cloud.common.recordSpec.RecordSpec;
+import org.uma.cloud.common.code.RecordSpec;
 import org.uma.cloud.common.utils.exception.JvLinkModelMappingException;
 import org.uma.cloud.common.utils.lang.ByteUtil;
 import org.uma.cloud.common.utils.lang.JacksonUtil;

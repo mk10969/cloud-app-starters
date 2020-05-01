@@ -38,18 +38,14 @@ public class JvLinkDeserializer {
     @Autowired
     private JvLinkModelMapper jvLinkModelMapper;
 
-
-    public Function<String, byte[]> decode() {
-        return ByteUtil::base64Decode;
-    }
+    private static final Function<String, byte[]> decode = ByteUtil::base64Decode;
 
 
     /**
      * レースデータ
      */
-
-    public RacingDetail racingDetailFunction(byte[] data) {
-        RacingDetail model = jvLinkModelMapper.deserialize(data, RacingDetail.class);
+    public RacingDetail toRacingDetail(String data) {
+        RacingDetail model = jvLinkModelMapper.deserialize(decode.apply(data), RacingDetail.class);
         model.getLapTimeItems().removeIf(time -> time == 0.0);
         model.getCornerPassageRanks().removeIf(cornerPassageRank -> cornerPassageRank.getCorner() == 0
                 && cornerPassageRank.getAroundCount() == 0
@@ -57,12 +53,12 @@ public class JvLinkDeserializer {
         return model;
     }
 
-    public RacingHorseDetail racingHorseDetailFunction(byte[] data) {
-        return jvLinkModelMapper.deserialize(data, RacingHorseDetail.class);
+    public RacingHorseDetail toRacingHorseDetail(String data) {
+        return jvLinkModelMapper.deserialize(decode.apply(data), RacingHorseDetail.class);
     }
 
-    public RacingRefund racingRefundFunction(byte[] data) {
-        RacingRefund model = jvLinkModelMapper.deserialize(data, RacingRefund.class);
+    public RacingRefund toRacingRefund(String data) {
+        RacingRefund model = jvLinkModelMapper.deserialize(decode.apply(data), RacingRefund.class);
         model.getRefundWins().removeIf(JvLinkDeserializer::refundFilter);
         model.getRefundShows().removeIf(JvLinkDeserializer::refundFilter);
         model.getRefundBracketQs().removeIf(JvLinkDeserializer::refundFilter);
@@ -75,8 +71,8 @@ public class JvLinkDeserializer {
         return model;
     }
 
-    public RacingVote racingVoteFunction(byte[] data) {
-        RacingVote model = jvLinkModelMapper.deserialize(data, RacingVote.class);
+    public RacingVote toRacingVote(String data) {
+        RacingVote model = jvLinkModelMapper.deserialize(decode.apply(data), RacingVote.class);
         model.getVoteCountWins().removeIf(JvLinkDeserializer::voteFilter);
         model.getVoteCountShows().removeIf(JvLinkDeserializer::voteFilter);
         model.getVoteCountBracketQs().removeIf(JvLinkDeserializer::voteFilter);
@@ -87,49 +83,48 @@ public class JvLinkDeserializer {
         return model;
     }
 
-    public RacingHorseExclusion racingHorseExclusionFunction(byte[] data) {
-        return jvLinkModelMapper.deserialize(data, RacingHorseExclusion.class);
+    public RacingHorseExclusion toRacingHorseExclusion(String data) {
+        return jvLinkModelMapper.deserialize(decode.apply(data), RacingHorseExclusion.class);
     }
 
 
     /**
      * オッズデータ
      */
-
-    public WinsShowBracketQ winsShowBracketQFunction(byte[] data) {
-        WinsShowBracketQ model = jvLinkModelMapper.deserialize(data, WinsShowBracketQ.class);
+    public WinsShowBracketQ toWinsShowBracketQ(String data) {
+        WinsShowBracketQ model = jvLinkModelMapper.deserialize(decode.apply(data), WinsShowBracketQ.class);
         model.getWinOdds().removeIf(JvLinkDeserializer::winOddsFilter);
         model.getShowOdds().removeIf(JvLinkDeserializer::showOddsFilter);
         model.getBracketQOdds().removeIf(JvLinkDeserializer::bracketQOddsFilter);
         return model;
     }
 
-    public Quinella quinellaFunction(byte[] data) {
-        Quinella model = jvLinkModelMapper.deserialize(data, Quinella.class);
+    public Quinella toQuinella(String data) {
+        Quinella model = jvLinkModelMapper.deserialize(decode.apply(data), Quinella.class);
         model.getQuinellaOdds().removeIf(JvLinkDeserializer::quinellaOddsFilter);
         return model;
     }
 
-    public QuinellaPlace quinellaPlaceFunction(byte[] data) {
-        QuinellaPlace model = jvLinkModelMapper.deserialize(data, QuinellaPlace.class);
+    public QuinellaPlace toQuinellaPlace(String data) {
+        QuinellaPlace model = jvLinkModelMapper.deserialize(decode.apply(data), QuinellaPlace.class);
         model.getQuinellaPlaceOdds().removeIf(JvLinkDeserializer::quinellaPlaceOddsFilter);
         return model;
     }
 
-    public Exacta exactaFunction(byte[] data) {
-        Exacta model = jvLinkModelMapper.deserialize(data, Exacta.class);
+    public Exacta toExacta(String data) {
+        Exacta model = jvLinkModelMapper.deserialize(decode.apply(data), Exacta.class);
         model.getExactaOdds().removeIf(JvLinkDeserializer::exactaOddsFilter);
         return model;
     }
 
-    public Trio trioFunction(byte[] data) {
-        Trio model = jvLinkModelMapper.deserialize(data, Trio.class);
+    public Trio toTrio(String data) {
+        Trio model = jvLinkModelMapper.deserialize(decode.apply(data), Trio.class);
         model.getTrioOdds().removeIf(JvLinkDeserializer::trioOddsFilter);
         return model;
     }
 
-    public Trifecta trifectaFunction(byte[] data) {
-        Trifecta model = jvLinkModelMapper.deserialize(data, Trifecta.class);
+    public Trifecta toTrifecta(String data) {
+        Trifecta model = jvLinkModelMapper.deserialize(decode.apply(data), Trifecta.class);
         model.getTrifectaOdds().removeIf(JvLinkDeserializer::trifectaOddsFilter);
         return model;
     }
@@ -138,76 +133,72 @@ public class JvLinkDeserializer {
     /**
      * 血統データ
      */
-
-    public BloodLine bloodLineFunction(byte[] data) {
-        return jvLinkModelMapper.deserialize(data, BloodLine.class);
+    public BloodLine toBloodLine(String data) {
+        return jvLinkModelMapper.deserialize(decode.apply(data), BloodLine.class);
     }
 
-    public BloodAncestry bloodAncestryFunction(byte[] data) {
-        return jvLinkModelMapper.deserialize(data, BloodAncestry.class);
+    public BloodAncestry toBloodAncestry(String data) {
+        return jvLinkModelMapper.deserialize(decode.apply(data), BloodAncestry.class);
     }
 
-    public BloodBreeding bloodBreedingFunction(byte[] data) {
-        return jvLinkModelMapper.deserialize(data, BloodBreeding.class);
+    public BloodBreeding toBloodBreeding(String data) {
+        return jvLinkModelMapper.deserialize(decode.apply(data), BloodBreeding.class);
     }
 
 
     /**
      * 競馬データ
      */
-
-    public RaceHorse raceHorseFunction(byte[] data) {
-        return jvLinkModelMapper.deserialize(data, RaceHorse.class);
+    public RaceHorse toRaceHorse(String data) {
+        return jvLinkModelMapper.deserialize(decode.apply(data), RaceHorse.class);
     }
 
-    public Jockey jockeyFunction(byte[] data) {
-        return jvLinkModelMapper.deserialize(data, Jockey.class);
+    public Jockey toJockey(String data) {
+        return jvLinkModelMapper.deserialize(decode.apply(data), Jockey.class);
     }
 
-    public Trainer trainerFunction(byte[] data) {
-        return jvLinkModelMapper.deserialize(data, Trainer.class);
+    public Trainer toTrainer(String data) {
+        return jvLinkModelMapper.deserialize(decode.apply(data), Trainer.class);
     }
 
-    public Breeder breederFunction(byte[] data) {
-        return jvLinkModelMapper.deserialize(data, Breeder.class);
+    public Breeder toBreeder(String data) {
+        return jvLinkModelMapper.deserialize(decode.apply(data), Breeder.class);
     }
 
-    public Owner ownerFunction(byte[] data) {
-        return jvLinkModelMapper.deserialize(data, Owner.class);
+    public Owner toOwner(String data) {
+        return jvLinkModelMapper.deserialize(decode.apply(data), Owner.class);
     }
 
-    public Course courseFunction(byte[] data) {
-        return jvLinkModelMapper.deserialize(data, Course.class);
+    public Course toCourse(String data) {
+        return jvLinkModelMapper.deserialize(decode.apply(data), Course.class);
     }
 
 
     /**
      * イベント通知データ
      */
-
-    public Avoid avoidFunction(byte[] data) {
-        return jvLinkModelMapper.deserialize(data, Avoid.class);
+    public Avoid toAvoid(String data) {
+        return jvLinkModelMapper.deserialize(decode.apply(data), Avoid.class);
     }
 
-    public Weight weightFunction(byte[] data) {
-        // TODO: filterかけるかも
-        return jvLinkModelMapper.deserialize(data, Weight.class);
+    public Weight toWeight(String data) {
+        return jvLinkModelMapper.deserialize(decode.apply(data), Weight.class);
     }
 
-    public Weather weatherFunction(byte[] data) {
-        return jvLinkModelMapper.deserialize(data, Weather.class);
+    public Weather toWeather(String data) {
+        return jvLinkModelMapper.deserialize(decode.apply(data), Weather.class);
     }
 
-    public CourseChange courseChangeFunction(byte[] data) {
-        return jvLinkModelMapper.deserialize(data, CourseChange.class);
+    public CourseChange toCourseChange(String data) {
+        return jvLinkModelMapper.deserialize(decode.apply(data), CourseChange.class);
     }
 
-    public JockeyChange jockeyChangeFunction(byte[] data) {
-        return jvLinkModelMapper.deserialize(data, JockeyChange.class);
+    public JockeyChange toJockeyChange(String data) {
+        return jvLinkModelMapper.deserialize(decode.apply(data), JockeyChange.class);
     }
 
-    public TimeChange timeChangeFunction(byte[] data) {
-        return jvLinkModelMapper.deserialize(data, TimeChange.class);
+    public TimeChange toTimeChange(String data) {
+        return jvLinkModelMapper.deserialize(decode.apply(data), TimeChange.class);
     }
 
 

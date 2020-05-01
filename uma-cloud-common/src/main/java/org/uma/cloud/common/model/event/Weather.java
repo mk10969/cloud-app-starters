@@ -6,7 +6,7 @@ import org.uma.cloud.common.code.TurfOrDirtConditionCode;
 import org.uma.cloud.common.code.WeatherCode;
 import org.uma.cloud.common.model.BaseModel;
 import org.uma.cloud.common.model.TimeSeries;
-import org.uma.cloud.common.recordSpec.RecordSpec;
+import org.uma.cloud.common.code.RecordSpec;
 
 import java.time.LocalDate;
 

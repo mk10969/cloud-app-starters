@@ -1,7 +1,10 @@
-package org.uma.cloud.common.recordSpec;
+package org.uma.cloud.common.code;
 
+import com.fasterxml.jackson.annotation.JsonValue;
 import org.uma.cloud.common.utils.constants.CodeEnum;
 
+import javax.persistence.AttributeConverter;
+import javax.persistence.Converter;
 import java.util.Objects;
 
 public enum RecordSpec implements CodeEnum<String, RecordSpec> {
@@ -54,10 +57,12 @@ public enum RecordSpec implements CodeEnum<String, RecordSpec> {
     }
 
     @Override
+    @JsonValue
     public String getCode() {
         return this.code;
     }
 
+    @Override
     public String getCodeName() {
         return this.codeName;
     }
@@ -68,4 +73,19 @@ public enum RecordSpec implements CodeEnum<String, RecordSpec> {
         return CodeEnum.reversibleFindOne(recordSpec, RecordSpec.class);
     }
 
+    /**
+     * Jpa enum converter impl
+     */
+    @Converter(autoApply = true)
+    public static class converterImpl implements AttributeConverter<RecordSpec, String> {
+        @Override
+        public String convertToDatabaseColumn(RecordSpec attribute) {
+            return attribute.getCode();
+        }
+
+        @Override
+        public RecordSpec convertToEntityAttribute(String dbData) {
+            return CodeEnum.convertOf(dbData, RecordSpec.class);
+        }
+    }
 }
