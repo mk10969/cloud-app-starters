@@ -40,7 +40,7 @@ public class JvEventSupplier {
     }
 
     @Bean
-    @ConditionalOnProperty(prefix = "spring.init", name = "enabled", havingValue = "true")
+    @ConditionalOnProperty(prefix = "uma.stream.init", name = "enabled", havingValue = "true")
     public CommandLineRunner websocketSubscribe() {
         return args -> this.connectToJvLinkWebSocket().subscribe();
     }

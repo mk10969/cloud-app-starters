@@ -39,7 +39,7 @@ public class JvRacingFunction {
 
 
     @Bean
-    @ConditionalOnProperty(prefix = "spring.init", name = "enabled", havingValue = "true")
+    @ConditionalOnProperty(prefix = "uma.stream.init", name = "enabled", havingValue = "true")
     public CommandLineRunner initThisWeekRace() {
         return args -> raceIdToBusinessRacing()
                 .apply(jvLinkWebService.getRaceIds())
