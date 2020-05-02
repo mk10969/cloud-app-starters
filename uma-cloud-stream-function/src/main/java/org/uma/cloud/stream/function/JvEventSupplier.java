@@ -6,6 +6,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.uma.cloud.stream.model.EventMessage;
 import org.uma.cloud.stream.type.JvLinkWebSocketSource;
 import reactor.core.publisher.Flux;
 
@@ -29,7 +30,7 @@ public class JvEventSupplier {
 
 
     @Bean
-    public Supplier<Flux<String>> JvWatchEventId() {
+    public Supplier<Flux<EventMessage>> JvWatchEventId() {
         return () -> this.source.getProcessor()
                 .publish()
                 .autoConnect()

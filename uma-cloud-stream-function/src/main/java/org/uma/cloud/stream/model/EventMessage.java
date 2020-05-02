@@ -1,5 +1,8 @@
 package org.uma.cloud.stream.model;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.ToString;
 import org.uma.cloud.common.code.RecordSpec;
@@ -14,18 +17,22 @@ public class EventMessage {
 
     private final RecordSpec recordSpec;
 
-    private final String raceId;
+    private final String eventId;
 
-    public EventMessage(String eventId) {
-        String[] tmp = eventId.split(":");
-        this.recordSpec = RecordSpec.of(tmp[0]);
-        this.raceId = Objects.requireNonNull(tmp[1]);
+    @JsonCreator
+    public EventMessage(
+            @JsonProperty("recordSpec") String recordSpec,
+            @JsonProperty("eventId") String eventId) {
+        this.recordSpec = RecordSpec.of(recordSpec);
+        this.eventId = Objects.requireNonNull(eventId);
     }
 
+    @JsonIgnore
     public boolean isRacingRefund() {
         return HR == this.recordSpec;
     }
 
+    @JsonIgnore
     public boolean isNotRacingRefund() {
         return !this.isRacingRefund();
     }
