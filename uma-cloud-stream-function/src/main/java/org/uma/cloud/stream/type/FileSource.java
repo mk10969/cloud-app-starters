@@ -1,6 +1,7 @@
 package org.uma.cloud.stream.type;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.uma.cloud.common.configuration.JvLinkDeserializer;
 import org.uma.cloud.common.model.BloodAncestry;
 import org.uma.cloud.common.model.BloodBreeding;
@@ -30,6 +31,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.stream.BaseStream;
 
+@Service
 public class FileSource {
 
     @Autowired

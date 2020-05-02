@@ -74,7 +74,7 @@ public class BusinessMapper {
                     refund.setRefundMoney(win.getRefundMoney());
                     refund.setBetRank(win.getBetRank());
                     return refund;
-                }).collect(Collectors.toUnmodifiableList()));
+                }).collect(Collectors.toList()));
         model.setRefundShows(racingRefund.getRefundShows().stream()
                 .map(show -> {
                     BusinessRacingRefund.refund refund = new BusinessRacingRefund.refund();
@@ -82,7 +82,7 @@ public class BusinessMapper {
                     refund.setRefundMoney(show.getRefundMoney());
                     refund.setBetRank(show.getBetRank());
                     return refund;
-                }).collect(Collectors.toUnmodifiableList()));
+                }).collect(Collectors.toList()));
         model.setRefundBracketQs(racingRefund.getRefundBracketQs().stream()
                 .map(bracketQ -> {
                     BusinessRacingRefund.refund refund = new BusinessRacingRefund.refund();
@@ -90,7 +90,7 @@ public class BusinessMapper {
                     refund.setRefundMoney(bracketQ.getRefundMoney());
                     refund.setBetRank(bracketQ.getBetRank());
                     return refund;
-                }).collect(Collectors.toUnmodifiableList()));
+                }).collect(Collectors.toList()));
         model.setRefundQuinellas(racingRefund.getRefundQuinellas().stream()
                 .map(quinella -> {
                     BusinessRacingRefund.refundPair refundPair = new BusinessRacingRefund.refundPair();
@@ -98,7 +98,7 @@ public class BusinessMapper {
                     refundPair.setRefundMoney(quinella.getRefundMoney());
                     refundPair.setBetRank(quinella.getBetRank());
                     return refundPair;
-                }).collect(Collectors.toUnmodifiableList()));
+                }).collect(Collectors.toList()));
         model.setRefundQuinellaPlaces(racingRefund.getRefundQuinellaPlaces().stream()
                 .map(quinellaPlace -> {
                     BusinessRacingRefund.refundPair refundPair = new BusinessRacingRefund.refundPair();
@@ -106,7 +106,7 @@ public class BusinessMapper {
                     refundPair.setRefundMoney(quinellaPlace.getRefundMoney());
                     refundPair.setBetRank(quinellaPlace.getBetRank());
                     return refundPair;
-                }).collect(Collectors.toUnmodifiableList()));
+                }).collect(Collectors.toList()));
         model.setRefundExactas(racingRefund.getRefundExactas().stream()
                 .map(exactas -> {
                     BusinessRacingRefund.refundPair refundPair = new BusinessRacingRefund.refundPair();
@@ -114,7 +114,7 @@ public class BusinessMapper {
                     refundPair.setRefundMoney(exactas.getRefundMoney());
                     refundPair.setBetRank(exactas.getBetRank());
                     return refundPair;
-                }).collect(Collectors.toUnmodifiableList()));
+                }).collect(Collectors.toList()));
         model.setRefundTrios(racingRefund.getRefundTrios().stream()
                 .map(trio -> {
                     BusinessRacingRefund.refundTriplet refundTriplet = new BusinessRacingRefund.refundTriplet();
@@ -122,7 +122,7 @@ public class BusinessMapper {
                     refundTriplet.setRefundMoney(trio.getRefundMoney());
                     refundTriplet.setBetRank(trio.getBetRank());
                     return refundTriplet;
-                }).collect(Collectors.toUnmodifiableList()));
+                }).collect(Collectors.toList()));
         model.setRefundTrifectas(racingRefund.getRefundTrifectas().stream()
                 .map(trifectas -> {
                     BusinessRacingRefund.refundTriplet refundTriplet = new BusinessRacingRefund.refundTriplet();
@@ -130,7 +130,7 @@ public class BusinessMapper {
                     refundTriplet.setRefundMoney(trifectas.getRefundMoney());
                     refundTriplet.setBetRank(trifectas.getBetRank());
                     return refundTriplet;
-                }).collect(Collectors.toUnmodifiableList()));
+                }).collect(Collectors.toList()));
 
         return model;
     }

@@ -13,14 +13,14 @@ import org.uma.cloud.common.model.business.BusinessRacingRefund;
 import org.uma.cloud.common.utils.lang.DateUtil;
 import org.uma.cloud.stream.StreamFunctionProperties;
 import org.uma.cloud.stream.model.EventMessage;
+import org.uma.cloud.stream.type.BusinessSink;
 import org.uma.cloud.stream.type.JvLinkWebSource;
-import org.uma.cloud.stream.type.ReactiveRacingService;
 import org.uma.cloud.stream.type.TimeSeriesSink;
+import org.uma.cloud.stream.util.BusinessMapper;
 import reactor.core.publisher.Flux;
 import reactor.util.function.Tuple2;
 import reactor.util.function.Tuples;
 
-import java.util.function.Consumer;
 import java.util.function.Function;
 
 @Slf4j
@@ -31,7 +31,7 @@ public class JvRacingFunction {
     private JvLinkWebSource jvLinkWebSource;
 
     @Autowired
-    private ReactiveRacingService rxService;
+    private BusinessSink businessSink;
 
     @Autowired
     private TimeSeriesSink timeSeriesSink;
@@ -54,48 +54,55 @@ public class JvRacingFunction {
                 .subscribe(raceId -> log.info("今週のレース: {}", raceId));
     }
 
-    /**
-     * subscriber
-     */
-    @Bean
-    public Consumer<Flux<String>> subscribe() {
-        return data -> data
-                .doOnNext(i -> log.info("Consumer1: {}", i))
-                .subscribe();
-    }
 
     /**
-     * subscriber2
+     * 検索: jvLinkWebSource#realtimeRacingDetail
+     * 変換: BusinessMapper#toBusinessRacing
+     * 登録: businessSink#update
+     * <p>
+     * 新しくなったら更新する。exist check不要。
      */
-    @Bean
-    public Consumer<Flux<String>> subscribe2() {
-        return data -> data
-                .doOnNext(i -> log.info("Consumer2: {}", i))
-                .subscribe();
-    }
-
-
     @Bean
     public Function<Flux<String>, Flux<String>> raceIdToBusinessRacing() {
         return raceId -> raceId
-                .flatMap(rxService::updateBusinessRacing)
+                .flatMap(jvLinkWebSource::realtimeRacingDetail)
+                .map(BusinessMapper::toBusinessRacing)
+                .flatMap(businessSink::update)
                 .doOnNext(this::debug)
                 .map(BusinessRacing::getRaceId);
     }
 
+    /**
+     * 検索: jvLinkWebSource#realtimeRacingHorseDetail
+     * 変換: BusinessMapper#toBusinessRacingHorse
+     * 登録: businessSink#update
+     * <p>
+     * 新しくなったら更新する。exist check不要。
+     */
     @Bean
     public Function<Flux<String>, Flux<String>> raceIdToBusinessRacingHorse() {
         return raceId -> raceId
-                .flatMap(rxService::updateAllBusinessRacingHorse)
+                .flatMap(jvLinkWebSource::realtimeRacingHorseDetail)
+                .map(BusinessMapper::toBusinessRacingHorse)
+                .flatMap(businessSink::update)
                 .doOnNext(this::debug)
                 .map(BusinessRacingHorse::getRaceId);
     }
 
+    /**
+     * 検索: jvLinkWebSource#eventRacingRefund
+     * 変換: BusinessMapper#toBusinessRacingRefund
+     * 登録: businessSink#update
+     * <p>
+     * 確定レース払戻
+     */
     @Bean
     public Function<Flux<EventMessage>, Flux<String>> eventToRacingRefund() {
         return event -> event
                 .map(EventMessage::getEventId)
-                .flatMap(rxService::updateBusinessRacingRefund)
+                .flatMap(jvLinkWebSource::eventRacingRefund)
+                .map(BusinessMapper::toBusinessRacingRefund)
+                .flatMap(businessSink::update)
                 .doOnNext(this::debug)
                 .map(BusinessRacingRefund::getRaceId);
     }
@@ -135,11 +142,7 @@ public class JvRacingFunction {
 
 
     /**
-     * イベント通知
-     * <p>
-     * EventId 例：
-     * "HR:202004250310"
-     * "TC:TC20200425030020200425154801"
+     * イベント通知を配信分離する。
      */
     @Bean
     public Function<Flux<EventMessage>, Tuple2<Flux<EventMessage>, Flux<EventMessage>>> JvWatchEventIdScatter() {
@@ -152,47 +155,50 @@ public class JvRacingFunction {
     }
 
     /**
-     * 払戻イベントだけ、ここでsubscribeしない。
-     * TODO: センスない
-     *
-     * @see JvRacingFunction#eventToRacingRefund()
-     * <p>
      * 配信パイプラインを分離している。
+     *
      * @see JvRacingFunction#JvWatchEventIdScatter()
+     * <p>
+     * @see JvRacingFunction#eventToRacingRefund()
      */
     @Bean
     public Function<Flux<EventMessage>, Flux<String>> eventToRacingChange() {
-        return event -> event
-                .flatMap(e -> {
-                    switch (e.getRecordSpec()) {
-                        case WH:
-                            return rxService.updateAllWeight(e.getEventId())
-                                    .doOnNext(this::debug)
-                                    .map(BusinessRacingHorse::getRaceId);
-                        case WE:
-                            return rxService.updateAllWeather(e.getEventId())
-                                    .doOnNext(this::debug)
-                                    .map(BusinessRacing::getRaceId);
-                        case JC:
-                            return rxService.updateJockeyChange(e.getEventId())
-                                    .doOnNext(this::debug)
-                                    .map(BusinessRacingHorse::getRaceId);
-                        case AV:
-                            return rxService.updateAvoid(e.getEventId())
-                                    .doOnNext(this::debug)
-                                    .map(BusinessRacingHorse::getRaceId);
-                        case TC:
-                            return rxService.updateTimeChange(e.getEventId())
-                                    .doOnNext(this::debug)
-                                    .map(BusinessRacing::getRaceId);
-                        case CC:
-                            return rxService.updateCourseChange(e.getEventId())
-                                    .doOnNext(this::debug)
-                                    .map(BusinessRacing::getRaceId);
-                        default:
-                            throw new IllegalArgumentException(e + ": が正しくありません。");
-                    }
-                });
+        return event -> event.flatMap(e -> {
+            switch (e.getRecordSpec()) {
+                case WH:
+                    return jvLinkWebSource.eventWeight(e.getEventId())
+                            .flatMapMany(businessSink::update)
+                            .doOnNext(this::debug)
+                            .map(BusinessRacingHorse::getRaceId);
+                case WE:
+                    return jvLinkWebSource.eventWeather(e.getEventId())
+                            .flatMapMany(businessSink::update)
+                            .doOnNext(this::debug)
+                            .map(BusinessRacing::getRaceId);
+                case JC:
+                    return jvLinkWebSource.eventJockeyChange(e.getEventId())
+                            .flatMap(businessSink::update)
+                            .doOnNext(this::debug)
+                            .map(BusinessRacingHorse::getRaceId);
+                case AV:
+                    return jvLinkWebSource.eventAvoid(e.getEventId())
+                            .flatMap(businessSink::update)
+                            .doOnNext(this::debug)
+                            .map(BusinessRacingHorse::getRaceId);
+                case TC:
+                    return jvLinkWebSource.eventTimeChange(e.getEventId())
+                            .flatMap(businessSink::update)
+                            .doOnNext(this::debug)
+                            .map(BusinessRacing::getRaceId);
+                case CC:
+                    return jvLinkWebSource.eventCourseChange(e.getEventId())
+                            .flatMap(businessSink::update)
+                            .doOnNext(this::debug)
+                            .map(BusinessRacing::getRaceId);
+                default:
+                    throw new IllegalArgumentException(e + ": が正しくありません。");
+            }
+        });
     }
 
 
