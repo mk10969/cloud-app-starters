@@ -7,7 +7,7 @@ public class JvLInkWebSourceCreateTest {
 
     @Test
     void test_create() {
-        ReflectionUtils.getClassesFrom("org.uma.cloud.common.model")
+        ReflectionUtils.getClassesFrom("org.uma.cloud.common.model.odds")
                 .stream()
                 .map(Class::getSimpleName)
                 .filter(i -> !"BaseModel".equals(i))
@@ -16,7 +16,7 @@ public class JvLInkWebSourceCreateTest {
                 .filter(i -> !"CreateModelToSql".equals(i))
                 .filter(i -> !"ModelTypeCheckTest".equals(i))
                 .sorted()
-                .forEach(i -> System.out.println(fileSourceFormat(i)));
+                .forEach(i -> System.out.println(batchFormat(i)));
 
     }
 
@@ -39,5 +39,14 @@ public class JvLInkWebSourceCreateTest {
                         "    }", className, Character.toLowerCase(className.charAt(0)) + className.substring(1));
     }
 
+    private String batchFormat(String className) {
+        return String.format(
+                "    private void batch%1$s() {\n" +
+                        "        Flux<%1$s> flux = fileSource.get%1$s()\n" +
+                        "                .filter(entity -> jpaEntitySink.notExists(entity, entity.getRaceId()))\n" +
+                        "                .filter(entity -> !entity.getDataDiv().equals(\"0\"));\n" +
+                        "        persist().accept(flux);\n" +
+                        "    }\n", className);
+    }
 
 }

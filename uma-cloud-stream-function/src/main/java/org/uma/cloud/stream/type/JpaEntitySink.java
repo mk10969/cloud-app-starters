@@ -22,20 +22,36 @@ public class JpaEntitySink {
 
 
     @Transactional
-    public <S> List<S> saveAll(List<S> entities) {
+    public <S> List<S> persistAll(List<S> entities) {
         List<S> result = new ArrayList<>();
         for (S entity : entities) {
-            result.add(save(entity));
+            result.add(persist(entity));
         }
         return result;
     }
 
     @Transactional
-    public <S> S save(S entity) {
-        // persist Only
+    public <S> S persist(S entity) {
         entityManager.persist(entity);
         return entity;
     }
+
+
+    @Transactional
+    public <S> List<S> mergeAll(List<S> entities) {
+        List<S> result = new ArrayList<>();
+        for (S entity : entities) {
+            result.add(merge(entity));
+        }
+        return result;
+    }
+
+    @Transactional
+    public <S> S merge(S entity) {
+        entityManager.merge(entity);
+        return entity;
+    }
+
 
     public <S> boolean notExists(S entity, Object id) {
         if (entityManager.find(entity.getClass(), id) == null) {

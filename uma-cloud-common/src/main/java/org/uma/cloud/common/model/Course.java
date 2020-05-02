@@ -3,8 +3,8 @@ package org.uma.cloud.common.model;
 import lombok.Data;
 import lombok.Getter;
 import org.uma.cloud.common.code.RaceCourseCode;
-import org.uma.cloud.common.code.TrackCode;
 import org.uma.cloud.common.code.RecordSpec;
+import org.uma.cloud.common.code.TrackCode;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -47,16 +47,13 @@ public class Course extends BaseModel {
     @Data
     public static class CompositeId implements Serializable {
 
-        @Column(length = 6)
         private RaceCourseCode courseCd;
 
         private Integer distance;
 
-        @Column(length = 6)
         private TrackCode trackCd;
 
         private LocalDate courseRepairDate;
-
     }
 
 }

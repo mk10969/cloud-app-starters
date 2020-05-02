@@ -15,12 +15,12 @@ public class RaceHorseService {
     private RaceHorseRepository repository;
 
 
-    public RaceHorse findOne(Long bloodlineNo) {
-        return this.repository.findById(bloodlineNo).orElseThrow();
+    public RaceHorse findOne(RaceHorse.CompositeId compositeId) {
+        return this.repository.findById(compositeId).orElseThrow();
     }
 
-    public boolean exists(Long bloodlineNo) {
-        return this.repository.existsById(bloodlineNo);
+    public boolean exists(RaceHorse.CompositeId compositeId) {
+        return this.repository.existsById(compositeId);
     }
 
     @Transactional

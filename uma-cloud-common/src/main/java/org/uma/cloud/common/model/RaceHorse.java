@@ -1,18 +1,20 @@
 package org.uma.cloud.common.model;
 
+import lombok.Data;
 import lombok.Getter;
 import org.hibernate.annotations.Type;
 import org.uma.cloud.common.code.BreedCode;
 import org.uma.cloud.common.code.EastOrWestBelongCode;
 import org.uma.cloud.common.code.HairColorCode;
 import org.uma.cloud.common.code.HorseSignCode;
-import org.uma.cloud.common.code.SexCode;
 import org.uma.cloud.common.code.RecordSpec;
+import org.uma.cloud.common.code.SexCode;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -23,6 +25,15 @@ import java.util.List;
 @Entity
 @Table
 public class RaceHorse extends BaseModel {
+
+    /**
+     * データ区分
+     *
+     * @see BaseModel#dataDiv 強引にこちらで利用する。
+     */
+    @Id
+    @Column(length = 1)
+    private String dataDiv;
 
     /**
      * 血統登録番号 10桁
@@ -120,6 +131,14 @@ public class RaceHorse extends BaseModel {
 
         private String horseName;
 
+    }
+
+    @Data
+    public static class CompositeId implements Serializable {
+
+        private String dataDiv;
+
+        private Long bloodlineNo;
     }
 
 }
