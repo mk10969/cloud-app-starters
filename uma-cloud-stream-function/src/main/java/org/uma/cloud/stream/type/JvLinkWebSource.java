@@ -396,44 +396,44 @@ public class JvLinkWebSource {
                 .doOnNext(ModelUtil::fieldNotNull);
     }
 
-    public Mono<RacingRefund> eventRacingRefund(String raceId) {
-        return findOneByRaceId(RealTimePath.raceRefund, raceId)
+    public Mono<RacingRefund> eventRacingRefund(String eventId) {
+        return findOneByRaceId(RealTimePath.raceRefund, eventId)
                 .map(jvLinkDeserializer::toRacingRefund)
                 .doOnNext(ModelUtil::fieldNotNull);
     }
 
-    public Mono<Weight> eventWeight(String raceId) {
-        return findOneByRaceId(RealTimePath.weight, raceId)
+    public Mono<Weight> eventWeight(String eventId) {
+        return findOneByRaceId(RealTimePath.weight, eventId)
                 .map(jvLinkDeserializer::toWeight)
                 .doOnNext(ModelUtil::fieldNotNull);
     }
 
-    public Mono<TimeChange> eventTimeChange(String raceId) {
-        return findOneByRaceId(RealTimePath.timeChange, raceId)
+    public Mono<TimeChange> eventTimeChange(String eventId) {
+        return findOneByRaceId(RealTimePath.timeChange, eventId)
                 .map(jvLinkDeserializer::toTimeChange)
                 .doOnNext(ModelUtil::fieldNotNull);
     }
 
-    public Mono<JockeyChange> eventJockeyChange(String raceId) {
-        return findOneByRaceId(RealTimePath.jockeyChange, raceId)
+    public Mono<JockeyChange> eventJockeyChange(String eventId) {
+        return findOneByRaceId(RealTimePath.jockeyChange, eventId)
                 .map(jvLinkDeserializer::toJockeyChange)
                 .doOnNext(ModelUtil::fieldNotNull);
     }
 
-    public Mono<Weather> eventWeather(String raceId) {
-        return findOneByRaceId(RealTimePath.weather, raceId)
+    public Mono<Weather> eventWeather(String eventId) {
+        return findOneByRaceId(RealTimePath.weather, eventId)
                 .map(jvLinkDeserializer::toWeather)
                 .doOnNext(ModelUtil::fieldNotNull);
     }
 
-    public Mono<Avoid> eventAvoid(String raceId) {
-        return findOneByRaceId(RealTimePath.avoid, raceId)
+    public Mono<Avoid> eventAvoid(String eventId) {
+        return findOneByRaceId(RealTimePath.avoid, eventId)
                 .map(jvLinkDeserializer::toAvoid)
                 .doOnNext(ModelUtil::fieldNotNull);
     }
 
-    public Mono<CourseChange> eventCourseChange(String raceId) {
-        return findOneByRaceId(RealTimePath.courseChange, raceId)
+    public Mono<CourseChange> eventCourseChange(String eventId) {
+        return findOneByRaceId(RealTimePath.courseChange, eventId)
                 .map(jvLinkDeserializer::toCourseChange)
                 .doOnNext(ModelUtil::fieldNotNull);
     }

@@ -6,7 +6,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.socket.WebSocketMessage;
 import org.springframework.web.reactive.socket.WebSocketSession;
 import org.springframework.web.reactive.socket.client.WebSocketClient;
+import org.uma.cloud.common.utils.lang.ModelUtil;
 import org.uma.cloud.stream.StreamFunctionProperties;
+import org.uma.cloud.stream.model.EventMessage;
 import reactor.core.publisher.Mono;
 import reactor.core.publisher.UnicastProcessor;
 
@@ -23,7 +25,7 @@ public class JvLinkWebSocketSource {
     private StreamFunctionProperties properties;
 
     @Getter
-    private final UnicastProcessor<String> processor =
+    private final UnicastProcessor<EventMessage> processor =
             UnicastProcessor.create(new ConcurrentLinkedQueue<>());
 
 
@@ -35,7 +37,13 @@ public class JvLinkWebSocketSource {
     private Mono<Void> handler(WebSocketSession session) {
         return session.receive()
                 .map(WebSocketMessage::getPayloadAsText)
+                .map(this::toEventMessage)
                 .doOnNext(processor::onNext)
                 .then();
     }
+
+    private EventMessage toEventMessage(String json) {
+        return ModelUtil.readJson(json, EventMessage.class);
+    }
+    
 }

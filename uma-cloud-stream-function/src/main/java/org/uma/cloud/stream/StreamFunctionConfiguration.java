@@ -5,7 +5,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.reactive.function.BodyInserters;
@@ -14,8 +13,9 @@ import org.springframework.web.reactive.function.server.RouterFunction;
 import org.springframework.web.reactive.function.server.RouterFunctions;
 import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
-import org.uma.cloud.stream.function.JvEventSupplier;
 import org.uma.cloud.stream.function.JvRaceSupplier;
+import org.uma.cloud.stream.model.EventMessage;
+import org.uma.cloud.stream.type.JvLinkWebSocketSource;
 import reactor.core.publisher.Mono;
 
 import javax.validation.constraints.NotNull;
@@ -32,10 +32,9 @@ public class StreamFunctionConfiguration {
         private JvRaceSupplier jvRaceSupplier;
 
         @Autowired
-        private JvEventSupplier jvEventSupplier;
+        private JvLinkWebSocketSource source;
 
 
-        @Profile("local")
         @Bean
         RouterFunction<ServerResponse> routes() {
             return RouterFunctions
@@ -79,12 +78,12 @@ public class StreamFunctionConfiguration {
          */
         @NotNull
         private Mono<ServerResponse> putEventId(ServerRequest request) {
-            return request.bodyToMono(String.class)
-                    .doOnNext(i -> jvEventSupplier.getProcessor().onNext(i))
+            return request.bodyToMono(EventMessage.class)
+                    .doOnNext(i -> source.getProcessor().onNext(i))
                     .flatMap(body -> ServerResponse.accepted()
                             .contentType(MediaType.APPLICATION_JSON)
                             .body(BodyInserters.fromValue(body)));
         }
     }
-    
+
 }
