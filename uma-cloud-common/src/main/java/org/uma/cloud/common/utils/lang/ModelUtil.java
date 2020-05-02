@@ -32,6 +32,15 @@ public class ModelUtil {
     private static final ObjectMapper objectMapper = JacksonUtil.getDefaultObjectMapper();
 
 
+    public static <T> T readJson(String json, Class<T> clazz) {
+        try {
+            return objectMapper.readValue(json, clazz);
+        } catch (JsonProcessingException e) {
+            throw new IllegalArgumentException(e);
+        }
+    }
+
+
     public static String toJson(Object object) {
         try {
             return objectMapper.writeValueAsString(object);
