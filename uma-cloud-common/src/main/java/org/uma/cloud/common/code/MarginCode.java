@@ -16,6 +16,7 @@ public enum MarginCode implements CodeEnum<String, MarginCode> {
      * デフォルト
      */
     DEFAULT("   ", ""),
+    BY_000("000", "---"),
     BY_DEADHEAT("D  ", "同着"),
     BY_NOSE("H  ", "ハナ"),
     BY_NECK("K  ", "クビ"),
