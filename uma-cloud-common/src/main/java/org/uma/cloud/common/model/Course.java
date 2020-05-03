@@ -24,6 +24,12 @@ import java.time.LocalDate;
 public class Course extends BaseModel {
 
     /**
+     * データ区分
+     */
+    @Column(length = 1)
+    private String dataDiv;
+
+    /**
      * コースコード
      */
     @Id

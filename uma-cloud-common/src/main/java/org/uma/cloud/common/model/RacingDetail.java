@@ -6,12 +6,12 @@ import org.uma.cloud.common.code.RaceCourseCode;
 import org.uma.cloud.common.code.RaceGradeCode;
 import org.uma.cloud.common.code.RaceSignCode;
 import org.uma.cloud.common.code.RaceTypeCode;
+import org.uma.cloud.common.code.RecordSpec;
 import org.uma.cloud.common.code.TrackCode;
 import org.uma.cloud.common.code.TurfOrDirtConditionCode;
 import org.uma.cloud.common.code.WeatherCode;
 import org.uma.cloud.common.code.WeekDayCode;
 import org.uma.cloud.common.code.WeightTypeCode;
-import org.uma.cloud.common.code.RecordSpec;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -28,6 +28,12 @@ import java.util.List;
 @Entity
 @Table
 public class RacingDetail extends BaseModel {
+
+    /**
+     * データ区分
+     */
+    @Column(length = 1)
+    private String dataDiv;
 
     /**
      * {@link RacingHorseDetail.raceId}

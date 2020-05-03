@@ -11,8 +11,8 @@ import org.uma.cloud.common.code.HorseSignCode;
 import org.uma.cloud.common.code.JockeyApprenticeCode;
 import org.uma.cloud.common.code.MarginCode;
 import org.uma.cloud.common.code.RaceCourseCode;
-import org.uma.cloud.common.code.SexCode;
 import org.uma.cloud.common.code.RecordSpec;
+import org.uma.cloud.common.code.SexCode;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -33,6 +33,12 @@ import java.util.List;
 @IdClass(RacingHorseDetail.CompositeId.class)
 @Table
 public class RacingHorseDetail extends BaseModel {
+
+    /**
+     * データ区分
+     */
+    @Column(length = 1)
+    private String dataDiv;
 
     /**
      * {@link RacingDetail.raceId}
@@ -70,6 +76,7 @@ public class RacingHorseDetail extends BaseModel {
     /**
      * {@link BloodLine.bloodlineNo}
      */
+    @Id
     private Long bloodlineNo;
 
     @Column(length = 36)
@@ -220,12 +227,18 @@ public class RacingHorseDetail extends BaseModel {
         private String horseName;
     }
 
+    /**
+     * 血統登録番号を入れておかないと、
+     * 海外レースのとき、一意に識別できない。
+     */
     @Data
     public static class CompositeId implements Serializable {
 
         private String raceId;
 
         private String horseNo;
+
+        private Long bloodlineNo;
     }
 
 }

@@ -17,6 +17,12 @@ import javax.persistence.Table;
 public class Owner extends BaseModel {
 
     /**
+     * データ区分
+     */
+    @Column(length = 1)
+    private String dataDiv;
+
+    /**
      * 馬主コード 6桁
      */
     @Id

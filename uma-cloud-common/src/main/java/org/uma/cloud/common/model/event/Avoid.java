@@ -2,8 +2,8 @@ package org.uma.cloud.common.model.event;
 
 import lombok.Getter;
 import org.uma.cloud.common.code.RaceCourseCode;
-import org.uma.cloud.common.model.BaseModel;
 import org.uma.cloud.common.code.RecordSpec;
+import org.uma.cloud.common.model.BaseModel;
 
 import java.time.LocalDate;
 
@@ -14,11 +14,11 @@ import java.time.LocalDate;
 public class Avoid extends BaseModel {
 
     /**
-     *{@link BaseModel.dataDiv}にて判別。
-     *
+     * データ区分
      * 1:出走取消
      * 2:競走除外
      */
+    private String dataDiv;
 
     /**
      * レース特定キー

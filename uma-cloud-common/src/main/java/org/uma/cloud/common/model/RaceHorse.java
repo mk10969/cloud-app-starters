@@ -13,6 +13,7 @@ import org.uma.cloud.common.code.SexCode;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.IdClass;
 import javax.persistence.Table;
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -23,13 +24,12 @@ import java.util.List;
  */
 @Getter
 @Entity
+@IdClass(RaceHorse.CompositeId.class)
 @Table
 public class RaceHorse extends BaseModel {
 
     /**
      * データ区分
-     *
-     * @see BaseModel#dataDiv 強引にこちらで利用する。
      */
     @Id
     @Column(length = 1)

@@ -4,8 +4,8 @@ import lombok.Getter;
 import org.hibernate.annotations.Type;
 import org.uma.cloud.common.code.BreedCode;
 import org.uma.cloud.common.code.HairColorCode;
-import org.uma.cloud.common.code.SexCode;
 import org.uma.cloud.common.code.RecordSpec;
+import org.uma.cloud.common.code.SexCode;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -21,6 +21,12 @@ import java.util.List;
 @Entity
 @Table
 public class BloodLine extends BaseModel {
+
+    /**
+     * データ区分
+     */
+    @Column(length = 1)
+    private String dataDiv;
 
     /**
      * 血統登録番号 10桁

@@ -23,6 +23,12 @@ import java.time.LocalDate;
 public class RacingHorseExclusion extends BaseModel {
 
     /**
+     * データ区分
+     */
+    @Column(length = 1)
+    private String dataDiv;
+
+    /**
      * {@link RacingDetail.raceId}
      */
     @Id

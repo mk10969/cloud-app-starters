@@ -3,10 +3,10 @@ package org.uma.cloud.common.model.odds;
 import lombok.Getter;
 import org.hibernate.annotations.Type;
 import org.uma.cloud.common.code.RaceCourseCode;
+import org.uma.cloud.common.code.RecordSpec;
 import org.uma.cloud.common.model.BaseModel;
 import org.uma.cloud.common.model.RacingDetail;
 import org.uma.cloud.common.model.TimeSeries;
-import org.uma.cloud.common.code.RecordSpec;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -23,6 +23,12 @@ import java.util.List;
 @Entity
 @Table(name = "odds_wins_show_bracketq")
 public class WinsShowBracketQ extends BaseModel implements TimeSeries {
+
+    /**
+     * データ区分
+     */
+    @Column(length = 1)
+    private String dataDiv;
 
     /**
      * {@link RacingDetail.raceId}

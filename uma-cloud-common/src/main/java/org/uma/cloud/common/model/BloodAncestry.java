@@ -17,6 +17,12 @@ import javax.persistence.Table;
 public class BloodAncestry extends BaseModel {
 
     /**
+     * データ区分
+     */
+    @Column(length = 1)
+    private String dataDiv;
+
+    /**
      * 繁殖登録番号 8桁
      */
     @Id

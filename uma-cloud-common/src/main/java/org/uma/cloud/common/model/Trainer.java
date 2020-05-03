@@ -19,6 +19,12 @@ import java.time.LocalDate;
 public class Trainer extends BaseModel {
 
     /**
+     * データ区分
+     */
+    @Column(length = 1)
+    private String dataDiv;
+
+    /**
      * 調教師コード 5桁
      */
     @Id

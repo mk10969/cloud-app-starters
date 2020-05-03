@@ -2,11 +2,11 @@ package org.uma.cloud.common.model.event;
 
 import lombok.Getter;
 import org.uma.cloud.common.code.RaceCourseCode;
+import org.uma.cloud.common.code.RecordSpec;
 import org.uma.cloud.common.code.TurfOrDirtConditionCode;
 import org.uma.cloud.common.code.WeatherCode;
 import org.uma.cloud.common.model.BaseModel;
 import org.uma.cloud.common.model.TimeSeries;
-import org.uma.cloud.common.code.RecordSpec;
 
 import java.time.LocalDate;
 
@@ -16,7 +16,11 @@ import java.time.LocalDate;
 @Getter
 public class Weather extends BaseModel implements TimeSeries {
 
-    ///// TODO このデータを蓄積するかどうか /////
+    /**
+     * データ区分
+     */
+    private String dataDiv;
+
     /**
      * 主キー
      * 天候馬場状態専用キー {@link Weather.changeId}までの連結文字列

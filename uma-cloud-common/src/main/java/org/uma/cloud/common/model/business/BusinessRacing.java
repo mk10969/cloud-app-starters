@@ -24,6 +24,7 @@ public class BusinessRacing implements Serializable {
      * レースID
      */
     @Id
+    @Column(length = 16)
     private String raceId;
 
     /**

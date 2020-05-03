@@ -21,6 +21,12 @@ import java.time.LocalDate;
 public class Jockey extends BaseModel {
 
     /**
+     * データ区分
+     */
+    @Column(length = 1)
+    private String dataDiv;
+
+    /**
      * 騎手コード 5桁
      */
     @Id

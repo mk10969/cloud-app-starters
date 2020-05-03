@@ -29,6 +29,7 @@ public class BusinessRacingRefund implements Serializable {
      * レースID
      */
     @Id
+    @Column(length = 16)
     private String raceId;
 
     /**

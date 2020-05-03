@@ -17,6 +17,12 @@ import javax.persistence.Table;
 public class Breeder extends BaseModel {
 
     /**
+     * データ区分
+     */
+    @Column(length = 1)
+    private String dataDiv;
+
+    /**
      * 生産者コード 6桁
      */
     @Id
