@@ -81,6 +81,7 @@ public class ModelUtil {
             // postgresのMetadata
             "myCreateDateTime",
             "myUpdateDateTime",
+            "horseWeight",
             "changeAmount",
             // 枠連は、出走頭数が少ないと、発売されない場合がある
             "voteCountTotalBracketQuinella",

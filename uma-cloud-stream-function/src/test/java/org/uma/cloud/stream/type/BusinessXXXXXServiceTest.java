@@ -6,6 +6,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.uma.cloud.common.model.business.BusinessRacing;
 import org.uma.cloud.common.service.business.BusinessRacingHorseService;
 import org.uma.cloud.common.service.business.BusinessRacingService;
+import org.uma.cloud.common.utils.lang.DateUtil;
 import org.uma.cloud.stream.util.BusinessMapper;
 
 @SpringBootTest
@@ -28,8 +29,7 @@ public class BusinessXXXXXServiceTest {
 
     @Test
     void test_RaceIdをとってSEのデータをとってDB書き込み() {
-        jvLinkWebSource.storeRacingDetail()
-                .flatMap(jvLinkWebSource::realtimeRacingDetail)
+        jvLinkWebSource.storeRacingDetail(DateUtil.thisFriday())
                 .map(BusinessMapper::toBusinessRacing)
                 .doOnNext(racingService::update)
                 .map(BusinessRacing::getRaceId)

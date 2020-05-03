@@ -59,7 +59,7 @@ class JvLinkWebSourceTest {
 
     @Test
     void test_findAllRaceDetailsThisWeek() throws InterruptedException {
-        jvLinkWebSource.storeRacingDetail()
+        jvLinkWebSource.storeRacingDetail(DateUtil.thisFriday())
                 .subscribe(System.out::println);
         Thread.sleep(5000L);
     }

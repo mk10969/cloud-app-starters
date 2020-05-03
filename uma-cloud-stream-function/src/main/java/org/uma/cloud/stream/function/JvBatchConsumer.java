@@ -1,5 +1,6 @@
 package org.uma.cloud.stream.function;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
@@ -34,6 +35,7 @@ import reactor.core.scheduler.Scheduler;
 
 import java.util.function.Consumer;
 
+@Slf4j
 @Profile("batch")
 @Configuration
 public class JvBatchConsumer {
@@ -58,7 +60,7 @@ public class JvBatchConsumer {
 
 
     public void batch() {
-
+        batchRacingHorseDetail();
     }
 
     // レース
@@ -76,6 +78,7 @@ public class JvBatchConsumer {
                     RacingHorseDetail.CompositeId compositeId = new RacingHorseDetail.CompositeId();
                     compositeId.setRaceId(entity.getRaceId());
                     compositeId.setHorseNo(entity.getHorseNo());
+                    compositeId.setBloodlineNo(entity.getBloodlineNo());
                     return jpaEntitySink.notExists(entity, compositeId);
                 })
                 // 木曜データの場合（dataDiv = 1）はないと思うのでfilterかけない。
@@ -241,7 +244,10 @@ public class JvBatchConsumer {
                 .buffer(100)
                 .flatMap(entities -> Mono.fromCallable(() -> jpaEntitySink.persistAll(entities))
                         .flatMapMany(Flux::fromIterable))
-                .onErrorResume(jpaEntitySink::errorResume)
+                .onErrorContinue((throwable, object) -> {
+                    log.error("Batch Error: ", throwable);
+                    log.warn("Error Object: {}", object);
+                })
                 .publishOn(scheduler)
                 .subscribe();
     }
@@ -252,7 +258,10 @@ public class JvBatchConsumer {
                 .buffer(100)
                 .flatMap(entities -> Mono.fromCallable(() -> jpaEntitySink.mergeAll(entities))
                         .flatMapMany(Flux::fromIterable))
-                .onErrorResume(jpaEntitySink::errorResume)
+                .onErrorContinue((throwable, object) -> {
+                    log.error("Batch Error: ", throwable);
+                    log.warn("Error Object: {}", object);
+                })
                 .publishOn(scheduler)
                 .subscribe();
     }
