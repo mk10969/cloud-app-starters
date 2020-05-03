@@ -70,7 +70,7 @@ public enum HorseSignCode implements CodeEnum<String, HorseSignCode> {
         if (DEFAULT.getCode().equals(code)) {
             return DEFAULT;
         }
-        return CodeEnum.reversibleFindOne(code, HorseSignCode.class);
+        return CodeEnum.convertByCode(code, HorseSignCode.class);
     }
 
     /**
@@ -85,7 +85,7 @@ public enum HorseSignCode implements CodeEnum<String, HorseSignCode> {
 
         @Override
         public HorseSignCode convertToEntityAttribute(String dbData) {
-            return CodeEnum.convertOf(dbData, HorseSignCode.class);
+            return CodeEnum.convertByCodeName(dbData, HorseSignCode.class);
         }
     }
 }

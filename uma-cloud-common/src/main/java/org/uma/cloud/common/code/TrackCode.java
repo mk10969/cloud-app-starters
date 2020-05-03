@@ -71,7 +71,7 @@ public enum TrackCode implements CodeEnum<Integer, TrackCode> {
         if (DEFAULT.getCode().equals(code)) {
             return DEFAULT;
         }
-        return CodeEnum.reversibleFindOne(code, TrackCode.class);
+        return CodeEnum.convertByCode(code, TrackCode.class);
     }
 
     /**
@@ -86,7 +86,7 @@ public enum TrackCode implements CodeEnum<Integer, TrackCode> {
 
         @Override
         public TrackCode convertToEntityAttribute(String dbData) {
-            return CodeEnum.convertOf(dbData, TrackCode.class);
+            return CodeEnum.convertByCodeName(dbData, TrackCode.class);
         }
     }
 

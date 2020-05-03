@@ -87,7 +87,7 @@ public enum MarginCode implements CodeEnum<String, MarginCode> {
         if (DEFAULT.getCode().equals(code)) {
             return DEFAULT;
         }
-        return CodeEnum.reversibleFindOne(code, MarginCode.class);
+        return CodeEnum.convertByCode(code, MarginCode.class);
     }
 
     /**
@@ -102,7 +102,7 @@ public enum MarginCode implements CodeEnum<String, MarginCode> {
 
         @Override
         public MarginCode convertToEntityAttribute(String dbData) {
-            return CodeEnum.convertOf(dbData, MarginCode.class);
+            return CodeEnum.convertByCodeName(dbData, MarginCode.class);
         }
     }
 

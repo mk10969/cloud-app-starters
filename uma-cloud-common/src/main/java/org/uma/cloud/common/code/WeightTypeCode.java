@@ -46,7 +46,7 @@ public enum WeightTypeCode implements CodeEnum<Integer, WeightTypeCode> {
         if (DEFAULT.getCode().equals(code)) {
             return DEFAULT;
         }
-        return CodeEnum.reversibleFindOne(code, WeightTypeCode.class);
+        return CodeEnum.convertByCode(code, WeightTypeCode.class);
     }
 
     /**
@@ -61,7 +61,7 @@ public enum WeightTypeCode implements CodeEnum<Integer, WeightTypeCode> {
 
         @Override
         public WeightTypeCode convertToEntityAttribute(String dbData) {
-            return CodeEnum.convertOf(dbData, WeightTypeCode.class);
+            return CodeEnum.convertByCodeName(dbData, WeightTypeCode.class);
         }
     }
 

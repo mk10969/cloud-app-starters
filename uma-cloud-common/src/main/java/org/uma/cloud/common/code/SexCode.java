@@ -45,7 +45,7 @@ public enum SexCode implements CodeEnum<Integer, SexCode> {
         if (DEFAULT.getCode().equals(code)) {
             return DEFAULT;
         }
-        return CodeEnum.reversibleFindOne(code, SexCode.class);
+        return CodeEnum.convertByCode(code, SexCode.class);
     }
 
     /**
@@ -60,7 +60,7 @@ public enum SexCode implements CodeEnum<Integer, SexCode> {
 
         @Override
         public SexCode convertToEntityAttribute(String dbData) {
-            return CodeEnum.convertOf(dbData, SexCode.class);
+            return CodeEnum.convertByCodeName(dbData, SexCode.class);
         }
     }
 

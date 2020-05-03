@@ -70,7 +70,7 @@ public enum RecordSpec implements CodeEnum<String, RecordSpec> {
 
     public static RecordSpec of(String recordSpec) {
         Objects.requireNonNull(recordSpec);
-        return CodeEnum.reversibleFindOne(recordSpec, RecordSpec.class);
+        return CodeEnum.convertByCode(recordSpec, RecordSpec.class);
     }
 
     /**
@@ -85,7 +85,7 @@ public enum RecordSpec implements CodeEnum<String, RecordSpec> {
 
         @Override
         public RecordSpec convertToEntityAttribute(String dbData) {
-            return CodeEnum.convertOf(dbData, RecordSpec.class);
+            return CodeEnum.convertByCode(dbData, RecordSpec.class);
         }
     }
 }

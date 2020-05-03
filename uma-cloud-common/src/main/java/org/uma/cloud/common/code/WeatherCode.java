@@ -48,7 +48,7 @@ public enum WeatherCode implements CodeEnum<Integer, WeatherCode> {
         if (DEFAULT.getCode().equals(code)) {
             return DEFAULT;
         }
-        return CodeEnum.reversibleFindOne(code, WeatherCode.class);
+        return CodeEnum.convertByCode(code, WeatherCode.class);
     }
 
     /**
@@ -63,7 +63,7 @@ public enum WeatherCode implements CodeEnum<Integer, WeatherCode> {
 
         @Override
         public WeatherCode convertToEntityAttribute(String dbData) {
-            return CodeEnum.convertOf(dbData, WeatherCode.class);
+            return CodeEnum.convertByCodeName(dbData, WeatherCode.class);
         }
     }
     

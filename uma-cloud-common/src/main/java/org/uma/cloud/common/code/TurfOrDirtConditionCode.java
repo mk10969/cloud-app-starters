@@ -62,7 +62,7 @@ public enum TurfOrDirtConditionCode implements CodeEnum<Integer, TurfOrDirtCondi
         if (DEFAULT.getCode().equals(code)) {
             return DEFAULT;
         }
-        return CodeEnum.reversibleFindOne(code, TurfOrDirtConditionCode.class);
+        return CodeEnum.convertByCode(code, TurfOrDirtConditionCode.class);
     }
 
     /**
@@ -77,7 +77,7 @@ public enum TurfOrDirtConditionCode implements CodeEnum<Integer, TurfOrDirtCondi
 
         @Override
         public TurfOrDirtConditionCode convertToEntityAttribute(String dbData) {
-            return CodeEnum.convertOf(dbData, TurfOrDirtConditionCode.class);
+            return CodeEnum.convertByCodeName(dbData, TurfOrDirtConditionCode.class);
         }
     }
 

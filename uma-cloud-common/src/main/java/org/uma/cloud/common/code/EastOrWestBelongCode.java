@@ -47,7 +47,7 @@ public enum EastOrWestBelongCode implements CodeEnum<Integer, EastOrWestBelongCo
         if (DEFAULT.getCode().equals(code)) {
             return DEFAULT;
         }
-        return CodeEnum.reversibleFindOne(code, EastOrWestBelongCode.class);
+        return CodeEnum.convertByCode(code, EastOrWestBelongCode.class);
     }
 
     /**
@@ -62,7 +62,7 @@ public enum EastOrWestBelongCode implements CodeEnum<Integer, EastOrWestBelongCo
 
         @Override
         public EastOrWestBelongCode convertToEntityAttribute(String dbData) {
-            return CodeEnum.convertOf(dbData, EastOrWestBelongCode.class);
+            return CodeEnum.convertByCodeName(dbData, EastOrWestBelongCode.class);
         }
     }
 }

@@ -56,7 +56,7 @@ public enum AbnormalDivisionCode implements CodeEnum<Integer, AbnormalDivisionCo
         if (DEFAULT.getCode().equals(code)) {
             return DEFAULT;
         }
-        return CodeEnum.reversibleFindOne(code, AbnormalDivisionCode.class);
+        return CodeEnum.convertByCode(code, AbnormalDivisionCode.class);
     }
 
     /**
@@ -72,7 +72,7 @@ public enum AbnormalDivisionCode implements CodeEnum<Integer, AbnormalDivisionCo
 
         @Override
         public AbnormalDivisionCode convertToEntityAttribute(String dbData) {
-            return CodeEnum.convertOf(dbData, AbnormalDivisionCode.class);
+            return CodeEnum.convertByCodeName(dbData, AbnormalDivisionCode.class);
         }
     }
 

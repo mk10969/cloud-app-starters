@@ -57,7 +57,7 @@ public enum JockeyApprenticeCode implements CodeEnum<Integer, JockeyApprenticeCo
         if (DEFAULT.getCode().equals(code)) {
             return DEFAULT;
         }
-        return CodeEnum.reversibleFindOne(code, JockeyApprenticeCode.class);
+        return CodeEnum.convertByCode(code, JockeyApprenticeCode.class);
     }
 
     /**
@@ -72,7 +72,7 @@ public enum JockeyApprenticeCode implements CodeEnum<Integer, JockeyApprenticeCo
 
         @Override
         public JockeyApprenticeCode convertToEntityAttribute(String dbData) {
-            return CodeEnum.convertOf(dbData, JockeyApprenticeCode.class);
+            return CodeEnum.convertByCodeName(dbData, JockeyApprenticeCode.class);
         }
     }
 

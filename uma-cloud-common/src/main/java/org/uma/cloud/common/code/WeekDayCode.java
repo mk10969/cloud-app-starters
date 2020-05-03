@@ -53,7 +53,7 @@ public enum WeekDayCode implements CodeEnum<Integer, WeekDayCode> {
         if (DEFAULT.getCode().equals(code)) {
             return DEFAULT;
         }
-        return CodeEnum.reversibleFindOne(code, WeekDayCode.class);
+        return CodeEnum.convertByCode(code, WeekDayCode.class);
     }
 
     /**
@@ -68,7 +68,7 @@ public enum WeekDayCode implements CodeEnum<Integer, WeekDayCode> {
 
         @Override
         public WeekDayCode convertToEntityAttribute(String dbData) {
-            return CodeEnum.convertOf(dbData, WeekDayCode.class);
+            return CodeEnum.convertByCodeName(dbData, WeekDayCode.class);
         }
     }
 

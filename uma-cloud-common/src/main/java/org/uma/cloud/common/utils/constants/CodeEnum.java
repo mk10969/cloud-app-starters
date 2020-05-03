@@ -34,7 +34,7 @@ public interface CodeEnum<T, E extends Enum<E>> {
      * Codeから逆引きして、Enumを返却する。
      * JvLinkから返却されたデータを、デシリアライズするときに利用する。
      */
-    static <T, E extends Enum<E>> E reversibleFindOne(T code, Class<? extends CodeEnum<T, E>> enumClazz) {
+    static <T, E extends Enum<E>> E convertByCode(T code, Class<? extends CodeEnum<T, E>> enumClazz) {
         return Stream.of(enumClazz.getEnumConstants())
                 .filter(enums -> Objects.equals(enums.getCode(), code))
                 .findFirst()
@@ -48,7 +48,7 @@ public interface CodeEnum<T, E extends Enum<E>> {
      * Code名から逆引きして、Enumを返却する。
      * Jpaで利用する。DBには日本語で保存しておく。
      */
-    static <T, E extends Enum<E>> E convertOf(String codeName, Class<? extends CodeEnum<T, E>> enumClazz) {
+    static <T, E extends Enum<E>> E convertByCodeName(String codeName, Class<? extends CodeEnum<T, E>> enumClazz) {
         return Stream.of(enumClazz.getEnumConstants())
                 .filter(enums -> Objects.equals(enums.getCodeName(), codeName))
                 .findFirst()

@@ -53,7 +53,7 @@ public enum HairColorCode implements CodeEnum<String, HairColorCode> {
         if (DEFAULT.getCode().equals(code)) {
             return DEFAULT;
         }
-        return CodeEnum.reversibleFindOne(code, HairColorCode.class);
+        return CodeEnum.convertByCode(code, HairColorCode.class);
     }
 
     /**
@@ -68,7 +68,7 @@ public enum HairColorCode implements CodeEnum<String, HairColorCode> {
 
         @Override
         public HairColorCode convertToEntityAttribute(String dbData) {
-            return CodeEnum.convertOf(dbData, HairColorCode.class);
+            return CodeEnum.convertByCodeName(dbData, HairColorCode.class);
         }
     }
 }

@@ -45,7 +45,7 @@ public enum JockeyLicenseCode implements CodeEnum<Integer, JockeyLicenseCode> {
         if (DEFAULT.getCode().equals(code)) {
             return DEFAULT;
         }
-        return CodeEnum.reversibleFindOne(code, JockeyLicenseCode.class);
+        return CodeEnum.convertByCode(code, JockeyLicenseCode.class);
     }
 
     /**
@@ -60,7 +60,7 @@ public enum JockeyLicenseCode implements CodeEnum<Integer, JockeyLicenseCode> {
 
         @Override
         public JockeyLicenseCode convertToEntityAttribute(String dbData) {
-            return CodeEnum.convertOf(dbData, JockeyLicenseCode.class);
+            return CodeEnum.convertByCodeName(dbData, JockeyLicenseCode.class);
         }
     }
 

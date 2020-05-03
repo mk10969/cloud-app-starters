@@ -128,7 +128,7 @@ public enum RaceSignCode implements CodeEnum<String, RaceSignCode> {
         if (DEFAULT.getCode().equals(code)) {
             return DEFAULT;
         }
-        return CodeEnum.reversibleFindOne(code, RaceSignCode.class);
+        return CodeEnum.convertByCode(code, RaceSignCode.class);
     }
 
     /**
@@ -143,7 +143,7 @@ public enum RaceSignCode implements CodeEnum<String, RaceSignCode> {
 
         @Override
         public RaceSignCode convertToEntityAttribute(String dbData) {
-            return CodeEnum.convertOf(dbData, RaceSignCode.class);
+            return CodeEnum.convertByCodeName(dbData, RaceSignCode.class);
         }
     }
 

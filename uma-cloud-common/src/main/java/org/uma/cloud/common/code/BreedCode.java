@@ -51,7 +51,7 @@ public enum BreedCode implements CodeEnum<Integer, BreedCode> {
         if (DEFAULT.getCode().equals(code)) {
             return DEFAULT;
         }
-        return CodeEnum.reversibleFindOne(code, BreedCode.class);
+        return CodeEnum.convertByCode(code, BreedCode.class);
     }
 
     /**
@@ -66,7 +66,7 @@ public enum BreedCode implements CodeEnum<Integer, BreedCode> {
 
         @Override
         public BreedCode convertToEntityAttribute(String dbData) {
-            return CodeEnum.convertOf(dbData, BreedCode.class);
+            return CodeEnum.convertByCodeName(dbData, BreedCode.class);
         }
     }
 

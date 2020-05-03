@@ -58,7 +58,7 @@ public enum RaceTypeCode implements CodeEnum<Integer, RaceTypeCode> {
         if (DEFAULT.getCode().equals(code)) {
             return DEFAULT;
         }
-        return CodeEnum.reversibleFindOne(code, RaceTypeCode.class);
+        return CodeEnum.convertByCode(code, RaceTypeCode.class);
     }
 
     /**
@@ -73,7 +73,7 @@ public enum RaceTypeCode implements CodeEnum<Integer, RaceTypeCode> {
 
         @Override
         public RaceTypeCode convertToEntityAttribute(String dbData) {
-            return CodeEnum.convertOf(dbData, RaceTypeCode.class);
+            return CodeEnum.convertByCodeName(dbData, RaceTypeCode.class);
         }
     }
 
