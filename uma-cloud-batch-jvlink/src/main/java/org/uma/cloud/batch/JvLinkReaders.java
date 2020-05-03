@@ -14,7 +14,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
-import org.uma.cloud.common.service.business.BusinessBaseDateService;
 import org.uma.cloud.common.utils.lang.DateUtil;
 
 import javax.annotation.PostConstruct;
@@ -40,9 +39,6 @@ public class JvLinkReaders {
 
     @Autowired
     private JvLinkBatchProperties properties;
-
-    @Autowired
-    private BusinessBaseDateService businessBaseDateService;
 
     // no Getter and Setter
     private String readerName;
@@ -83,7 +79,8 @@ public class JvLinkReaders {
      */
     private IteratorItemReader<String> httpReader() throws IOException, InterruptedException {
         // 最新の基準日を取得する
-        long baseDate = businessBaseDateService.getLatestBaseDate();
+        // TODO: これ使わないかも。。
+        long baseDate = DateUtil.thisFriday();
         log.info("BaseDate: {}", DateUtil.toLocalDateTime(baseDate).format(DateTimeFormatter.ofPattern("yyyy/MM/dd")));
 
         HttpClient httpClient = HttpClient.newBuilder()

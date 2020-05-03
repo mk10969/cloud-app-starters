@@ -1,8 +1,6 @@
 include 'uma-cloud-common'
 
-include 'uma-cloud-batch-basedate'
 include 'uma-cloud-batch-jvlink'
-
 include 'uma-cloud-stream-function'
 
 include 'uma-cloud-task-business'
