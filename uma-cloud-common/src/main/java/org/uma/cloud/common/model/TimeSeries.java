@@ -10,7 +10,7 @@ public interface TimeSeries {
     String getAnnounceDate();
 
 
-    default LocalDateTime getTimestamp() {
+    default LocalDateTime timestamp() {
         int year = this.getHoldingDate().getYear();
         String MMddHHmm = this.getAnnounceDate();
         int month = Integer.parseInt(MMddHHmm.substring(0, 2));

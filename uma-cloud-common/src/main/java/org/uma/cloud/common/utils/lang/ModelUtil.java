@@ -83,7 +83,8 @@ public class ModelUtil {
             "myUpdateDateTime",
             "horseWeight",
             "changeAmount",
-            // 枠連は、出走頭数が少ないと、発売されない場合がある
+            // 複勝、枠連は、出走頭数が少ないと、発売されない場合がある
+            "voteCountTotalShow",
             "voteCountTotalBracketQuinella",
             // 返還票数
             "restoreVoteCountTotalWin",

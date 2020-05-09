@@ -1,7 +1,6 @@
 package org.uma.cloud.stream.function;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
@@ -28,9 +27,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.time.LocalDate;
 import java.util.Arrays;
-import java.util.Comparator;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -130,7 +127,7 @@ class JvBatchConsumerTest {
                 e.printStackTrace();
             }
             // 大丈夫そう。
-            racingDetailService.save(racingDetail);
+//            racingDetailService.save(racingDetail);
         });
     }
 
@@ -152,7 +149,7 @@ class JvBatchConsumerTest {
                 e.printStackTrace();
             }
             // 大丈夫そう。
-            racingDetailService.save(racingDetail);
+//            racingDetailService.save(racingDetail);
         });
     }
 
@@ -190,7 +187,6 @@ class JvBatchConsumerTest {
                 .map(BaseModel::toString)
                 .forEach(System.out::println);
     }
-    
 
     private JsonNode toJsonNode(String json) {
         try {
@@ -201,7 +197,7 @@ class JvBatchConsumerTest {
     }
 
     @Test
-    List<String> readJson() throws IOException {
+    private List<String> readJson() throws IOException {
         try (InputStream inputStream = resourceFile.getInputStream();
              Stream<String> lines = new BufferedReader(new InputStreamReader(inputStream)).lines()) {
             return lines.collect(Collectors.toList());
@@ -209,14 +205,14 @@ class JvBatchConsumerTest {
     }
 
 
-    @Test
-    JsonNode readJson2() throws IOException {
-        List<Map<String, Object>> tmp = objectMapper.readValue(resourceFile.getFile(), new TypeReference<List<Map<String, Object>>>() {
-        });
-
-        return objectMapper.convertValue(tmp.stream()
-                .sorted(Comparator.comparing(a -> (String) a.get("raceId")))
-                .collect(Collectors.toList()), JsonNode.class);
-    }
+//    @Test
+//    JsonNode readJson2() throws IOException {
+//        List<Map<String, Object>> tmp = objectMapper.readValue(resourceFile.getFile(), new TypeReference<List<Map<String, Object>>>() {
+//        });
+//
+//        return objectMapper.convertValue(tmp.stream()
+//                .sorted(Comparator.comparing(a -> (String) a.get("raceId")))
+//                .collect(Collectors.toList()), JsonNode.class);
+//    }
 
 }

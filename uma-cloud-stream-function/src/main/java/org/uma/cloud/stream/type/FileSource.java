@@ -40,7 +40,11 @@ public class FileSource {
     private static final String filePath = "file:///Users/m-kakiuchi/mydata/data/";
 
     private static final String racingDetail = "RACE_RA.txt";
-    private static final String racingHorseDetail = "RACE_SE.txt";
+    // 3分割して実施する。
+//    private static final String racingHorseDetail = "RACE_SE_1.txt";
+//    private static final String racingHorseDetail = "RACE_SE_2.txt";
+    private static final String racingHorseDetail = "RACE_SE_3.txt";
+
     private static final String racingRefund = "RACE_HR.txt";
     private static final String racingVote = "RACE_H1.txt";
     private static final String racingHorseExclusion = "RACE_JG.txt";
@@ -89,10 +93,13 @@ public class FileSource {
                 .doOnNext(ModelUtil::fieldNotNull);
     }
 
+    /**
+     * 古いと、馬連、ワイド、三連系の票数がない。
+     * null checkは外しておく。
+     */
     public Flux<RacingVote> getRacingVote() {
         return fromUri(URI.create(filePath + racingVote))
-                .map(jvLinkDeserializer::toRacingVote)
-                .doOnNext(ModelUtil::fieldNotNull);
+                .map(jvLinkDeserializer::toRacingVote);
     }
 
     public Flux<RacingHorseExclusion> getRacingHorseExclusion() {

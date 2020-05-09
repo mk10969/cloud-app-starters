@@ -18,6 +18,7 @@ dependencies {
 
     testImplementation 'org.springframework.cloud:spring-cloud-stream-test-support'
     testImplementation 'org.springframework.kafka:spring-kafka-test'
+    testImplementation 'com.flipkart.zjsonpatch:zjsonpatch:0.4.10'
 }
 
 

@@ -30,7 +30,7 @@ public class TimeSeriesSink {
         // 枠連は捨てる。
         // winsPlaceBracketQuinella.getBracketQuinellaOdds();
 
-        long timestamp = DateUtil.toEpochMilli(winsShowBracketQ.getTimestamp());
+        long timestamp = DateUtil.toEpochMilli(winsShowBracketQ.timestamp());
 
         Flux<Point> winFlux = Flux.fromStream(winsShowBracketQ.getWinOdds().stream())
                 .map(winOdds -> Point.measurement(winOdds.getClass().getSimpleName())
@@ -58,7 +58,7 @@ public class TimeSeriesSink {
 
 
     public Mono<String> oddsToPoint(Quinella quinella) {
-        long timestamp = DateUtil.toEpochMilli(quinella.getTimestamp());
+        long timestamp = DateUtil.toEpochMilli(quinella.timestamp());
 
         return Flux.fromStream(quinella.getQuinellaOdds().stream())
                 .map(quinellaOdds -> Point.measurement(quinella.getClass().getSimpleName())
@@ -73,7 +73,7 @@ public class TimeSeriesSink {
     }
 
     public Mono<String> oddsToPoint(QuinellaPlace quinellaPlace) {
-        long timestamp = DateUtil.toEpochMilli(quinellaPlace.getTimestamp());
+        long timestamp = DateUtil.toEpochMilli(quinellaPlace.timestamp());
 
         return Flux.fromStream(quinellaPlace.getQuinellaPlaceOdds().stream())
                 .map(quinellaPlaceOdds -> Point.measurement(quinellaPlace.getClass().getSimpleName())
@@ -89,7 +89,7 @@ public class TimeSeriesSink {
     }
 
     public Mono<String> oddsToPoint(Exacta exacta) {
-        long timestamp = DateUtil.toEpochMilli(exacta.getTimestamp());
+        long timestamp = DateUtil.toEpochMilli(exacta.timestamp());
 
         return Flux.fromStream(exacta.getExactaOdds().stream())
                 .map(exactaOdds -> Point.measurement(exacta.getClass().getSimpleName())
