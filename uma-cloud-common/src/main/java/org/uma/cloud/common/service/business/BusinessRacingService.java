@@ -51,23 +51,24 @@ public class BusinessRacingService {
                 .stream()
                 .filter(racing -> racing.getCourse() == weather.getCourseCd())
                 .peek(racing -> {
-                    switch (weather.getChangeId()) {
-                        case 1:
-                            racing.setWeather(weather.getWeatherNow());
-                            racing.setTurf(weather.getTurfNow());
-                            racing.setDirt(weather.getDirtNow());
-                        case 2:
-                            racing.setWeather(weather.getWeatherNow());
-                        case 3:
-                            racing.setTurf(weather.getTurfNow());
-                            racing.setDirt(weather.getDirtNow());
-                        default:
-                            throw new IllegalArgumentException("weather: " + weather);
+                    if (weather.getChangeId() == 1) {
+                        racing.setWeather(weather.getWeatherNow());
+                        racing.setTurf(weather.getTurfNow());
+                        racing.setDirt(weather.getDirtNow());
+
+                    } else if (weather.getChangeId() == 2) {
+                        racing.setWeather(weather.getWeatherNow());
+
+                    } else if (weather.getChangeId() == 3) {
+                        racing.setTurf(weather.getTurfNow());
+                        racing.setDirt(weather.getDirtNow());
+
+                    } else {
+                        throw new IllegalArgumentException("weather: " + weather);
                     }
                 })
                 .collect(Collectors.toUnmodifiableList());
 
-        // TODO: Transactionalされるか？
         return this.updateAll(updatingRacing);
     }
 

@@ -20,7 +20,7 @@ public class JvEventSupplier {
     private JvLinkWebSocketSource source;
 
     @Bean
-    @ConditionalOnProperty(prefix = "uma.stream.init", name = "enabled", havingValue = "true")
+    @ConditionalOnProperty(prefix = "uma.stream.event", name = "enabled", havingValue = "true")
     public CommandLineRunner websocketSubscribe() {
         return args -> this.source
                 .connectToJvLinkWebSocket()

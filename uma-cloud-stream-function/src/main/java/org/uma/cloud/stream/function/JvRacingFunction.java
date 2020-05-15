@@ -51,7 +51,7 @@ public class JvRacingFunction {
                 .andThen(raceIdToBusinessRacingHorse())
                 .apply(jvLinkWebSource.storeRacingDetail(DateUtil.thisFriday())
                         .map(RacingDetail::getRaceId))
-                .subscribe(raceId -> log.info("今週のレース: {}", raceId));
+                .subscribe();
     }
 
 
@@ -66,6 +66,7 @@ public class JvRacingFunction {
     public Function<Flux<String>, Flux<String>> raceIdToBusinessRacing() {
         return raceId -> raceId
                 .flatMap(jvLinkWebSource::realtimeRacingDetail)
+                .doOnNext(this::debug)
                 .map(BusinessMapper::toBusinessRacing)
                 .flatMap(businessSink::update)
                 .doOnNext(this::debug)
@@ -83,6 +84,7 @@ public class JvRacingFunction {
     public Function<Flux<String>, Flux<String>> raceIdToBusinessRacingHorse() {
         return raceId -> raceId
                 .flatMap(jvLinkWebSource::realtimeRacingHorseDetail)
+                .doOnNext(this::debug)
                 .map(BusinessMapper::toBusinessRacingHorse)
                 .flatMap(businessSink::update)
                 .doOnNext(this::debug)
@@ -101,6 +103,7 @@ public class JvRacingFunction {
         return event -> event
                 .map(EventMessage::getEventId)
                 .flatMap(jvLinkWebSource::eventRacingRefund)
+                .doOnNext(this::debug)
                 .map(BusinessMapper::toBusinessRacingRefund)
                 .flatMap(businessSink::update)
                 .doOnNext(this::debug)
@@ -167,31 +170,37 @@ public class JvRacingFunction {
             switch (e.getRecordSpec()) {
                 case WH:
                     return jvLinkWebSource.eventWeight(e.getEventId())
+                            .doOnNext(this::debug)
                             .flatMapMany(businessSink::update)
                             .doOnNext(this::debug)
                             .map(BusinessRacingHorse::getRaceId);
                 case WE:
                     return jvLinkWebSource.eventWeather(e.getEventId())
+                            .doOnNext(this::debug)
                             .flatMapMany(businessSink::update)
                             .doOnNext(this::debug)
                             .map(BusinessRacing::getRaceId);
                 case JC:
                     return jvLinkWebSource.eventJockeyChange(e.getEventId())
+                            .doOnNext(this::debug)
                             .flatMap(businessSink::update)
                             .doOnNext(this::debug)
                             .map(BusinessRacingHorse::getRaceId);
                 case AV:
                     return jvLinkWebSource.eventAvoid(e.getEventId())
+                            .doOnNext(this::debug)
                             .flatMap(businessSink::update)
                             .doOnNext(this::debug)
                             .map(BusinessRacingHorse::getRaceId);
                 case TC:
                     return jvLinkWebSource.eventTimeChange(e.getEventId())
+                            .doOnNext(this::debug)
                             .flatMap(businessSink::update)
                             .doOnNext(this::debug)
                             .map(BusinessRacing::getRaceId);
                 case CC:
                     return jvLinkWebSource.eventCourseChange(e.getEventId())
+                            .doOnNext(this::debug)
                             .flatMap(businessSink::update)
                             .doOnNext(this::debug)
                             .map(BusinessRacing::getRaceId);
