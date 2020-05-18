@@ -49,7 +49,7 @@ public class BusinessRacingService {
     public List<BusinessRacing> updateAllWeather(Weather weather) {
         List<BusinessRacing> updatingRacing = repository.findByRaceStartDateTimeAfter(weather.timestamp())
                 .stream()
-                .filter(racing -> racing.getCourse() == weather.getCourseCd())
+                .filter(racing -> racing.getCourseCd() == weather.getCourseCd())
                 .peek(racing -> {
                     if (weather.getChangeId() == 1) {
                         racing.setWeather(weather.getWeatherNow());

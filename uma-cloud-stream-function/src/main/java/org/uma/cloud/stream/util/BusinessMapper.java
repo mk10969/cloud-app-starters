@@ -1,5 +1,6 @@
 package org.uma.cloud.stream.util;
 
+import org.uma.cloud.common.code.AbnormalDivisionCode;
 import org.uma.cloud.common.model.RacingDetail;
 import org.uma.cloud.common.model.RacingHorseDetail;
 import org.uma.cloud.common.model.RacingRefund;
@@ -15,10 +16,6 @@ import java.util.stream.Collectors;
 
 public class BusinessMapper {
 
-    // TODO: reflectionつかうか、、迷う。。
-    // TODO: reflection使うのなら、field 名を揃えないと無理だね。
-    // もう書いちゃったしw
-
     public static BusinessRacing toBusinessRacing(RacingDetail racingDetail) {
         BusinessRacing model = new BusinessRacing();
         model.setRaceId(racingDetail.getRaceId());
@@ -26,13 +23,36 @@ public class BusinessMapper {
         model.setRaceStartDateTime(LocalDateTime.of(racingDetail.getHoldingDate(), racingDetail.getStartTime()));
         model.setRaceNo(racingDetail.getRaceNo());
         model.setRaceNameFull(racingDetail.getRaceNameFull());
-        model.setCourse(racingDetail.getCourseCd());
+        model.setCourseCd(racingDetail.getCourseCd());
         model.setRaceType(racingDetail.getRaceTypeCd());
+        model.setRaceSignCd(racingDetail.getRaceSignCd());
+        model.setWeightTypeCd(racingDetail.getWeightTypeCd());
+        model.setRaceConditionCdOld2(racingDetail.getRaceConditionCdOld2());
+        model.setRaceConditionCdOld3(racingDetail.getRaceConditionCdOld3());
+        model.setRaceConditionCdOld4(racingDetail.getRaceConditionCdOld4());
+        model.setRaceConditionCdOld5(racingDetail.getRaceConditionCdOld5());
+        model.setRaceConditionCdYoungest(racingDetail.getRaceConditionCdYoungest());
         model.setDistance(racingDetail.getDistance());
         model.setTrack(racingDetail.getTrackCd());
         model.setTurf(racingDetail.getTurfConditionCd());
         model.setDirt(racingDetail.getDirtConditionCd());
         model.setWeather(racingDetail.getWeatherCd());
+        // レース結果
+        model.setLapTimeItems(racingDetail.getLapTimeItems());
+        model.setFirstFurlong3(racingDetail.getFirstFurlong3());
+        model.setFirstFurlong4(racingDetail.getFirstFurlong4());
+        model.setLastFurlong3(racingDetail.getLastFurlong3());
+        model.setLastFurlong4(racingDetail.getLastFurlong4());
+        model.setCornerPassageRanks(racingDetail.getCornerPassageRanks().stream()
+                .map(i -> {
+                    BusinessRacing.CornerPassageRank cornerPassageRank
+                            = new BusinessRacing.CornerPassageRank();
+                    cornerPassageRank.setCorner(i.getCorner());
+                    cornerPassageRank.setAroundCount(i.getAroundCount());
+                    cornerPassageRank.setPassageRank(i.getPassageRank());
+                    return cornerPassageRank;
+                }).collect(Collectors.toList()));
+
         return model;
     }
 
@@ -40,7 +60,6 @@ public class BusinessMapper {
         BusinessRacingHorse model = new BusinessRacingHorse();
         model.setRaceId(racingHorseDetail.getRaceId());
         model.setDataDiv(racingHorseDetail.getDataDiv());
-        model.setRaceNo(racingHorseDetail.getRaceNo());
         model.setBracketNo(racingHorseDetail.getBracketNo());
         model.setHorseNo(racingHorseDetail.getHorseNo());
         model.setBloodlineNo(racingHorseDetail.getBloodlineNo());
@@ -48,6 +67,7 @@ public class BusinessMapper {
         model.setSex(racingHorseDetail.getSexCd());
         model.setHairColor(racingHorseDetail.getHairColorCd());
         model.setAge(racingHorseDetail.getAge());
+        model.setBlinker(racingHorseDetail.getIsBlinker());
         model.setEwBelong(racingHorseDetail.getEwBelongCd());
         model.setJockeyNameShort(racingHorseDetail.getJockeyNameShort());
         model.setLoadWeight(racingHorseDetail.getLoadWeight());
@@ -59,6 +79,23 @@ public class BusinessMapper {
         model.setChangeAmount(racingHorseDetail.getChangeAmount());
         model.setOddsWin(racingHorseDetail.getOddsWin());
         model.setBetRankWin(racingHorseDetail.getBetRankWin());
+        if (racingHorseDetail.getAbnormalDivCd() != AbnormalDivisionCode.DEFAULT) {
+            model.setExclude(1);
+            model.setExcludeReason("001"); // とりあえずこれいれとく。
+        }
+        // レース結果
+        model.setAbnormalDivCd(racingHorseDetail.getAbnormalDivCd());
+        model.setFinishedArrivalOrder(racingHorseDetail.getFinishedArrivalOrder());
+        model.setFixedArrivalOrder(racingHorseDetail.getFixedArrivalOrder());
+        model.setRunningTime(racingHorseDetail.getRunningTime());
+        model.setMarginCd(racingHorseDetail.getMarginCd());
+        model.setMarginCd2(racingHorseDetail.getMarginCd2());
+        model.setMarginCd3(racingHorseDetail.getMarginCd3());
+        model.setRankCorner1(racingHorseDetail.getRankCorner1());
+        model.setRankCorner2(racingHorseDetail.getRankCorner2());
+        model.setRankCorner3(racingHorseDetail.getRankCorner3());
+        model.setRankCorner4(racingHorseDetail.getRankCorner4());
+        model.setTimeMargin(racingHorseDetail.getTimeMargin());
         return model;
     }
 

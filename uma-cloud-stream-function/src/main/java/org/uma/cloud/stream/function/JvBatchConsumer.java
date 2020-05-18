@@ -60,7 +60,7 @@ public class JvBatchConsumer {
 
 
     public void batch() {
-        batchRacingHorseDetail();
+        batchTrifecta();
     }
 
     // レース
@@ -102,7 +102,13 @@ public class JvBatchConsumer {
 
     private void batchRacingHorseExclusion() {
         Flux<RacingHorseExclusion> flux = fileSource.getRacingHorseExclusion()
-                .filter(entity -> jpaEntitySink.notExists(entity, entity.getRaceId()))
+                .filter(entity -> {
+                    RacingHorseExclusion.CompositeId compositeId = new RacingHorseExclusion.CompositeId();
+                    compositeId.setRaceId(entity.getRaceId());
+                    compositeId.setBloodlineNo(entity.getBloodlineNo());
+                    compositeId.setEntryOrderNo(entity.getEntryOrderNo());
+                    return jpaEntitySink.notExists(entity, compositeId);
+                })
                 .filter(entity -> !entity.getDataDiv().equals("0"));
         persist().accept(flux);
     }
@@ -249,7 +255,7 @@ public class JvBatchConsumer {
                     log.warn("Error Object: {}", object);
                 })
                 .publishOn(scheduler)
-                .subscribe();
+                .subscribe(i -> {}, e -> {}, () -> log.info("完了"));
     }
 
 
@@ -263,6 +269,6 @@ public class JvBatchConsumer {
                     log.warn("Error Object: {}", object);
                 })
                 .publishOn(scheduler)
-                .subscribe();
+                .subscribe(i -> {}, e -> {}, () -> log.info("完了"));
     }
 }

@@ -40,12 +40,6 @@ public class BusinessRacingHorse implements Serializable {
     private String dataDiv;
 
     /**
-     * レース番号
-     */
-    @Column(nullable = false)
-    private Integer raceNo;
-
-    /**
      * 枠番
      */
     @Column(nullable = false)
@@ -59,6 +53,7 @@ public class BusinessRacingHorse implements Serializable {
     private String horseNo;
 
     /**
+     * 血統登録番号
      * {@link BloodLine.bloodlineNo}
      */
     @Column(nullable = false)
@@ -261,5 +256,19 @@ public class BusinessRacingHorse implements Serializable {
 
         private String horseNo;
     }
+
+
+    /**
+     * TODO 追加したいカラム
+     *
+     * 血統表 flatで
+     *
+     *
+     *
+     *
+     *
+     */
+
+
 
 }
