@@ -11,6 +11,7 @@ import org.uma.cloud.common.repository.business.BusinessRacingRepository;
 import org.uma.cloud.common.utils.lang.DateUtil;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
@@ -30,15 +31,19 @@ public class BusinessRacingService {
      * 現在時刻 以降のレース一覧を取得。
      */
     public List<BusinessRacing> findComingRaces() {
-        return repository.findByRaceStartDateTimeAfter(DateUtil.toLocalDateTime(now.get()));
+        LocalDateTime localDateTime = DateUtil.toLocalDateTime(now.get());
+        return repository.findByHoldingDateAfterAndStartTimeAfter(
+                localDateTime.toLocalDate(), localDateTime.toLocalTime());
     }
 
     /**
      * 現在時刻 以前の未確定レース一覧を取得。
      */
+    @Deprecated
     public List<BusinessRacing> findFinishedRaces() {
-        return repository.findByDataDivAndRaceStartDateTimeBefore(
-                pending, DateUtil.toLocalDateTime(now.get()));
+        return new ArrayList<>();
+//        return repository.findByDataDivAndRaceStartDateTimeBefore(
+//                pending, DateUtil.toLocalDateTime(now.get()));
     }
 
     /**
@@ -47,7 +52,9 @@ public class BusinessRacingService {
      * @param weather 天候 or 馬場状態
      */
     public List<BusinessRacing> updateAllWeather(Weather weather) {
-        List<BusinessRacing> updatingRacing = repository.findByRaceStartDateTimeAfter(weather.timestamp())
+        LocalDateTime localDateTime = weather.timestamp();
+        List<BusinessRacing> updatingRacing = repository.findByHoldingDateAfterAndStartTimeAfter(
+                localDateTime.toLocalDate(), localDateTime.toLocalTime())
                 .stream()
                 .filter(racing -> racing.getCourseCd() == weather.getCourseCd())
                 .peek(racing -> {
@@ -79,8 +86,7 @@ public class BusinessRacingService {
      */
     public BusinessRacing updateTimeChange(TimeChange timeChange) {
         BusinessRacing updatingRacing = repository.findById(timeChange.getRaceId()).orElseThrow();
-        updatingRacing.setRaceStartDateTime(LocalDateTime.of(
-                timeChange.getHoldingDate(), timeChange.getStartTimeAfter()));
+        updatingRacing.setStartTime(timeChange.getStartTimeAfter());
 
         return this.update(updatingRacing);
     }

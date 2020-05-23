@@ -20,7 +20,8 @@ public class BusinessMapper {
         BusinessRacing model = new BusinessRacing();
         model.setRaceId(racingDetail.getRaceId());
         model.setDataDiv(racingDetail.getDataDiv());
-        model.setRaceStartDateTime(LocalDateTime.of(racingDetail.getHoldingDate(), racingDetail.getStartTime()));
+        model.setHoldingDate(racingDetail.getHoldingDate());
+        model.setStartTime(racingDetail.getStartTime());
         model.setRaceNo(racingDetail.getRaceNo());
         model.setRaceNameFull(racingDetail.getRaceNameFull());
         model.setCourseCd(racingDetail.getCourseCd());
@@ -69,10 +70,13 @@ public class BusinessMapper {
         model.setAge(racingHorseDetail.getAge());
         model.setBlinker(racingHorseDetail.getIsBlinker());
         model.setEwBelong(racingHorseDetail.getEwBelongCd());
+        model.setJockeyCd(racingHorseDetail.getJockeyCd());
         model.setJockeyNameShort(racingHorseDetail.getJockeyNameShort());
         model.setLoadWeight(racingHorseDetail.getLoadWeight());
         model.setJockeyApprentice(racingHorseDetail.getJockeyApprenticeCd());
+        model.setTrainerCd(racingHorseDetail.getTrainerCd());
         model.setTrainerNameShort(racingHorseDetail.getTrainerNameShort());
+        model.setOwnerCd(racingHorseDetail.getOwnerCd());
         model.setOwnerNameWithoutCorp(racingHorseDetail.getOwnerNameWithoutCorp());
         model.setHorseWeight(racingHorseDetail.getHorseWeight());
         model.setChangeSign(racingHorseDetail.getChangeSign());
@@ -80,7 +84,12 @@ public class BusinessMapper {
         model.setOddsWin(racingHorseDetail.getOddsWin());
         model.setBetRankWin(racingHorseDetail.getBetRankWin());
         if (racingHorseDetail.getAbnormalDivCd() != AbnormalDivisionCode.DEFAULT) {
-            model.setExclude(1);
+            // とりあえずこれいれとく。
+            if (racingHorseDetail.getAbnormalDivCd().getCode() == 1) {
+                model.setExclude(1);
+            } else {
+                model.setExclude(2);
+            }
             model.setExcludeReason("001"); // とりあえずこれいれとく。
         }
         // レース結果

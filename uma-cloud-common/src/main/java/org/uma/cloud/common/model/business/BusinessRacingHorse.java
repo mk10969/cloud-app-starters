@@ -95,7 +95,13 @@ public class BusinessRacingHorse implements Serializable {
     private boolean isBlinker = false;
 
     /**
-     * ジョッキー
+     * ジョッキーコード
+     */
+    @Column(nullable = false)
+    private Integer jockeyCd;
+
+    /**
+     * ジョッキー名
      */
     @Column(length = 8, nullable = false)
     private String jockeyNameShort;
@@ -113,13 +119,25 @@ public class BusinessRacingHorse implements Serializable {
     private JockeyApprenticeCode jockeyApprentice;
 
     /**
+     * 調教師コード
+     */
+    @Column(nullable = false)
+    private Integer trainerCd;
+
+    /**
      * 調教師
      */
     @Column(length = 8, nullable = false)
     private String trainerNameShort;
 
     /**
-     * オーナー
+     * オーナーコード
+     */
+    @Column(nullable = false)
+    private Integer ownerCd;
+
+    /**
+     * オーナー名
      */
     @Column(length = 64, nullable = false)
     private String ownerNameWithoutCorp;
@@ -268,7 +286,6 @@ public class BusinessRacingHorse implements Serializable {
      *
      *
      */
-
 
 
 }

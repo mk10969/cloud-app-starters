@@ -16,7 +16,8 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import java.io.Serializable;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 @Data
@@ -40,10 +41,16 @@ public class BusinessRacing implements Serializable {
     private String dataDiv;
 
     /**
+     * 開催日
+     */
+    @Column(nullable = false)
+    private LocalDate holdingDate;
+
+    /**
      * レース開始時刻
      */
     @Column(nullable = false)
-    private LocalDateTime raceStartDateTime;
+    private LocalTime startTime;
 
     /**
      * レース番号
@@ -209,8 +216,6 @@ public class BusinessRacing implements Serializable {
     }
 
 
-
-
     /**
      * TODO 追加したいカラム
      *
@@ -222,7 +227,6 @@ public class BusinessRacing implements Serializable {
      *
      *
      */
-
 
 
 }

@@ -19,6 +19,7 @@ public enum SexCode implements CodeEnum<Integer, SexCode> {
     STALLION(1, "牡馬"),
     MARE(2, "牝馬"),
     GELDING(3, "騸馬"),
+    BLANK(4, "-") // bloodLineで発生。仮置き。
     ;
 
     private final Integer code;
