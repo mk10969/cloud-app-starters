@@ -55,7 +55,7 @@ public class JacksonUtil {
         public static final SimpleModule simpleModule = new SimpleModule()
                 // Serializer
                 .addSerializer(new LocalDateSerializer(DateTimeFormatter.ofPattern("yyyy/MM/dd")))
-                .addSerializer(new LocalTimeSerializer(DateTimeFormatter.ofPattern("HH:mm:ss")));
+                .addSerializer(new LocalTimeSerializer(DateTimeFormatter.ofPattern("HH:mm:ss.SSS")));
     }
 
     /**

@@ -32,7 +32,7 @@ public class StreamFunctionConfiguration {
         private JvRaceSupplier jvRaceSupplier;
 
         @Autowired
-        private JvLinkWebSocketSource source;
+        private JvLinkWebSocketSource webSocketSource;
 
 
         @Bean
@@ -79,7 +79,7 @@ public class StreamFunctionConfiguration {
         @NotNull
         private Mono<ServerResponse> putEventId(ServerRequest request) {
             return request.bodyToMono(EventMessage.class)
-                    .doOnNext(i -> source.getProcessor().onNext(i))
+                    .doOnNext(i -> webSocketSource.getProcessor().onNext(i))
                     .flatMap(body -> ServerResponse.accepted()
                             .contentType(MediaType.APPLICATION_JSON)
                             .body(BodyInserters.fromValue(body)));

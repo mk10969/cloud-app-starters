@@ -332,7 +332,7 @@ public class JvLinkWebSource {
     }
 
     /**
-     * データ区分＝2  weatherCd, turfConditionCd, dirtConditionCd が取れる。
+     * データ区分＝2|6  weatherCd, turfConditionCd, dirtConditionCd が取れる。
      */
     public Mono<RacingDetail> realtimeRacingDetail(String raceId) {
         return findOneByRaceId(RealTimePath.racingDetail, raceId)
@@ -341,7 +341,7 @@ public class JvLinkWebSource {
     }
 
     /**
-     * データ区分＝2  馬体重が、nullになる -> null check 外しておく。
+     * データ区分＝2|6  馬体重が、nullになる -> null check 外しておく。
      */
     public Flux<RacingHorseDetail> realtimeRacingHorseDetail(String raceId) {
         return findAllByRaceId(RealTimePath.racingHorseDetail, raceId)

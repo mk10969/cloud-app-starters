@@ -29,7 +29,7 @@ public class JvRaceSupplier {
 
     @Bean
     public Supplier<Flux<String>> dynamicRaceId() {
-        return () -> processor.log();
+        return processor::log;
     }
 
 
