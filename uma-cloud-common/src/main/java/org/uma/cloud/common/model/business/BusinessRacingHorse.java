@@ -7,6 +7,7 @@ import org.uma.cloud.common.code.HairColorCode;
 import org.uma.cloud.common.code.JockeyApprenticeCode;
 import org.uma.cloud.common.code.MarginCode;
 import org.uma.cloud.common.code.SexCode;
+import org.uma.cloud.common.model.BaseModel;
 import org.uma.cloud.common.model.BloodLine;
 
 import javax.persistence.Column;
@@ -218,6 +219,10 @@ public class BusinessRacingHorse implements Serializable {
 
     /**
      * 走破タイム
+     *
+     * @see BaseModel.LocalTimeAttributeConverter
+     * <p>
+     * millisecondsを含めるために、converterを利用する。
      */
     private LocalTime runningTime;
 

@@ -29,7 +29,8 @@ public class TestSupplierRaceId {
         return () -> baseDate().zipWith(startTime(), (a, b) -> {
             BusinessRacing model = new BusinessRacing();
             model.setRaceId(a);
-            model.setRaceStartDateTime(b);
+            model.setStartTime(b.toLocalTime());
+            model.setHoldingDate(b.toLocalDate());
             return model;
         });
     }
