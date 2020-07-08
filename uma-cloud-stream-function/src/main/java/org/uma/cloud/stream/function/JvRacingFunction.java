@@ -54,13 +54,25 @@ public class JvRacingFunction {
                 .subscribe();
     }
 
+    /**
+     * 今週開催レースを再度取得する。
+     * 土曜開催が終わった後に再度データを取得したいときに利用。
+     */
+    @Bean
+    @ConditionalOnProperty(prefix = "uma.stream.rerun", name = "enabled", havingValue = "true")
+    public CommandLineRunner reRun() {
+        return args -> raceIdToBusinessRacing()
+                .andThen(raceIdToBusinessRacingHorse())
+                .andThen(raceIdToBusinessRacingRefund())
+                .apply(jvLinkWebSource.storeRacingDetailOnThisWeek().map(RacingDetail::getRaceId))
+                .subscribe();
+    }
+
 
     /**
      * 検索: jvLinkWebSource#realtimeRacingDetail
      * 変換: BusinessMapper#toBusinessRacing
      * 登録: businessSink#update
-     * <p>
-     * 新しくなったら更新する。exist check不要。
      */
     @Bean
     public Function<Flux<String>, Flux<String>> raceIdToBusinessRacing() {
@@ -77,8 +89,6 @@ public class JvRacingFunction {
      * 検索: jvLinkWebSource#realtimeRacingHorseDetail
      * 変換: BusinessMapper#toBusinessRacingHorse
      * 登録: businessSink#update
-     * <p>
-     * 新しくなったら更新する。exist check不要。
      */
     @Bean
     public Function<Flux<String>, Flux<String>> raceIdToBusinessRacingHorse() {
@@ -95,8 +105,21 @@ public class JvRacingFunction {
      * 検索: jvLinkWebSource#eventRacingRefund
      * 変換: BusinessMapper#toBusinessRacingRefund
      * 登録: businessSink#update
-     * <p>
-     * 確定レース払戻
+     */
+    @Bean
+    public Function<Flux<String>, Flux<String>> raceIdToBusinessRacingRefund() {
+        return raceId -> raceId
+                .flatMap(jvLinkWebSource::eventRacingRefund)
+                .doOnNext(this::debug)
+                .map(BusinessMapper::toBusinessRacingRefund)
+                .flatMap(businessSink::update)
+                .doOnNext(this::debug)
+                .map(BusinessRacingRefund::getRaceId);
+    }
+
+    /**
+     * 確定レース払戻 ->
+     * TODO: betRankがnullになる。。
      */
     @Bean
     public Function<Flux<EventMessage>, Flux<String>> eventToRacingRefund() {

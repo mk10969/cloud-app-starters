@@ -438,4 +438,18 @@ public class JvLinkWebSource {
                 .doOnNext(ModelUtil::fieldNotNull);
     }
 
+
+    /**
+     * 念のため入れておく
+     */
+    public Flux<RacingDetail> storeRacingDetailOnThisWeek() {
+        return webClient.get()
+                .uri(uriBuilder -> uriBuilder.path("/racingDetailThisWeek").build())
+                .retrieve()
+                .bodyToFlux(ResponseMessage.class)
+                .map(ResponseMessage::getData)
+                .onErrorResume(this::errorHandle)
+                .map(jvLinkDeserializer::toRacingDetail);
+    }
+
 }

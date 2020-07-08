@@ -42,6 +42,15 @@ class JvLinkWebSourceTest {
 
 
     @Test
+    void test_storeRacingDetailOnThisWeek() throws InterruptedException {
+        jvLinkWebSource.storeRacingDetailOnThisWeek()
+                .subscribe(System.out::println);
+
+        Thread.sleep(10000L);
+    }
+
+
+    @Test
     void test_timeseriesQuinella() throws InterruptedException {
         jvLinkWebSource.timeseriesQuinella("2020040509020411")
                 .subscribe(System.out::println);
