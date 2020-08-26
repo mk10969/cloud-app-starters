@@ -60,7 +60,12 @@ public class JvBatchConsumer {
 
 
     public void batch() {
-        batchTrifecta();
+        /**
+         * TODO:SE-> millisecond入ってなかったからやり直し
+         * TODO:BloodBreeding -> 重複調査
+         * TODO:BloodLine -> 重複調査
+         */
+        batchRacingHorseDetail();
     }
 
     // レース
@@ -157,7 +162,31 @@ public class JvBatchConsumer {
         persist().accept(flux);
     }
 
-    // 馬
+    // 血統
+
+    private void batchBloodAncestry() {
+        Flux<BloodAncestry> flux = fileSource.getBloodAncestry()
+                .filter(entity -> jpaEntitySink.notExists(entity, entity.getBreedingNo()))
+                .filter(entity -> !entity.getDataDiv().equals("0"));
+        persist().accept(flux);
+    }
+
+    private void batchBloodBreeding() {
+        Flux<BloodBreeding> flux = fileSource.getBloodBreeding()
+                .filter(entity -> jpaEntitySink.notExists(entity, entity.getBreedingNo()))
+                .filter(entity -> !entity.getDataDiv().equals("0"));
+        persist().accept(flux);
+    }
+
+    private void batchBloodLine() {
+        Flux<BloodLine> flux = fileSource.getBloodLine()
+                .filter(entity -> jpaEntitySink.notExists(entity, entity.getBloodlineNo()))
+                .filter(entity -> !entity.getDataDiv().equals("0"));
+        persist().accept(flux);
+    }
+
+
+    // 馬 (以下いらんかもね。。)
 
     private void batchRaceHorse() {
         Flux<RaceHorse> flux = fileSource.getRaceHorse()
@@ -215,32 +244,6 @@ public class JvBatchConsumer {
                 })
                 .filter(entity -> !entity.getDataDiv().equals("0"));
         // mergerでいい。
-        merge().accept(flux);
-    }
-
-    // 血統
-
-    private void batchBloodAncestry() {
-        Flux<BloodAncestry> flux = fileSource.getBloodAncestry()
-                .filter(entity -> jpaEntitySink.notExists(entity, entity.getBreedingNo()))
-                .filter(entity -> !entity.getDataDiv().equals("0"));
-        // mergeでいい
-        merge().accept(flux);
-    }
-
-    private void batchBloodBreeding() {
-        Flux<BloodBreeding> flux = fileSource.getBloodBreeding()
-                .filter(entity -> jpaEntitySink.notExists(entity, entity.getBreedingNo()))
-                .filter(entity -> !entity.getDataDiv().equals("0"));
-        // mergeでいい
-        merge().accept(flux);
-    }
-
-    private void batchBloodLine() {
-        Flux<BloodLine> flux = fileSource.getBloodLine()
-                .filter(entity -> jpaEntitySink.notExists(entity, entity.getBloodlineNo()))
-                .filter(entity -> !entity.getDataDiv().equals("0"));
-        // mergeでいい
         merge().accept(flux);
     }
 

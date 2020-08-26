@@ -37,13 +37,13 @@ public class FileSource {
     @Autowired
     private JvLinkDeserializer jvLinkDeserializer;
 
-    private static final String filePath = "file:///Users/m-kakiuchi/mydata/data/";
+    private static final String filePath = "file:///Users/m-kakiuchi/mydata/data/data/";
 
     private static final String racingDetail = "RACE_RA.txt";
     // 3分割して実施する。
 //    private static final String racingHorseDetail = "RACE_SE_1.txt";
 //    private static final String racingHorseDetail = "RACE_SE_2.txt";
-    private static final String racingHorseDetail = "RACE_SE_3.txt";
+    private static final String racingHorseDetail = "RACE_SE.txt";
 
     private static final String racingRefund = "RACE_HR.txt";
     private static final String racingVote = "RACE_H1.txt";
