@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.flipkart.zjsonpatch.JsonDiff;
 import org.json.JSONException;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.skyscreamer.jsonassert.JSONAssert;
 import org.skyscreamer.jsonassert.JSONCompareMode;
@@ -20,6 +21,8 @@ import org.uma.cloud.common.utils.lang.JacksonUtil;
 import reactor.core.publisher.Flux;
 
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CountDownLatch;
@@ -28,8 +31,11 @@ import java.util.stream.Collectors;
 @SpringBootTest
 public class JvBatchConsumerPatchTest {
 
-    @Value("classpath:racing_horse_detail2.json")
+    @Value("classpath:racing_horse_detail.json")
     private Resource resourceFile;
+
+    @Value("classpath:racing_horse_detail2.json")
+    private Resource resourceFile2;
 
     @Autowired
     private JvLinkDeserializer jvLinkDeserializer;
@@ -42,10 +48,19 @@ public class JvBatchConsumerPatchTest {
 
 
     @Test
+    void test_racing_horse_detailのパッチ() throws IOException, InterruptedException {
+        // https://www.keibalab.jp/db/race/200312270610/
+        // 走っていないので、nullでOK
+    }
+
+
+    @Test
+    @Disabled
     void test_JsonDiff_asJsonを利用() throws IOException, InterruptedException {
 
-        List<Map<String, Object>> inputJsonFile = objectMapper.readValue(resourceFile.getFile(), new TypeReference<>() {
-        });
+        List<Map<String, Object>> inputJsonFile = objectMapper.readValue(
+                resourceFile2.getFile(), new TypeReference<>() {
+                });
 
         // Fileにあるもの
         List<JsonNode> inputJsonNode = inputJsonFile.stream()
@@ -77,18 +92,71 @@ public class JvBatchConsumerPatchTest {
         countDownLatch.await();
     }
 
+    @Test
+    void test_racing_horse_detail2_dataCreateDateのパッチ() throws IOException, InterruptedException {
+        List<Map<String, Object>> inputJsonFile = objectMapper.readValue(
+                resourceFile2.getFile(), new TypeReference<>() {
+                });
+        // Fileにあるもの
+        List<JsonNode> inputJsonNode = inputJsonFile.stream()
+                .map(i -> objectMapper.convertValue(i, JsonNode.class))
+                .collect(Collectors.toList());
+        // DBにあるものを検索して、書き換える。
+        inputJsonNode.forEach(i -> {
+            RacingHorseDetail.CompositeId compositeId = new RacingHorseDetail.CompositeId();
+            compositeId.setRaceId(i.get("raceId").asText());
+            compositeId.setHorseNo(i.get("horseNo").asText());
+            compositeId.setBloodlineNo(Long.parseLong(i.get("bloodlineNo").asText()));
+            RacingHorseDetail old = racingHorseDetailRepository.findById(compositeId).orElseThrow();
+            // update
+//            LocalDate newDate = toLocalDate(i.get("dataCreateDate").asText());
+//            old.setDataCreateDate(newDate);
+//            racingHorseDetailRepository.save(old);
+        });
+    }
+
+    private static LocalDate toLocalDate(String date) {
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+        return LocalDate.parse(date, dateTimeFormatter);
+    }
 
     @Test
-    void test_JSONAssertを利用() throws IOException, InterruptedException {
+    void test_racing_horse_detail2_ownerNameWithoutCorpのパッチ() throws IOException, InterruptedException {
 
-        List<Map<String, Object>> inputJsonFile = objectMapper.readValue(resourceFile.getFile(), new TypeReference<>() {
-        });
+        List<Map<String, Object>> inputJsonFile = objectMapper.readValue(
+                resourceFile2.getFile(), new TypeReference<>() {
+                });
 
         // Fileにあるもの
         List<JsonNode> inputJsonNode = inputJsonFile.stream()
                 .map(i -> objectMapper.convertValue(i, JsonNode.class))
                 .collect(Collectors.toList());
 
+        // DBにあるものを検索して、書き換える。
+        inputJsonNode.forEach(i -> {
+            RacingHorseDetail.CompositeId compositeId = new RacingHorseDetail.CompositeId();
+            compositeId.setRaceId(i.get("raceId").asText());
+            compositeId.setHorseNo(i.get("horseNo").asText());
+            compositeId.setBloodlineNo(Long.parseLong(i.get("bloodlineNo").asText()));
+            RacingHorseDetail old = racingHorseDetailRepository.findById(compositeId).orElseThrow();
+
+//            // update
+//            old.setOwnerNameWithoutCorp(i.get("ownerNameWithoutCorp").asText());
+//            racingHorseDetailRepository.save(old);
+        });
+    }
+
+
+    @Test
+    void test_JSONAssertを利用() throws IOException, InterruptedException {
+
+        List<Map<String, Object>> inputJsonFile = objectMapper.readValue(
+                resourceFile2.getFile(), new TypeReference<>() {
+                });
+        // Fileにあるもの
+        List<JsonNode> inputJsonNode = inputJsonFile.stream()
+                .map(i -> objectMapper.convertValue(i, JsonNode.class))
+                .collect(Collectors.toList());
         // DBにあるもの
         List<JsonNode> selectedJsonNode = inputJsonNode.stream()
                 .map(i -> {
@@ -98,7 +166,6 @@ public class JvBatchConsumerPatchTest {
                     compositeId.setBloodlineNo(Long.parseLong(i.get("bloodlineNo").asText()));
                     return racingHorseDetailRepository.findById(compositeId).orElseThrow();
                 })
-//                .peek(System.out::println)
                 .map(i -> objectMapper.convertValue(i, JsonNode.class))
                 .collect(Collectors.toList());
 

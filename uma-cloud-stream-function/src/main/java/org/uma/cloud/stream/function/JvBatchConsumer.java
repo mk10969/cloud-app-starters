@@ -61,60 +61,66 @@ public class JvBatchConsumer {
 
     public void batch() {
         /**
-         * TODO:SE-> millisecond入ってなかったからやり直し
          * TODO:BloodBreeding -> 重複調査
          * TODO:BloodLine -> 重複調査
          */
-        batchRacingHorseDetail();
+        mergeBatchRacingHorseDetail();
     }
 
     // レース
 
     private void batchRacingDetail() {
         Flux<RacingDetail> flux = fileSource.getRacingDetail()
-                .filter(entity -> jpaEntitySink.notExists(entity, entity.getRaceId()))
-                .filter(entity -> !entity.getDataDiv().equals("0"));
+                .filter(entity -> !entity.getDataDiv().equals("0"))
+                .filter(entity -> jpaEntitySink.notExists(entity, entity.getRaceId()));
         persist().accept(flux);
     }
 
     private void batchRacingHorseDetail() {
         Flux<RacingHorseDetail> flux = fileSource.getRacingHorseDetail()
+                // 木曜データの場合（dataDiv = 1）はないと思うのでfilterかけない。
+                .filter(entity -> !entity.getDataDiv().equals("0"))
                 .filter(entity -> {
                     RacingHorseDetail.CompositeId compositeId = new RacingHorseDetail.CompositeId();
                     compositeId.setRaceId(entity.getRaceId());
                     compositeId.setHorseNo(entity.getHorseNo());
                     compositeId.setBloodlineNo(entity.getBloodlineNo());
                     return jpaEntitySink.notExists(entity, compositeId);
-                })
+                });
+        persist().accept(flux);
+    }
+
+    private void mergeBatchRacingHorseDetail() {
+        Flux<RacingHorseDetail> flux = fileSource.getRacingHorseDetail()
                 // 木曜データの場合（dataDiv = 1）はないと思うのでfilterかけない。
                 .filter(entity -> !entity.getDataDiv().equals("0"));
-        persist().accept(flux);
+        merge().accept(flux);
     }
 
     private void batchRacingRefund() {
         Flux<RacingRefund> flux = fileSource.getRacingRefund()
-                .filter(entity -> jpaEntitySink.notExists(entity, entity.getRaceId()))
-                .filter(entity -> !entity.getDataDiv().equals("0"));
+                .filter(entity -> !entity.getDataDiv().equals("0"))
+                .filter(entity -> jpaEntitySink.notExists(entity, entity.getRaceId()));
         persist().accept(flux);
     }
 
     private void batchRacingVote() {
         Flux<RacingVote> flux = fileSource.getRacingVote()
-                .filter(entity -> jpaEntitySink.notExists(entity, entity.getRaceId()))
-                .filter(entity -> !entity.getDataDiv().equals("0"));
+                .filter(entity -> !entity.getDataDiv().equals("0"))
+                .filter(entity -> jpaEntitySink.notExists(entity, entity.getRaceId()));
         persist().accept(flux);
     }
 
     private void batchRacingHorseExclusion() {
         Flux<RacingHorseExclusion> flux = fileSource.getRacingHorseExclusion()
+                .filter(entity -> !entity.getDataDiv().equals("0"))
                 .filter(entity -> {
                     RacingHorseExclusion.CompositeId compositeId = new RacingHorseExclusion.CompositeId();
                     compositeId.setRaceId(entity.getRaceId());
                     compositeId.setBloodlineNo(entity.getBloodlineNo());
                     compositeId.setEntryOrderNo(entity.getEntryOrderNo());
                     return jpaEntitySink.notExists(entity, compositeId);
-                })
-                .filter(entity -> !entity.getDataDiv().equals("0"));
+                });
         persist().accept(flux);
     }
 
@@ -122,43 +128,43 @@ public class JvBatchConsumer {
 
     private void batchWinsShowBracketQ() {
         Flux<WinsShowBracketQ> flux = fileSource.getWinsShowBracketQ()
-                .filter(entity -> jpaEntitySink.notExists(entity, entity.getRaceId()))
-                .filter(entity -> !entity.getDataDiv().equals("0"));
+                .filter(entity -> !entity.getDataDiv().equals("0"))
+                .filter(entity -> jpaEntitySink.notExists(entity, entity.getRaceId()));
         persist().accept(flux);
     }
 
     private void batchQuinella() {
         Flux<Quinella> flux = fileSource.getQuinella()
-                .filter(entity -> jpaEntitySink.notExists(entity, entity.getRaceId()))
-                .filter(entity -> !entity.getDataDiv().equals("0"));
+                .filter(entity -> !entity.getDataDiv().equals("0"))
+                .filter(entity -> jpaEntitySink.notExists(entity, entity.getRaceId()));
         persist().accept(flux);
     }
 
     private void batchQuinellaPlace() {
         Flux<QuinellaPlace> flux = fileSource.getQuinellaPlace()
-                .filter(entity -> jpaEntitySink.notExists(entity, entity.getRaceId()))
-                .filter(entity -> !entity.getDataDiv().equals("0"));
+                .filter(entity -> !entity.getDataDiv().equals("0"))
+                .filter(entity -> jpaEntitySink.notExists(entity, entity.getRaceId()));
         persist().accept(flux);
     }
 
     private void batchExacta() {
         Flux<Exacta> flux = fileSource.getExacta()
-                .filter(entity -> jpaEntitySink.notExists(entity, entity.getRaceId()))
-                .filter(entity -> !entity.getDataDiv().equals("0"));
+                .filter(entity -> !entity.getDataDiv().equals("0"))
+                .filter(entity -> jpaEntitySink.notExists(entity, entity.getRaceId()));
         persist().accept(flux);
     }
 
     private void batchTrio() {
         Flux<Trio> flux = fileSource.getTrio()
-                .filter(entity -> jpaEntitySink.notExists(entity, entity.getRaceId()))
-                .filter(entity -> !entity.getDataDiv().equals("0"));
+                .filter(entity -> !entity.getDataDiv().equals("0"))
+                .filter(entity -> jpaEntitySink.notExists(entity, entity.getRaceId()));
         persist().accept(flux);
     }
 
     private void batchTrifecta() {
         Flux<Trifecta> flux = fileSource.getTrifecta()
-                .filter(entity -> jpaEntitySink.notExists(entity, entity.getRaceId()))
-                .filter(entity -> !entity.getDataDiv().equals("0"));
+                .filter(entity -> !entity.getDataDiv().equals("0"))
+                .filter(entity -> jpaEntitySink.notExists(entity, entity.getRaceId()));
         persist().accept(flux);
     }
 
@@ -166,22 +172,22 @@ public class JvBatchConsumer {
 
     private void batchBloodAncestry() {
         Flux<BloodAncestry> flux = fileSource.getBloodAncestry()
-                .filter(entity -> jpaEntitySink.notExists(entity, entity.getBreedingNo()))
-                .filter(entity -> !entity.getDataDiv().equals("0"));
+                .filter(entity -> !entity.getDataDiv().equals("0"))
+                .filter(entity -> jpaEntitySink.notExists(entity, entity.getBreedingNo()));
         persist().accept(flux);
     }
 
     private void batchBloodBreeding() {
         Flux<BloodBreeding> flux = fileSource.getBloodBreeding()
-                .filter(entity -> jpaEntitySink.notExists(entity, entity.getBreedingNo()))
-                .filter(entity -> !entity.getDataDiv().equals("0"));
+                .filter(entity -> !entity.getDataDiv().equals("0"))
+                .filter(entity -> jpaEntitySink.notExists(entity, entity.getBreedingNo()));
         persist().accept(flux);
     }
 
     private void batchBloodLine() {
         Flux<BloodLine> flux = fileSource.getBloodLine()
-                .filter(entity -> jpaEntitySink.notExists(entity, entity.getBloodlineNo()))
-                .filter(entity -> !entity.getDataDiv().equals("0"));
+                .filter(entity -> !entity.getDataDiv().equals("0"))
+                .filter(entity -> jpaEntitySink.notExists(entity, entity.getBloodlineNo()));
         persist().accept(flux);
     }
 
@@ -190,50 +196,51 @@ public class JvBatchConsumer {
 
     private void batchRaceHorse() {
         Flux<RaceHorse> flux = fileSource.getRaceHorse()
+                .filter(entity -> !entity.getDataDiv().equals("0"))
                 .filter(entity -> {
                     RaceHorse.CompositeId compositeId = new RaceHorse.CompositeId();
                     compositeId.setDataDiv(entity.getDataDiv());
                     compositeId.setBloodlineNo(entity.getBloodlineNo());
                     return jpaEntitySink.notExists(entity, compositeId);
-                })
-                .filter(entity -> !entity.getDataDiv().equals("0"));
+                });
         persist().accept(flux);
     }
 
     private void batchJockey() {
         Flux<Jockey> flux = fileSource.getJockey()
-                .filter(entity -> jpaEntitySink.notExists(entity, entity.getJockeyCd()))
-                .filter(entity -> !entity.getDataDiv().equals("0"));
+                .filter(entity -> !entity.getDataDiv().equals("0"))
+                .filter(entity -> jpaEntitySink.notExists(entity, entity.getJockeyCd()));
         // mergeでいい。
         merge().accept(flux);
     }
 
     private void batchTrainer() {
         Flux<Trainer> flux = fileSource.getTrainer()
-                .filter(entity -> jpaEntitySink.notExists(entity, entity.getTrainerCd()))
-                .filter(entity -> !entity.getDataDiv().equals("0"));
+                .filter(entity -> !entity.getDataDiv().equals("0"))
+                .filter(entity -> jpaEntitySink.notExists(entity, entity.getTrainerCd()));
         // mergeでいい。
         merge().accept(flux);
     }
 
     private void batchBreeder() {
         Flux<Breeder> flux = fileSource.getBreeder()
-                .filter(entity -> jpaEntitySink.notExists(entity, entity.getBreederCd()))
-                .filter(entity -> !entity.getDataDiv().equals("0"));
+                .filter(entity -> !entity.getDataDiv().equals("0"))
+                .filter(entity -> jpaEntitySink.notExists(entity, entity.getBreederCd()));
         // mergeでいい。
         merge().accept(flux);
     }
 
     private void batchOwner() {
         Flux<Owner> flux = fileSource.getOwner()
-                .filter(entity -> jpaEntitySink.notExists(entity, entity.getOwnerCd()))
-                .filter(entity -> !entity.getDataDiv().equals("0"));
+                .filter(entity -> !entity.getDataDiv().equals("0"))
+                .filter(entity -> jpaEntitySink.notExists(entity, entity.getOwnerCd()));
         // mergeでいい。
         merge().accept(flux);
     }
 
     private void batchCourse() {
         Flux<Course> flux = fileSource.getCourse()
+                .filter(entity -> !entity.getDataDiv().equals("0"))
                 .filter(entity -> {
                     Course.CompositeId compositeId = new Course.CompositeId();
                     compositeId.setCourseCd(entity.getCourseCd());
@@ -241,8 +248,7 @@ public class JvBatchConsumer {
                     compositeId.setTrackCd(entity.getTrackCd());
                     compositeId.setCourseRepairDate(entity.getCourseRepairDate());
                     return jpaEntitySink.notExists(entity, compositeId);
-                })
-                .filter(entity -> !entity.getDataDiv().equals("0"));
+                });
         // mergerでいい。
         merge().accept(flux);
     }

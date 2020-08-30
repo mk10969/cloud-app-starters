@@ -81,6 +81,9 @@ public class ModelUtil {
             // postgresのMetadata
             "myCreateDateTime",
             "myUpdateDateTime",
+            // 特にnullでも問題ない
+            "dataCreateDate",
+            // 可能性があるので・・・
             "horseWeight",
             "changeAmount",
             // 複勝、枠連は、出走頭数が少ないと、発売されない場合がある
