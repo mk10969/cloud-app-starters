@@ -3,7 +3,7 @@ package org.uma.cloud.common.service.odds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.uma.cloud.common.model.odds.Quinella;
+import org.uma.cloud.common.model.OddsQuinella;
 import org.uma.cloud.common.repository.odds.QuinellaRepository;
 
 import java.util.List;
@@ -15,7 +15,7 @@ public class QuinellaService {
     private QuinellaRepository repository;
 
 
-    public Quinella findOne(String raceId) {
+    public OddsQuinella findOne(String raceId) {
         return this.repository.findById(raceId).orElseThrow();
     }
 
@@ -24,17 +24,17 @@ public class QuinellaService {
     }
 
     @Transactional
-    public Quinella save(Quinella quinella) {
-        return this.repository.save(quinella);
+    public OddsQuinella save(OddsQuinella oddsQuinella) {
+        return this.repository.save(oddsQuinella);
     }
 
     @Transactional
-    public List<Quinella> saveAll(List<Quinella> quinellas) {
-        return this.repository.saveAll(quinellas);
+    public List<OddsQuinella> saveAll(List<OddsQuinella> oddsQuinellas) {
+        return this.repository.saveAll(oddsQuinellas);
     }
 
     @Transactional
-    public void delete(Quinella quinella) {
-        this.repository.delete(quinella);
+    public void delete(OddsQuinella oddsQuinella) {
+        this.repository.delete(oddsQuinella);
     }
 }

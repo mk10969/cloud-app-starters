@@ -1,4 +1,4 @@
-package org.uma.cloud.common.model.odds;
+package org.uma.cloud.common.model;
 
 import lombok.Getter;
 import org.hibernate.annotations.Type;
@@ -21,8 +21,7 @@ import java.util.List;
  */
 @Getter
 @Entity
-@Table(name = "odds_wins_show_bracketq")
-public class WinsShowBracketQ extends BaseModel implements TimeSeries {
+public class OddsWinsShowBracketQ extends BaseModel implements TimeSeries {
 
     /**
      * データ区分

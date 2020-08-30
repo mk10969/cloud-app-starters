@@ -3,7 +3,7 @@ package org.uma.cloud.common.service.odds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.uma.cloud.common.model.odds.QuinellaPlace;
+import org.uma.cloud.common.model.OddsQuinellaPlace;
 import org.uma.cloud.common.repository.odds.QuinellaPlaceRepository;
 
 import java.util.List;
@@ -15,7 +15,7 @@ public class QuinellaPlaceService {
     private QuinellaPlaceRepository repository;
 
 
-    public QuinellaPlace findOne(String raceId) {
+    public OddsQuinellaPlace findOne(String raceId) {
         return this.repository.findById(raceId).orElseThrow();
     }
 
@@ -24,17 +24,17 @@ public class QuinellaPlaceService {
     }
 
     @Transactional
-    public QuinellaPlace save(QuinellaPlace quinellaPlace) {
-        return this.repository.save(quinellaPlace);
+    public OddsQuinellaPlace save(OddsQuinellaPlace oddsQuinellaPlace) {
+        return this.repository.save(oddsQuinellaPlace);
     }
 
     @Transactional
-    public List<QuinellaPlace> saveAll(List<QuinellaPlace> quinellaPlaces) {
-        return this.repository.saveAll(quinellaPlaces);
+    public List<OddsQuinellaPlace> saveAll(List<OddsQuinellaPlace> oddsQuinellaPlaces) {
+        return this.repository.saveAll(oddsQuinellaPlaces);
     }
 
     @Transactional
-    public void delete(QuinellaPlace quinellaPlace) {
-        this.repository.delete(quinellaPlace);
+    public void delete(OddsQuinellaPlace oddsQuinellaPlace) {
+        this.repository.delete(oddsQuinellaPlace);
     }
 }

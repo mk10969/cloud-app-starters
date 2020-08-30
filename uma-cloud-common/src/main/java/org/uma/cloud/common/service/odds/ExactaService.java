@@ -3,7 +3,7 @@ package org.uma.cloud.common.service.odds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.uma.cloud.common.model.odds.Exacta;
+import org.uma.cloud.common.model.OddsExacta;
 import org.uma.cloud.common.repository.odds.ExactaRepository;
 
 import java.util.List;
@@ -15,7 +15,7 @@ public class ExactaService {
     private ExactaRepository repository;
 
 
-    public Exacta findOne(String raceId) {
+    public OddsExacta findOne(String raceId) {
         return this.repository.findById(raceId).orElseThrow();
     }
 
@@ -24,17 +24,17 @@ public class ExactaService {
     }
 
     @Transactional
-    public Exacta save(Exacta exacta) {
-        return this.repository.save(exacta);
+    public OddsExacta save(OddsExacta oddsExacta) {
+        return this.repository.save(oddsExacta);
     }
 
     @Transactional
-    public List<Exacta> saveAll(List<Exacta> exactas) {
-        return this.repository.saveAll(exactas);
+    public List<OddsExacta> saveAll(List<OddsExacta> oddsExactas) {
+        return this.repository.saveAll(oddsExactas);
     }
 
     @Transactional
-    public void delete(Exacta exacta) {
-        this.repository.delete(exacta);
+    public void delete(OddsExacta oddsExacta) {
+        this.repository.delete(oddsExacta);
     }
 }

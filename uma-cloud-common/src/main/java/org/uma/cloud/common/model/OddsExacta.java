@@ -1,4 +1,4 @@
-package org.uma.cloud.common.model.odds;
+package org.uma.cloud.common.model;
 
 import lombok.Data;
 import lombok.Getter;
@@ -13,7 +13,6 @@ import org.uma.cloud.common.utils.javatuples.Pair;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.Table;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
@@ -23,8 +22,7 @@ import java.util.List;
  */
 @Getter
 @Entity
-@Table(name = "odds_exacta")
-public class Exacta extends BaseModel implements TimeSeries {
+public class OddsExacta extends BaseModel implements TimeSeries {
 
     /**
      * データ区分

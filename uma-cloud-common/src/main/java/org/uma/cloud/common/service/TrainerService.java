@@ -3,7 +3,7 @@ package org.uma.cloud.common.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.uma.cloud.common.model.Trainer;
+import org.uma.cloud.common.model.DiffTrainer;
 import org.uma.cloud.common.repository.TrainerRepository;
 
 import java.util.List;
@@ -15,7 +15,7 @@ public class TrainerService {
     private TrainerRepository repository;
 
 
-    public Trainer findOne(Integer trainerCd) {
+    public DiffTrainer findOne(Integer trainerCd) {
         return this.repository.findById(trainerCd).orElseThrow();
     }
 
@@ -24,17 +24,17 @@ public class TrainerService {
     }
 
     @Transactional
-    public Trainer save(Trainer trainer) {
-        return this.repository.save(trainer);
+    public DiffTrainer save(DiffTrainer diffTrainer) {
+        return this.repository.save(diffTrainer);
     }
 
     @Transactional
-    public List<Trainer> saveAll(List<Trainer> trainers) {
-        return this.repository.saveAll(trainers);
+    public List<DiffTrainer> saveAll(List<DiffTrainer> diffTrainers) {
+        return this.repository.saveAll(diffTrainers);
     }
 
     @Transactional
-    public void delete(Trainer trainer) {
-        this.repository.delete(trainer);
+    public void delete(DiffTrainer diffTrainer) {
+        this.repository.delete(diffTrainer);
     }
 }

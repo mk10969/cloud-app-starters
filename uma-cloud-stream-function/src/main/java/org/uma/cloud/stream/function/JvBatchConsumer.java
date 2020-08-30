@@ -9,23 +9,23 @@ import org.springframework.context.annotation.Profile;
 import org.uma.cloud.common.model.BloodAncestry;
 import org.uma.cloud.common.model.BloodBreeding;
 import org.uma.cloud.common.model.BloodLine;
-import org.uma.cloud.common.model.Breeder;
+import org.uma.cloud.common.model.DiffBreeder;
 import org.uma.cloud.common.model.Course;
-import org.uma.cloud.common.model.Jockey;
-import org.uma.cloud.common.model.Owner;
-import org.uma.cloud.common.model.RaceHorse;
+import org.uma.cloud.common.model.DiffJockey;
+import org.uma.cloud.common.model.DiffOwner;
+import org.uma.cloud.common.model.DiffRaceHorse;
+import org.uma.cloud.common.model.DiffTrainer;
 import org.uma.cloud.common.model.RacingDetail;
 import org.uma.cloud.common.model.RacingHorseDetail;
 import org.uma.cloud.common.model.RacingHorseExclusion;
 import org.uma.cloud.common.model.RacingRefund;
 import org.uma.cloud.common.model.RacingVote;
-import org.uma.cloud.common.model.Trainer;
-import org.uma.cloud.common.model.odds.Exacta;
-import org.uma.cloud.common.model.odds.Quinella;
-import org.uma.cloud.common.model.odds.QuinellaPlace;
-import org.uma.cloud.common.model.odds.Trifecta;
-import org.uma.cloud.common.model.odds.Trio;
-import org.uma.cloud.common.model.odds.WinsShowBracketQ;
+import org.uma.cloud.common.model.OddsExacta;
+import org.uma.cloud.common.model.OddsQuinella;
+import org.uma.cloud.common.model.OddsQuinellaPlace;
+import org.uma.cloud.common.model.OddsTrifecta;
+import org.uma.cloud.common.model.OddsTrio;
+import org.uma.cloud.common.model.OddsWinsShowBracketQ;
 import org.uma.cloud.stream.StreamFunctionProperties;
 import org.uma.cloud.stream.type.FileSource;
 import org.uma.cloud.stream.type.JpaEntitySink;
@@ -127,42 +127,42 @@ public class JvBatchConsumer {
     // オッズ
 
     private void batchWinsShowBracketQ() {
-        Flux<WinsShowBracketQ> flux = fileSource.getWinsShowBracketQ()
+        Flux<OddsWinsShowBracketQ> flux = fileSource.getWinsShowBracketQ()
                 .filter(entity -> !entity.getDataDiv().equals("0"))
                 .filter(entity -> jpaEntitySink.notExists(entity, entity.getRaceId()));
         persist().accept(flux);
     }
 
     private void batchQuinella() {
-        Flux<Quinella> flux = fileSource.getQuinella()
+        Flux<OddsQuinella> flux = fileSource.getQuinella()
                 .filter(entity -> !entity.getDataDiv().equals("0"))
                 .filter(entity -> jpaEntitySink.notExists(entity, entity.getRaceId()));
         persist().accept(flux);
     }
 
     private void batchQuinellaPlace() {
-        Flux<QuinellaPlace> flux = fileSource.getQuinellaPlace()
+        Flux<OddsQuinellaPlace> flux = fileSource.getQuinellaPlace()
                 .filter(entity -> !entity.getDataDiv().equals("0"))
                 .filter(entity -> jpaEntitySink.notExists(entity, entity.getRaceId()));
         persist().accept(flux);
     }
 
     private void batchExacta() {
-        Flux<Exacta> flux = fileSource.getExacta()
+        Flux<OddsExacta> flux = fileSource.getExacta()
                 .filter(entity -> !entity.getDataDiv().equals("0"))
                 .filter(entity -> jpaEntitySink.notExists(entity, entity.getRaceId()));
         persist().accept(flux);
     }
 
     private void batchTrio() {
-        Flux<Trio> flux = fileSource.getTrio()
+        Flux<OddsTrio> flux = fileSource.getTrio()
                 .filter(entity -> !entity.getDataDiv().equals("0"))
                 .filter(entity -> jpaEntitySink.notExists(entity, entity.getRaceId()));
         persist().accept(flux);
     }
 
     private void batchTrifecta() {
-        Flux<Trifecta> flux = fileSource.getTrifecta()
+        Flux<OddsTrifecta> flux = fileSource.getTrifecta()
                 .filter(entity -> !entity.getDataDiv().equals("0"))
                 .filter(entity -> jpaEntitySink.notExists(entity, entity.getRaceId()));
         persist().accept(flux);
@@ -195,10 +195,10 @@ public class JvBatchConsumer {
     // 馬 (以下いらんかもね。。)
 
     private void batchRaceHorse() {
-        Flux<RaceHorse> flux = fileSource.getRaceHorse()
+        Flux<DiffRaceHorse> flux = fileSource.getRaceHorse()
                 .filter(entity -> !entity.getDataDiv().equals("0"))
                 .filter(entity -> {
-                    RaceHorse.CompositeId compositeId = new RaceHorse.CompositeId();
+                    DiffRaceHorse.CompositeId compositeId = new DiffRaceHorse.CompositeId();
                     compositeId.setDataDiv(entity.getDataDiv());
                     compositeId.setBloodlineNo(entity.getBloodlineNo());
                     return jpaEntitySink.notExists(entity, compositeId);
@@ -207,7 +207,7 @@ public class JvBatchConsumer {
     }
 
     private void batchJockey() {
-        Flux<Jockey> flux = fileSource.getJockey()
+        Flux<DiffJockey> flux = fileSource.getJockey()
                 .filter(entity -> !entity.getDataDiv().equals("0"))
                 .filter(entity -> jpaEntitySink.notExists(entity, entity.getJockeyCd()));
         // mergeでいい。
@@ -215,7 +215,7 @@ public class JvBatchConsumer {
     }
 
     private void batchTrainer() {
-        Flux<Trainer> flux = fileSource.getTrainer()
+        Flux<DiffTrainer> flux = fileSource.getTrainer()
                 .filter(entity -> !entity.getDataDiv().equals("0"))
                 .filter(entity -> jpaEntitySink.notExists(entity, entity.getTrainerCd()));
         // mergeでいい。
@@ -223,7 +223,7 @@ public class JvBatchConsumer {
     }
 
     private void batchBreeder() {
-        Flux<Breeder> flux = fileSource.getBreeder()
+        Flux<DiffBreeder> flux = fileSource.getBreeder()
                 .filter(entity -> !entity.getDataDiv().equals("0"))
                 .filter(entity -> jpaEntitySink.notExists(entity, entity.getBreederCd()));
         // mergeでいい。
@@ -231,7 +231,7 @@ public class JvBatchConsumer {
     }
 
     private void batchOwner() {
-        Flux<Owner> flux = fileSource.getOwner()
+        Flux<DiffOwner> flux = fileSource.getOwner()
                 .filter(entity -> !entity.getDataDiv().equals("0"))
                 .filter(entity -> jpaEntitySink.notExists(entity, entity.getOwnerCd()));
         // mergeでいい。

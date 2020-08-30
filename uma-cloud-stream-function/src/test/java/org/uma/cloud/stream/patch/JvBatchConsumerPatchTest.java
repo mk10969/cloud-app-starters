@@ -1,4 +1,4 @@
-package org.uma.cloud.stream.function;
+package org.uma.cloud.stream.patch;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;

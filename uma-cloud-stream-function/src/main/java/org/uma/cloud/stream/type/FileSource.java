@@ -6,23 +6,23 @@ import org.uma.cloud.common.configuration.JvLinkDeserializer;
 import org.uma.cloud.common.model.BloodAncestry;
 import org.uma.cloud.common.model.BloodBreeding;
 import org.uma.cloud.common.model.BloodLine;
-import org.uma.cloud.common.model.Breeder;
+import org.uma.cloud.common.model.DiffBreeder;
 import org.uma.cloud.common.model.Course;
-import org.uma.cloud.common.model.Jockey;
-import org.uma.cloud.common.model.Owner;
-import org.uma.cloud.common.model.RaceHorse;
+import org.uma.cloud.common.model.DiffJockey;
+import org.uma.cloud.common.model.DiffOwner;
+import org.uma.cloud.common.model.DiffRaceHorse;
+import org.uma.cloud.common.model.DiffTrainer;
 import org.uma.cloud.common.model.RacingDetail;
 import org.uma.cloud.common.model.RacingHorseDetail;
 import org.uma.cloud.common.model.RacingHorseExclusion;
 import org.uma.cloud.common.model.RacingRefund;
 import org.uma.cloud.common.model.RacingVote;
-import org.uma.cloud.common.model.Trainer;
-import org.uma.cloud.common.model.odds.Exacta;
-import org.uma.cloud.common.model.odds.Quinella;
-import org.uma.cloud.common.model.odds.QuinellaPlace;
-import org.uma.cloud.common.model.odds.Trifecta;
-import org.uma.cloud.common.model.odds.Trio;
-import org.uma.cloud.common.model.odds.WinsShowBracketQ;
+import org.uma.cloud.common.model.OddsExacta;
+import org.uma.cloud.common.model.OddsQuinella;
+import org.uma.cloud.common.model.OddsQuinellaPlace;
+import org.uma.cloud.common.model.OddsTrifecta;
+import org.uma.cloud.common.model.OddsTrio;
+import org.uma.cloud.common.model.OddsWinsShowBracketQ;
 import org.uma.cloud.common.utils.lang.ModelUtil;
 import reactor.core.publisher.Flux;
 
@@ -110,37 +110,37 @@ public class FileSource {
 
     // オッズ
 
-    public Flux<WinsShowBracketQ> getWinsShowBracketQ() {
+    public Flux<OddsWinsShowBracketQ> getWinsShowBracketQ() {
         return fromUri(URI.create(filePath + winsShowBracketQ))
                 .map(jvLinkDeserializer::toWinsShowBracketQ)
                 .doOnNext(ModelUtil::fieldNotNull);
     }
 
-    public Flux<Quinella> getQuinella() {
+    public Flux<OddsQuinella> getQuinella() {
         return fromUri(URI.create(filePath + quinella))
                 .map(jvLinkDeserializer::toQuinella)
                 .doOnNext(ModelUtil::fieldNotNull);
     }
 
-    public Flux<QuinellaPlace> getQuinellaPlace() {
+    public Flux<OddsQuinellaPlace> getQuinellaPlace() {
         return fromUri(URI.create(filePath + quinellaPlace))
                 .map(jvLinkDeserializer::toQuinellaPlace)
                 .doOnNext(ModelUtil::fieldNotNull);
     }
 
-    public Flux<Exacta> getExacta() {
+    public Flux<OddsExacta> getExacta() {
         return fromUri(URI.create(filePath + exacta))
                 .map(jvLinkDeserializer::toExacta)
                 .doOnNext(ModelUtil::fieldNotNull);
     }
 
-    public Flux<Trio> getTrio() {
+    public Flux<OddsTrio> getTrio() {
         return fromUri(URI.create(filePath + trio))
                 .map(jvLinkDeserializer::toTrio)
                 .doOnNext(ModelUtil::fieldNotNull);
     }
 
-    public Flux<Trifecta> getTrifecta() {
+    public Flux<OddsTrifecta> getTrifecta() {
         return fromUri(URI.create(filePath + trifecta))
                 .map(jvLinkDeserializer::toTrifecta)
                 .doOnNext(ModelUtil::fieldNotNull);
@@ -168,31 +168,31 @@ public class FileSource {
 
     // 馬
 
-    public Flux<RaceHorse> getRaceHorse() {
+    public Flux<DiffRaceHorse> getRaceHorse() {
         return fromUri(URI.create(filePath + raceHorse))
                 .map(jvLinkDeserializer::toRaceHorse)
                 .doOnNext(ModelUtil::fieldNotNull);
     }
 
-    public Flux<Jockey> getJockey() {
+    public Flux<DiffJockey> getJockey() {
         return fromUri(URI.create(filePath + jockey))
                 .map(jvLinkDeserializer::toJockey)
                 .doOnNext(ModelUtil::fieldNotNull);
     }
 
-    public Flux<Trainer> getTrainer() {
+    public Flux<DiffTrainer> getTrainer() {
         return fromUri(URI.create(filePath + trainer))
                 .map(jvLinkDeserializer::toTrainer)
                 .doOnNext(ModelUtil::fieldNotNull);
     }
 
-    public Flux<Owner> getOwner() {
+    public Flux<DiffOwner> getOwner() {
         return fromUri(URI.create(filePath + owner))
                 .map(jvLinkDeserializer::toOwner)
                 .doOnNext(ModelUtil::fieldNotNull);
     }
 
-    public Flux<Breeder> getBreeder() {
+    public Flux<DiffBreeder> getBreeder() {
         return fromUri(URI.create(filePath + breeder))
                 .map(jvLinkDeserializer::toBreeder)
                 .doOnNext(ModelUtil::fieldNotNull);

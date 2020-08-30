@@ -3,7 +3,7 @@ package org.uma.cloud.common.service.odds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.uma.cloud.common.model.odds.Trifecta;
+import org.uma.cloud.common.model.OddsTrifecta;
 import org.uma.cloud.common.repository.odds.TrifectaRepository;
 
 import java.util.List;
@@ -15,7 +15,7 @@ public class TrifectaService {
     private TrifectaRepository repository;
 
 
-    public Trifecta findOne(String raceId) {
+    public OddsTrifecta findOne(String raceId) {
         return this.repository.findById(raceId).orElseThrow();
     }
 
@@ -24,17 +24,17 @@ public class TrifectaService {
     }
 
     @Transactional
-    public Trifecta save(Trifecta trifecta) {
-        return this.repository.save(trifecta);
+    public OddsTrifecta save(OddsTrifecta oddsTrifecta) {
+        return this.repository.save(oddsTrifecta);
     }
 
     @Transactional
-    public List<Trifecta> saveAll(List<Trifecta> trifectas) {
-        return this.repository.saveAll(trifectas);
+    public List<OddsTrifecta> saveAll(List<OddsTrifecta> oddsTrifectas) {
+        return this.repository.saveAll(oddsTrifectas);
     }
 
     @Transactional
-    public void delete(Trifecta trifecta) {
-        this.repository.delete(trifecta);
+    public void delete(OddsTrifecta oddsTrifecta) {
+        this.repository.delete(oddsTrifecta);
     }
 }

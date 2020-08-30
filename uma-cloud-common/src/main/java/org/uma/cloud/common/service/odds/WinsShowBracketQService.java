@@ -4,7 +4,7 @@ package org.uma.cloud.common.service.odds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.uma.cloud.common.model.odds.WinsShowBracketQ;
+import org.uma.cloud.common.model.OddsWinsShowBracketQ;
 import org.uma.cloud.common.repository.odds.WinsShowBracketQRepository;
 
 import java.util.List;
@@ -16,7 +16,7 @@ public class WinsShowBracketQService {
     private WinsShowBracketQRepository repository;
 
 
-    public WinsShowBracketQ findOne(String raceId) {
+    public OddsWinsShowBracketQ findOne(String raceId) {
         return this.repository.findById(raceId).orElseThrow();
     }
 
@@ -25,17 +25,17 @@ public class WinsShowBracketQService {
     }
 
     @Transactional
-    public WinsShowBracketQ save(WinsShowBracketQ winsShowBracketQ) {
-        return this.repository.save(winsShowBracketQ);
+    public OddsWinsShowBracketQ save(OddsWinsShowBracketQ oddsWinsShowBracketQ) {
+        return this.repository.save(oddsWinsShowBracketQ);
     }
 
     @Transactional
-    public List<WinsShowBracketQ> saveAll(List<WinsShowBracketQ> winsShowBracketQs) {
-        return this.repository.saveAll(winsShowBracketQs);
+    public List<OddsWinsShowBracketQ> saveAll(List<OddsWinsShowBracketQ> oddsWinsShowBracketQS) {
+        return this.repository.saveAll(oddsWinsShowBracketQS);
     }
 
     @Transactional
-    public void delete(WinsShowBracketQ winsShowBracketQ) {
-        this.repository.delete(winsShowBracketQ);
+    public void delete(OddsWinsShowBracketQ oddsWinsShowBracketQ) {
+        this.repository.delete(oddsWinsShowBracketQ);
     }
 }

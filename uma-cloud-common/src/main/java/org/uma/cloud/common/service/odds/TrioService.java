@@ -3,7 +3,7 @@ package org.uma.cloud.common.service.odds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.uma.cloud.common.model.odds.Trio;
+import org.uma.cloud.common.model.OddsTrio;
 import org.uma.cloud.common.repository.odds.TrioRepository;
 
 import java.util.List;
@@ -15,7 +15,7 @@ public class TrioService {
     private TrioRepository repository;
 
 
-    public Trio findOne(String raceId) {
+    public OddsTrio findOne(String raceId) {
         return this.repository.findById(raceId).orElseThrow();
     }
 
@@ -24,17 +24,17 @@ public class TrioService {
     }
 
     @Transactional
-    public Trio save(Trio trio) {
-        return this.repository.save(trio);
+    public OddsTrio save(OddsTrio oddsTrio) {
+        return this.repository.save(oddsTrio);
     }
 
     @Transactional
-    public List<Trio> saveAll(List<Trio> trios) {
-        return this.repository.saveAll(trios);
+    public List<OddsTrio> saveAll(List<OddsTrio> oddsTrios) {
+        return this.repository.saveAll(oddsTrios);
     }
 
     @Transactional
-    public void delete(Trio trio) {
-        this.repository.delete(trio);
+    public void delete(OddsTrio oddsTrio) {
+        this.repository.delete(oddsTrio);
     }
 }

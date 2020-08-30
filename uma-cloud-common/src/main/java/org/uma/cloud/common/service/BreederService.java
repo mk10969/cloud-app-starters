@@ -3,7 +3,7 @@ package org.uma.cloud.common.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.uma.cloud.common.model.Breeder;
+import org.uma.cloud.common.model.DiffBreeder;
 import org.uma.cloud.common.repository.BreederRepository;
 
 import java.util.List;
@@ -15,7 +15,7 @@ public class BreederService {
     private BreederRepository repository;
 
 
-    public Breeder findOne(Integer breederCd) {
+    public DiffBreeder findOne(Integer breederCd) {
         return this.repository.findById(breederCd).orElseThrow();
     }
 
@@ -24,17 +24,17 @@ public class BreederService {
     }
 
     @Transactional
-    public Breeder save(Breeder breeder) {
-        return this.repository.save(breeder);
+    public DiffBreeder save(DiffBreeder diffBreeder) {
+        return this.repository.save(diffBreeder);
     }
 
     @Transactional
-    public List<Breeder> saveAll(List<Breeder> breeders) {
-        return this.repository.saveAll(breeders);
+    public List<DiffBreeder> saveAll(List<DiffBreeder> diffBreeders) {
+        return this.repository.saveAll(diffBreeders);
     }
 
     @Transactional
-    public void delete(Breeder breeder) {
-        this.repository.delete(breeder);
+    public void delete(DiffBreeder diffBreeder) {
+        this.repository.delete(diffBreeder);
     }
 }

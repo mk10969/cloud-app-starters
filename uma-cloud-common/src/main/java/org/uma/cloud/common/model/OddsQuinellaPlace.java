@@ -1,30 +1,24 @@
-package org.uma.cloud.common.model.odds;
+package org.uma.cloud.common.model;
 
-import lombok.Data;
 import lombok.Getter;
 import org.hibernate.annotations.Type;
 import org.uma.cloud.common.code.RaceCourseCode;
 import org.uma.cloud.common.code.RecordSpec;
-import org.uma.cloud.common.model.BaseModel;
-import org.uma.cloud.common.model.RacingDetail;
-import org.uma.cloud.common.model.TimeSeries;
 import org.uma.cloud.common.utils.javatuples.Pair;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.Table;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
 /**
- * {@link RecordSpec.O2}
+ * {@link RecordSpec.O3}
  */
 @Getter
 @Entity
-@Table(name = "odds_quinella")
-public class Quinella extends BaseModel implements TimeSeries {
+public class OddsQuinellaPlace extends BaseModel implements TimeSeries {
 
     /**
      * データ区分
@@ -59,22 +53,24 @@ public class Quinella extends BaseModel implements TimeSeries {
 
     private Integer saleFlag;
 
-    // 馬連オッズ
+    // ワイドオッズ
     @Type(type = "jsonb")
     @Column(columnDefinition = "jsonb")
-    private List<QuinellaOdds> quinellaOdds;
+    private List<QuinellaPlaceOdds> quinellaPlaceOdds;
 
-    private Long voteCountTotal;
+    private Long voteTotalCount;
 
 
-    @Data
-    public static class QuinellaOdds {
+    @Getter
+    public static class QuinellaPlaceOdds {
         /**
          * 馬番の組み合わせ
          */
         private Pair<String, String> pairNo;
 
-        private BigDecimal odds;
+        private BigDecimal oddsMin;
+
+        private BigDecimal oddsMax;
 
         private Integer betRank;
 

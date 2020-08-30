@@ -4,10 +4,10 @@ import org.influxdb.InfluxDB;
 import org.influxdb.dto.Point;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.uma.cloud.common.model.odds.Exacta;
-import org.uma.cloud.common.model.odds.Quinella;
-import org.uma.cloud.common.model.odds.QuinellaPlace;
-import org.uma.cloud.common.model.odds.WinsShowBracketQ;
+import org.uma.cloud.common.model.OddsExacta;
+import org.uma.cloud.common.model.OddsQuinella;
+import org.uma.cloud.common.model.OddsQuinellaPlace;
+import org.uma.cloud.common.model.OddsWinsShowBracketQ;
 import org.uma.cloud.common.utils.lang.DateUtil;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -26,25 +26,25 @@ public class TimeSeriesSink {
     }
 
 
-    public Mono<String> oddsToPoint(WinsShowBracketQ winsShowBracketQ) {
+    public Mono<String> oddsToPoint(OddsWinsShowBracketQ oddsWinsShowBracketQ) {
         // 枠連は捨てる。
         // winsPlaceBracketQuinella.getBracketQuinellaOdds();
 
-        long timestamp = DateUtil.toEpochMilli(winsShowBracketQ.timestamp());
+        long timestamp = DateUtil.toEpochMilli(oddsWinsShowBracketQ.timestamp());
 
-        Flux<Point> winFlux = Flux.fromStream(winsShowBracketQ.getWinOdds().stream())
+        Flux<Point> winFlux = Flux.fromStream(oddsWinsShowBracketQ.getWinOdds().stream())
                 .map(winOdds -> Point.measurement(winOdds.getClass().getSimpleName())
                         .time(timestamp, TimeUnit.MILLISECONDS)
-                        .tag("raceId", winsShowBracketQ.getRaceId())
+                        .tag("raceId", oddsWinsShowBracketQ.getRaceId())
                         .tag("horseNo", winOdds.getHorseNo())
                         .addField("odds", winOdds.getOdds())
                         .addField("rank", winOdds.getBetRank())
                         .build());
 
-        Flux<Point> placeFlux = Flux.fromStream(winsShowBracketQ.getShowOdds().stream())
+        Flux<Point> placeFlux = Flux.fromStream(oddsWinsShowBracketQ.getShowOdds().stream())
                 .map(placeOdds -> Point.measurement(placeOdds.getClass().getSimpleName())
                         .time(timestamp, TimeUnit.MILLISECONDS)
-                        .tag("raceId", winsShowBracketQ.getRaceId())
+                        .tag("raceId", oddsWinsShowBracketQ.getRaceId())
                         .tag("horseNo", placeOdds.getHorseNo())
                         .addField("oddsMin", placeOdds.getOddsMin())
                         .addField("oddsMax", placeOdds.getOddsMax())
@@ -53,54 +53,54 @@ public class TimeSeriesSink {
         // 合わせる。
         return winFlux.concatWith(placeFlux)
                 .doOnNext(this::writePoint)
-                .then(Mono.just(winsShowBracketQ.getRaceId()));
+                .then(Mono.just(oddsWinsShowBracketQ.getRaceId()));
     }
 
 
-    public Mono<String> oddsToPoint(Quinella quinella) {
-        long timestamp = DateUtil.toEpochMilli(quinella.timestamp());
+    public Mono<String> oddsToPoint(OddsQuinella oddsQuinella) {
+        long timestamp = DateUtil.toEpochMilli(oddsQuinella.timestamp());
 
-        return Flux.fromStream(quinella.getQuinellaOdds().stream())
-                .map(quinellaOdds -> Point.measurement(quinella.getClass().getSimpleName())
+        return Flux.fromStream(oddsQuinella.getQuinellaOdds().stream())
+                .map(quinellaOdds -> Point.measurement(oddsQuinella.getClass().getSimpleName())
                         .time(timestamp, TimeUnit.MILLISECONDS)
-                        .tag("raceId", quinella.getRaceId())
+                        .tag("raceId", oddsQuinella.getRaceId())
                         .tag("pair", quinellaOdds.getPairNo().toString())
                         .addField("odds", quinellaOdds.getOdds())
                         .addField("rank", quinellaOdds.getBetRank())
                         .build())
                 .doOnNext(this::writePoint)
-                .then(Mono.just(quinella.getRaceId()));
+                .then(Mono.just(oddsQuinella.getRaceId()));
     }
 
-    public Mono<String> oddsToPoint(QuinellaPlace quinellaPlace) {
-        long timestamp = DateUtil.toEpochMilli(quinellaPlace.timestamp());
+    public Mono<String> oddsToPoint(OddsQuinellaPlace oddsQuinellaPlace) {
+        long timestamp = DateUtil.toEpochMilli(oddsQuinellaPlace.timestamp());
 
-        return Flux.fromStream(quinellaPlace.getQuinellaPlaceOdds().stream())
-                .map(quinellaPlaceOdds -> Point.measurement(quinellaPlace.getClass().getSimpleName())
+        return Flux.fromStream(oddsQuinellaPlace.getQuinellaPlaceOdds().stream())
+                .map(quinellaPlaceOdds -> Point.measurement(oddsQuinellaPlace.getClass().getSimpleName())
                         .time(timestamp, TimeUnit.MILLISECONDS)
-                        .tag("raceId", quinellaPlace.getRaceId())
+                        .tag("raceId", oddsQuinellaPlace.getRaceId())
                         .tag("pair", quinellaPlaceOdds.getPairNo().toString())
                         .addField("oddsMin", quinellaPlaceOdds.getOddsMin())
                         .addField("oddsMax", quinellaPlaceOdds.getOddsMax())
                         .addField("rank", quinellaPlaceOdds.getBetRank())
                         .build())
                 .doOnNext(this::writePoint)
-                .then(Mono.just(quinellaPlace.getRaceId()));
+                .then(Mono.just(oddsQuinellaPlace.getRaceId()));
     }
 
-    public Mono<String> oddsToPoint(Exacta exacta) {
-        long timestamp = DateUtil.toEpochMilli(exacta.timestamp());
+    public Mono<String> oddsToPoint(OddsExacta oddsExacta) {
+        long timestamp = DateUtil.toEpochMilli(oddsExacta.timestamp());
 
-        return Flux.fromStream(exacta.getExactaOdds().stream())
-                .map(exactaOdds -> Point.measurement(exacta.getClass().getSimpleName())
+        return Flux.fromStream(oddsExacta.getExactaOdds().stream())
+                .map(exactaOdds -> Point.measurement(oddsExacta.getClass().getSimpleName())
                         .time(timestamp, TimeUnit.MILLISECONDS)
-                        .tag("raceId", exacta.getRaceId())
+                        .tag("raceId", oddsExacta.getRaceId())
                         .tag("pair", exactaOdds.getPairNo().toString())
                         .addField("odds", exactaOdds.getOdds())
                         .addField("rank", exactaOdds.getBetRank())
                         .build())
                 .doOnNext(this::writePoint)
-                .then(Mono.just(exacta.getRaceId()));
+                .then(Mono.just(oddsExacta.getRaceId()));
     }
 
 }

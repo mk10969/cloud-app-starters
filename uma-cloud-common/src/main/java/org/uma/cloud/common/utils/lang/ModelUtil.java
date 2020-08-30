@@ -98,7 +98,7 @@ public class ModelUtil {
             "restoreVoteCountTotalExacta",
             "restoreVoteCountTotalTrio",
             // 競走馬登録年月日
-            // TODO: 競走馬自身が古い（1950年代）から仕方ないかも。
+            // 競走馬自身が古い（1950年代）から仕方ないかも。
             "raceHorseEntryDate",
             // 競走馬抹消年月日
             "raceHorseEraseDate",

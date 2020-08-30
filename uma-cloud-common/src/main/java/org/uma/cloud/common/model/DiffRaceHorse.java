@@ -24,9 +24,9 @@ import java.util.List;
  */
 @Getter
 @Entity
-@IdClass(RaceHorse.CompositeId.class)
+@IdClass(DiffRaceHorse.CompositeId.class)
 @Table
-public class RaceHorse extends BaseModel {
+public class DiffRaceHorse extends BaseModel {
 
     /**
      * データ区分

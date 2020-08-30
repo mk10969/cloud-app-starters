@@ -16,7 +16,7 @@ import java.time.LocalDate;
 @Getter
 @Entity
 @Table
-public class Trainer extends BaseModel {
+public class DiffTrainer extends BaseModel {
 
     /**
      * データ区分

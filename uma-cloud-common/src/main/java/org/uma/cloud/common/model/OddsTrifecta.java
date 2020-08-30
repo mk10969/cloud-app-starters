@@ -1,4 +1,4 @@
-package org.uma.cloud.common.model.odds;
+package org.uma.cloud.common.model;
 
 import lombok.Getter;
 import org.hibernate.annotations.Type;
@@ -12,18 +12,16 @@ import org.uma.cloud.common.utils.javatuples.Triplet;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.Table;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
 /**
- * {@link RecordSpec.O5}
+ * {@link RecordSpec.O6}
  */
 @Getter
 @Entity
-@Table(name = "odds_trio")
-public class Trio extends BaseModel implements TimeSeries {
+public class OddsTrifecta extends BaseModel implements TimeSeries {
 
     /**
      * データ区分
@@ -58,16 +56,16 @@ public class Trio extends BaseModel implements TimeSeries {
 
     private Integer saleFlag;
 
-    // 三連複オッズ
+    // 三連単オッズ
     @Type(type = "jsonb")
     @Column(columnDefinition = "jsonb")
-    private List<TrioOdds> trioOdds;
+    private List<TrifectaOdds> trifectaOdds;
 
     private Long voteTotalCount;
 
 
     @Getter
-    public static class TrioOdds {
+    public static class TrifectaOdds {
         /**
          * 馬番の組み合わせ
          */

@@ -18,7 +18,7 @@ import java.time.LocalDate;
 @Getter
 @Entity
 @Table
-public class Jockey extends BaseModel {
+public class DiffJockey extends BaseModel {
 
     /**
      * データ区分

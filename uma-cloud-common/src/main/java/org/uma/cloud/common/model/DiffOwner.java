@@ -14,7 +14,7 @@ import javax.persistence.Table;
 @Getter
 @Entity
 @Table
-public class Owner extends BaseModel {
+public class DiffOwner extends BaseModel {
 
     /**
      * データ区分

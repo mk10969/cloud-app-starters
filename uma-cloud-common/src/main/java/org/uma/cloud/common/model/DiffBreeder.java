@@ -14,7 +14,8 @@ import javax.persistence.Table;
 @Getter
 @Entity
 @Table
-public class Breeder extends BaseModel {
+// TODO: DiffBreaderに変更する。他のやつもw
+public class DiffBreeder extends BaseModel {
 
     /**
      * データ区分

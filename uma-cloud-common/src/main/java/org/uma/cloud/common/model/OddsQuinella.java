@@ -1,29 +1,25 @@
-package org.uma.cloud.common.model.odds;
+package org.uma.cloud.common.model;
 
+import lombok.Data;
 import lombok.Getter;
 import org.hibernate.annotations.Type;
 import org.uma.cloud.common.code.RaceCourseCode;
 import org.uma.cloud.common.code.RecordSpec;
-import org.uma.cloud.common.model.BaseModel;
-import org.uma.cloud.common.model.RacingDetail;
-import org.uma.cloud.common.model.TimeSeries;
-import org.uma.cloud.common.utils.javatuples.Triplet;
+import org.uma.cloud.common.utils.javatuples.Pair;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.Table;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
 /**
- * {@link RecordSpec.O6}
+ * {@link RecordSpec.O2}
  */
 @Getter
 @Entity
-@Table(name = "odds_trifecta")
-public class Trifecta extends BaseModel implements TimeSeries {
+public class OddsQuinella extends BaseModel implements TimeSeries {
 
     /**
      * データ区分
@@ -58,20 +54,20 @@ public class Trifecta extends BaseModel implements TimeSeries {
 
     private Integer saleFlag;
 
-    // 三連単オッズ
+    // 馬連オッズ
     @Type(type = "jsonb")
     @Column(columnDefinition = "jsonb")
-    private List<TrifectaOdds> trifectaOdds;
+    private List<QuinellaOdds> quinellaOdds;
 
-    private Long voteTotalCount;
+    private Long voteCountTotal;
 
 
-    @Getter
-    public static class TrifectaOdds {
+    @Data
+    public static class QuinellaOdds {
         /**
          * 馬番の組み合わせ
          */
-        private Triplet<String, String, String> pairNo;
+        private Pair<String, String> pairNo;
 
         private BigDecimal odds;
 

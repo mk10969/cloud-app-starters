@@ -9,29 +9,29 @@ import org.uma.cloud.common.configuration.JvLinkDeserializer;
 import org.uma.cloud.common.model.BloodAncestry;
 import org.uma.cloud.common.model.BloodBreeding;
 import org.uma.cloud.common.model.BloodLine;
-import org.uma.cloud.common.model.Breeder;
+import org.uma.cloud.common.model.DiffBreeder;
 import org.uma.cloud.common.model.Course;
-import org.uma.cloud.common.model.Jockey;
-import org.uma.cloud.common.model.Owner;
-import org.uma.cloud.common.model.RaceHorse;
+import org.uma.cloud.common.model.DiffJockey;
+import org.uma.cloud.common.model.DiffOwner;
+import org.uma.cloud.common.model.DiffRaceHorse;
 import org.uma.cloud.common.model.RacingDetail;
 import org.uma.cloud.common.model.RacingHorseDetail;
 import org.uma.cloud.common.model.RacingHorseExclusion;
 import org.uma.cloud.common.model.RacingRefund;
 import org.uma.cloud.common.model.RacingVote;
-import org.uma.cloud.common.model.Trainer;
+import org.uma.cloud.common.model.DiffTrainer;
 import org.uma.cloud.common.model.event.Avoid;
 import org.uma.cloud.common.model.event.CourseChange;
 import org.uma.cloud.common.model.event.JockeyChange;
 import org.uma.cloud.common.model.event.TimeChange;
 import org.uma.cloud.common.model.event.Weather;
 import org.uma.cloud.common.model.event.Weight;
-import org.uma.cloud.common.model.odds.Exacta;
-import org.uma.cloud.common.model.odds.Quinella;
-import org.uma.cloud.common.model.odds.QuinellaPlace;
-import org.uma.cloud.common.model.odds.Trifecta;
-import org.uma.cloud.common.model.odds.Trio;
-import org.uma.cloud.common.model.odds.WinsShowBracketQ;
+import org.uma.cloud.common.model.OddsExacta;
+import org.uma.cloud.common.model.OddsQuinella;
+import org.uma.cloud.common.model.OddsQuinellaPlace;
+import org.uma.cloud.common.model.OddsTrifecta;
+import org.uma.cloud.common.model.OddsTrio;
+import org.uma.cloud.common.model.OddsWinsShowBracketQ;
 import org.uma.cloud.common.utils.lang.ModelUtil;
 import org.uma.cloud.stream.configuration.WebClientConfiguration.JvLinkWebClientException;
 import org.uma.cloud.stream.model.ResponseMessage;
@@ -206,37 +206,37 @@ public class JvLinkWebSource {
 
     // オッズ
 
-    public Flux<WinsShowBracketQ> storeWinsShowBracketQ(long baseDate) {
+    public Flux<OddsWinsShowBracketQ> storeWinsShowBracketQ(long baseDate) {
         return findAllByBaseDate(StorePath.winsShowBracketQ, baseDate)
                 .map(jvLinkDeserializer::toWinsShowBracketQ)
                 .doOnNext(ModelUtil::fieldNotNull);
     }
 
-    public Flux<Quinella> storeQuinella(long baseDate) {
+    public Flux<OddsQuinella> storeQuinella(long baseDate) {
         return findAllByBaseDate(StorePath.quinella, baseDate)
                 .map(jvLinkDeserializer::toQuinella)
                 .doOnNext(ModelUtil::fieldNotNull);
     }
 
-    public Flux<QuinellaPlace> storeQuinellaPlace(long baseDate) {
+    public Flux<OddsQuinellaPlace> storeQuinellaPlace(long baseDate) {
         return findAllByBaseDate(StorePath.quinellaPlace, baseDate)
                 .map(jvLinkDeserializer::toQuinellaPlace)
                 .doOnNext(ModelUtil::fieldNotNull);
     }
 
-    public Flux<Exacta> storeExacta(long baseDate) {
+    public Flux<OddsExacta> storeExacta(long baseDate) {
         return findAllByBaseDate(StorePath.exacta, baseDate)
                 .map(jvLinkDeserializer::toExacta)
                 .doOnNext(ModelUtil::fieldNotNull);
     }
 
-    public Flux<Trio> storeTrio(long baseDate) {
+    public Flux<OddsTrio> storeTrio(long baseDate) {
         return findAllByBaseDate(StorePath.trio, baseDate)
                 .map(jvLinkDeserializer::toTrio)
                 .doOnNext(ModelUtil::fieldNotNull);
     }
 
-    public Flux<Trifecta> storeTrifecta(long baseDate) {
+    public Flux<OddsTrifecta> storeTrifecta(long baseDate) {
         return findAllByBaseDate(StorePath.trifecta, baseDate)
                 .map(jvLinkDeserializer::toTrifecta)
                 .doOnNext(ModelUtil::fieldNotNull);
@@ -264,31 +264,31 @@ public class JvLinkWebSource {
 
     // 馬
 
-    public Flux<RaceHorse> storeRaceHorse(long baseDate) {
+    public Flux<DiffRaceHorse> storeRaceHorse(long baseDate) {
         return findAllByBaseDate(StorePath.raceHorse, baseDate)
                 .map(jvLinkDeserializer::toRaceHorse)
                 .doOnNext(ModelUtil::fieldNotNull);
     }
 
-    public Flux<Jockey> storeJockey(long baseDate) {
+    public Flux<DiffJockey> storeJockey(long baseDate) {
         return findAllByBaseDate(StorePath.jockey, baseDate)
                 .map(jvLinkDeserializer::toJockey)
                 .doOnNext(ModelUtil::fieldNotNull);
     }
 
-    public Flux<Trainer> storeTrainer(long baseDate) {
+    public Flux<DiffTrainer> storeTrainer(long baseDate) {
         return findAllByBaseDate(StorePath.trainer, baseDate)
                 .map(jvLinkDeserializer::toTrainer)
                 .doOnNext(ModelUtil::fieldNotNull);
     }
 
-    public Flux<Owner> storeOwner(long baseDate) {
+    public Flux<DiffOwner> storeOwner(long baseDate) {
         return findAllByBaseDate(StorePath.owner, baseDate)
                 .map(jvLinkDeserializer::toOwner)
                 .doOnNext(ModelUtil::fieldNotNull);
     }
 
-    public Flux<Breeder> storeBreeder(long baseDate) {
+    public Flux<DiffBreeder> storeBreeder(long baseDate) {
         return findAllByBaseDate(StorePath.breeder, baseDate)
                 .map(jvLinkDeserializer::toBreeder)
                 .doOnNext(ModelUtil::fieldNotNull);
@@ -348,49 +348,49 @@ public class JvLinkWebSource {
                 .map(jvLinkDeserializer::toRacingHorseDetail);
     }
 
-    public Mono<WinsShowBracketQ> realtimeWinsShowBracketQ(String raceId) {
+    public Mono<OddsWinsShowBracketQ> realtimeWinsShowBracketQ(String raceId) {
         return findOneByRaceId(RealTimePath.winsShowBracketQ, raceId)
                 .map(jvLinkDeserializer::toWinsShowBracketQ)
                 .doOnNext(ModelUtil::fieldNotNull);
     }
 
-    public Mono<Quinella> realtimeQuinella(String raceId) {
+    public Mono<OddsQuinella> realtimeQuinella(String raceId) {
         return findOneByRaceId(RealTimePath.quinella, raceId)
                 .map(jvLinkDeserializer::toQuinella)
                 .doOnNext(ModelUtil::fieldNotNull);
     }
 
-    public Mono<QuinellaPlace> realtimeQuinellaPlace(String raceId) {
+    public Mono<OddsQuinellaPlace> realtimeQuinellaPlace(String raceId) {
         return findOneByRaceId(RealTimePath.quinellaPlace, raceId)
                 .map(jvLinkDeserializer::toQuinellaPlace)
                 .doOnNext(ModelUtil::fieldNotNull);
     }
 
-    public Mono<Exacta> realtimeExacta(String raceId) {
+    public Mono<OddsExacta> realtimeExacta(String raceId) {
         return findOneByRaceId(RealTimePath.exacta, raceId)
                 .map(jvLinkDeserializer::toExacta)
                 .doOnNext(ModelUtil::fieldNotNull);
     }
 
-    public Mono<Trio> realtimeTrio(String raceId) {
+    public Mono<OddsTrio> realtimeTrio(String raceId) {
         return findOneByRaceId(RealTimePath.trio, raceId)
                 .map(jvLinkDeserializer::toTrio)
                 .doOnNext(ModelUtil::fieldNotNull);
     }
 
-    public Mono<Trifecta> realtimeTrifecta(String raceId) {
+    public Mono<OddsTrifecta> realtimeTrifecta(String raceId) {
         return findOneByRaceId(RealTimePath.trifecta, raceId)
                 .map(jvLinkDeserializer::toTrifecta)
                 .doOnNext(ModelUtil::fieldNotNull);
     }
 
-    public Flux<WinsShowBracketQ> timeseriesWinsShowBracketQ(String raceId) {
+    public Flux<OddsWinsShowBracketQ> timeseriesWinsShowBracketQ(String raceId) {
         return findAllByRaceId(RealTimePath.timeseriesWinsShowBracketQ, raceId)
                 .map(jvLinkDeserializer::toWinsShowBracketQ)
                 .doOnNext(ModelUtil::fieldNotNull);
     }
 
-    public Flux<Quinella> timeseriesQuinella(String raceId) {
+    public Flux<OddsQuinella> timeseriesQuinella(String raceId) {
         return findAllByRaceId(RealTimePath.timeseriesQuinella, raceId)
                 .map(jvLinkDeserializer::toQuinella)
                 .doOnNext(ModelUtil::fieldNotNull);

@@ -3,7 +3,7 @@ package org.uma.cloud.common.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.uma.cloud.common.model.Jockey;
+import org.uma.cloud.common.model.DiffJockey;
 import org.uma.cloud.common.repository.JockeyRepository;
 
 import java.util.List;
@@ -15,7 +15,7 @@ public class JockeyService {
     private JockeyRepository repository;
 
 
-    public Jockey findOne(Integer jockeyCd) {
+    public DiffJockey findOne(Integer jockeyCd) {
         return this.repository.findById(jockeyCd).orElseThrow();
     }
 
@@ -24,17 +24,17 @@ public class JockeyService {
     }
 
     @Transactional
-    public Jockey save(Jockey jockey) {
-        return this.repository.save(jockey);
+    public DiffJockey save(DiffJockey diffJockey) {
+        return this.repository.save(diffJockey);
     }
 
     @Transactional
-    public List<Jockey> saveAll(List<Jockey> jockeys) {
-        return this.repository.saveAll(jockeys);
+    public List<DiffJockey> saveAll(List<DiffJockey> diffJockeys) {
+        return this.repository.saveAll(diffJockeys);
     }
 
     @Transactional
-    public void delete(Jockey jockey) {
-        this.repository.delete(jockey);
+    public void delete(DiffJockey diffJockey) {
+        this.repository.delete(diffJockey);
     }
 }
