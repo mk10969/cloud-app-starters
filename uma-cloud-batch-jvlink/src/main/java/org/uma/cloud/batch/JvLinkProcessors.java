@@ -12,23 +12,23 @@ import org.uma.cloud.common.model.BaseModel;
 import org.uma.cloud.common.model.BloodAncestry;
 import org.uma.cloud.common.model.BloodBreeding;
 import org.uma.cloud.common.model.BloodLine;
-import org.uma.cloud.common.model.Breeder;
+import org.uma.cloud.common.model.DiffBreeder;
 import org.uma.cloud.common.model.Course;
-import org.uma.cloud.common.model.Jockey;
-import org.uma.cloud.common.model.Owner;
-import org.uma.cloud.common.model.RaceHorse;
+import org.uma.cloud.common.model.DiffJockey;
+import org.uma.cloud.common.model.DiffOwner;
+import org.uma.cloud.common.model.DiffRaceHorse;
 import org.uma.cloud.common.model.RacingDetail;
 import org.uma.cloud.common.model.RacingHorseDetail;
 import org.uma.cloud.common.model.RacingHorseExclusion;
 import org.uma.cloud.common.model.RacingRefund;
 import org.uma.cloud.common.model.RacingVote;
-import org.uma.cloud.common.model.Trainer;
-import org.uma.cloud.common.model.odds.Exacta;
-import org.uma.cloud.common.model.odds.Quinella;
-import org.uma.cloud.common.model.odds.QuinellaPlace;
-import org.uma.cloud.common.model.odds.Trifecta;
-import org.uma.cloud.common.model.odds.Trio;
-import org.uma.cloud.common.model.odds.WinsShowBracketQ;
+import org.uma.cloud.common.model.DiffTrainer;
+import org.uma.cloud.common.model.OddsExacta;
+import org.uma.cloud.common.model.OddsQuinella;
+import org.uma.cloud.common.model.OddsQuinellaPlace;
+import org.uma.cloud.common.model.OddsTrifecta;
+import org.uma.cloud.common.model.OddsTrio;
+import org.uma.cloud.common.model.OddsWinsShowBracketQ;
 import org.uma.cloud.common.utils.exception.JvLinkModelNullPointException;
 import org.uma.cloud.common.utils.lang.ModelUtil;
 
@@ -82,27 +82,27 @@ public class JvLinkProcessors {
     }
 
     @Bean
-    public ItemProcessor<String, RaceHorse> raceHorseItemProcessor() {
+    public ItemProcessor<String, DiffRaceHorse> raceHorseItemProcessor() {
         return new JvLinkFunctionItemProcessor<>(jvLinkDeserializer::toRaceHorse);
     }
 
     @Bean
-    public ItemProcessor<String, Jockey> jockeyItemProcessor() {
+    public ItemProcessor<String, DiffJockey> jockeyItemProcessor() {
         return new JvLinkFunctionItemProcessor<>(jvLinkDeserializer::toJockey);
     }
 
     @Bean
-    public ItemProcessor<String, Owner> ownerItemProcessor() {
+    public ItemProcessor<String, DiffOwner> ownerItemProcessor() {
         return new JvLinkFunctionItemProcessor<>(jvLinkDeserializer::toOwner);
     }
 
     @Bean
-    public ItemProcessor<String, Trainer> trainerItemProcessor() {
+    public ItemProcessor<String, DiffTrainer> trainerItemProcessor() {
         return new JvLinkFunctionItemProcessor<>(jvLinkDeserializer::toTrainer);
     }
 
     @Bean
-    public ItemProcessor<String, Breeder> breederItemProcessor() {
+    public ItemProcessor<String, DiffBreeder> breederItemProcessor() {
         return new JvLinkFunctionItemProcessor<>(jvLinkDeserializer::toBreeder);
     }
 
@@ -112,32 +112,32 @@ public class JvLinkProcessors {
     }
 
     @Bean
-    public ItemProcessor<String, WinsShowBracketQ> winsShowBracketQItemProcessor() {
+    public ItemProcessor<String, OddsWinsShowBracketQ> winsShowBracketQItemProcessor() {
         return new JvLinkFunctionItemProcessor<>(jvLinkDeserializer::toWinsShowBracketQ);
     }
 
     @Bean
-    public ItemProcessor<String, Quinella> quinellaItemProcessor() {
+    public ItemProcessor<String, OddsQuinella> quinellaItemProcessor() {
         return new JvLinkFunctionItemProcessor<>(jvLinkDeserializer::toQuinella);
     }
 
     @Bean
-    public ItemProcessor<String, QuinellaPlace> quinellaPlaceItemProcessor() {
+    public ItemProcessor<String, OddsQuinellaPlace> quinellaPlaceItemProcessor() {
         return new JvLinkFunctionItemProcessor<>(jvLinkDeserializer::toQuinellaPlace);
     }
 
     @Bean
-    public ItemProcessor<String, Exacta> exactaItemProcessor() {
+    public ItemProcessor<String, OddsExacta> exactaItemProcessor() {
         return new JvLinkFunctionItemProcessor<>(jvLinkDeserializer::toExacta);
     }
 
     @Bean
-    public ItemProcessor<String, Trio> trioItemProcessor() {
+    public ItemProcessor<String, OddsTrio> trioItemProcessor() {
         return new JvLinkFunctionItemProcessor<>(jvLinkDeserializer::toTrio);
     }
 
     @Bean
-    public ItemProcessor<String, Trifecta> trifectaItemProcessor() {
+    public ItemProcessor<String, OddsTrifecta> trifectaItemProcessor() {
         return new JvLinkFunctionItemProcessor<>(jvLinkDeserializer::toTrifecta);
     }
 

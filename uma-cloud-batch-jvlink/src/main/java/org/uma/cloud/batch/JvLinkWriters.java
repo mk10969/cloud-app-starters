@@ -10,23 +10,23 @@ import org.uma.cloud.common.model.BaseModel;
 import org.uma.cloud.common.model.BloodAncestry;
 import org.uma.cloud.common.model.BloodBreeding;
 import org.uma.cloud.common.model.BloodLine;
-import org.uma.cloud.common.model.Breeder;
+import org.uma.cloud.common.model.DiffBreeder;
 import org.uma.cloud.common.model.Course;
-import org.uma.cloud.common.model.Jockey;
-import org.uma.cloud.common.model.Owner;
-import org.uma.cloud.common.model.RaceHorse;
+import org.uma.cloud.common.model.DiffJockey;
+import org.uma.cloud.common.model.DiffOwner;
+import org.uma.cloud.common.model.DiffRaceHorse;
 import org.uma.cloud.common.model.RacingDetail;
 import org.uma.cloud.common.model.RacingHorseDetail;
 import org.uma.cloud.common.model.RacingHorseExclusion;
 import org.uma.cloud.common.model.RacingRefund;
 import org.uma.cloud.common.model.RacingVote;
-import org.uma.cloud.common.model.Trainer;
-import org.uma.cloud.common.model.odds.Exacta;
-import org.uma.cloud.common.model.odds.Quinella;
-import org.uma.cloud.common.model.odds.QuinellaPlace;
-import org.uma.cloud.common.model.odds.Trifecta;
-import org.uma.cloud.common.model.odds.Trio;
-import org.uma.cloud.common.model.odds.WinsShowBracketQ;
+import org.uma.cloud.common.model.DiffTrainer;
+import org.uma.cloud.common.model.OddsExacta;
+import org.uma.cloud.common.model.OddsQuinella;
+import org.uma.cloud.common.model.OddsQuinellaPlace;
+import org.uma.cloud.common.model.OddsTrifecta;
+import org.uma.cloud.common.model.OddsTrio;
+import org.uma.cloud.common.model.OddsWinsShowBracketQ;
 
 import javax.persistence.EntityExistsException;
 import javax.persistence.EntityManagerFactory;
@@ -91,27 +91,27 @@ public class JvLinkWriters {
     }
 
     @Bean
-    public ItemWriter<RaceHorse> raceHorseItemWriter() {
+    public ItemWriter<DiffRaceHorse> raceHorseItemWriter() {
         return createJpaItemWriter();
     }
 
     @Bean
-    public ItemWriter<Jockey> jockeyItemWriter() {
+    public ItemWriter<DiffJockey> jockeyItemWriter() {
         return createJpaItemWriter();
     }
 
     @Bean
-    public ItemWriter<Owner> ownerItemWriter() {
+    public ItemWriter<DiffOwner> ownerItemWriter() {
         return createJpaItemWriter();
     }
 
     @Bean
-    public ItemWriter<Breeder> breederItemWriter() {
+    public ItemWriter<DiffBreeder> breederItemWriter() {
         return createJpaItemWriter();
     }
 
     @Bean
-    public ItemWriter<Trainer> trainerItemWriter() {
+    public ItemWriter<DiffTrainer> trainerItemWriter() {
         return createJpaItemWriter();
     }
 
@@ -121,33 +121,33 @@ public class JvLinkWriters {
     }
 
     @Bean
-    public ItemWriter<WinsShowBracketQ> winsShowBracketQItemWriter() {
+    public ItemWriter<OddsWinsShowBracketQ> winsShowBracketQItemWriter() {
         return createJpaItemWriter();
     }
 
     @Bean
-    public ItemWriter<Quinella> quinellaItemWriter() {
+    public ItemWriter<OddsQuinella> quinellaItemWriter() {
         return createJpaItemWriter();
     }
 
     @Bean
-    public ItemWriter<QuinellaPlace> quinellaPlaceItemWriter() {
+    public ItemWriter<OddsQuinellaPlace> quinellaPlaceItemWriter() {
         return createJpaItemWriter();
     }
 
     @Bean
-    public ItemWriter<Exacta> exactaItemWriter() {
+    public ItemWriter<OddsExacta> exactaItemWriter() {
         return createJpaItemWriter();
     }
 
 
     @Bean
-    public ItemWriter<Trio> trioItemWriter() {
+    public ItemWriter<OddsTrio> trioItemWriter() {
         return createJpaItemWriter();
     }
 
     @Bean
-    public ItemWriter<Trifecta> trifectaItemWriter() {
+    public ItemWriter<OddsTrifecta> trifectaItemWriter() {
         return createJpaItemWriter();
     }
 

@@ -16,23 +16,23 @@ import org.uma.cloud.common.model.BaseModel;
 import org.uma.cloud.common.model.BloodAncestry;
 import org.uma.cloud.common.model.BloodBreeding;
 import org.uma.cloud.common.model.BloodLine;
-import org.uma.cloud.common.model.Breeder;
+import org.uma.cloud.common.model.DiffBreeder;
 import org.uma.cloud.common.model.Course;
-import org.uma.cloud.common.model.Jockey;
-import org.uma.cloud.common.model.Owner;
-import org.uma.cloud.common.model.RaceHorse;
+import org.uma.cloud.common.model.DiffJockey;
+import org.uma.cloud.common.model.DiffOwner;
+import org.uma.cloud.common.model.DiffRaceHorse;
+import org.uma.cloud.common.model.DiffTrainer;
 import org.uma.cloud.common.model.RacingDetail;
 import org.uma.cloud.common.model.RacingHorseDetail;
 import org.uma.cloud.common.model.RacingHorseExclusion;
 import org.uma.cloud.common.model.RacingRefund;
 import org.uma.cloud.common.model.RacingVote;
-import org.uma.cloud.common.model.Trainer;
-import org.uma.cloud.common.model.odds.Exacta;
-import org.uma.cloud.common.model.odds.Quinella;
-import org.uma.cloud.common.model.odds.QuinellaPlace;
-import org.uma.cloud.common.model.odds.Trifecta;
-import org.uma.cloud.common.model.odds.Trio;
-import org.uma.cloud.common.model.odds.WinsShowBracketQ;
+import org.uma.cloud.common.model.OddsExacta;
+import org.uma.cloud.common.model.OddsQuinella;
+import org.uma.cloud.common.model.OddsQuinellaPlace;
+import org.uma.cloud.common.model.OddsTrifecta;
+import org.uma.cloud.common.model.OddsTrio;
+import org.uma.cloud.common.model.OddsWinsShowBracketQ;
 
 @Configuration
 public class JvLinkSteps {
@@ -76,8 +76,8 @@ public class JvLinkSteps {
     }
 
     @Bean
-    public Step breeder(ItemProcessor<String, Breeder> processor, ItemWriter<Breeder> writer) throws Exception {
-        return createStep(processor, writer, Breeder.class);
+    public Step breeder(ItemProcessor<String, DiffBreeder> processor, ItemWriter<DiffBreeder> writer) throws Exception {
+        return createStep(processor, writer, DiffBreeder.class);
     }
 
     @Bean
@@ -96,8 +96,8 @@ public class JvLinkSteps {
     }
 
     @Bean
-    public Step jockey(ItemProcessor<String, Jockey> processor, ItemWriter<Jockey> writer) throws Exception {
-        return createStep(processor, writer, Jockey.class);
+    public Step jockey(ItemProcessor<String, DiffJockey> processor, ItemWriter<DiffJockey> writer) throws Exception {
+        return createStep(processor, writer, DiffJockey.class);
     }
 
     @Bean
@@ -106,13 +106,13 @@ public class JvLinkSteps {
     }
 
     @Bean
-    public Step ownerStep(ItemProcessor<String, Owner> processor, ItemWriter<Owner> writer) throws Exception {
-        return createStep(processor, writer, Owner.class);
+    public Step ownerStep(ItemProcessor<String, DiffOwner> processor, ItemWriter<DiffOwner> writer) throws Exception {
+        return createStep(processor, writer, DiffOwner.class);
     }
 
     @Bean
-    public Step raceHorse(ItemProcessor<String, RaceHorse> processor, ItemWriter<RaceHorse> writer) throws Exception {
-        return createStep(processor, writer, RaceHorse.class);
+    public Step raceHorse(ItemProcessor<String, DiffRaceHorse> processor, ItemWriter<DiffRaceHorse> writer) throws Exception {
+        return createStep(processor, writer, DiffRaceHorse.class);
     }
 
     @Bean
@@ -131,8 +131,8 @@ public class JvLinkSteps {
     }
 
     @Bean
-    public Step trainer(ItemProcessor<String, Trainer> processor, ItemWriter<Trainer> writer) throws Exception {
-        return createStep(processor, writer, Trainer.class);
+    public Step trainer(ItemProcessor<String, DiffTrainer> processor, ItemWriter<DiffTrainer> writer) throws Exception {
+        return createStep(processor, writer, DiffTrainer.class);
     }
 
     @Bean
@@ -141,33 +141,33 @@ public class JvLinkSteps {
     }
 
     @Bean
-    public Step winsShowBracketQ(ItemProcessor<String, WinsShowBracketQ> processor, ItemWriter<WinsShowBracketQ> writer) throws Exception {
-        return createStep(processor, writer, WinsShowBracketQ.class);
+    public Step winsShowBracketQ(ItemProcessor<String, OddsWinsShowBracketQ> processor, ItemWriter<OddsWinsShowBracketQ> writer) throws Exception {
+        return createStep(processor, writer, OddsWinsShowBracketQ.class);
     }
 
     @Bean
-    public Step quinella(ItemProcessor<String, Quinella> processor, ItemWriter<Quinella> writer) throws Exception {
-        return createStep(processor, writer, Quinella.class);
+    public Step quinella(ItemProcessor<String, OddsQuinella> processor, ItemWriter<OddsQuinella> writer) throws Exception {
+        return createStep(processor, writer, OddsQuinella.class);
     }
 
     @Bean
-    public Step quinellaPlace(ItemProcessor<String, QuinellaPlace> processor, ItemWriter<QuinellaPlace> writer) throws Exception {
-        return createStep(processor, writer, QuinellaPlace.class);
+    public Step quinellaPlace(ItemProcessor<String, OddsQuinellaPlace> processor, ItemWriter<OddsQuinellaPlace> writer) throws Exception {
+        return createStep(processor, writer, OddsQuinellaPlace.class);
     }
 
     @Bean
-    public Step exacta(ItemProcessor<String, Exacta> processor, ItemWriter<Exacta> writer) throws Exception {
-        return createStep(processor, writer, Exacta.class);
+    public Step exacta(ItemProcessor<String, OddsExacta> processor, ItemWriter<OddsExacta> writer) throws Exception {
+        return createStep(processor, writer, OddsExacta.class);
     }
 
     @Bean
-    public Step trio(ItemProcessor<String, Trio> processor, ItemWriter<Trio> writer) throws Exception {
-        return createStep(processor, writer, Trio.class);
+    public Step trio(ItemProcessor<String, OddsTrio> processor, ItemWriter<OddsTrio> writer) throws Exception {
+        return createStep(processor, writer, OddsTrio.class);
     }
 
     @Bean
-    public Step trifecta(ItemProcessor<String, Trifecta> processor, ItemWriter<Trifecta> writer) throws Exception {
-        return createStep(processor, writer, Trifecta.class);
+    public Step trifecta(ItemProcessor<String, OddsTrifecta> processor, ItemWriter<OddsTrifecta> writer) throws Exception {
+        return createStep(processor, writer, OddsTrifecta.class);
     }
 
 }
