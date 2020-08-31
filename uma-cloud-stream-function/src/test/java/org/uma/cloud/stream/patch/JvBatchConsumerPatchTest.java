@@ -116,9 +116,10 @@ public class JvBatchConsumerPatchTest {
     }
 
     private static LocalDate toLocalDate(String date) {
-        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyyMMdd");
         return LocalDate.parse(date, dateTimeFormatter);
     }
+
 
     @Test
     void test_racing_horse_detail2_ownerNameWithoutCorpのパッチ() throws IOException, InterruptedException {
@@ -144,6 +145,17 @@ public class JvBatchConsumerPatchTest {
 //            old.setOwnerNameWithoutCorp(i.get("ownerNameWithoutCorp").asText());
 //            racingHorseDetailRepository.save(old);
         });
+    }
+
+    @Test
+    void test_racing_horse_detail2_2003122706060710_data_create_date_insert() {
+        long now = System.currentTimeMillis();
+        List<RacingHorseDetail> old = racingHorseDetailRepository.findByRaceId("2003122706060710");
+        System.out.println(System.currentTimeMillis() - now);
+//        old.stream()
+//                .peek(i -> i.setDataCreateDate(toLocalDate("20031227")))
+//                .peek(i -> racingHorseDetailRepository.save(i))
+//                .forEach(i -> System.out.println(i));
     }
 
 

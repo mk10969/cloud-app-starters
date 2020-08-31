@@ -32,5 +32,5 @@ public class DataSourceConfiguration {
     public Scheduler jdbcScheduler() {
         return Schedulers.fromExecutor(Executors.newFixedThreadPool(threadPoolSize));
     }
-    
+
 }

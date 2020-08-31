@@ -9,23 +9,23 @@ import org.springframework.context.annotation.Profile;
 import org.uma.cloud.common.model.BloodAncestry;
 import org.uma.cloud.common.model.BloodBreeding;
 import org.uma.cloud.common.model.BloodLine;
-import org.uma.cloud.common.model.DiffBreeder;
 import org.uma.cloud.common.model.Course;
+import org.uma.cloud.common.model.DiffBreeder;
 import org.uma.cloud.common.model.DiffJockey;
 import org.uma.cloud.common.model.DiffOwner;
 import org.uma.cloud.common.model.DiffRaceHorse;
 import org.uma.cloud.common.model.DiffTrainer;
-import org.uma.cloud.common.model.RacingDetail;
-import org.uma.cloud.common.model.RacingHorseDetail;
-import org.uma.cloud.common.model.RacingHorseExclusion;
-import org.uma.cloud.common.model.RacingRefund;
-import org.uma.cloud.common.model.RacingVote;
 import org.uma.cloud.common.model.OddsExacta;
 import org.uma.cloud.common.model.OddsQuinella;
 import org.uma.cloud.common.model.OddsQuinellaPlace;
 import org.uma.cloud.common.model.OddsTrifecta;
 import org.uma.cloud.common.model.OddsTrio;
 import org.uma.cloud.common.model.OddsWinsShowBracketQ;
+import org.uma.cloud.common.model.RacingDetail;
+import org.uma.cloud.common.model.RacingHorseDetail;
+import org.uma.cloud.common.model.RacingHorseExclusion;
+import org.uma.cloud.common.model.RacingRefund;
+import org.uma.cloud.common.model.RacingVote;
 import org.uma.cloud.stream.StreamFunctionProperties;
 import org.uma.cloud.stream.type.FileSource;
 import org.uma.cloud.stream.type.JpaEntitySink;
@@ -264,7 +264,9 @@ public class JvBatchConsumer {
                     log.warn("Error Object: {}", object);
                 })
                 .publishOn(scheduler)
-                .subscribe(i -> {}, e -> {}, () -> log.info("完了"));
+                .subscribe(i -> {
+                }, e -> {
+                }, () -> log.info("完了"));
     }
 
 
@@ -278,6 +280,8 @@ public class JvBatchConsumer {
                     log.warn("Error Object: {}", object);
                 })
                 .publishOn(scheduler)
-                .subscribe(i -> {}, e -> {}, () -> log.info("完了"));
+                .subscribe(i -> {
+                }, e -> {
+                }, () -> log.info("完了"));
     }
 }

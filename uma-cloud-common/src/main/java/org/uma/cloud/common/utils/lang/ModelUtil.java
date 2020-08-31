@@ -78,9 +78,6 @@ public class ModelUtil {
 
 
     private static final List<String> excludeList = Lists.newArrayList(
-            // postgresのMetadata
-            "myCreateDateTime",
-            "myUpdateDateTime",
             // 特にnullでも問題ない
             "dataCreateDate",
             // 可能性があるので・・・
