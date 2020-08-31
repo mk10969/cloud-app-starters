@@ -4,9 +4,6 @@ import lombok.Getter;
 import org.hibernate.annotations.Type;
 import org.uma.cloud.common.code.RaceCourseCode;
 import org.uma.cloud.common.code.RecordSpec;
-import org.uma.cloud.common.model.BaseModel;
-import org.uma.cloud.common.model.RacingDetail;
-import org.uma.cloud.common.model.TimeSeries;
 import org.uma.cloud.common.utils.javatuples.Triplet;
 
 import javax.persistence.Column;
@@ -26,41 +23,49 @@ public class OddsTrifecta extends BaseModel implements TimeSeries {
     /**
      * データ区分
      */
-    @Column(length = 1)
+    @Column(length = 1, nullable = false)
     private String dataDiv;
 
     /**
      * {@link RacingDetail.raceId}
      */
     @Id
-    @Column(length = 16)
+    @Column(length = 16, nullable = false)
     private String raceId;
 
+    @Column(nullable = false)
     private LocalDate holdingDate;
 
-    @Column(length = 6)
+    @Column(length = 6, nullable = false)
     private RaceCourseCode courseCd;
 
+    @Column(nullable = false)
     private Integer holdingNo;
 
+    @Column(nullable = false)
     private Integer holdingDay;
 
+    @Column(nullable = false)
     private Integer raceNo;
 
-    @Column(length = 8)
+    @Column(length = 8, nullable = false)
     private String announceDate;
 
+    @Column(nullable = false)
     private Integer entryCount;
 
+    @Column(nullable = false)
     private Integer starterCount;
 
+    @Column(nullable = false)
     private Integer saleFlag;
 
     // 三連単オッズ
     @Type(type = "jsonb")
-    @Column(columnDefinition = "jsonb")
+    @Column(columnDefinition = "jsonb", nullable = false)
     private List<TrifectaOdds> trifectaOdds;
 
+    @Column(nullable = false)
     private Long voteTotalCount;
 
 

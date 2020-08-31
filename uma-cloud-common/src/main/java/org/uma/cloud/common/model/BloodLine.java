@@ -25,7 +25,7 @@ public class BloodLine extends BaseModel {
     /**
      * データ区分
      */
-    @Column(length = 1)
+    @Column(length = 1, nullable = false)
     private String dataDiv;
 
     /**
@@ -34,26 +34,33 @@ public class BloodLine extends BaseModel {
      * {@link BloodBreeding.bloodlineNo}
      */
     @Id
+    @Column(nullable = false)
     private Long bloodlineNo;
 
+    /**
+     * Nullable
+     */
     private LocalDate birthDate;
 
-    @Column(length = 2)
+    @Column(length = 2, nullable = false)
     private SexCode sexCd;
 
-    @Column(length = 8)
+    @Column(length = 8, nullable = false)
     private BreedCode breedCd;
 
-    @Column(length = 3)
+    @Column(length = 3, nullable = false)
     private HairColorCode hairColorCd;
 
+    @Column(nullable = false)
     private Integer sonBringingDiv;
 
+    @Column(nullable = false)
     private Integer importYear;
 
+    @Column(nullable = false)
     private Integer breederCd;
 
-    @Column(length = 20)
+    @Column(length = 20, nullable = false)
     private String sourceName;
 
     /**
@@ -66,7 +73,7 @@ public class BloodLine extends BaseModel {
      * {@link BloodBreeding.breedingNo}
      */
     @Type(type = "list")
-    @Column(columnDefinition = "integer[]")
+    @Column(columnDefinition = "integer[]", nullable = false)
     private List<Integer> breeding3rd;
 
 }

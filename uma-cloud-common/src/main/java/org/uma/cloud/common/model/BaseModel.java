@@ -29,12 +29,13 @@ public abstract class BaseModel implements Serializable {
     /**
      * レコード識別子
      */
-    @Column(length = 2)
+    @Column(length = 2, nullable = false)
     private RecordSpec recordType;
 
     /**
      * JvLink側データ作成 タイムスタンプ
      */
+    @Column(nullable = false)
     private LocalDate dataCreateDate;
 
     /**

@@ -25,143 +25,173 @@ public class RacingRefund extends BaseModel {
     /**
      * データ区分
      */
-    @Column(length = 1)
+    @Column(length = 1, nullable = false)
     private String dataDiv;
 
     /**
      * {@link RacingDetail.raceId}
      */
     @Id
-    @Column(length = 16)
+    @Column(length = 16, nullable = false)
     private String raceId;
 
+    @Column(nullable = false)
     private LocalDate holdingDate;
 
-    @Column(length = 6)
+    @Column(length = 6, nullable = false)
     private RaceCourseCode courseCd;
 
+    @Column(nullable = false)
     private Integer holdingNo;
 
+    @Column(nullable = false)
     private Integer holdingDay;
 
+    @Column(nullable = false)
     private Integer raceNo;
 
+    @Column(nullable = false)
     private Integer entryCount;
 
+    @Column(nullable = false)
     private Integer starterCount;
 
+    @Column(nullable = false)
     private Integer failureFlagWin;
 
+    @Column(nullable = false)
     private Integer failureFlagShow;
 
+    @Column(nullable = false)
     private Integer failureFlagBracketQ;
 
+    @Column(nullable = false)
     private Integer failureFlagQuinella;
 
+    @Column(nullable = false)
     private Integer failureFlagQuinellaPlace;
 
-    @Column(length = 1)
+    @Column(length = 1, nullable = false)
     private String spare1;
 
+    @Column(nullable = false)
     private Integer failureFlagExacta;
 
+    @Column(nullable = false)
     private Integer failureFlagTrio;
 
+    @Column(nullable = false)
     private Integer failureFlagTrifecta;
 
+    @Column(nullable = false)
     private Integer specialRefundFlagWin;
 
+    @Column(nullable = false)
     private Integer specialRefundFlagShow;
 
+    @Column(nullable = false)
     private Integer specialRefundFlagBracketQ;
 
+    @Column(nullable = false)
     private Integer specialRefundFlagQuinella;
 
+    @Column(nullable = false)
     private Integer specialRefundFlagQuinellaPlace;
 
-    @Column(length = 1)
+    @Column(length = 1, nullable = false)
     private String spare2;
 
+    @Column(nullable = false)
     private Integer specialRefundFlagExacta;
 
+    @Column(nullable = false)
     private Integer specialRefundFlagTrio;
 
+    @Column(nullable = false)
     private Integer specialRefundFlagTrifecta;
 
+    @Column(nullable = false)
     private Integer restoreFlagWin;
 
+    @Column(nullable = false)
     private Integer restoreFlagShow;
 
+    @Column(nullable = false)
     private Integer restoreFlagBracketQ;
 
+    @Column(nullable = false)
     private Integer restoreFlagQuinella;
 
+    @Column(nullable = false)
     private Integer restoreFlagQuinellaPlace;
 
-    @Column(length = 1)
+    @Column(length = 1, nullable = false)
     private String spare3;
 
+    @Column(nullable = false)
     private Integer restoreFlagExacta;
 
+    @Column(nullable = false)
     private Integer restoreFlagTrio;
 
+    @Column(nullable = false)
     private Integer restoreFlagTrifecta;
 
     @Type(type = "list")
-    @Column(columnDefinition = "integer[]")
+    @Column(columnDefinition = "integer[]", nullable = false)
     private List<Integer> restoreHorseNoItems;
 
     @Type(type = "list")
-    @Column(columnDefinition = "integer[]")
+    @Column(columnDefinition = "integer[]", nullable = false)
     private List<Integer> restoreBracketItems;
 
     @Type(type = "list")
-    @Column(columnDefinition = "integer[]")
+    @Column(columnDefinition = "integer[]", nullable = false)
     private List<Integer> restoreSameBracketItems;
 
     // 単勝
     @Type(type = "jsonb")
-    @Column(columnDefinition = "jsonb")
+    @Column(columnDefinition = "jsonb", nullable = false)
     private List<refund> refundWins;
 
     // 複勝
     @Type(type = "jsonb")
-    @Column(columnDefinition = "jsonb")
+    @Column(columnDefinition = "jsonb", nullable = false)
     private List<refund> refundShows;
 
     // 枠連
     @Type(type = "jsonb")
-    @Column(columnDefinition = "jsonb")
+    @Column(columnDefinition = "jsonb", nullable = false)
     private List<refund> refundBracketQs;
 
     // 馬連
     @Type(type = "jsonb")
-    @Column(columnDefinition = "jsonb")
+    @Column(columnDefinition = "jsonb", nullable = false)
     private List<refundPair> refundQuinellas;
 
     // ワイド
     @Type(type = "jsonb")
-    @Column(columnDefinition = "jsonb")
+    @Column(columnDefinition = "jsonb", nullable = false)
     private List<refundPair> refundQuinellaPlaces;
 
     // 予備
     @Type(type = "jsonb")
-    @Column(columnDefinition = "jsonb")
+    @Column(columnDefinition = "jsonb", nullable = false)
     private List<refundPair> refundSpares;
 
     // 馬単
     @Type(type = "jsonb")
-    @Column(columnDefinition = "jsonb")
+    @Column(columnDefinition = "jsonb", nullable = false)
     private List<refundPair> refundExactas;
 
     // 3連複
     @Type(type = "jsonb")
-    @Column(columnDefinition = "jsonb")
+    @Column(columnDefinition = "jsonb", nullable = false)
     private List<refundTriplet> refundTrios;
 
     // 3連単
     @Type(type = "jsonb")
-    @Column(columnDefinition = "jsonb")
+    @Column(columnDefinition = "jsonb", nullable = false)
     private List<refundTriplet> refundTrifectas;
 
 

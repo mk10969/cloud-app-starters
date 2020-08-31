@@ -26,61 +26,76 @@ public class OddsWinsShowBracketQ extends BaseModel implements TimeSeries {
     /**
      * データ区分
      */
-    @Column(length = 1)
+    @Column(length = 1, nullable = false)
     private String dataDiv;
 
     /**
      * {@link RacingDetail.raceId}
      */
     @Id
-    @Column(length = 16)
+    @Column(length = 16, nullable = false)
     private String raceId;
 
+    @Column(nullable = false)
     private LocalDate holdingDate;
 
-    @Column(length = 6)
+    @Column(length = 6, nullable = false)
     private RaceCourseCode courseCd;
 
+    @Column(nullable = false)
     private Integer holdingNo;
 
+    @Column(nullable = false)
     private Integer holdingDay;
 
+    @Column(nullable = false)
     private Integer raceNo;
 
-    @Column(length = 8)
+    @Column(length = 8, nullable = false)
     private String announceDate;
 
+    @Column(nullable = false)
     private Integer entryCount;
 
+    @Column(nullable = false)
     private Integer starterCount;
 
+    @Column(nullable = false)
     private Integer saleFlagWin;
 
+    @Column(nullable = false)
     private Integer saleFlagShow;
 
+    @Column(nullable = false)
     private Integer saleFlagbracketQ;
 
+    @Column(nullable = false)
     private Integer showCashKey;
 
     // 単勝オッズ
     @Type(type = "jsonb")
-    @Column(columnDefinition = "jsonb")
+    @Column(columnDefinition = "jsonb", nullable = false)
     private List<WinOdds> winOdds;
 
     // 複勝オッズ
     @Type(type = "jsonb")
-    @Column(columnDefinition = "jsonb")
+    @Column(columnDefinition = "jsonb", nullable = false)
     private List<ShowOdds> showOdds;
 
     // 枠連オッズ
     @Type(type = "jsonb")
-    @Column(columnDefinition = "jsonb")
+    @Column(columnDefinition = "jsonb", nullable = false)
     private List<BracketQOdds> bracketQOdds;
 
+    @Column(nullable = false)
     private Long voteCountTotalWin;
 
+    /**
+     * Nullable
+     */
     private Long voteCountTotalShow;
 
+    @Column(nullable = false)
     private Long voteCountTotalBracketQ;
 
 

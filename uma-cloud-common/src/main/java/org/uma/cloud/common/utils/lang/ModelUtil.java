@@ -78,8 +78,8 @@ public class ModelUtil {
 
 
     private static final List<String> excludeList = Lists.newArrayList(
-            // 特にnullでも問題ない
-            "dataCreateDate",
+            // 特にnullでも問題ないが、、、SEで一部発生した。
+//            "dataCreateDate",
             // 可能性があるので・・・
             "horseWeight",
             "changeAmount",

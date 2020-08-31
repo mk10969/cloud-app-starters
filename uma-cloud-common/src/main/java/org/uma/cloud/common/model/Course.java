@@ -26,27 +26,29 @@ public class Course extends BaseModel {
     /**
      * データ区分
      */
-    @Column(length = 1)
+    @Column(length = 1, nullable = false)
     private String dataDiv;
 
     /**
      * コースコード
      */
     @Id
-    @Column(length = 6)
+    @Column(length = 6, nullable = false)
     private RaceCourseCode courseCd;
 
     @Id
+    @Column(nullable = false)
     private Integer distance;
 
     @Id
-    @Column(length = 6)
+    @Column(length = 6, nullable = false)
     private TrackCode trackCd;
 
     @Id
+    @Column(nullable = false)
     private LocalDate courseRepairDate;
 
-    @Column(length = 3000)
+    @Column(length = 3000, nullable = false)
     private String courseDescription;
 
 

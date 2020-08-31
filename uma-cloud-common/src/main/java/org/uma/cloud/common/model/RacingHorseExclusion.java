@@ -25,25 +25,29 @@ public class RacingHorseExclusion extends BaseModel {
     /**
      * データ区分
      */
-    @Column(length = 1)
+    @Column(length = 1, nullable = false)
     private String dataDiv;
 
     /**
      * {@link RacingDetail.raceId}
      */
     @Id
-    @Column(length = 16)
+    @Column(length = 16, nullable = false)
     private String raceId;
 
+    @Column(nullable = false)
     private LocalDate holdingDate;
 
-    @Column(length = 6)
+    @Column(length = 6, nullable = false)
     private RaceCourseCode courseCd;
 
+    @Column(nullable = false)
     private Integer holdingNo;
 
+    @Column(nullable = false)
     private Integer holdingDay;
 
+    @Column(nullable = false)
     private Integer raceNo;
 
     /**
@@ -51,15 +55,17 @@ public class RacingHorseExclusion extends BaseModel {
      * {@link BloodLine.bloodlineNo}
      */
     @Id
+    @Column(nullable = false)
     private Long bloodlineNo;
 
-    @Column(length = 36)
+    @Column(length = 36, nullable = false)
     private String horseName;
 
     /**
      * 同一業務日付で、同一馬を受付（出馬投票の追加、再投票）した順番
      */
     @Id
+    @Column(nullable = false)
     private Integer entryOrderNo;
 
     /**
@@ -70,12 +76,14 @@ public class RacingHorseExclusion extends BaseModel {
      * 6:馬番を付さない出走取消馬
      * 9:取消馬
      */
+    @Column(nullable = false)
     private Integer entryDiv;
 
     /**
      * 1:非抽選馬
      * 2:非当選馬
      */
+    @Column(nullable = false)
     private Integer exclusionState;
 
 

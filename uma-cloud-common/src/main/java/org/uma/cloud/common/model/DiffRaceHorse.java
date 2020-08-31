@@ -32,47 +32,59 @@ public class DiffRaceHorse extends BaseModel {
      * データ区分
      */
     @Id
-    @Column(length = 1)
+    @Column(length = 1, nullable = false)
     private String dataDiv;
 
     /**
      * 血統登録番号 10桁
      */
     @Id
+    @Column(nullable = false)
     private Long bloodlineNo;
 
+    @Column(nullable = false)
     private Boolean isRaceHorseErase;
 
+    /**
+     * Nullable
+     */
     private LocalDate raceHorseEntryDate;
 
+    /**
+     * Nullable
+     */
     private LocalDate raceHorseEraseDate;
 
+    /**
+     * Nullable
+     */
     private LocalDate birthDate;
 
-    @Column(length = 36)
+    @Column(length = 36, nullable = false)
     private String horseName;
 
-    @Column(length = 36)
+    @Column(length = 36, nullable = false)
     private String horseNameHalfKana;
 
-    @Column(length = 60)
+    @Column(length = 60, nullable = false)
     private String horseNameEng;
 
+    @Column(nullable = false)
     private Boolean isJraFacilityStay;
 
-    @Column(length = 19)
+    @Column(length = 19, nullable = false)
     private String spare1;
 
-    @Column(length = 9)
+    @Column(length = 9, nullable = false)
     private HorseSignCode horseSignCd;
 
-    @Column(length = 2)
+    @Column(length = 2, nullable = false)
     private SexCode sexCd;
 
-    @Column(length = 8)
+    @Column(length = 8, nullable = false)
     private BreedCode breedCd;
 
-    @Column(length = 3)
+    @Column(length = 3, nullable = false)
     private HairColorCode hairColorCd;
 
     /**
@@ -81,43 +93,52 @@ public class DiffRaceHorse extends BaseModel {
      * 父父父･父父母･父母父･父母母･母父父･母父母･母母父･母母母の順
      */
     @Type(type = "jsonb")
-    @Column(columnDefinition = "jsonb")
+    @Column(columnDefinition = "jsonb", nullable = false)
     private List<Breeding> breeding3rd;
 
-    @Column(length = 4)
+    @Column(length = 4, nullable = false)
     private EastOrWestBelongCode ewBelongCd;
 
+    @Column(nullable = false)
     private Integer trainerCd;
 
-    @Column(length = 8)
+    @Column(length = 8, nullable = false)
     private String trainerNameShort;
 
-    @Column(length = 20)
+    @Column(length = 20, nullable = false)
     private String invitationAreaName;
 
+    @Column(nullable = false)
     private Integer breederCd;
 
-    @Column(length = 70)
+    @Column(length = 70, nullable = false)
     private String breederNameWithoutCorp;
 
-    @Column(length = 20)
+    @Column(length = 20, nullable = false)
     private String sourceAreaName;
 
+    @Column(nullable = false)
     private Integer ownerCd;
 
-    @Column(length = 64)
+    @Column(length = 64, nullable = false)
     private String ownerNameWithoutCorp;
 
+    @Column(nullable = false)
     private Integer addedMoneyTotalFlat;
 
+    @Column(nullable = false)
     private Integer addedMoneyTotalJump;
 
+    @Column(nullable = false)
     private Integer stakesMoneyTotalFlat;
 
+    @Column(nullable = false)
     private Integer stakesMoneyTotalJump;
 
+    @Column(nullable = false)
     private Integer allMoneyTotalFlat;
 
+    @Column(nullable = false)
     private Integer allMoneyTotalJump;
 
 

@@ -25,117 +25,157 @@ public class RacingVote extends BaseModel {
     /**
      * データ区分
      */
-    @Column(length = 1)
+    @Column(length = 1, nullable = false)
     private String dataDiv;
 
     /**
      * {@link RacingDetail.raceId}
      */
     @Id
-    @Column(length = 16)
+    @Column(length = 16, nullable = false)
     private String raceId;
 
+    @Column(nullable = false)
     private LocalDate holdingDate;
 
-    @Column(length = 6)
+    @Column(length = 6, nullable = false)
     private RaceCourseCode courseCd;
 
+    @Column(nullable = false)
     private Integer holdingNo;
 
+    @Column(nullable = false)
     private Integer holdingDay;
 
+    @Column(nullable = false)
     private Integer raceNo;
 
+    @Column(nullable = false)
     private Integer entryCount;
 
+    @Column(nullable = false)
     private Integer starterCount;
 
+    @Column(nullable = false)
     private Integer saleFlagWin;
 
+    @Column(nullable = false)
     private Integer saleFlagShow;
 
+    @Column(nullable = false)
     private Integer saleFlagBracketQ;
 
+    @Column(nullable = false)
     private Integer saleFlagQuinella;
 
+    @Column(nullable = false)
     private Integer saleFlagQuinellaPlace;
 
+    @Column(nullable = false)
     private Integer saleFlagExacta;
 
+    @Column(nullable = false)
     private Integer saleFlagTrio;
 
+    @Column(nullable = false)
     private Integer showCashKey;
 
     // 返還
     @Type(type = "list")
-    @Column(columnDefinition = "integer[]")
+    @Column(columnDefinition = "integer[]", nullable = false)
     private List<Integer> restoreHorseNoItems;
 
     @Type(type = "list")
-    @Column(columnDefinition = "integer[]")
+    @Column(columnDefinition = "integer[]", nullable = false)
     private List<Integer> restoreBracketItems;
 
     @Type(type = "list")
-    @Column(columnDefinition = "integer[]")
+    @Column(columnDefinition = "integer[]", nullable = false)
     private List<Integer> restoreSameBracketItems;
 
     /**
      * 馬券種ごとの票数
      */
     @Type(type = "jsonb")
-    @Column(columnDefinition = "jsonb")
+    @Column(columnDefinition = "jsonb", nullable = false)
     private List<Vote> voteCountWins;
 
     @Type(type = "jsonb")
-    @Column(columnDefinition = "jsonb")
+    @Column(columnDefinition = "jsonb", nullable = false)
     private List<Vote> voteCountShows;
 
     @Type(type = "jsonb")
-    @Column(columnDefinition = "jsonb")
+    @Column(columnDefinition = "jsonb", nullable = false)
     private List<Vote> voteCountBracketQs;
 
     @Type(type = "jsonb")
-    @Column(columnDefinition = "jsonb")
+    @Column(columnDefinition = "jsonb", nullable = false)
     private List<VotePair> voteCountQuinellas;
 
     @Type(type = "jsonb")
-    @Column(columnDefinition = "jsonb")
+    @Column(columnDefinition = "jsonb", nullable = false)
     private List<VotePair> voteCountQuinellaPlaces;
 
     @Type(type = "jsonb")
-    @Column(columnDefinition = "jsonb")
+    @Column(columnDefinition = "jsonb", nullable = false)
     private List<VotePair> voteCountExactas;
 
     @Type(type = "jsonb")
-    @Column(columnDefinition = "jsonb")
+    @Column(columnDefinition = "jsonb", nullable = false)
     private List<VoteTriplet> voteCountTrios;
 
+    @Column(nullable = false)
     private Long voteCountTotalWin;
 
+    /**
+     * Nullable
+     */
     private Long voteCountTotalShow;
 
+    @Column(nullable = false)
     private Long voteCountTotalBracketQ;
 
+    @Column(nullable = false)
     private Long voteCountTotalQuinella;
 
+    @Column(nullable = false)
     private Long voteCountTotalQuinellaPlace;
 
+    @Column(nullable = false)
     private Long voteCountTotalExacta;
 
+    @Column(nullable = false)
     private Long voteCountTotalTrio;
 
+    /**
+     * Nullable
+     */
     private Long restoreVoteCountTotalWin;
 
+    @Column(nullable = false)
     private Long restoreVoteCountTotalShow;
 
+    @Column(nullable = false)
     private Long restoreVoteCountTotalBracketQ;
 
+    /**
+     * Nullable
+     */
     private Long restoreVoteCountTotalQuinella;
 
+    /**
+     * Nullable
+     */
     private Long restoreVoteCountTotalQuinellaPlace;
 
+    /**
+     * Nullable
+     */
     private Long restoreVoteCountTotalExacta;
 
+    /**
+     * Nullable
+     */
     private Long restoreVoteCountTotalTrio;
 
 
