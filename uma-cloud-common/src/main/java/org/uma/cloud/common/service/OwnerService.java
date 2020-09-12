@@ -3,7 +3,7 @@ package org.uma.cloud.common.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.uma.cloud.common.model.DiffOwner;
+import org.uma.cloud.common.model.entity.DiffOwner;
 import org.uma.cloud.common.repository.OwnerRepository;
 
 import java.util.List;

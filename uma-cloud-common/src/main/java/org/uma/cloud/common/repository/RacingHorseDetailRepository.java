@@ -1,8 +1,7 @@
 package org.uma.cloud.common.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.uma.cloud.common.code.RaceCourseCode;
-import org.uma.cloud.common.model.RacingHorseDetail;
+import org.uma.cloud.common.model.entity.RacingHorseDetail;
 
 import java.util.List;
 
@@ -24,13 +23,14 @@ public interface RacingHorseDetailRepository extends JpaRepository<RacingHorseDe
      */
     List<RacingHorseDetail> findByBloodlineNo(Long bloodlineNo);
 
-    /**
-     * レースコードで検索
-     *
-     * @param raceCourseCode
-     * @return
-     */
-    List<RacingHorseDetail> findByCourseCd(RaceCourseCode raceCourseCode);
+    // RacingDetailにあるから、ここのはなくす。
+//    /**
+//     * レースコードで検索
+//     *
+//     * @param raceCourseCode
+//     * @return
+//     */
+//    List<RacingHorseDetail> findByCourseCd(RaceCourseCode raceCourseCode);
 
 
 }

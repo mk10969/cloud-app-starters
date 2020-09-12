@@ -6,26 +6,26 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
-import org.uma.cloud.common.model.BloodAncestry;
-import org.uma.cloud.common.model.BloodBreeding;
-import org.uma.cloud.common.model.BloodLine;
-import org.uma.cloud.common.model.Course;
-import org.uma.cloud.common.model.DiffBreeder;
-import org.uma.cloud.common.model.DiffJockey;
-import org.uma.cloud.common.model.DiffOwner;
-import org.uma.cloud.common.model.DiffRaceHorse;
-import org.uma.cloud.common.model.DiffTrainer;
-import org.uma.cloud.common.model.OddsExacta;
-import org.uma.cloud.common.model.OddsQuinella;
-import org.uma.cloud.common.model.OddsQuinellaPlace;
-import org.uma.cloud.common.model.OddsTrifecta;
-import org.uma.cloud.common.model.OddsTrio;
-import org.uma.cloud.common.model.OddsWinsShowBracketQ;
-import org.uma.cloud.common.model.RacingDetail;
-import org.uma.cloud.common.model.RacingHorseDetail;
-import org.uma.cloud.common.model.RacingHorseExclusion;
-import org.uma.cloud.common.model.RacingRefund;
-import org.uma.cloud.common.model.RacingVote;
+import org.uma.cloud.common.model.entity.BloodAncestry;
+import org.uma.cloud.common.model.entity.BloodBreeding;
+import org.uma.cloud.common.model.entity.BloodLine;
+import org.uma.cloud.common.model.entity.Course;
+import org.uma.cloud.common.model.entity.DiffBreeder;
+import org.uma.cloud.common.model.entity.DiffJockey;
+import org.uma.cloud.common.model.entity.DiffOwner;
+import org.uma.cloud.common.model.entity.DiffRaceHorse;
+import org.uma.cloud.common.model.entity.DiffTrainer;
+import org.uma.cloud.common.model.entity.OddsExacta;
+import org.uma.cloud.common.model.entity.OddsQuinella;
+import org.uma.cloud.common.model.entity.OddsQuinellaPlace;
+import org.uma.cloud.common.model.entity.OddsTrifecta;
+import org.uma.cloud.common.model.entity.OddsTrio;
+import org.uma.cloud.common.model.entity.OddsWinsShowBracketQ;
+import org.uma.cloud.common.model.entity.RacingDetail;
+import org.uma.cloud.common.model.entity.RacingHorseDetail;
+import org.uma.cloud.common.model.entity.RacingHorseExclusion;
+import org.uma.cloud.common.model.entity.RacingRefund;
+import org.uma.cloud.common.model.entity.RacingVote;
 import org.uma.cloud.stream.StreamFunctionProperties;
 import org.uma.cloud.stream.type.FileSource;
 import org.uma.cloud.stream.type.JpaEntitySink;
@@ -64,7 +64,7 @@ public class JvBatchConsumer {
          * TODO:BloodBreeding -> 重複調査
          * TODO:BloodLine -> 重複調査
          */
-        mergeBatchRacingHorseDetail();
+        batchRacingDetail();
     }
 
     // レース

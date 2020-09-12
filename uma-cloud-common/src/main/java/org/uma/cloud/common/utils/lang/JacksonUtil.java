@@ -26,8 +26,8 @@ import org.uma.cloud.common.code.TurfOrDirtConditionCode;
 import org.uma.cloud.common.code.WeatherCode;
 import org.uma.cloud.common.code.WeekDayCode;
 import org.uma.cloud.common.code.WeightTypeCode;
-import org.uma.cloud.common.model.RacingDetail;
-import org.uma.cloud.common.model.RacingHorseDetail;
+import org.uma.cloud.common.model.entity.RacingDetail;
+import org.uma.cloud.common.model.entity.RacingHorseDetail;
 import org.uma.cloud.common.utils.javatuples.Pair;
 import org.uma.cloud.common.utils.javatuples.Triplet;
 

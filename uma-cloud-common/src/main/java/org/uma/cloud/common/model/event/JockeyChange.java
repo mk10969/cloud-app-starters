@@ -4,7 +4,7 @@ import lombok.Getter;
 import org.uma.cloud.common.code.JockeyApprenticeCode;
 import org.uma.cloud.common.code.RaceCourseCode;
 import org.uma.cloud.common.code.RecordSpec;
-import org.uma.cloud.common.model.BaseModel;
+import org.uma.cloud.common.model.entity.BaseModel;
 
 import java.time.LocalDate;
 

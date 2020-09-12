@@ -16,6 +16,7 @@ public enum TrackCode implements CodeEnum<Integer, TrackCode> {
      * デフォルト "00"の文字列から、Integer 0 にコンバートする。
      */
     DEFAULT(0, ""),
+    // ターフ
     TURF10(10, "芝・直"),
     TURF11(11, "芝・左"),
     TURF12(12, "芝・左外"),
@@ -29,22 +30,26 @@ public enum TrackCode implements CodeEnum<Integer, TrackCode> {
     TURF20(20, "芝・右外→内"),
     TURF21(21, "芝・右内２周"),
     TURF22(22, "芝・右外２周"),
+    // ダート
     DIRT23(23, "ダート・左"),
     DIRT24(24, "ダート・右"),
     DIRT25(25, "ダート・左内"),
     DIRT26(26, "ダート・右外"),
+    // サンド（海外）
     SAND27(27, "サンド・左"),
     SAND28(28, "サンド・右"),
+    // ダート（海外）
     DIRT29(29, "ダート・直"),
-    JUMP51(51, "芝・襷"),
-    JUMP52(52, "芝→ダート"),
-    JUMP53(53, "芝・左"),
-    JUMP54(54, "芝"),
-    JUMP55(55, "芝・外"),
-    JUMP56(56, "芝・外→内"),
-    JUMP57(57, "芝・内→外"),
-    JUMP58(58, "芝・内２周"),
-    JUMP59(59, "芝・外２周"),
+    // 障害（日本）
+    JUMP51(51, "障害・芝・襷"),
+    JUMP52(52, "障害・芝→ダート"),
+    JUMP53(53, "障害・芝・左"),
+    JUMP54(54, "障害・芝"),
+    JUMP55(55, "障害・芝・外"),
+    JUMP56(56, "障害・芝・外→内"),
+    JUMP57(57, "障害・芝・内→外"),
+    JUMP58(58, "障害・芝・内２周"),
+    JUMP59(59, "障害・芝・外２周"),
     ;
 
     private final Integer code;

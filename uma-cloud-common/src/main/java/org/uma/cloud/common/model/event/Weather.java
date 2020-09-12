@@ -5,8 +5,8 @@ import org.uma.cloud.common.code.RaceCourseCode;
 import org.uma.cloud.common.code.RecordSpec;
 import org.uma.cloud.common.code.TurfOrDirtConditionCode;
 import org.uma.cloud.common.code.WeatherCode;
-import org.uma.cloud.common.model.BaseModel;
-import org.uma.cloud.common.model.TimeSeries;
+import org.uma.cloud.common.model.entity.BaseModel;
+import org.uma.cloud.common.model.entity.TimeSeries;
 
 import java.time.LocalDate;
 

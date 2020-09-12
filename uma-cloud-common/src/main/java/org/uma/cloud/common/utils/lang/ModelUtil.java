@@ -4,7 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Lists;
-import org.uma.cloud.common.model.BaseModel;
+import org.uma.cloud.common.model.entity.BaseModel;
 import org.uma.cloud.common.utils.exception.CharacterCodingRuntimeException;
 
 import java.nio.ByteBuffer;

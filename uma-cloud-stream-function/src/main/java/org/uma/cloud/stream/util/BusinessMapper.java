@@ -1,9 +1,9 @@
 package org.uma.cloud.stream.util;
 
 import org.uma.cloud.common.code.AbnormalDivisionCode;
-import org.uma.cloud.common.model.RacingDetail;
-import org.uma.cloud.common.model.RacingHorseDetail;
-import org.uma.cloud.common.model.RacingRefund;
+import org.uma.cloud.common.model.entity.RacingDetail;
+import org.uma.cloud.common.model.entity.RacingHorseDetail;
+import org.uma.cloud.common.model.entity.RacingRefund;
 import org.uma.cloud.common.model.business.BusinessRacing;
 import org.uma.cloud.common.model.business.BusinessRacingHorse;
 import org.uma.cloud.common.model.business.BusinessRacingRefund;

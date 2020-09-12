@@ -6,7 +6,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.uma.cloud.common.model.RacingDetail;
+import org.uma.cloud.common.model.entity.RacingDetail;
 import org.uma.cloud.common.model.business.BusinessRacing;
 import org.uma.cloud.common.model.business.BusinessRacingHorse;
 import org.uma.cloud.common.model.business.BusinessRacingRefund;

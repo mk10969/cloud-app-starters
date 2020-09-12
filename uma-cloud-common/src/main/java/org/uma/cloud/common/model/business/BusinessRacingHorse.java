@@ -7,8 +7,8 @@ import org.uma.cloud.common.code.HairColorCode;
 import org.uma.cloud.common.code.JockeyApprenticeCode;
 import org.uma.cloud.common.code.MarginCode;
 import org.uma.cloud.common.code.SexCode;
-import org.uma.cloud.common.model.BaseModel;
-import org.uma.cloud.common.model.BloodLine;
+import org.uma.cloud.common.model.entity.BaseModel;
+import org.uma.cloud.common.model.entity.BloodLine;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
