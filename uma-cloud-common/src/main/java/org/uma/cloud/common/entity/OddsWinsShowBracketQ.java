@@ -1,8 +1,9 @@
-package org.uma.cloud.common.model.entity;
+package org.uma.cloud.common.entity;
 
 import lombok.Getter;
 import org.hibernate.annotations.Type;
 import org.uma.cloud.common.code.RaceCourseCode;
+import org.uma.cloud.common.utils.constants.TimeSeries;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

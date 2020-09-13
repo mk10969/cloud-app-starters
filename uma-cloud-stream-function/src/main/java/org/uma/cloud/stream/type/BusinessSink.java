@@ -2,9 +2,9 @@ package org.uma.cloud.stream.type;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.uma.cloud.common.model.business.BusinessRacing;
-import org.uma.cloud.common.model.business.BusinessRacingHorse;
-import org.uma.cloud.common.model.business.BusinessRacingRefund;
+import org.uma.cloud.common.business.BusinessRacing;
+import org.uma.cloud.common.business.BusinessRacingHorse;
+import org.uma.cloud.common.business.BusinessRacingRefund;
 import org.uma.cloud.common.model.event.Avoid;
 import org.uma.cloud.common.model.event.CourseChange;
 import org.uma.cloud.common.model.event.JockeyChange;

@@ -1,8 +1,9 @@
-package org.uma.cloud.common.model.entity;
+package org.uma.cloud.common.entity;
 
 import lombok.Getter;
 import org.hibernate.annotations.Type;
 import org.uma.cloud.common.code.RaceCourseCode;
+import org.uma.cloud.common.utils.constants.TimeSeries;
 import org.uma.cloud.common.utils.javatuples.Pair;
 
 import javax.persistence.Column;
@@ -14,7 +15,7 @@ import java.util.List;
 
 @Getter
 @Entity
-public class OddsExacta extends BaseModel implements TimeSeries {
+public class OddsQuinellaPlace extends BaseModel implements TimeSeries {
 
     /**
      * データ区分
@@ -56,23 +57,25 @@ public class OddsExacta extends BaseModel implements TimeSeries {
     @Column(nullable = false)
     private Integer saleFlag;
 
-    // 馬単オッズ
+    // ワイドオッズ
     @Type(type = "jsonb")
     @Column(columnDefinition = "jsonb", nullable = false)
-    private List<ExactaOdds> exactaOdds;
+    private List<QuinellaPlaceOdds> quinellaPlaceOdds;
 
     @Column(nullable = false)
     private Long voteTotalCount;
 
 
     @Getter
-    public static class ExactaOdds {
+    public static class QuinellaPlaceOdds {
         /**
          * 馬番の組み合わせ
          */
         private Pair<String, String> pairNo;
 
-        private BigDecimal odds;
+        private BigDecimal oddsMin;
+
+        private BigDecimal oddsMax;
 
         private Integer betRank;
 

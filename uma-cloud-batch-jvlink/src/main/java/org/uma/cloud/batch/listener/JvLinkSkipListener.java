@@ -2,7 +2,7 @@ package org.uma.cloud.batch.listener;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.SkipListener;
-import org.uma.cloud.common.model.entity.BaseModel;
+import org.uma.cloud.common.entity.BaseModel;
 
 @Slf4j
 public class JvLinkSkipListener<S extends BaseModel> implements SkipListener<String, S> {

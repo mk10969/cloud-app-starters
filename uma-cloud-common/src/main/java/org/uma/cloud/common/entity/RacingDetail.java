@@ -1,4 +1,4 @@
-package org.uma.cloud.common.model.entity;
+package org.uma.cloud.common.entity;
 
 import lombok.Getter;
 import org.hibernate.annotations.Type;
@@ -217,22 +217,22 @@ public class RacingDetail extends BaseModel {
     @Column(nullable = false)
     private Double lastFurlong4;
 
-//    @Type(type = "jsonb")
-//    @Column(columnDefinition = "jsonb", nullable = false)
-//    private List<CornerPassageRank> cornerPassageRanks;
-//
+    @Type(type = "jsonb")
+    @Column(columnDefinition = "jsonb", nullable = false)
+    private List<CornerPassageRank> cornerPassageRanks;
+
 //    @Column(length = 1, nullable = false)
 //    private String recordUpdateDiv;
-//
-//    @Getter
-//    public static class CornerPassageRank {
-//
-//        private Integer corner;
-//
-//        private Integer aroundCount;
-//
-//        private String passageRank;
-//
-//    }
+
+    @Getter
+    public static class CornerPassageRank {
+
+        private Integer corner;
+
+        private Integer aroundCount;
+
+        private String passageRank;
+
+    }
 
 }

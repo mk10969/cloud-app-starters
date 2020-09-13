@@ -4,7 +4,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.uma.cloud.common.code.RaceCourseCode;
 import org.uma.cloud.common.code.RaceGradeCode;
 import org.uma.cloud.common.code.TurfOrDirtConditionCode;
-import org.uma.cloud.common.model.entity.RacingDetail;
+import org.uma.cloud.common.entity.RacingDetail;
 
 import java.time.LocalDate;
 import java.util.List;

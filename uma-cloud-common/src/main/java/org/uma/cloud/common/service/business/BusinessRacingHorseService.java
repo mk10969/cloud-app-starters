@@ -3,7 +3,7 @@ package org.uma.cloud.common.service.business;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.uma.cloud.common.model.business.BusinessRacingHorse;
+import org.uma.cloud.common.business.BusinessRacingHorse;
 import org.uma.cloud.common.model.event.Avoid;
 import org.uma.cloud.common.model.event.JockeyChange;
 import org.uma.cloud.common.model.event.Weight;

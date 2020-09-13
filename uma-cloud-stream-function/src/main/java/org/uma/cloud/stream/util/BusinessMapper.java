@@ -1,12 +1,12 @@
 package org.uma.cloud.stream.util;
 
 import org.uma.cloud.common.code.AbnormalDivisionCode;
-import org.uma.cloud.common.model.entity.RacingDetail;
-import org.uma.cloud.common.model.entity.RacingHorseDetail;
-import org.uma.cloud.common.model.entity.RacingRefund;
-import org.uma.cloud.common.model.business.BusinessRacing;
-import org.uma.cloud.common.model.business.BusinessRacingHorse;
-import org.uma.cloud.common.model.business.BusinessRacingRefund;
+import org.uma.cloud.common.entity.RacingDetail;
+import org.uma.cloud.common.entity.RacingHorseDetail;
+import org.uma.cloud.common.entity.RacingRefund;
+import org.uma.cloud.common.business.BusinessRacing;
+import org.uma.cloud.common.business.BusinessRacingHorse;
+import org.uma.cloud.common.business.BusinessRacingRefund;
 import org.uma.cloud.common.utils.javatuples.Pair;
 import org.uma.cloud.common.utils.javatuples.Triplet;
 

@@ -3,7 +3,7 @@ package org.uma.cloud.stream.function;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.function.context.PollableBean;
 import org.springframework.context.annotation.Configuration;
-import org.uma.cloud.common.model.business.BusinessRacing;
+import org.uma.cloud.common.business.BusinessRacing;
 import reactor.core.publisher.Flux;
 
 import java.time.Duration;

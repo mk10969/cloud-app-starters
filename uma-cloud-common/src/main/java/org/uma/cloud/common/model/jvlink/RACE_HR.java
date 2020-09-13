@@ -2,6 +2,7 @@ package org.uma.cloud.common.model.jvlink;
 
 import lombok.Getter;
 import org.uma.cloud.common.code.RaceCourseCode;
+import org.uma.cloud.common.model.BaseJvLink;
 import org.uma.cloud.common.utils.javatuples.Pair;
 import org.uma.cloud.common.utils.javatuples.Triplet;
 
@@ -9,7 +10,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Getter
-class RACE_HR {
+public class RACE_HR extends BaseJvLink {
     private String dataDiv;
     private String raceId;
     private LocalDate holdingDate;

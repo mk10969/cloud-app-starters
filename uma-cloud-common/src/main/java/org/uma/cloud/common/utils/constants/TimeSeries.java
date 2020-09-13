@@ -1,4 +1,4 @@
-package org.uma.cloud.common.model.entity;
+package org.uma.cloud.common.utils.constants;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;

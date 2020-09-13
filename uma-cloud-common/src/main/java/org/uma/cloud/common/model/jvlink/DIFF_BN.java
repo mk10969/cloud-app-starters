@@ -1,9 +1,10 @@
 package org.uma.cloud.common.model.jvlink;
 
 import lombok.Getter;
+import org.uma.cloud.common.model.BaseJvLink;
 
 @Getter
-class DIFF_BN {
+public class DIFF_BN extends BaseJvLink {
     private String dataDiv;
     private Integer ownerCd;
     private String ownerNameWithCorp;

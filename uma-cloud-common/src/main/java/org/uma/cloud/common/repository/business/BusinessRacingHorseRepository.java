@@ -1,7 +1,7 @@
 package org.uma.cloud.common.repository.business;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.uma.cloud.common.model.business.BusinessRacingHorse;
+import org.uma.cloud.common.business.BusinessRacingHorse;
 
 import java.util.List;
 

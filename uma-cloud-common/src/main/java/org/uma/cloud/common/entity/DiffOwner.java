@@ -1,4 +1,4 @@
-package org.uma.cloud.common.model.entity;
+package org.uma.cloud.common.entity;
 
 import lombok.Getter;
 

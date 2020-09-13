@@ -4,12 +4,13 @@ import lombok.Getter;
 import org.uma.cloud.common.code.BreedCode;
 import org.uma.cloud.common.code.HairColorCode;
 import org.uma.cloud.common.code.SexCode;
+import org.uma.cloud.common.model.BaseJvLink;
 
 import java.time.LocalDate;
 import java.util.List;
 
 @Getter
-class BLOD_SK {
+public class BLOD_SK extends BaseJvLink {
     private String dataDiv;
     private Long bloodlineNo;
     private LocalDate birthDate;

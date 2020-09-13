@@ -14,7 +14,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.core.io.Resource;
 import org.uma.cloud.common.configuration.JvLinkDeserializer;
-import org.uma.cloud.common.model.entity.RacingHorseDetail;
+import org.uma.cloud.common.entity.RacingHorseDetail;
 import org.uma.cloud.common.repository.RacingHorseDetailRepository;
 import org.uma.cloud.common.utils.javatuples.Pair;
 import org.uma.cloud.common.utils.lang.JacksonUtil;

@@ -4,7 +4,7 @@ package org.uma.cloud.common.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.uma.cloud.common.model.entity.OddsWinsShowBracketQ;
+import org.uma.cloud.common.entity.OddsWinsShowBracketQ;
 import org.uma.cloud.common.repository.WinsShowBracketQRepository;
 
 import java.util.List;

@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.function.context.PollableBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.uma.cloud.common.model.business.BusinessRacing;
+import org.uma.cloud.common.business.BusinessRacing;
 import org.uma.cloud.common.service.business.BusinessRacingService;
 import reactor.core.publisher.EmitterProcessor;
 import reactor.core.publisher.Flux;

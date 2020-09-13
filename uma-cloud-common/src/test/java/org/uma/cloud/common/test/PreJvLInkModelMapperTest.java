@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.uma.cloud.common.BaseSpringBootTest;
 import org.uma.cloud.common.configuration.JvLinkRecordProperties;
-import org.uma.cloud.common.model.entity.RacingDetail;
+import org.uma.cloud.common.entity.RacingDetail;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;

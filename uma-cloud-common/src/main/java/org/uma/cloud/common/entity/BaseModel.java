@@ -1,4 +1,4 @@
-package org.uma.cloud.common.model.entity;
+package org.uma.cloud.common.entity;
 
 import com.vladmihalcea.hibernate.type.array.ListArrayType;
 import com.vladmihalcea.hibernate.type.json.JsonBinaryType;

@@ -1,4 +1,4 @@
-package org.uma.cloud.common.model.business;
+package org.uma.cloud.common.business;
 
 import lombok.Data;
 import org.hibernate.annotations.Type;

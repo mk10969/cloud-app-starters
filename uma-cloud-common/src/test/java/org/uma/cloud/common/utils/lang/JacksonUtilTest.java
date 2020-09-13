@@ -9,7 +9,7 @@ import com.fasterxml.jackson.databind.module.SimpleModule;
 import lombok.Getter;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.uma.cloud.common.model.entity.BaseModel;
+import org.uma.cloud.common.entity.BaseModel;
 
 import java.io.IOException;
 import java.time.LocalDateTime;

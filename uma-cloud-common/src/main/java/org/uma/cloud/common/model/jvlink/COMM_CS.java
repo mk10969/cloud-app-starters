@@ -3,11 +3,12 @@ package org.uma.cloud.common.model.jvlink;
 import lombok.Getter;
 import org.uma.cloud.common.code.RaceCourseCode;
 import org.uma.cloud.common.code.TrackCode;
+import org.uma.cloud.common.model.BaseJvLink;
 
 import java.time.LocalDate;
 
 @Getter
-class COMM_CS {
+public class COMM_CS extends BaseJvLink {
     private String dataDiv;
     private RaceCourseCode courseCd;
     private Integer distance;

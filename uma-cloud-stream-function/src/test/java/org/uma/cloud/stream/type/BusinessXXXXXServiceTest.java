@@ -3,7 +3,7 @@ package org.uma.cloud.stream.type;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.uma.cloud.common.model.business.BusinessRacing;
+import org.uma.cloud.common.business.BusinessRacing;
 import org.uma.cloud.common.service.business.BusinessRacingHorseService;
 import org.uma.cloud.common.service.business.BusinessRacingService;
 import org.uma.cloud.common.utils.lang.DateUtil;

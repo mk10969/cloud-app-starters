@@ -1,4 +1,4 @@
-package org.uma.cloud.common.model.business;
+package org.uma.cloud.common.business;
 
 import lombok.Data;
 import org.uma.cloud.common.code.AbnormalDivisionCode;
@@ -7,8 +7,8 @@ import org.uma.cloud.common.code.HairColorCode;
 import org.uma.cloud.common.code.JockeyApprenticeCode;
 import org.uma.cloud.common.code.MarginCode;
 import org.uma.cloud.common.code.SexCode;
-import org.uma.cloud.common.model.entity.BaseModel;
-import org.uma.cloud.common.model.entity.BloodLine;
+import org.uma.cloud.common.entity.BaseModel;
+import org.uma.cloud.common.entity.BloodLine;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

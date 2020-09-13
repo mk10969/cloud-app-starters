@@ -3,34 +3,34 @@ package org.uma.cloud.common.configuration;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.uma.cloud.common.model.entity.BloodAncestry;
-import org.uma.cloud.common.model.entity.BaseModel;
-import org.uma.cloud.common.model.entity.DiffBreeder;
-import org.uma.cloud.common.model.entity.BloodBreeding;
-import org.uma.cloud.common.model.entity.Course;
-import org.uma.cloud.common.model.entity.DiffJockey;
-import org.uma.cloud.common.model.entity.RacingHorseDetail;
-import org.uma.cloud.common.model.entity.BloodLine;
-import org.uma.cloud.common.model.entity.DiffOwner;
-import org.uma.cloud.common.model.entity.DiffRaceHorse;
-import org.uma.cloud.common.model.entity.RacingHorseExclusion;
-import org.uma.cloud.common.model.entity.RacingRefund;
-import org.uma.cloud.common.model.entity.RacingDetail;
-import org.uma.cloud.common.model.entity.DiffTrainer;
-import org.uma.cloud.common.model.entity.RacingVote;
+import org.uma.cloud.common.code.RecordSpec;
+import org.uma.cloud.common.model.jvlink.BLOD_BT;
+import org.uma.cloud.common.model.jvlink.BLOD_HN;
+import org.uma.cloud.common.model.jvlink.BLOD_SK;
+import org.uma.cloud.common.model.BaseJvLink;
+import org.uma.cloud.common.model.jvlink.COMM_CS;
+import org.uma.cloud.common.model.jvlink.DIFF_BN;
+import org.uma.cloud.common.model.jvlink.DIFF_BR;
+import org.uma.cloud.common.model.jvlink.DIFF_CH;
+import org.uma.cloud.common.model.jvlink.DIFF_KS;
+import org.uma.cloud.common.model.jvlink.DIFF_UM;
+import org.uma.cloud.common.model.jvlink.RACE_H1;
+import org.uma.cloud.common.model.jvlink.RACE_HR;
+import org.uma.cloud.common.model.jvlink.RACE_JG;
+import org.uma.cloud.common.model.jvlink.RACE_O1;
+import org.uma.cloud.common.model.jvlink.RACE_O2;
+import org.uma.cloud.common.model.jvlink.RACE_O3;
+import org.uma.cloud.common.model.jvlink.RACE_O4;
+import org.uma.cloud.common.model.jvlink.RACE_O5;
+import org.uma.cloud.common.model.jvlink.RACE_O6;
+import org.uma.cloud.common.model.jvlink.RACE_RA;
+import org.uma.cloud.common.model.jvlink.RACE_SE;
 import org.uma.cloud.common.model.event.Avoid;
 import org.uma.cloud.common.model.event.CourseChange;
 import org.uma.cloud.common.model.event.JockeyChange;
 import org.uma.cloud.common.model.event.TimeChange;
 import org.uma.cloud.common.model.event.Weather;
 import org.uma.cloud.common.model.event.Weight;
-import org.uma.cloud.common.model.entity.OddsExacta;
-import org.uma.cloud.common.model.entity.OddsQuinella;
-import org.uma.cloud.common.model.entity.OddsQuinellaPlace;
-import org.uma.cloud.common.model.entity.OddsTrifecta;
-import org.uma.cloud.common.model.entity.OddsTrio;
-import org.uma.cloud.common.model.entity.OddsWinsShowBracketQ;
-import org.uma.cloud.common.code.RecordSpec;
 import org.uma.cloud.common.utils.exception.JvLinkModelMappingException;
 import org.uma.cloud.common.utils.lang.ByteUtil;
 import org.uma.cloud.common.utils.lang.JacksonUtil;
@@ -52,36 +52,36 @@ public class JvLinkModelMapper {
     @Autowired
     private Map<String, JvLinkRecordProperties.RecordSpecItems> recordSpecItems;
 
-    private final EnumMap<RecordSpec, Class<? extends BaseModel>> recordSpecClass = new EnumMap<>(RecordSpec.class);
+    private final EnumMap<RecordSpec, Class<? extends BaseJvLink>> recordSpecClass = new EnumMap<>(RecordSpec.class);
 
 
     @PostConstruct
     void init() {
         // RACE
-        recordSpecClass.put(RecordSpec.RA, RacingDetail.class);
-        recordSpecClass.put(RecordSpec.SE, RacingHorseDetail.class);
-        recordSpecClass.put(RecordSpec.HR, RacingRefund.class);
-        recordSpecClass.put(RecordSpec.H1, RacingVote.class);
-        recordSpecClass.put(RecordSpec.JG, RacingHorseExclusion.class);
+        recordSpecClass.put(RecordSpec.RA, RACE_RA.class);
+        recordSpecClass.put(RecordSpec.SE, RACE_SE.class);
+        recordSpecClass.put(RecordSpec.HR, RACE_HR.class);
+        recordSpecClass.put(RecordSpec.H1, RACE_H1.class);
+        recordSpecClass.put(RecordSpec.JG, RACE_JG.class);
         // ODDS
-        recordSpecClass.put(RecordSpec.O1, OddsWinsShowBracketQ.class);
-        recordSpecClass.put(RecordSpec.O2, OddsQuinella.class);
-        recordSpecClass.put(RecordSpec.O3, OddsQuinellaPlace.class);
-        recordSpecClass.put(RecordSpec.O4, OddsExacta.class);
-        recordSpecClass.put(RecordSpec.O5, OddsTrio.class);
-        recordSpecClass.put(RecordSpec.O6, OddsTrifecta.class);
+        recordSpecClass.put(RecordSpec.O1, RACE_O1.class);
+        recordSpecClass.put(RecordSpec.O2, RACE_O2.class);
+        recordSpecClass.put(RecordSpec.O3, RACE_O3.class);
+        recordSpecClass.put(RecordSpec.O4, RACE_O4.class);
+        recordSpecClass.put(RecordSpec.O5, RACE_O5.class);
+        recordSpecClass.put(RecordSpec.O6, RACE_O6.class);
         // BLOD
-        recordSpecClass.put(RecordSpec.SK, BloodLine.class);
-        recordSpecClass.put(RecordSpec.BT, BloodAncestry.class);
-        recordSpecClass.put(RecordSpec.HN, BloodBreeding.class);
+        recordSpecClass.put(RecordSpec.SK, BLOD_SK.class);
+        recordSpecClass.put(RecordSpec.BT, BLOD_BT.class);
+        recordSpecClass.put(RecordSpec.HN, BLOD_HN.class);
         // DIFF
-        recordSpecClass.put(RecordSpec.UM, DiffRaceHorse.class);
-        recordSpecClass.put(RecordSpec.KS, DiffJockey.class);
-        recordSpecClass.put(RecordSpec.CH, DiffTrainer.class);
-        recordSpecClass.put(RecordSpec.BR, DiffBreeder.class);
-        recordSpecClass.put(RecordSpec.BN, DiffOwner.class);
+        recordSpecClass.put(RecordSpec.UM, DIFF_UM.class);
+        recordSpecClass.put(RecordSpec.KS, DIFF_KS.class);
+        recordSpecClass.put(RecordSpec.CH, DIFF_CH.class);
+        recordSpecClass.put(RecordSpec.BR, DIFF_BR.class);
+        recordSpecClass.put(RecordSpec.BN, DIFF_BN.class);
         // COMM
-        recordSpecClass.put(RecordSpec.CS, Course.class);
+        recordSpecClass.put(RecordSpec.CS, COMM_CS.class);
         // EVENT
         recordSpecClass.put(RecordSpec.WH, Weight.class);
         recordSpecClass.put(RecordSpec.AV, Avoid.class);
@@ -111,7 +111,7 @@ public class JvLinkModelMapper {
     }
 
 
-    public <T> T deserialize(final byte[] byteArrayLine, final Class<T> clazz) {
+    public <T extends BaseJvLink> T deserialize(final byte[] byteArrayLine, final Class<T> clazz) {
         Map<String, Object> deSerialMap = new HashMap<>();
 
         findRecordProperty(clazz).getRecordItems().forEach(record -> {

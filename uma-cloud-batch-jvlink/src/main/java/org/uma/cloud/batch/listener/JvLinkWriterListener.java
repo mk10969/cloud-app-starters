@@ -2,7 +2,7 @@ package org.uma.cloud.batch.listener;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.ItemWriteListener;
-import org.uma.cloud.common.model.entity.BaseModel;
+import org.uma.cloud.common.entity.BaseModel;
 
 import java.util.List;
 
