@@ -28,24 +28,6 @@ public class RacingHorseExclusion extends BaseModel {
     private String raceId;
 
     /**
-     * {@link RacingDetail}  重複
-     */
-//    @Column(nullable = false)
-//    private LocalDate holdingDate;
-//
-//    @Column(length = 6, nullable = false)
-//    private RaceCourseCode courseCd;
-//
-//    @Column(nullable = false)
-//    private Integer holdingNo;
-//
-//    @Column(nullable = false)
-//    private Integer holdingDay;
-//
-//    @Column(nullable = false)
-//    private Integer raceNo;
-
-    /**
      * 血統登録番号 10桁
      * {@link BloodLine.bloodlineNo}
      */

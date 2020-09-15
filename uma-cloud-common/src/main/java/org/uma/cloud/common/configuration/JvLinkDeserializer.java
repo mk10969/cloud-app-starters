@@ -1,16 +1,24 @@
 package org.uma.cloud.common.configuration;
 
+import org.modelmapper.ModelMapper;
+import org.modelmapper.config.Configuration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.uma.cloud.common.entity.BloodAncestry;
 import org.uma.cloud.common.entity.BloodBreeding;
 import org.uma.cloud.common.entity.BloodLine;
-import org.uma.cloud.common.entity.DiffBreeder;
 import org.uma.cloud.common.entity.Course;
+import org.uma.cloud.common.entity.DiffBreeder;
 import org.uma.cloud.common.entity.DiffJockey;
 import org.uma.cloud.common.entity.DiffOwner;
 import org.uma.cloud.common.entity.DiffRaceHorse;
 import org.uma.cloud.common.entity.DiffTrainer;
+import org.uma.cloud.common.entity.OddsExacta;
+import org.uma.cloud.common.entity.OddsQuinella;
+import org.uma.cloud.common.entity.OddsQuinellaPlace;
+import org.uma.cloud.common.entity.OddsTrifecta;
+import org.uma.cloud.common.entity.OddsTrio;
+import org.uma.cloud.common.entity.OddsWinsShowBracketQ;
 import org.uma.cloud.common.entity.RacingDetail;
 import org.uma.cloud.common.entity.RacingHorseDetail;
 import org.uma.cloud.common.entity.RacingHorseExclusion;
@@ -22,14 +30,29 @@ import org.uma.cloud.common.model.event.JockeyChange;
 import org.uma.cloud.common.model.event.TimeChange;
 import org.uma.cloud.common.model.event.Weather;
 import org.uma.cloud.common.model.event.Weight;
-import org.uma.cloud.common.entity.OddsExacta;
-import org.uma.cloud.common.entity.OddsQuinella;
-import org.uma.cloud.common.entity.OddsQuinellaPlace;
-import org.uma.cloud.common.entity.OddsTrifecta;
-import org.uma.cloud.common.entity.OddsTrio;
-import org.uma.cloud.common.entity.OddsWinsShowBracketQ;
+import org.uma.cloud.common.model.jvlink.BLOD_BT;
+import org.uma.cloud.common.model.jvlink.BLOD_HN;
+import org.uma.cloud.common.model.jvlink.BLOD_SK;
+import org.uma.cloud.common.model.jvlink.COMM_CS;
+import org.uma.cloud.common.model.jvlink.DIFF_BN;
+import org.uma.cloud.common.model.jvlink.DIFF_BR;
+import org.uma.cloud.common.model.jvlink.DIFF_CH;
+import org.uma.cloud.common.model.jvlink.DIFF_KS;
+import org.uma.cloud.common.model.jvlink.DIFF_UM;
+import org.uma.cloud.common.model.jvlink.RACE_H1;
+import org.uma.cloud.common.model.jvlink.RACE_HR;
+import org.uma.cloud.common.model.jvlink.RACE_JG;
+import org.uma.cloud.common.model.jvlink.RACE_O1;
+import org.uma.cloud.common.model.jvlink.RACE_O2;
+import org.uma.cloud.common.model.jvlink.RACE_O3;
+import org.uma.cloud.common.model.jvlink.RACE_O4;
+import org.uma.cloud.common.model.jvlink.RACE_O5;
+import org.uma.cloud.common.model.jvlink.RACE_O6;
+import org.uma.cloud.common.model.jvlink.RACE_RA;
+import org.uma.cloud.common.model.jvlink.RACE_SE;
 import org.uma.cloud.common.utils.lang.ByteUtil;
 
+import javax.annotation.PostConstruct;
 import java.util.function.Function;
 
 @Service
@@ -38,27 +61,38 @@ public class JvLinkDeserializer {
     @Autowired
     private JvLinkModelMapper jvLinkModelMapper;
 
+    private static final ModelMapper modelMapper = new ModelMapper();
+
     private static final Function<String, byte[]> decode = ByteUtil::base64Decode;
 
+
+    @PostConstruct
+    public void init() {
+        modelMapper.getConfiguration()
+                .setFieldAccessLevel(Configuration.AccessLevel.PRIVATE)
+                .setFieldMatchingEnabled(true);
+    }
 
     /**
      * レースデータ
      */
     public RacingDetail toRacingDetail(String data) {
-        RacingDetail model = jvLinkModelMapper.deserialize(decode.apply(data), RacingDetail.class);
+        RACE_RA model = jvLinkModelMapper.deserialize(decode.apply(data), RACE_RA.class);
         model.getLapTimeItems().removeIf(time -> time == 0.0);
         model.getCornerPassageRanks().removeIf(cornerPassageRank -> cornerPassageRank.getCorner() == 0
                 && cornerPassageRank.getAroundCount() == 0
                 && "".equals(cornerPassageRank.getPassageRank()));
-        return model;
+
+        return modelMapper.map(model, RacingDetail.class);
     }
 
     public RacingHorseDetail toRacingHorseDetail(String data) {
-        return jvLinkModelMapper.deserialize(decode.apply(data), RacingHorseDetail.class);
+        RACE_SE model = jvLinkModelMapper.deserialize(decode.apply(data), RACE_SE.class);
+        return modelMapper.map(model, RacingHorseDetail.class);
     }
 
     public RacingRefund toRacingRefund(String data) {
-        RacingRefund model = jvLinkModelMapper.deserialize(decode.apply(data), RacingRefund.class);
+        RACE_HR model = jvLinkModelMapper.deserialize(decode.apply(data), RACE_HR.class);
         model.getRefundWins().removeIf(JvLinkDeserializer::refundFilter);
         model.getRefundShows().removeIf(JvLinkDeserializer::refundFilter);
         model.getRefundBracketQs().removeIf(JvLinkDeserializer::refundFilter);
@@ -68,11 +102,12 @@ public class JvLinkDeserializer {
         model.getRefundExactas().removeIf(JvLinkDeserializer::refundFilter);
         model.getRefundTrios().removeIf(JvLinkDeserializer::refundFilter);
         model.getRefundTrifectas().removeIf(JvLinkDeserializer::refundFilter);
-        return model;
+
+        return modelMapper.map(model, RacingRefund.class);
     }
 
     public RacingVote toRacingVote(String data) {
-        RacingVote model = jvLinkModelMapper.deserialize(decode.apply(data), RacingVote.class);
+        RACE_H1 model = jvLinkModelMapper.deserialize(decode.apply(data), RACE_H1.class);
         model.getVoteCountWins().removeIf(JvLinkDeserializer::voteFilter);
         model.getVoteCountShows().removeIf(JvLinkDeserializer::voteFilter);
         model.getVoteCountBracketQs().removeIf(JvLinkDeserializer::voteFilter);
@@ -80,11 +115,13 @@ public class JvLinkDeserializer {
         model.getVoteCountQuinellaPlaces().removeIf(JvLinkDeserializer::voteFilter);
         model.getVoteCountExactas().removeIf(JvLinkDeserializer::voteFilter);
         model.getVoteCountTrios().removeIf(JvLinkDeserializer::voteFilter);
-        return model;
+
+        return modelMapper.map(model, RacingVote.class);
     }
 
     public RacingHorseExclusion toRacingHorseExclusion(String data) {
-        return jvLinkModelMapper.deserialize(decode.apply(data), RacingHorseExclusion.class);
+        RACE_JG model = jvLinkModelMapper.deserialize(decode.apply(data), RACE_JG.class);
+        return modelMapper.map(model, RacingHorseExclusion.class);
     }
 
 
@@ -92,57 +129,62 @@ public class JvLinkDeserializer {
      * オッズデータ
      */
     public OddsWinsShowBracketQ toWinsShowBracketQ(String data) {
-        OddsWinsShowBracketQ model = jvLinkModelMapper.deserialize(decode.apply(data), OddsWinsShowBracketQ.class);
+        RACE_O1 model = jvLinkModelMapper.deserialize(decode.apply(data), RACE_O1.class);
         model.getWinOdds().removeIf(JvLinkDeserializer::winOddsFilter);
         model.getShowOdds().removeIf(JvLinkDeserializer::showOddsFilter);
         model.getBracketQOdds().removeIf(JvLinkDeserializer::bracketQOddsFilter);
-        return model;
+
+        return modelMapper.map(model, OddsWinsShowBracketQ.class);
     }
 
     public OddsQuinella toQuinella(String data) {
-        OddsQuinella model = jvLinkModelMapper.deserialize(decode.apply(data), OddsQuinella.class);
+        RACE_O2 model = jvLinkModelMapper.deserialize(decode.apply(data), RACE_O2.class);
         model.getQuinellaOdds().removeIf(JvLinkDeserializer::quinellaOddsFilter);
-        return model;
+
+        return modelMapper.map(model, OddsQuinella.class);
     }
 
     public OddsQuinellaPlace toQuinellaPlace(String data) {
-        OddsQuinellaPlace model = jvLinkModelMapper.deserialize(decode.apply(data), OddsQuinellaPlace.class);
+        RACE_O3 model = jvLinkModelMapper.deserialize(decode.apply(data), RACE_O3.class);
         model.getQuinellaPlaceOdds().removeIf(JvLinkDeserializer::quinellaPlaceOddsFilter);
-        return model;
+        return modelMapper.map(model, OddsQuinellaPlace.class);
     }
 
     public OddsExacta toExacta(String data) {
-        OddsExacta model = jvLinkModelMapper.deserialize(decode.apply(data), OddsExacta.class);
+        RACE_O4 model = jvLinkModelMapper.deserialize(decode.apply(data), RACE_O4.class);
         model.getExactaOdds().removeIf(JvLinkDeserializer::exactaOddsFilter);
-        return model;
+        return modelMapper.map(model, OddsExacta.class);
     }
 
     public OddsTrio toTrio(String data) {
-        OddsTrio model = jvLinkModelMapper.deserialize(decode.apply(data), OddsTrio.class);
+        RACE_O5 model = jvLinkModelMapper.deserialize(decode.apply(data), RACE_O5.class);
         model.getTrioOdds().removeIf(JvLinkDeserializer::trioOddsFilter);
-        return model;
+        return modelMapper.map(model, OddsTrio.class);
     }
 
     public OddsTrifecta toTrifecta(String data) {
-        OddsTrifecta model = jvLinkModelMapper.deserialize(decode.apply(data), OddsTrifecta.class);
+        RACE_O6 model = jvLinkModelMapper.deserialize(decode.apply(data), RACE_O6.class);
         model.getTrifectaOdds().removeIf(JvLinkDeserializer::trifectaOddsFilter);
-        return model;
+        return modelMapper.map(model, OddsTrifecta.class);
     }
 
 
     /**
      * 血統データ
      */
-    public BloodLine toBloodLine(String data) {
-        return jvLinkModelMapper.deserialize(decode.apply(data), BloodLine.class);
-    }
-
     public BloodAncestry toBloodAncestry(String data) {
-        return jvLinkModelMapper.deserialize(decode.apply(data), BloodAncestry.class);
+        BLOD_BT model = jvLinkModelMapper.deserialize(decode.apply(data), BLOD_BT.class);
+        return modelMapper.map(model, BloodAncestry.class);
     }
 
     public BloodBreeding toBloodBreeding(String data) {
-        return jvLinkModelMapper.deserialize(decode.apply(data), BloodBreeding.class);
+        BLOD_HN model = jvLinkModelMapper.deserialize(decode.apply(data), BLOD_HN.class);
+        return modelMapper.map(model, BloodBreeding.class);
+    }
+
+    public BloodLine toBloodLine(String data) {
+        BLOD_SK model = jvLinkModelMapper.deserialize(decode.apply(data), BLOD_SK.class);
+        return modelMapper.map(model, BloodLine.class);
     }
 
 
@@ -150,27 +192,33 @@ public class JvLinkDeserializer {
      * 競馬データ
      */
     public DiffRaceHorse toRaceHorse(String data) {
-        return jvLinkModelMapper.deserialize(decode.apply(data), DiffRaceHorse.class);
+        DIFF_UM model = jvLinkModelMapper.deserialize(decode.apply(data), DIFF_UM.class);
+        return modelMapper.map(model, DiffRaceHorse.class);
     }
 
     public DiffJockey toJockey(String data) {
-        return jvLinkModelMapper.deserialize(decode.apply(data), DiffJockey.class);
+        DIFF_KS model = jvLinkModelMapper.deserialize(decode.apply(data), DIFF_KS.class);
+        return modelMapper.map(model, DiffJockey.class);
     }
 
     public DiffTrainer toTrainer(String data) {
-        return jvLinkModelMapper.deserialize(decode.apply(data), DiffTrainer.class);
+        DIFF_CH model = jvLinkModelMapper.deserialize(decode.apply(data), DIFF_CH.class);
+        return modelMapper.map(model, DiffTrainer.class);
     }
 
     public DiffBreeder toBreeder(String data) {
-        return jvLinkModelMapper.deserialize(decode.apply(data), DiffBreeder.class);
+        DIFF_BR model = jvLinkModelMapper.deserialize(decode.apply(data), DIFF_BR.class);
+        return modelMapper.map(model, DiffBreeder.class);
     }
 
     public DiffOwner toOwner(String data) {
-        return jvLinkModelMapper.deserialize(decode.apply(data), DiffOwner.class);
+        DIFF_BN model = jvLinkModelMapper.deserialize(decode.apply(data), DIFF_BN.class);
+        return modelMapper.map(model, DiffOwner.class);
     }
 
     public Course toCourse(String data) {
-        return jvLinkModelMapper.deserialize(decode.apply(data), Course.class);
+        COMM_CS model = jvLinkModelMapper.deserialize(decode.apply(data), COMM_CS.class);
+        return modelMapper.map(model, Course.class);
     }
 
 
@@ -205,75 +253,75 @@ public class JvLinkDeserializer {
     /**
      * 不要データのFilter static methods
      */
-    private static boolean winOddsFilter(OddsWinsShowBracketQ.WinOdds winOdds) {
+    private static boolean winOddsFilter(RACE_O1.WinOdds winOdds) {
         return winOdds.getOdds() == null
                 && winOdds.getBetRank() == null;
     }
 
-    private static boolean showOddsFilter(OddsWinsShowBracketQ.ShowOdds showOdds) {
+    private static boolean showOddsFilter(RACE_O1.ShowOdds showOdds) {
         return showOdds.getOddsMin() == null
                 && showOdds.getOddsMax() == null
                 && showOdds.getBetRank() == null;
     }
 
-    private static boolean bracketQOddsFilter(OddsWinsShowBracketQ.BracketQOdds bracketQOdds) {
+    private static boolean bracketQOddsFilter(RACE_O1.BracketQOdds bracketQOdds) {
         return bracketQOdds.getOdds() == null
                 && bracketQOdds.getBetRank() == null;
     }
 
-    private static boolean quinellaOddsFilter(OddsQuinella.QuinellaOdds quinellaOdds) {
+    private static boolean quinellaOddsFilter(RACE_O2.QuinellaOdds quinellaOdds) {
         return quinellaOdds.getOdds() == null
                 && quinellaOdds.getBetRank() == null;
     }
 
-    private static boolean quinellaPlaceOddsFilter(OddsQuinellaPlace.QuinellaPlaceOdds quinellaPlaceOdds) {
+    private static boolean quinellaPlaceOddsFilter(RACE_O3.QuinellaPlaceOdds quinellaPlaceOdds) {
         return quinellaPlaceOdds.getOddsMin() == null
                 && quinellaPlaceOdds.getOddsMax() == null
                 && quinellaPlaceOdds.getBetRank() == null;
     }
 
-    private static boolean exactaOddsFilter(OddsExacta.ExactaOdds exactaOdds) {
+    private static boolean exactaOddsFilter(RACE_O4.ExactaOdds exactaOdds) {
         return exactaOdds.getOdds() == null
                 && exactaOdds.getBetRank() == null;
     }
 
-    private static boolean trioOddsFilter(OddsTrio.TrioOdds trioOdds) {
+    private static boolean trioOddsFilter(RACE_O5.TrioOdds trioOdds) {
         return trioOdds.getOdds() == null
                 && trioOdds.getBetRank() == null;
     }
 
-    private static boolean trifectaOddsFilter(OddsTrifecta.TrifectaOdds trifectaOdds) {
+    private static boolean trifectaOddsFilter(RACE_O6.TrifectaOdds trifectaOdds) {
         return trifectaOdds.getOdds() == null
                 && trifectaOdds.getBetRank() == null;
     }
 
 
-    private static boolean refundFilter(RacingRefund.refund refund) {
+    private static boolean refundFilter(RACE_HR.refund refund) {
         return refund.getBetRank() == null
                 && refund.getRefundMoney() == null;
     }
 
-    private static boolean refundFilter(RacingRefund.refundPair refundPair) {
+    private static boolean refundFilter(RACE_HR.refundPair refundPair) {
         return refundPair.getBetRank() == null
                 && refundPair.getRefundMoney() == null;
     }
 
-    private static boolean refundFilter(RacingRefund.refundTriplet refundTriplet) {
+    private static boolean refundFilter(RACE_HR.refundTriplet refundTriplet) {
         return refundTriplet.getBetRank() == null
                 && refundTriplet.getRefundMoney() == null;
     }
 
-    private static boolean voteFilter(RacingVote.Vote vote) {
+    private static boolean voteFilter(RACE_H1.Vote vote) {
         return vote.getBetRank() == null
                 && vote.getVoteCount() == null;
     }
 
-    private static boolean voteFilter(RacingVote.VotePair votePair) {
+    private static boolean voteFilter(RACE_H1.VotePair votePair) {
         return votePair.getBetRank() == null
                 && votePair.getVoteCount() == null;
     }
 
-    private static boolean voteFilter(RacingVote.VoteTriplet voteTriplet) {
+    private static boolean voteFilter(RACE_H1.VoteTriplet voteTriplet) {
         return voteTriplet.getBetRank() == null
                 && voteTriplet.getVoteCount() == null;
     }

@@ -44,12 +44,12 @@ public class RacingVote extends BaseModel {
 //
 //    @Column(nullable = false)
 //    private Integer raceNo;
-//
-//    @Column(nullable = false)
-//    private Integer entryCount;
-//
-//    @Column(nullable = false)
-//    private Integer starterCount;
+
+    @Column(nullable = false)
+    private Integer entryCount;
+
+    @Column(nullable = false)
+    private Integer starterCount;
 
     @Column(nullable = false)
     private Integer saleFlagWin;

@@ -5,11 +5,9 @@ import com.vladmihalcea.hibernate.type.json.JsonBinaryType;
 import lombok.Getter;
 import org.hibernate.annotations.TypeDef;
 import org.hibernate.annotations.TypeDefs;
-import org.uma.cloud.common.code.RecordSpec;
 import org.uma.cloud.common.utils.lang.ModelUtil;
 
 import javax.persistence.AttributeConverter;
-import javax.persistence.Column;
 import javax.persistence.Converter;
 import javax.persistence.MappedSuperclass;
 import java.io.Serializable;
@@ -25,18 +23,6 @@ import java.time.LocalTime;
 })
 @MappedSuperclass
 public abstract class BaseModel implements Serializable {
-
-    /**
-     * レコード識別子
-     */
-    @Column(length = 2, nullable = false)
-    private RecordSpec recordType;
-
-    /**
-     * JvLink側データ作成 タイムスタンプ
-     */
-    @Column(nullable = false)
-    private LocalDate dataCreateDate;
 
     /**
      * ToString => Json format

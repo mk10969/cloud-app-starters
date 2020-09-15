@@ -52,57 +52,11 @@ public class RacingDetail extends BaseModel {
     @Column(nullable = false)
     private Integer raceNo;
 
-    /**
-     * 開催日をDateで所持しているので、いらんちゃいらん。
-     */
-//    @Column(length = 3, nullable = false)
-//    private WeekDayCode weekDayCd;
-
-    /**
-     * 重症のみ設定されている数字
-     * あいまいみたいなので除去。
-     */
-//    @Column(nullable = false)
-//    private Integer specialRaceNo;
-
     @Column(length = 60, nullable = false)
     private String raceNameFull;
 
-//    @Column(length = 60, nullable = false)
-//    private String raceNameSub;
-//
-//    @Column(length = 60, nullable = false)
-//    private String raceNameNote;
-//
-//    @Column(length = 120, nullable = false)
-//    private String raceNameFullEng;
-//
-//    @Column(length = 120, nullable = false)
-//    private String raceNameSubEng;
-//
-//    @Column(length = 120, nullable = false)
-//    private String raceNameNoteEng;
-//
-//    @Column(length = 20, nullable = false)
-//    private String raceNameShortChar10;
-//
-//    @Column(length = 12, nullable = false)
-//    private String raceNameShortChar6;
-//
-//    @Column(length = 6, nullable = false)
-//    private String raceNameShortChar3;
-
-//    @Column(nullable = false)
-//    private Integer raceNameDiv;
-
-//    @Column(nullable = false)
-//    private Integer gradeTimes;
-
     @Column(length = 10, nullable = false)
     private RaceGradeCode gradeCd;
-
-//    @Column(length = 10, nullable = false)
-//    private RaceGradeCode gradeCdBefore;
 
     @Column(length = 4, nullable = false)
     private RaceTypeCode raceTypeCd;
@@ -115,22 +69,19 @@ public class RacingDetail extends BaseModel {
 
     /**
      * 2007.競走条件コード
-     * は、特定のCodeクラスの型にせず、Integerとして格納する。
+     * は、特定のCodeクラスの型にせず
+     * <p>
+     * raceConditionCdOld2
+     * raceConditionCdOld3
+     * raceConditionCdOld4
+     * raceConditionCdOld5
+     * raceConditionCdYoungest
+     * <p>
+     * List<Integer>として格納する。
      */
-    @Column(nullable = false)
-    private Integer raceConditionCdOld2;
-
-    @Column(nullable = false)
-    private Integer raceConditionCdOld3;
-
-    @Column(nullable = false)
-    private Integer raceConditionCdOld4;
-
-    @Column(nullable = false)
-    private Integer raceConditionCdOld5;
-
-    @Column(nullable = false)
-    private Integer raceConditionCdYoungest;
+    @Type(type = "list")
+    @Column(columnDefinition = "integer[]", nullable = false)
+    private List<Integer> reaceConditions;
 
     /**
      * 地方競馬のみ設定
@@ -141,47 +92,23 @@ public class RacingDetail extends BaseModel {
     @Column(nullable = false)
     private Integer distance;
 
-//    @Column(nullable = false)
-//    private Integer distanceBefore;
-
     @Column(length = 8, nullable = false)
     private TrackCode trackCd;
 
-//    @Column(length = 6, nullable = false)
-//    private TrackCode trackCdBefore;
-
     @Column(length = 2, nullable = false)
     private String courseDiv;
-
-//    @Column(length = 2, nullable = false)
-//    private String courseDivBefore;
 
     @Type(type = "list")
     @Column(columnDefinition = "integer[]", nullable = false)
     private List<Integer> addedMoneyItems;
 
-//    @Type(type = "list")
-//    @Column(columnDefinition = "integer[]", nullable = false)
-//    private List<Integer> addedMoneyBeforeItems;
-
     @Type(type = "list")
     @Column(columnDefinition = "integer[]", nullable = false)
     private List<Integer> stakesMoneyItems;
 
-//    @Type(type = "list")
-//    @Column(columnDefinition = "integer[]", nullable = false)
-//    private List<Integer> stakesMoneyBeforeItems;
-
     // 時間 -> LocalTime
     @Column(nullable = false)
     private LocalTime startTime;
-
-//    // 時間 -> LocalTime
-//    @Column(nullable = false)
-//    private LocalTime startTimeBefore;
-
-//    @Column(nullable = false)
-//    private Integer entryCount;
 
     @Column(nullable = false)
     private Integer starterCount;
@@ -220,9 +147,6 @@ public class RacingDetail extends BaseModel {
     @Type(type = "jsonb")
     @Column(columnDefinition = "jsonb", nullable = false)
     private List<CornerPassageRank> cornerPassageRanks;
-
-//    @Column(length = 1, nullable = false)
-//    private String recordUpdateDiv;
 
     @Getter
     public static class CornerPassageRank {
