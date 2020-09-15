@@ -1,7 +1,7 @@
 package org.uma.cloud.common.entity;
 
 import lombok.Data;
-import lombok.Getter;
+import lombok.EqualsAndHashCode;
 import org.uma.cloud.common.code.RaceCourseCode;
 import org.uma.cloud.common.code.TrackCode;
 
@@ -12,7 +12,8 @@ import javax.persistence.IdClass;
 import java.io.Serializable;
 import java.time.LocalDate;
 
-@Getter
+@EqualsAndHashCode(callSuper = true)
+@Data
 @Entity
 @IdClass(Course.CompositeId.class)
 public class Course extends BaseModel {

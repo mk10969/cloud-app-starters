@@ -1,12 +1,14 @@
 package org.uma.cloud.common.entity;
 
-import lombok.Getter;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
-@Getter
+@EqualsAndHashCode(callSuper = true)
+@Data
 @Entity
 public class DiffBreeder extends BaseModel {
 

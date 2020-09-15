@@ -1,6 +1,7 @@
 package org.uma.cloud.common.entity;
 
-import lombok.Getter;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.Type;
 import org.uma.cloud.common.utils.constants.TimeSeries;
 
@@ -11,7 +12,8 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
-@Getter
+@EqualsAndHashCode(callSuper = true)
+@Data
 @Entity
 public class OddsWinsShowBracketQ extends BaseModel implements TimeSeries {
 
@@ -91,7 +93,7 @@ public class OddsWinsShowBracketQ extends BaseModel implements TimeSeries {
     private Long voteCountTotalBracketQ;
 
 
-    @Getter
+    @Data
     public static class WinOdds {
         /**
          * 馬番は、String型を使う。
@@ -104,7 +106,7 @@ public class OddsWinsShowBracketQ extends BaseModel implements TimeSeries {
 
     }
 
-    @Getter
+    @Data
     public static class ShowOdds {
         /**
          * 馬番は、String型を使う。
@@ -119,7 +121,7 @@ public class OddsWinsShowBracketQ extends BaseModel implements TimeSeries {
 
     }
 
-    @Getter
+    @Data
     public static class BracketQOdds {
         /**
          * 枠連は、Pairオブジェクトを利用するのでが正しいが、

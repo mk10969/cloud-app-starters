@@ -1,6 +1,7 @@
 package org.uma.cloud.common.entity;
 
-import lombok.Getter;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.uma.cloud.common.code.EastOrWestBelongCode;
 import org.uma.cloud.common.code.JockeyApprenticeCode;
 import org.uma.cloud.common.code.JockeyLicenseCode;
@@ -10,7 +11,8 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import java.time.LocalDate;
 
-@Getter
+@EqualsAndHashCode(callSuper = true)
+@Data
 @Entity
 public class DiffJockey extends BaseModel {
 

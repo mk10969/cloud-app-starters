@@ -65,6 +65,21 @@ public enum TurfOrDirtConditionCode implements CodeEnum<Integer, TurfOrDirtCondi
         return CodeEnum.convertByCode(code, TurfOrDirtConditionCode.class);
     }
 
+    public static TurfOrDirtConditionCode compare(
+            TurfOrDirtConditionCode left,
+            TurfOrDirtConditionCode right
+    ) {
+        if (left == TurfOrDirtConditionCode.DEFAULT
+                && right != TurfOrDirtConditionCode.DEFAULT) {
+            return right;
+        } else if (left != TurfOrDirtConditionCode.DEFAULT
+                && right == TurfOrDirtConditionCode.DEFAULT) {
+            return left;
+        } else {
+            return TurfOrDirtConditionCode.DEFAULT;
+        }
+    }
+
     /**
      * Jpa enum converter impl
      */

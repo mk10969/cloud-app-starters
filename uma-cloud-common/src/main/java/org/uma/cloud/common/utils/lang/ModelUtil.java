@@ -107,7 +107,7 @@ public class ModelUtil {
             "birthDate"
     );
 
-    public static void fieldNotNull(BaseModel model) {
+    public static void fieldNotNull(Object model) {
         Map<String, Object> json = objectMapper.convertValue(model, new TypeReference<>() {
         });
         json.entrySet().stream()

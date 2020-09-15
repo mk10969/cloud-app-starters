@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.uma.cloud.common.business.BusinessRacing;
+import org.uma.cloud.common.code.TurfOrDirtConditionCode;
 import org.uma.cloud.common.model.event.CourseChange;
 import org.uma.cloud.common.model.event.TimeChange;
 import org.uma.cloud.common.model.event.Weather;
@@ -60,15 +61,17 @@ public class BusinessRacingService {
                 .peek(racing -> {
                     if (weather.getChangeId() == 1) {
                         racing.setWeather(weather.getWeatherNow());
-                        racing.setTurf(weather.getTurfNow());
-                        racing.setDirt(weather.getDirtNow());
+                        TurfOrDirtConditionCode turfOrDirt = TurfOrDirtConditionCode
+                                .compare(weather.getTurfNow(), weather.getDirtNow());
+                        racing.setTurfOrDirtCondition(turfOrDirt);
 
                     } else if (weather.getChangeId() == 2) {
                         racing.setWeather(weather.getWeatherNow());
 
                     } else if (weather.getChangeId() == 3) {
-                        racing.setTurf(weather.getTurfNow());
-                        racing.setDirt(weather.getDirtNow());
+                        TurfOrDirtConditionCode turfOrDirt = TurfOrDirtConditionCode
+                                .compare(weather.getTurfNow(), weather.getDirtNow());
+                        racing.setTurfOrDirtCondition(turfOrDirt);
 
                     } else {
                         throw new IllegalArgumentException("weather: " + weather);

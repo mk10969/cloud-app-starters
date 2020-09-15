@@ -1,6 +1,7 @@
 package org.uma.cloud.common.entity;
 
-import lombok.Getter;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.Type;
 import org.uma.cloud.common.utils.javatuples.Pair;
 import org.uma.cloud.common.utils.javatuples.Triplet;
@@ -10,7 +11,8 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import java.util.List;
 
-@Getter
+@EqualsAndHashCode(callSuper = true)
+@Data
 @Entity
 public class RacingRefund extends BaseModel {
 
@@ -166,7 +168,7 @@ public class RacingRefund extends BaseModel {
     private List<refundTriplet> refundTrifectas;
 
 
-    @Getter
+    @Data
     public static class refund {
 
         /**
@@ -185,7 +187,7 @@ public class RacingRefund extends BaseModel {
         private Integer betRank;
     }
 
-    @Getter
+    @Data
     public static class refundPair {
 
         /**
@@ -204,7 +206,7 @@ public class RacingRefund extends BaseModel {
         private Integer betRank;
     }
 
-    @Getter
+    @Data
     public static class refundTriplet {
 
         /**

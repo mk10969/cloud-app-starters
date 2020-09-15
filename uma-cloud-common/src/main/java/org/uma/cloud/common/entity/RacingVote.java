@@ -1,6 +1,7 @@
 package org.uma.cloud.common.entity;
 
-import lombok.Getter;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.Type;
 import org.uma.cloud.common.utils.javatuples.Pair;
 import org.uma.cloud.common.utils.javatuples.Triplet;
@@ -10,7 +11,8 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import java.util.List;
 
-@Getter
+@EqualsAndHashCode(callSuper = true)
+@Data
 @Entity
 public class RacingVote extends BaseModel {
 
@@ -174,7 +176,7 @@ public class RacingVote extends BaseModel {
     private Long restoreVoteCountTotalTrio;
 
 
-    @Getter
+    @Data
     public static class Vote {
 
         /**
@@ -196,7 +198,7 @@ public class RacingVote extends BaseModel {
         private Integer betRank;
     }
 
-    @Getter
+    @Data
     public static class VotePair {
 
         /**
@@ -218,7 +220,7 @@ public class RacingVote extends BaseModel {
         private Integer betRank;
     }
 
-    @Getter
+    @Data
     public static class VoteTriplet {
 
         /**

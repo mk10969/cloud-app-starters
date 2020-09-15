@@ -1,7 +1,7 @@
 package org.uma.cloud.common.entity;
 
 import lombok.Data;
-import lombok.Getter;
+import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.Type;
 import org.uma.cloud.common.code.AbnormalDivisionCode;
 import org.uma.cloud.common.code.EastOrWestBelongCode;
@@ -19,7 +19,8 @@ import java.io.Serializable;
 import java.time.LocalTime;
 import java.util.List;
 
-@Getter
+@EqualsAndHashCode(callSuper = true)
+@Data
 @Entity
 @IdClass(RacingHorseDetail.CompositeId.class)
 public class RacingHorseDetail extends BaseModel {

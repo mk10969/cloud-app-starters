@@ -1,6 +1,7 @@
 package org.uma.cloud.common.entity;
 
-import lombok.Getter;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.Type;
 import org.uma.cloud.common.code.RaceCourseCode;
 import org.uma.cloud.common.code.RaceGradeCode;
@@ -18,7 +19,8 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 
-@Getter
+@EqualsAndHashCode(callSuper = true)
+@Data
 @Entity
 public class RacingDetail extends BaseModel {
 
@@ -81,7 +83,7 @@ public class RacingDetail extends BaseModel {
      */
     @Type(type = "list")
     @Column(columnDefinition = "integer[]", nullable = false)
-    private List<Integer> reaceConditions;
+    private List<Integer> raceConditions;
 
     /**
      * 地方競馬のみ設定
@@ -120,10 +122,7 @@ public class RacingDetail extends BaseModel {
     private WeatherCode weatherCd;
 
     @Column(length = 2, nullable = false)
-    private TurfOrDirtConditionCode turfConditionCd;
-
-    @Column(length = 2, nullable = false)
-    private TurfOrDirtConditionCode dirtConditionCd;
+    private TurfOrDirtConditionCode turfOrDirtCondition;
 
     @Type(type = "list")
     @Column(columnDefinition = "double precision[]", nullable = false)
@@ -148,7 +147,7 @@ public class RacingDetail extends BaseModel {
     @Column(columnDefinition = "jsonb", nullable = false)
     private List<CornerPassageRank> cornerPassageRanks;
 
-    @Getter
+    @Data
     public static class CornerPassageRank {
 
         private Integer corner;

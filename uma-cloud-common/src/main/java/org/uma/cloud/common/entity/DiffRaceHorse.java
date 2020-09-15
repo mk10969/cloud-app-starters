@@ -1,7 +1,7 @@
 package org.uma.cloud.common.entity;
 
 import lombok.Data;
-import lombok.Getter;
+import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.Type;
 import org.uma.cloud.common.code.BreedCode;
 import org.uma.cloud.common.code.EastOrWestBelongCode;
@@ -17,7 +17,8 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.List;
 
-@Getter
+@EqualsAndHashCode(callSuper = true)
+@Data
 @Entity
 @IdClass(DiffRaceHorse.CompositeId.class)
 public class DiffRaceHorse extends BaseModel {
@@ -136,7 +137,7 @@ public class DiffRaceHorse extends BaseModel {
     private Integer allMoneyTotalJump;
 
 
-    @Getter
+    @Data
     public static class Breeding {
         /**
          * 繁殖登録番号 8桁

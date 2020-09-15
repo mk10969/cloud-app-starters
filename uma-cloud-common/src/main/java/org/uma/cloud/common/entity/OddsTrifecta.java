@@ -1,6 +1,7 @@
 package org.uma.cloud.common.entity;
 
-import lombok.Getter;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.Type;
 import org.uma.cloud.common.utils.constants.TimeSeries;
 import org.uma.cloud.common.utils.javatuples.Triplet;
@@ -12,7 +13,8 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
-@Getter
+@EqualsAndHashCode(callSuper = true)
+@Data
 @Entity
 public class OddsTrifecta extends BaseModel implements TimeSeries {
 
@@ -65,7 +67,7 @@ public class OddsTrifecta extends BaseModel implements TimeSeries {
     private Long voteTotalCount;
 
 
-    @Getter
+    @Data
     public static class TrifectaOdds {
         /**
          * 馬番の組み合わせ

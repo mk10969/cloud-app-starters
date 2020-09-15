@@ -4,6 +4,7 @@ import org.modelmapper.ModelMapper;
 import org.modelmapper.config.Configuration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.uma.cloud.common.code.TurfOrDirtConditionCode;
 import org.uma.cloud.common.entity.BloodAncestry;
 import org.uma.cloud.common.entity.BloodBreeding;
 import org.uma.cloud.common.entity.BloodLine;
@@ -53,6 +54,8 @@ import org.uma.cloud.common.model.jvlink.RACE_SE;
 import org.uma.cloud.common.utils.lang.ByteUtil;
 
 import javax.annotation.PostConstruct;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.function.Function;
 
 @Service
@@ -70,7 +73,8 @@ public class JvLinkDeserializer {
     public void init() {
         modelMapper.getConfiguration()
                 .setFieldAccessLevel(Configuration.AccessLevel.PRIVATE)
-                .setFieldMatchingEnabled(true);
+                .setFieldMatchingEnabled(true)
+                .setAmbiguityIgnored(true);
     }
 
     /**
@@ -83,7 +87,21 @@ public class JvLinkDeserializer {
                 && cornerPassageRank.getAroundCount() == 0
                 && "".equals(cornerPassageRank.getPassageRank()));
 
-        return modelMapper.map(model, RacingDetail.class);
+        RacingDetail racingDetail = modelMapper.map(model, RacingDetail.class);
+        // raceConditionを、５つを１つのリストにまとめる
+        List<Integer> raceConditions = new ArrayList<>();
+        raceConditions.add(model.getRaceConditionCdOld2());
+        raceConditions.add(model.getRaceConditionCdOld3());
+        raceConditions.add(model.getRaceConditionCdOld4());
+        raceConditions.add(model.getRaceConditionCdOld5());
+        raceConditions.add(model.getRaceConditionCdYoungest());
+        racingDetail.setRaceConditions(raceConditions);
+        // 芝ダートの馬場状態をひとつにする。
+        TurfOrDirtConditionCode turfOrDirtCd = TurfOrDirtConditionCode
+                .compare(model.getDirtConditionCd(), model.getTurfConditionCd());
+        racingDetail.setTurfOrDirtCondition(turfOrDirtCd);
+
+        return racingDetail;
     }
 
     public RacingHorseDetail toRacingHorseDetail(String data) {

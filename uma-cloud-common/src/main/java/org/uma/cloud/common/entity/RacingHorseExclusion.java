@@ -1,7 +1,7 @@
 package org.uma.cloud.common.entity;
 
 import lombok.Data;
-import lombok.Getter;
+import lombok.EqualsAndHashCode;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,7 +9,8 @@ import javax.persistence.Id;
 import javax.persistence.IdClass;
 import java.io.Serializable;
 
-@Getter
+@EqualsAndHashCode(callSuper = true)
+@Data
 @Entity
 @IdClass(RacingHorseExclusion.CompositeId.class)
 public class RacingHorseExclusion extends BaseModel {

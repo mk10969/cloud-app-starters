@@ -144,17 +144,9 @@ public class BusinessRacing implements Serializable {
 
     /**
      * レースのターフコンディション
-     * {@link Weather}
      */
     @Column(length = 2, nullable = false)
-    private TurfOrDirtConditionCode turf;
-
-    /**
-     * レースのダートコンディション
-     * {@link Weather}
-     */
-    @Column(length = 2, nullable = false)
-    private TurfOrDirtConditionCode dirt;
+    private TurfOrDirtConditionCode turfOrDirtCondition;
 
     /**
      * レース天候

@@ -1,6 +1,7 @@
 package org.uma.cloud.common.entity;
 
-import lombok.Getter;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.uma.cloud.common.code.BreedCode;
 import org.uma.cloud.common.code.HairColorCode;
 import org.uma.cloud.common.code.SexCode;
@@ -9,7 +10,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
-@Getter
+@EqualsAndHashCode(callSuper = true)
+@Data
 @Entity
 public class BloodBreeding extends BaseModel {
 

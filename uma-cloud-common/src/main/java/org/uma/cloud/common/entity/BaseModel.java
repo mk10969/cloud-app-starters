@@ -2,7 +2,6 @@ package org.uma.cloud.common.entity;
 
 import com.vladmihalcea.hibernate.type.array.ListArrayType;
 import com.vladmihalcea.hibernate.type.json.JsonBinaryType;
-import lombok.Getter;
 import org.hibernate.annotations.TypeDef;
 import org.hibernate.annotations.TypeDefs;
 import org.uma.cloud.common.utils.lang.ModelUtil;
@@ -16,7 +15,6 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-@Getter
 @TypeDefs({
         @TypeDef(name = "list", typeClass = ListArrayType.class),
         @TypeDef(name = "jsonb", typeClass = JsonBinaryType.class)
@@ -25,10 +23,9 @@ import java.time.LocalTime;
 public abstract class BaseModel implements Serializable {
 
     /**
-     * ToString => Json format
+     * ToJson => Json format
      */
-    @Override
-    public String toString() {
+    public String toJson() {
         return ModelUtil.toJson(this);
     }
 

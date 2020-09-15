@@ -27,15 +27,14 @@ public class BusinessMapper {
         model.setRaceType(racingDetail.getRaceTypeCd());
         model.setRaceSignCd(racingDetail.getRaceSignCd());
         model.setWeightTypeCd(racingDetail.getWeightTypeCd());
-        model.setRaceConditionCdOld2(racingDetail.getRaceConditionCdOld2());
-        model.setRaceConditionCdOld3(racingDetail.getRaceConditionCdOld3());
-        model.setRaceConditionCdOld4(racingDetail.getRaceConditionCdOld4());
-        model.setRaceConditionCdOld5(racingDetail.getRaceConditionCdOld5());
-        model.setRaceConditionCdYoungest(racingDetail.getRaceConditionCdYoungest());
+//        model.setRaceConditionCdOld2(racingDetail.getRaceConditionCdOld2());
+//        model.setRaceConditionCdOld3(racingDetail.getRaceConditionCdOld3());
+//        model.setRaceConditionCdOld4(racingDetail.getRaceConditionCdOld4());
+//        model.setRaceConditionCdOld5(racingDetail.getRaceConditionCdOld5());
+//        model.setRaceConditionCdYoungest(racingDetail.getRaceConditionCdYoungest());
         model.setDistance(racingDetail.getDistance());
         model.setTrack(racingDetail.getTrackCd());
-        model.setTurf(racingDetail.getTurfConditionCd());
-        model.setDirt(racingDetail.getDirtConditionCd());
+        model.setTurfOrDirtCondition(racingDetail.getTurfOrDirtCondition());
         model.setWeather(racingDetail.getWeatherCd());
         // レース結果
         model.setLapTimeItems(racingDetail.getLapTimeItems());
@@ -70,18 +69,18 @@ public class BusinessMapper {
         model.setBlinker(racingHorseDetail.getIsBlinker());
         model.setEwBelong(racingHorseDetail.getEwBelongCd());
         model.setJockeyCd(racingHorseDetail.getJockeyCd());
-        model.setJockeyNameShort(racingHorseDetail.getJockeyNameShort());
+//        model.setJockeyNameShort(racingHorseDetail.getJockeyNameShort());
         model.setLoadWeight(racingHorseDetail.getLoadWeight());
         model.setJockeyApprentice(racingHorseDetail.getJockeyApprenticeCd());
         model.setTrainerCd(racingHorseDetail.getTrainerCd());
-        model.setTrainerNameShort(racingHorseDetail.getTrainerNameShort());
+//        model.setTrainerNameShort(racingHorseDetail.getTrainerNameShort());
         model.setOwnerCd(racingHorseDetail.getOwnerCd());
-        model.setOwnerNameWithoutCorp(racingHorseDetail.getOwnerNameWithoutCorp());
+//        model.setOwnerNameWithoutCorp(racingHorseDetail.getOwnerNameWithoutCorp());
         model.setHorseWeight(racingHorseDetail.getHorseWeight());
-        model.setChangeSign(racingHorseDetail.getChangeSign());
+//        model.setChangeSign(racingHorseDetail.getChangeSign());
         model.setChangeAmount(racingHorseDetail.getChangeAmount());
-        model.setOddsWin(racingHorseDetail.getOddsWin());
-        model.setBetRankWin(racingHorseDetail.getBetRankWin());
+//        model.setOddsWin(racingHorseDetail.getOddsWin());
+//        model.setBetRankWin(racingHorseDetail.getBetRankWin());
         if (racingHorseDetail.getAbnormalDivCd() != AbnormalDivisionCode.DEFAULT) {
             // とりあえずこれいれとく。
             if (racingHorseDetail.getAbnormalDivCd().getCode() == 1) {
@@ -98,12 +97,12 @@ public class BusinessMapper {
         model.setRunningTime(racingHorseDetail.getRunningTime());
         model.setMarginCd(racingHorseDetail.getMarginCd());
         model.setMarginCd2(racingHorseDetail.getMarginCd2());
-        model.setMarginCd3(racingHorseDetail.getMarginCd3());
-        model.setRankCorner1(racingHorseDetail.getRankCorner1());
-        model.setRankCorner2(racingHorseDetail.getRankCorner2());
-        model.setRankCorner3(racingHorseDetail.getRankCorner3());
-        model.setRankCorner4(racingHorseDetail.getRankCorner4());
-        model.setTimeMargin(racingHorseDetail.getTimeMargin());
+//        model.setMarginCd3(racingHorseDetail.getMarginCd3());
+//        model.setRankCorner1(racingHorseDetail.getRankCorner1());
+//        model.setRankCorner2(racingHorseDetail.getRankCorner2());
+//        model.setRankCorner3(racingHorseDetail.getRankCorner3());
+//        model.setRankCorner4(racingHorseDetail.getRankCorner4());
+//        model.setTimeMargin(racingHorseDetail.getTimeMargin());
         return model;
     }
 
