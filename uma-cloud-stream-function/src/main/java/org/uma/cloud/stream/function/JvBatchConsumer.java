@@ -60,7 +60,9 @@ public class JvBatchConsumer {
          * TODO:BloodBreeding -> 重複調査
          * TODO:BloodLine -> 重複調査
          */
-        batchWinsShowBracketQ();
+        batchRacingDetail();
+        batchRacingRefund();
+        batchRacingHorseExclusion();
     }
 
     // レース
@@ -100,13 +102,6 @@ public class JvBatchConsumer {
         persist().accept(flux);
     }
 
-    private void batchRacingVote() {
-        Flux<RacingVote> flux = fileSource.getRacingVote()
-                .filter(entity -> !entity.getDataDiv().equals("0"))
-                .filter(entity -> jpaEntitySink.notExists(entity, entity.getRaceId()));
-        persist().accept(flux);
-    }
-
     private void batchRacingHorseExclusion() {
         Flux<RacingHorseExclusion> flux = fileSource.getRacingHorseExclusion()
                 .filter(entity -> !entity.getDataDiv().equals("0"))
@@ -119,6 +114,14 @@ public class JvBatchConsumer {
                 });
         persist().accept(flux);
     }
+
+    private void batchRacingVote() {
+        Flux<RacingVote> flux = fileSource.getRacingVote()
+                .filter(entity -> !entity.getDataDiv().equals("0"))
+                .filter(entity -> jpaEntitySink.notExists(entity, entity.getRaceId()));
+        persist().accept(flux);
+    }
+
 
     // オッズ
 
@@ -254,13 +257,12 @@ public class JvBatchConsumer {
                 .flatMap(entities -> Mono.fromCallable(() -> jpaEntitySink.persistAll(entities))
                         .flatMapMany(Flux::fromIterable))
                 .onErrorContinue((throwable, object) -> {
-                    log.error("Batch Error: ", throwable);
-                    log.warn("Error Object: {}", object);
+                    log.error("JPA ERROR:", throwable);
+                    log.error("Missing Object: {}", object);
                 })
                 .publishOn(scheduler)
                 .subscribe(i -> {
-                }, e -> {
-                }, () -> log.info("完了"));
+                }, e -> log.error("Batch ERROR: ", e), () -> log.info("完了"));
     }
 
 
@@ -270,12 +272,11 @@ public class JvBatchConsumer {
                 .flatMap(entities -> Mono.fromCallable(() -> jpaEntitySink.mergeAll(entities))
                         .flatMapMany(Flux::fromIterable))
                 .onErrorContinue((throwable, object) -> {
-                    log.error("Batch Error: ", throwable);
-                    log.warn("Error Object: {}", object);
+                    log.error("JPA ERROR:", throwable);
+                    log.error("Missing Object: {}", object);
                 })
                 .publishOn(scheduler)
                 .subscribe(i -> {
-                }, e -> {
-                }, () -> log.info("完了"));
+                }, e -> log.error("Batch ERROR: ", e), () -> log.info("完了"));
     }
 }
