@@ -23,7 +23,7 @@ public class RACE_O4 extends JvLinkBase {
     private Integer starterCount;
     private Integer saleFlag;
     private List<ExactaOdds> exactaOdds;
-    private Long voteTotalCount;
+    private Long voteCountTotal;
 
     @Getter
     public static class ExactaOdds {

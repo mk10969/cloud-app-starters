@@ -28,7 +28,6 @@ import org.uma.cloud.common.entity.OddsQuinella;
 import org.uma.cloud.common.entity.OddsQuinellaPlace;
 import org.uma.cloud.common.entity.OddsTrifecta;
 import org.uma.cloud.common.entity.OddsTrio;
-import org.uma.cloud.common.entity.OddsWinsShowBracketQ;
 import org.uma.cloud.common.utils.exception.JvLinkModelNullPointException;
 import org.uma.cloud.common.utils.lang.ModelUtil;
 
@@ -111,10 +110,10 @@ public class JvLinkProcessors {
         return new JvLinkFunctionItemProcessor<>(jvLinkDeserializer::toCourse);
     }
 
-    @Bean
-    public ItemProcessor<String, OddsWinsShowBracketQ> winsShowBracketQItemProcessor() {
-        return new JvLinkFunctionItemProcessor<>(jvLinkDeserializer::toWinsShowBracketQ);
-    }
+//    @Bean
+//    public ItemProcessor<String, OddsWinsShowBracketQ> winsShowBracketQItemProcessor() {
+//        return new JvLinkFunctionItemProcessor<>(jvLinkDeserializer::toWinsShowBracketQ);
+//    }
 
     @Bean
     public ItemProcessor<String, OddsQuinella> quinellaItemProcessor() {

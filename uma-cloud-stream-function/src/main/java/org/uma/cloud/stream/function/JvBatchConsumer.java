@@ -18,14 +18,16 @@ import org.uma.cloud.common.entity.DiffTrainer;
 import org.uma.cloud.common.entity.OddsExacta;
 import org.uma.cloud.common.entity.OddsQuinella;
 import org.uma.cloud.common.entity.OddsQuinellaPlace;
+import org.uma.cloud.common.entity.OddsShow;
 import org.uma.cloud.common.entity.OddsTrifecta;
 import org.uma.cloud.common.entity.OddsTrio;
-import org.uma.cloud.common.entity.OddsWinsShowBracketQ;
+import org.uma.cloud.common.entity.OddsWin;
 import org.uma.cloud.common.entity.RacingDetail;
 import org.uma.cloud.common.entity.RacingHorseDetail;
 import org.uma.cloud.common.entity.RacingHorseExclusion;
 import org.uma.cloud.common.entity.RacingRefund;
 import org.uma.cloud.common.entity.RacingVote;
+import org.uma.cloud.common.utils.javatuples.Pair;
 import org.uma.cloud.stream.StreamFunctionProperties;
 import org.uma.cloud.stream.type.FileSource;
 import org.uma.cloud.stream.type.JpaEntitySink;
@@ -64,7 +66,7 @@ public class JvBatchConsumer {
          * TODO:BloodBreeding -> 重複調査
          * TODO:BloodLine -> 重複調査
          */
-        batchRacingRefund();
+        batchWinsShowBracketQ();
     }
 
     // レース
@@ -127,10 +129,15 @@ public class JvBatchConsumer {
     // オッズ
 
     private void batchWinsShowBracketQ() {
-        Flux<OddsWinsShowBracketQ> flux = fileSource.getWinsShowBracketQ()
+        Flux<Pair<OddsWin, OddsShow>> flux = fileSource.getWinsShowBracketQ();
+        Flux<OddsWin> oddsWinFlux = flux.map(Pair::getValue1)
                 .filter(entity -> !entity.getDataDiv().equals("0"))
                 .filter(entity -> jpaEntitySink.notExists(entity, entity.getRaceId()));
-        persist().accept(flux);
+        Flux<OddsShow> oddsShowFlux = flux.map(Pair::getValue2)
+                .filter(entity -> !entity.getDataDiv().equals("0"))
+                .filter(entity -> jpaEntitySink.notExists(entity, entity.getRaceId()));
+        persist().accept(oddsWinFlux);
+        persist().accept(oddsShowFlux);
     }
 
     private void batchQuinella() {

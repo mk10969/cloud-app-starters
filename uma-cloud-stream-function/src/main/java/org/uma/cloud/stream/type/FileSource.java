@@ -15,14 +15,16 @@ import org.uma.cloud.common.entity.DiffTrainer;
 import org.uma.cloud.common.entity.OddsExacta;
 import org.uma.cloud.common.entity.OddsQuinella;
 import org.uma.cloud.common.entity.OddsQuinellaPlace;
+import org.uma.cloud.common.entity.OddsShow;
 import org.uma.cloud.common.entity.OddsTrifecta;
 import org.uma.cloud.common.entity.OddsTrio;
-import org.uma.cloud.common.entity.OddsWinsShowBracketQ;
+import org.uma.cloud.common.entity.OddsWin;
 import org.uma.cloud.common.entity.RacingDetail;
 import org.uma.cloud.common.entity.RacingHorseDetail;
 import org.uma.cloud.common.entity.RacingHorseExclusion;
 import org.uma.cloud.common.entity.RacingRefund;
 import org.uma.cloud.common.entity.RacingVote;
+import org.uma.cloud.common.utils.javatuples.Pair;
 import org.uma.cloud.common.utils.lang.ModelUtil;
 import reactor.core.publisher.Flux;
 
@@ -110,10 +112,13 @@ public class FileSource {
 
     // オッズ
 
-    public Flux<OddsWinsShowBracketQ> getWinsShowBracketQ() {
+    public Flux<Pair<OddsWin, OddsShow>> getWinsShowBracketQ() {
         return fromUri(URI.create(filePath + winsShowBracketQ))
                 .map(jvLinkDeserializer::toWinsShowBracketQ)
-                .doOnNext(ModelUtil::fieldNotNull);
+                .doOnNext(pair -> {
+                    ModelUtil.fieldNotNull(pair.getValue1());
+                    ModelUtil.fieldNotNull(pair.getValue2());
+                });
     }
 
     public Flux<OddsQuinella> getQuinella() {

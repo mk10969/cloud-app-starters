@@ -11,6 +11,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import java.util.List;
 
+// TODO: 式別ごとに分ける
 @EqualsAndHashCode(callSuper = true)
 @Data
 @Entity

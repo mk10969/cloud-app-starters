@@ -17,9 +17,10 @@ import org.uma.cloud.common.entity.DiffTrainer;
 import org.uma.cloud.common.entity.OddsExacta;
 import org.uma.cloud.common.entity.OddsQuinella;
 import org.uma.cloud.common.entity.OddsQuinellaPlace;
+import org.uma.cloud.common.entity.OddsShow;
 import org.uma.cloud.common.entity.OddsTrifecta;
 import org.uma.cloud.common.entity.OddsTrio;
-import org.uma.cloud.common.entity.OddsWinsShowBracketQ;
+import org.uma.cloud.common.entity.OddsWin;
 import org.uma.cloud.common.entity.RacingDetail;
 import org.uma.cloud.common.entity.RacingHorseDetail;
 import org.uma.cloud.common.entity.RacingHorseExclusion;
@@ -51,6 +52,7 @@ import org.uma.cloud.common.model.jvlink.RACE_O5;
 import org.uma.cloud.common.model.jvlink.RACE_O6;
 import org.uma.cloud.common.model.jvlink.RACE_RA;
 import org.uma.cloud.common.model.jvlink.RACE_SE;
+import org.uma.cloud.common.utils.javatuples.Pair;
 import org.uma.cloud.common.utils.lang.ByteUtil;
 
 import javax.annotation.PostConstruct;
@@ -144,10 +146,38 @@ public class JvLinkDeserializer {
         model.getRefundExactas().removeIf(JvLinkDeserializer::refundFilter);
         model.getRefundTrios().removeIf(JvLinkDeserializer::refundFilter);
         model.getRefundTrifectas().removeIf(JvLinkDeserializer::refundFilter);
-        // 不成立フラグと特別フラグが、trueでないか、チェックする
-        // もしtrueなら、、、どうしよう。。。なんだけどw
+
+        // 不成立フラグが、trueでないか、チェックする
+        if (model.getFailureFlagWin()
+                || model.getFailureFlagShow()
+                || model.getFailureFlagBracketQ()
+                || model.getFailureFlagQuinellaPlace()
+                || model.getFailureFlagQuinella()
+                || model.getFailureFlagExacta()
+                || model.getFailureFlagTrio()
+                || model.getFailureFlagTrifecta()
+        ) {
+            throw new IllegalStateException("不成立フラグがあります。:" + model);
+        }
+        // 特払フラグが、trueでないか、チェックする
+        if (model.getSpecialRefundFlagWin()
+                || model.getSpecialRefundFlagShow()
+                || model.getSpecialRefundFlagBracketQ()
+                || model.getSpecialRefundFlagQuinellaPlace()
+                || model.getSpecialRefundFlagQuinella()
+                || model.getSpecialRefundFlagExacta()
+                || model.getSpecialRefundFlagTrio()
+                || model.getSpecialRefundFlagTrifecta()
+        ) {
+            throw new IllegalStateException("特払フラグがあります。:" + model);
+        }
 
         return modelMapper.map(model, RacingRefund.class);
+    }
+
+    public RacingHorseExclusion toRacingHorseExclusion(String data) {
+        RACE_JG model = jvLinkModelMapper.deserialize(decode.apply(data), RACE_JG.class);
+        return modelMapper.map(model, RacingHorseExclusion.class);
     }
 
     public RacingVote toRacingVote(String data) {
@@ -163,28 +193,24 @@ public class JvLinkDeserializer {
         return modelMapper.map(model, RacingVote.class);
     }
 
-    public RacingHorseExclusion toRacingHorseExclusion(String data) {
-        RACE_JG model = jvLinkModelMapper.deserialize(decode.apply(data), RACE_JG.class);
-        return modelMapper.map(model, RacingHorseExclusion.class);
-    }
-
-
     /**
      * オッズデータ
      */
-    public OddsWinsShowBracketQ toWinsShowBracketQ(String data) {
+    public Pair<OddsWin, OddsShow> toWinsShowBracketQ(String data) {
         RACE_O1 model = jvLinkModelMapper.deserialize(decode.apply(data), RACE_O1.class);
         model.getWinOdds().removeIf(JvLinkDeserializer::winOddsFilter);
         model.getShowOdds().removeIf(JvLinkDeserializer::showOddsFilter);
         model.getBracketQOdds().removeIf(JvLinkDeserializer::bracketQOddsFilter);
 
-        return modelMapper.map(model, OddsWinsShowBracketQ.class);
+        // 単勝、複勝に分ける。枠連は使わないから捨てる。
+        OddsWin oddsWin = modelMapper.map(model, OddsWin.class);
+        OddsShow oddsShow = modelMapper.map(model, OddsShow.class);
+        return Pair.with(oddsWin, oddsShow);
     }
 
     public OddsQuinella toQuinella(String data) {
         RACE_O2 model = jvLinkModelMapper.deserialize(decode.apply(data), RACE_O2.class);
         model.getQuinellaOdds().removeIf(JvLinkDeserializer::quinellaOddsFilter);
-
         return modelMapper.map(model, OddsQuinella.class);
     }
 

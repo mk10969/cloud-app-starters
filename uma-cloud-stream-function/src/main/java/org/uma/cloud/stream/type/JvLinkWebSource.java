@@ -18,9 +18,10 @@ import org.uma.cloud.common.entity.DiffTrainer;
 import org.uma.cloud.common.entity.OddsExacta;
 import org.uma.cloud.common.entity.OddsQuinella;
 import org.uma.cloud.common.entity.OddsQuinellaPlace;
+import org.uma.cloud.common.entity.OddsShow;
 import org.uma.cloud.common.entity.OddsTrifecta;
 import org.uma.cloud.common.entity.OddsTrio;
-import org.uma.cloud.common.entity.OddsWinsShowBracketQ;
+import org.uma.cloud.common.entity.OddsWin;
 import org.uma.cloud.common.entity.RacingDetail;
 import org.uma.cloud.common.entity.RacingHorseDetail;
 import org.uma.cloud.common.entity.RacingHorseExclusion;
@@ -32,6 +33,7 @@ import org.uma.cloud.common.model.event.JockeyChange;
 import org.uma.cloud.common.model.event.TimeChange;
 import org.uma.cloud.common.model.event.Weather;
 import org.uma.cloud.common.model.event.Weight;
+import org.uma.cloud.common.utils.javatuples.Pair;
 import org.uma.cloud.common.utils.lang.ModelUtil;
 import org.uma.cloud.stream.configuration.WebClientConfiguration.JvLinkWebClientException;
 import org.uma.cloud.stream.model.ResponseMessage;
@@ -206,10 +208,13 @@ public class JvLinkWebSource {
 
     // オッズ
 
-    public Flux<OddsWinsShowBracketQ> storeWinsShowBracketQ(long baseDate) {
+    public Flux<Pair<OddsWin, OddsShow>> storeWinsShowBracketQ(long baseDate) {
         return findAllByBaseDate(StorePath.winsShowBracketQ, baseDate)
                 .map(jvLinkDeserializer::toWinsShowBracketQ)
-                .doOnNext(ModelUtil::fieldNotNull);
+                .doOnNext(pair -> {
+                    ModelUtil.fieldNotNull(pair.getValue1());
+                    ModelUtil.fieldNotNull(pair.getValue2());
+                });
     }
 
     public Flux<OddsQuinella> storeQuinella(long baseDate) {
@@ -348,10 +353,13 @@ public class JvLinkWebSource {
                 .map(jvLinkDeserializer::toRacingHorseDetail);
     }
 
-    public Mono<OddsWinsShowBracketQ> realtimeWinsShowBracketQ(String raceId) {
+    public Mono<Pair<OddsWin, OddsShow>> realtimeWinsShowBracketQ(String raceId) {
         return findOneByRaceId(RealTimePath.winsShowBracketQ, raceId)
                 .map(jvLinkDeserializer::toWinsShowBracketQ)
-                .doOnNext(ModelUtil::fieldNotNull);
+                .doOnNext(pair -> {
+                    ModelUtil.fieldNotNull(pair.getValue1());
+                    ModelUtil.fieldNotNull(pair.getValue2());
+                });
     }
 
     public Mono<OddsQuinella> realtimeQuinella(String raceId) {
@@ -384,10 +392,13 @@ public class JvLinkWebSource {
                 .doOnNext(ModelUtil::fieldNotNull);
     }
 
-    public Flux<OddsWinsShowBracketQ> timeseriesWinsShowBracketQ(String raceId) {
+    public Flux<Pair<OddsWin, OddsShow>> timeseriesWinsShowBracketQ(String raceId) {
         return findAllByRaceId(RealTimePath.timeseriesWinsShowBracketQ, raceId)
                 .map(jvLinkDeserializer::toWinsShowBracketQ)
-                .doOnNext(ModelUtil::fieldNotNull);
+                .doOnNext(pair -> {
+                    ModelUtil.fieldNotNull(pair.getValue1());
+                    ModelUtil.fieldNotNull(pair.getValue2());
+                });
     }
 
     public Flux<OddsQuinella> timeseriesQuinella(String raceId) {

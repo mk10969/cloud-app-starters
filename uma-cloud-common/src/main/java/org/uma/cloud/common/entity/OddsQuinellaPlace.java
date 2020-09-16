@@ -33,18 +33,6 @@ public class OddsQuinellaPlace extends BaseModel implements TimeSeries {
 
     @Column(nullable = false)
     private LocalDate holdingDate;
-//
-//    @Column(length = 6, nullable = false)
-//    private RaceCourseCode courseCd;
-//
-//    @Column(nullable = false)
-//    private Integer holdingNo;
-//
-//    @Column(nullable = false)
-//    private Integer holdingDay;
-//
-//    @Column(nullable = false)
-//    private Integer raceNo;
 
     @Column(length = 8, nullable = false)
     private String announceDate;

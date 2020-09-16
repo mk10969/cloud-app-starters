@@ -4,7 +4,6 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.Type;
 import org.uma.cloud.common.utils.constants.TimeSeries;
-import org.uma.cloud.common.utils.javatuples.Pair;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -16,7 +15,7 @@ import java.util.List;
 @EqualsAndHashCode(callSuper = true)
 @Data
 @Entity
-public class OddsExacta extends BaseModel implements TimeSeries {
+public class OddsShow extends BaseModel implements TimeSeries {
 
     /**
      * データ区分
@@ -44,28 +43,32 @@ public class OddsExacta extends BaseModel implements TimeSeries {
     private Integer starterCount;
 
     @Column(nullable = false)
-    private Integer saleFlag;
-
-    // 馬単オッズ
-    @Type(type = "jsonb")
-    @Column(columnDefinition = "jsonb", nullable = false)
-    private List<ExactaOdds> exactaOdds;
+    private Integer saleFlagShow;
 
     @Column(nullable = false)
-    private Long voteTotalCount;
+    private Integer showCashKey;
 
+    // 複勝オッズ
+    @Type(type = "jsonb")
+    @Column(columnDefinition = "jsonb", nullable = false)
+    private List<ShowOdds> showOdds;
+
+    /**
+     * Nullable
+     */
+    private Long voteCountTotalShow;
 
     @Data
-    public static class ExactaOdds {
+    public static class ShowOdds {
         /**
-         * 馬番の組み合わせ
+         * 馬番は、String型を使う。
          */
-        private Pair<String, String> pairNo;
+        private String horseNo;
 
-        private BigDecimal odds;
+        private BigDecimal oddsMin;
+
+        private BigDecimal oddsMax;
 
         private Integer betRank;
-
     }
-
 }

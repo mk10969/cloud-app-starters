@@ -7,7 +7,9 @@ import org.springframework.stereotype.Service;
 import org.uma.cloud.common.entity.OddsExacta;
 import org.uma.cloud.common.entity.OddsQuinella;
 import org.uma.cloud.common.entity.OddsQuinellaPlace;
-import org.uma.cloud.common.entity.OddsWinsShowBracketQ;
+import org.uma.cloud.common.entity.OddsShow;
+import org.uma.cloud.common.entity.OddsWin;
+import org.uma.cloud.common.utils.javatuples.Pair;
 import org.uma.cloud.common.utils.lang.DateUtil;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -26,34 +28,33 @@ public class TimeSeriesSink {
     }
 
 
-    public Mono<String> oddsToPoint(OddsWinsShowBracketQ oddsWinsShowBracketQ) {
+    public Mono<String> oddsToPoint(Pair<OddsWin, OddsShow> pair) {
         // 枠連は捨てる。
-        // winsPlaceBracketQuinella.getBracketQuinellaOdds();
 
-        long timestamp = DateUtil.toEpochMilli(oddsWinsShowBracketQ.timestamp());
-
-        Flux<Point> winFlux = Flux.fromStream(oddsWinsShowBracketQ.getWinOdds().stream())
+        OddsWin win = pair.getValue1();
+        Flux<Point> winFlux = Flux.fromStream(pair.getValue1().getWinOdds().stream())
                 .map(winOdds -> Point.measurement(winOdds.getClass().getSimpleName())
-                        .time(timestamp, TimeUnit.MILLISECONDS)
-                        .tag("raceId", oddsWinsShowBracketQ.getRaceId())
+                        .time(DateUtil.toEpochMilli(win.timestamp()), TimeUnit.MILLISECONDS)
+                        .tag("raceId", win.getRaceId())
                         .tag("horseNo", winOdds.getHorseNo())
                         .addField("odds", winOdds.getOdds())
                         .addField("rank", winOdds.getBetRank())
                         .build());
 
-        Flux<Point> placeFlux = Flux.fromStream(oddsWinsShowBracketQ.getShowOdds().stream())
-                .map(placeOdds -> Point.measurement(placeOdds.getClass().getSimpleName())
-                        .time(timestamp, TimeUnit.MILLISECONDS)
-                        .tag("raceId", oddsWinsShowBracketQ.getRaceId())
-                        .tag("horseNo", placeOdds.getHorseNo())
-                        .addField("oddsMin", placeOdds.getOddsMin())
-                        .addField("oddsMax", placeOdds.getOddsMax())
-                        .addField("rank", placeOdds.getBetRank())
+        OddsShow oddsShow = pair.getValue2();
+        Flux<Point> showFlux = Flux.fromStream(pair.getValue2().getShowOdds().stream())
+                .map(showOdds -> Point.measurement(showOdds.getClass().getSimpleName())
+                        .time(DateUtil.toEpochMilli(oddsShow.timestamp()), TimeUnit.MILLISECONDS)
+                        .tag("raceId", oddsShow.getRaceId())
+                        .tag("horseNo", showOdds.getHorseNo())
+                        .addField("oddsMin", showOdds.getOddsMin())
+                        .addField("oddsMax", showOdds.getOddsMax())
+                        .addField("rank", showOdds.getBetRank())
                         .build());
         // 合わせる。
-        return winFlux.concatWith(placeFlux)
+        return winFlux.concatWith(showFlux)
                 .doOnNext(this::writePoint)
-                .then(Mono.just(oddsWinsShowBracketQ.getRaceId()));
+                .then(Mono.just(win.getRaceId()));
     }
 
 

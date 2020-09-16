@@ -23,7 +23,7 @@ public class RACE_O5 extends JvLinkBase {
     private Integer starterCount;
     private Integer saleFlag;
     private List<TrioOdds> trioOdds;
-    private Long voteTotalCount;
+    private Long voteCountTotal;
 
     @Getter
     public static class TrioOdds {
