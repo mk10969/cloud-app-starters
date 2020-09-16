@@ -4,12 +4,12 @@ import lombok.Getter;
 import org.uma.cloud.common.code.EastOrWestBelongCode;
 import org.uma.cloud.common.code.JockeyApprenticeCode;
 import org.uma.cloud.common.code.JockeyLicenseCode;
-import org.uma.cloud.common.model.BaseJvLink;
+import org.uma.cloud.common.model.JvLinkBase;
 
 import java.time.LocalDate;
 
 @Getter
-public class DIFF_KS extends BaseJvLink {
+public class DIFF_KS extends JvLinkBase {
     private String dataDiv;
     private Integer jockeyCd;
     private Boolean isJockeyErase;

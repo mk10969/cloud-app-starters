@@ -151,19 +151,11 @@ public class BusinessRacingHorse implements Serializable {
     private Integer horseWeight;
 
     /**
-     * 増減: + or -
-     *
-     * @Nullable
-     */
-    @Column(length = 1)
-    private String changeSign;
-
-    /**
      * 馬体重変化量
      *
      * @Nullable
      */
-    private Integer changeAmount;
+    private Integer horseWeightGainOrLoss;
 
     /**
      * 単勝オッズ

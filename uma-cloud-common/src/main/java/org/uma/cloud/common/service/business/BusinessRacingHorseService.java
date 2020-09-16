@@ -40,8 +40,20 @@ public class BusinessRacingHorseService {
                         .filter(racingHorse -> racingHorse.getHorseNo().equals(horseWeight.getHorseNo()))
                         .peek(racingHorse -> {
                             racingHorse.setHorseWeight(horseWeight.getHorseWeight());
-                            racingHorse.setChangeSign(horseWeight.getChangeSign());
-                            racingHorse.setChangeAmount(horseWeight.getChangeAmount());
+                            // 馬体重増減
+                            if ("+".equals(horseWeight.getChangeSign())) {
+                                racingHorse.setHorseWeightGainOrLoss(horseWeight.getChangeAmount());
+                            } else if ("-".equals(horseWeight.getChangeSign())) {
+                                racingHorse.setHorseWeightGainOrLoss(-horseWeight.getChangeAmount());
+                            } else if ("".equals(horseWeight.getChangeSign())) {
+                                if (horseWeight.getChangeAmount() == null) {
+                                    // nullなら、０を入れる。新馬戦とかの場合、nullになる。（前回出走していないから）
+                                    racingHorse.setHorseWeightGainOrLoss(0);
+                                } else {
+                                    // 計測不可能フラグの９９９が入る or 前走と増減なしの０が入る。
+                                    racingHorse.setHorseWeightGainOrLoss(horseWeight.getChangeAmount());
+                                }
+                            }
                         }))
                 .collect(Collectors.toUnmodifiableList());
 

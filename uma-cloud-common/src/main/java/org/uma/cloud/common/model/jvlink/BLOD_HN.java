@@ -4,10 +4,10 @@ import lombok.Getter;
 import org.uma.cloud.common.code.BreedCode;
 import org.uma.cloud.common.code.HairColorCode;
 import org.uma.cloud.common.code.SexCode;
-import org.uma.cloud.common.model.BaseJvLink;
+import org.uma.cloud.common.model.JvLinkBase;
 
 @Getter
-public class BLOD_HN extends BaseJvLink {
+public class BLOD_HN extends JvLinkBase {
     private String dataDiv;
     private Integer breedingNo;
     private String spare1;

@@ -3,7 +3,7 @@ package org.uma.cloud.common.model.event;
 import lombok.Getter;
 import org.uma.cloud.common.code.RaceCourseCode;
 import org.uma.cloud.common.code.RecordSpec;
-import org.uma.cloud.common.model.BaseJvLink;
+import org.uma.cloud.common.model.JvLinkBase;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -12,7 +12,7 @@ import java.time.LocalTime;
  * {@link RecordSpec.TC}
  */
 @Getter
-public class TimeChange extends BaseJvLink {
+public class TimeChange extends JvLinkBase {
 
     /**
      * データ区分

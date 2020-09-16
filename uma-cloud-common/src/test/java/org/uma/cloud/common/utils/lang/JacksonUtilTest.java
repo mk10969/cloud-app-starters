@@ -87,4 +87,11 @@ class JacksonUtilTest {
         }
     }
 
+    @Test
+    void test_Boolean() {
+        System.out.println(Boolean.valueOf("1"));
+        System.out.println(Boolean.valueOf("0"));
+
+    }
+
 }

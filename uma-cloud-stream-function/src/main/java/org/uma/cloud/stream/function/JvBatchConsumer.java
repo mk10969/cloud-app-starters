@@ -64,7 +64,7 @@ public class JvBatchConsumer {
          * TODO:BloodBreeding -> 重複調査
          * TODO:BloodLine -> 重複調査
          */
-        batchRacingDetail();
+        batchRacingRefund();
     }
 
     // レース

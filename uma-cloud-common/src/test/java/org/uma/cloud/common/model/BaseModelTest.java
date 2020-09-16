@@ -38,9 +38,15 @@ class BaseModelTest {
 
     @Test
     void test_model一覧取得() {
-        Set<Class<?>> modelClazz = getClassesFrom("org.uma.cloud.common.model");
+        Set<Class<?>> modelClazz = getClassesFrom("org.uma.cloud.common.model.jvlink");
         modelClazz.stream()
-                .map(Class::getSimpleName)
+                .flatMap(model -> Arrays.stream(model.getDeclaredFields())
+                        .filter(field -> field.getType().getSimpleName().equals("Boolean"))
+                        .map(field -> {
+                            Class<?> fieldType = field.getType();
+                            String fieldName = field.getName();
+                            return Triplet.with(fieldName, fieldType, model);
+                        }))
                 .forEach(System.out::println);
 
     }

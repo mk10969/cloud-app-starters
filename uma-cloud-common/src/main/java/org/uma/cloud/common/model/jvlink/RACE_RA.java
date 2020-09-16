@@ -10,14 +10,14 @@ import org.uma.cloud.common.code.TurfOrDirtConditionCode;
 import org.uma.cloud.common.code.WeatherCode;
 import org.uma.cloud.common.code.WeekDayCode;
 import org.uma.cloud.common.code.WeightTypeCode;
-import org.uma.cloud.common.model.BaseJvLink;
+import org.uma.cloud.common.model.JvLinkBase;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 
 @Getter
-public class RACE_RA extends BaseJvLink {
+public class RACE_RA extends JvLinkBase {
     private String dataDiv;
     private String raceId;
     private LocalDate holdingDate;

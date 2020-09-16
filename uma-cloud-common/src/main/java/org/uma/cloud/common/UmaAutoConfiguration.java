@@ -16,7 +16,6 @@ import javax.sql.DataSource;
 @Configuration
 @ComponentScan(basePackages = "org.uma.cloud.common.configuration")
 public class UmaAutoConfiguration {
-
     /**
      * DataSourceがbean登録されていたら、
      * Jpaの設定とserviceクラスをBean登録する。
@@ -25,7 +24,11 @@ public class UmaAutoConfiguration {
     @ConditionalOnBean({DataSource.class})
     @Import(EnableComponentScanOnDataSourceBean.class)
     @EnableJpaRepositories(basePackages = "org.uma.cloud.common.repository")
-    @EntityScan(basePackages = {"org.uma.cloud.common.model", "org.uma.cloud.common.code"})
+    @EntityScan(basePackages = {
+            "org.uma.cloud.common.business",
+            "org.uma.cloud.common.code",
+            "org.uma.cloud.common.entity"
+    })
     @EnableTransactionManagement
     protected static class EnableJpaConfigurationOnDataSourceBean {
 
@@ -67,6 +70,7 @@ public class UmaAutoConfiguration {
 //            return properties;
 //        }
     }
+
 
     /**
      * `@ComponentScan は、importして読み取る。

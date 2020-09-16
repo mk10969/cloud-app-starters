@@ -7,7 +7,7 @@ import org.uma.cloud.common.utils.lang.ModelUtil;
 import java.time.LocalDate;
 
 @Getter
-public class BaseJvLink {
+public class JvLinkBase {
     private RecordSpec recordType;
     private LocalDate dataCreateDate;
 

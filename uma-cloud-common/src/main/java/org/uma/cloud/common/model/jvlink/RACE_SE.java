@@ -10,7 +10,7 @@ import org.uma.cloud.common.code.JockeyApprenticeCode;
 import org.uma.cloud.common.code.MarginCode;
 import org.uma.cloud.common.code.RaceCourseCode;
 import org.uma.cloud.common.code.SexCode;
-import org.uma.cloud.common.model.BaseJvLink;
+import org.uma.cloud.common.model.JvLinkBase;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -18,7 +18,7 @@ import java.time.LocalTime;
 import java.util.List;
 
 @Getter
-public class RACE_SE extends BaseJvLink {
+public class RACE_SE extends JvLinkBase {
     private String dataDiv;
     private String raceId;
     private LocalDate holdingDate;

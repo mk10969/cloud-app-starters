@@ -2,14 +2,14 @@ package org.uma.cloud.common.model.jvlink;
 
 import lombok.Getter;
 import org.uma.cloud.common.code.RaceCourseCode;
-import org.uma.cloud.common.model.BaseJvLink;
+import org.uma.cloud.common.model.JvLinkBase;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
 @Getter
-public class RACE_O1 extends BaseJvLink {
+public class RACE_O1 extends JvLinkBase {
     private String dataDiv;
     private String raceId;
     private LocalDate holdingDate;

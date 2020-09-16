@@ -30,85 +30,28 @@ public class RacingRefund extends BaseModel {
     private String raceId;
 
     @Column(nullable = false)
-    private Integer failureFlagWin;
+    private Boolean restoreFlagWin;
 
     @Column(nullable = false)
-    private Integer failureFlagShow;
+    private Boolean restoreFlagShow;
 
     @Column(nullable = false)
-    private Integer failureFlagBracketQ;
+    private Boolean restoreFlagBracketQ;
 
     @Column(nullable = false)
-    private Integer failureFlagQuinella;
+    private Boolean restoreFlagQuinella;
 
     @Column(nullable = false)
-    private Integer failureFlagQuinellaPlace;
-
-    @Column(length = 1, nullable = false)
-    private String spare1;
+    private Boolean restoreFlagQuinellaPlace;
 
     @Column(nullable = false)
-    private Integer failureFlagExacta;
+    private Boolean restoreFlagExacta;
 
     @Column(nullable = false)
-    private Integer failureFlagTrio;
+    private Boolean restoreFlagTrio;
 
     @Column(nullable = false)
-    private Integer failureFlagTrifecta;
-
-    @Column(nullable = false)
-    private Integer specialRefundFlagWin;
-
-    @Column(nullable = false)
-    private Integer specialRefundFlagShow;
-
-    @Column(nullable = false)
-    private Integer specialRefundFlagBracketQ;
-
-    @Column(nullable = false)
-    private Integer specialRefundFlagQuinella;
-
-    @Column(nullable = false)
-    private Integer specialRefundFlagQuinellaPlace;
-
-    @Column(length = 1, nullable = false)
-    private String spare2;
-
-    @Column(nullable = false)
-    private Integer specialRefundFlagExacta;
-
-    @Column(nullable = false)
-    private Integer specialRefundFlagTrio;
-
-    @Column(nullable = false)
-    private Integer specialRefundFlagTrifecta;
-
-    @Column(nullable = false)
-    private Integer restoreFlagWin;
-
-    @Column(nullable = false)
-    private Integer restoreFlagShow;
-
-    @Column(nullable = false)
-    private Integer restoreFlagBracketQ;
-
-    @Column(nullable = false)
-    private Integer restoreFlagQuinella;
-
-    @Column(nullable = false)
-    private Integer restoreFlagQuinellaPlace;
-
-    @Column(length = 1, nullable = false)
-    private String spare3;
-
-    @Column(nullable = false)
-    private Integer restoreFlagExacta;
-
-    @Column(nullable = false)
-    private Integer restoreFlagTrio;
-
-    @Column(nullable = false)
-    private Integer restoreFlagTrifecta;
+    private Boolean restoreFlagTrifecta;
 
     @Type(type = "list")
     @Column(columnDefinition = "integer[]", nullable = false)

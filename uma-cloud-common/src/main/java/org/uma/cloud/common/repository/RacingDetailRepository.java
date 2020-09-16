@@ -36,13 +36,13 @@ public interface RacingDetailRepository extends JpaRepository<RacingDetail, Stri
      */
     List<RacingDetail> findByGradeCd(RaceGradeCode raceGradeCode);
 
-    /**
-     * 馬場状態で検索
-     *
-     * @param turfOrDirtConditionCode
-     * @return
-     */
-    List<RacingDetail> findByTurfConditionCd(TurfOrDirtConditionCode turfOrDirtConditionCode);
+//    /**
+//     * 馬場状態で検索
+//     *
+//     * @param turfOrDirtConditionCode
+//     * @return
+//     */
+//    List<RacingDetail> findByTurfConditionCd(TurfOrDirtConditionCode turfOrDirtConditionCode);
 
 
 }

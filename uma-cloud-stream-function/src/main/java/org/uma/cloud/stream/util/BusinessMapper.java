@@ -78,7 +78,7 @@ public class BusinessMapper {
 //        model.setOwnerNameWithoutCorp(racingHorseDetail.getOwnerNameWithoutCorp());
         model.setHorseWeight(racingHorseDetail.getHorseWeight());
 //        model.setChangeSign(racingHorseDetail.getChangeSign());
-        model.setChangeAmount(racingHorseDetail.getChangeAmount());
+        model.setHorseWeightGainOrLoss(racingHorseDetail.getHorseWeightGainOrLoss());
 //        model.setOddsWin(racingHorseDetail.getOddsWin());
 //        model.setBetRankWin(racingHorseDetail.getBetRankWin());
         if (racingHorseDetail.getAbnormalDivCd() != AbnormalDivisionCode.DEFAULT) {

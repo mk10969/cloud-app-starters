@@ -114,10 +114,15 @@ public class RacingHorseDetail extends BaseModel {
 //    private String changeSign;
 
     /**
-     * Nullable
-     * マイナスいけるやん。。。
+     * 中央
+     * 0: 前差なしor新馬戦or出走取消
+     * 999: 計量不能
+     *
+     * 地方
+     * 999: 新馬戦or計量不能
      */
-    private Integer changeAmount;
+    @Column(nullable = false)
+    private Integer horseWeightGainOrLoss;
 
     @Column(length = 5, nullable = false)
     private AbnormalDivisionCode abnormalDivCd;

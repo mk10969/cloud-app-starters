@@ -6,13 +6,13 @@ import org.uma.cloud.common.code.EastOrWestBelongCode;
 import org.uma.cloud.common.code.HairColorCode;
 import org.uma.cloud.common.code.HorseSignCode;
 import org.uma.cloud.common.code.SexCode;
-import org.uma.cloud.common.model.BaseJvLink;
+import org.uma.cloud.common.model.JvLinkBase;
 
 import java.time.LocalDate;
 import java.util.List;
 
 @Getter
-public class DIFF_UM extends BaseJvLink {
+public class DIFF_UM extends JvLinkBase {
     private String dataDiv;
     private Long bloodlineNo;
     private Boolean isRaceHorseErase;

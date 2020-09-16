@@ -7,7 +7,7 @@ import org.uma.cloud.common.code.RecordSpec;
 import org.uma.cloud.common.model.jvlink.BLOD_BT;
 import org.uma.cloud.common.model.jvlink.BLOD_HN;
 import org.uma.cloud.common.model.jvlink.BLOD_SK;
-import org.uma.cloud.common.model.BaseJvLink;
+import org.uma.cloud.common.model.JvLinkBase;
 import org.uma.cloud.common.model.jvlink.COMM_CS;
 import org.uma.cloud.common.model.jvlink.DIFF_BN;
 import org.uma.cloud.common.model.jvlink.DIFF_BR;
@@ -52,7 +52,7 @@ public class JvLinkModelMapper {
     @Autowired
     private Map<String, JvLinkRecordProperties.RecordSpecItems> recordSpecItems;
 
-    private final EnumMap<RecordSpec, Class<? extends BaseJvLink>> recordSpecClass = new EnumMap<>(RecordSpec.class);
+    private final EnumMap<RecordSpec, Class<? extends JvLinkBase>> recordSpecClass = new EnumMap<>(RecordSpec.class);
 
 
     @PostConstruct
@@ -111,7 +111,7 @@ public class JvLinkModelMapper {
     }
 
 
-    public <T extends BaseJvLink> T deserialize(final byte[] byteArrayLine, final Class<T> clazz) {
+    public <T extends JvLinkBase> T deserialize(final byte[] byteArrayLine, final Class<T> clazz) {
         Map<String, Object> deSerialMap = new HashMap<>();
 
         findRecordProperty(clazz).getRecordItems().forEach(record -> {

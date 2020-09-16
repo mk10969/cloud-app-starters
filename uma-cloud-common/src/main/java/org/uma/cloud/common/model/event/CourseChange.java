@@ -4,7 +4,7 @@ import lombok.Getter;
 import org.uma.cloud.common.code.RaceCourseCode;
 import org.uma.cloud.common.code.RecordSpec;
 import org.uma.cloud.common.code.TrackCode;
-import org.uma.cloud.common.model.BaseJvLink;
+import org.uma.cloud.common.model.JvLinkBase;
 
 import java.time.LocalDate;
 
@@ -12,7 +12,7 @@ import java.time.LocalDate;
  * {@link RecordSpec.CC}
  */
 @Getter
-public class CourseChange extends BaseJvLink {
+public class CourseChange extends JvLinkBase {
 
     /**
      * データ区分

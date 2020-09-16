@@ -106,7 +106,31 @@ public class JvLinkDeserializer {
 
     public RacingHorseDetail toRacingHorseDetail(String data) {
         RACE_SE model = jvLinkModelMapper.deserialize(decode.apply(data), RACE_SE.class);
-        return modelMapper.map(model, RacingHorseDetail.class);
+        RacingHorseDetail racingHorseDetail = modelMapper.map(model, RacingHorseDetail.class);
+        // rankCornerをひとつにまとめる。
+        List<Integer> corners = new ArrayList<>();
+        corners.add(model.getRankCorner1());
+        corners.add(model.getRankCorner2());
+        corners.add(model.getRankCorner3());
+        corners.add(model.getRankCorner4());
+        racingHorseDetail.setRankEachCorner(corners);
+
+        // 馬体重増減
+        if ("+".equals(model.getChangeSign())) {
+            racingHorseDetail.setHorseWeightGainOrLoss(model.getChangeAmount());
+        } else if ("-".equals(model.getChangeSign())) {
+            racingHorseDetail.setHorseWeightGainOrLoss(-model.getChangeAmount());
+        } else if ("".equals(model.getChangeSign())) {
+            if (model.getChangeAmount() == null) {
+                // nullなら、０を入れる。新馬戦とかの場合、nullになる。（前回出走していないから）
+                racingHorseDetail.setHorseWeightGainOrLoss(0);
+            } else {
+                // 計測不可能フラグの９９９が入る or 前走と増減なしの０が入る。
+                racingHorseDetail.setHorseWeightGainOrLoss(model.getChangeAmount());
+            }
+        }
+
+        return racingHorseDetail;
     }
 
     public RacingRefund toRacingRefund(String data) {
@@ -120,6 +144,8 @@ public class JvLinkDeserializer {
         model.getRefundExactas().removeIf(JvLinkDeserializer::refundFilter);
         model.getRefundTrios().removeIf(JvLinkDeserializer::refundFilter);
         model.getRefundTrifectas().removeIf(JvLinkDeserializer::refundFilter);
+        // 不成立フラグと特別フラグが、trueでないか、チェックする
+        // もしtrueなら、、、どうしよう。。。なんだけどw
 
         return modelMapper.map(model, RacingRefund.class);
     }

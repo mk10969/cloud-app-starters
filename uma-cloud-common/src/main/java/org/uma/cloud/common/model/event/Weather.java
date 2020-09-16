@@ -6,7 +6,7 @@ import org.uma.cloud.common.code.RecordSpec;
 import org.uma.cloud.common.code.TurfOrDirtConditionCode;
 import org.uma.cloud.common.code.WeatherCode;
 import org.uma.cloud.common.utils.constants.TimeSeries;
-import org.uma.cloud.common.model.BaseJvLink;
+import org.uma.cloud.common.model.JvLinkBase;
 
 import java.time.LocalDate;
 
@@ -14,7 +14,7 @@ import java.time.LocalDate;
  * {@link RecordSpec.WE}
  */
 @Getter
-public class Weather extends BaseJvLink implements TimeSeries {
+public class Weather extends JvLinkBase implements TimeSeries {
 
     /**
      * データ区分

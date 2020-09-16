@@ -3,7 +3,7 @@ package org.uma.cloud.common.model.event;
 import lombok.Getter;
 import org.uma.cloud.common.code.RaceCourseCode;
 import org.uma.cloud.common.code.RecordSpec;
-import org.uma.cloud.common.model.BaseJvLink;
+import org.uma.cloud.common.model.JvLinkBase;
 
 import java.time.LocalDate;
 
@@ -11,7 +11,7 @@ import java.time.LocalDate;
  * {@link RecordSpec.AV}
  */
 @Getter
-public class Avoid extends BaseJvLink {
+public class Avoid extends JvLinkBase {
 
     /**
      * データ区分

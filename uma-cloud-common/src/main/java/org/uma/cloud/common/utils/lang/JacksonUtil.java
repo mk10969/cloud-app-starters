@@ -391,7 +391,13 @@ public class JacksonUtil {
         private static final class BooleanDeserializer extends JsonDeserializer<Boolean> {
             @Override
             public Boolean deserialize(JsonParser p, DeserializationContext ctxt) throws IOException, JsonProcessingException {
-                return Boolean.valueOf(p.getValueAsString());
+                if ("0".equals(p.getValueAsString())) {
+                    return false;
+                } else if ("1".equals(p.getValueAsString())) {
+                    return true;
+                } else {
+                    throw new IllegalArgumentException("0 or 1ではありません。");
+                }
             }
         }
     }

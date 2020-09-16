@@ -2,7 +2,7 @@ package org.uma.cloud.common.model.jvlink;
 
 import lombok.Getter;
 import org.uma.cloud.common.code.RaceCourseCode;
-import org.uma.cloud.common.model.BaseJvLink;
+import org.uma.cloud.common.model.JvLinkBase;
 import org.uma.cloud.common.utils.javatuples.Pair;
 import org.uma.cloud.common.utils.javatuples.Triplet;
 
@@ -10,7 +10,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Getter
-public class RACE_HR extends BaseJvLink {
+public class RACE_HR extends JvLinkBase {
     private String dataDiv;
     private String raceId;
     private LocalDate holdingDate;
@@ -20,33 +20,33 @@ public class RACE_HR extends BaseJvLink {
     private Integer raceNo;
     private Integer entryCount;
     private Integer starterCount;
-    private Integer failureFlagWin;
-    private Integer failureFlagShow;
-    private Integer failureFlagBracketQ;
-    private Integer failureFlagQuinella;
-    private Integer failureFlagQuinellaPlace;
+    private Boolean failureFlagWin;
+    private Boolean failureFlagShow;
+    private Boolean failureFlagBracketQ;
+    private Boolean failureFlagQuinella;
+    private Boolean failureFlagQuinellaPlace;
     private String spare1;
-    private Integer failureFlagExacta;
-    private Integer failureFlagTrio;
-    private Integer failureFlagTrifecta;
-    private Integer specialRefundFlagWin;
-    private Integer specialRefundFlagShow;
-    private Integer specialRefundFlagBracketQ;
-    private Integer specialRefundFlagQuinella;
-    private Integer specialRefundFlagQuinellaPlace;
+    private Boolean failureFlagExacta;
+    private Boolean failureFlagTrio;
+    private Boolean failureFlagTrifecta;
+    private Boolean specialRefundFlagWin;
+    private Boolean specialRefundFlagShow;
+    private Boolean specialRefundFlagBracketQ;
+    private Boolean specialRefundFlagQuinella;
+    private Boolean specialRefundFlagQuinellaPlace;
     private String spare2;
-    private Integer specialRefundFlagExacta;
-    private Integer specialRefundFlagTrio;
-    private Integer specialRefundFlagTrifecta;
-    private Integer restoreFlagWin;
-    private Integer restoreFlagShow;
-    private Integer restoreFlagBracketQ;
-    private Integer restoreFlagQuinella;
-    private Integer restoreFlagQuinellaPlace;
+    private Boolean specialRefundFlagExacta;
+    private Boolean specialRefundFlagTrio;
+    private Boolean specialRefundFlagTrifecta;
+    private Boolean restoreFlagWin;
+    private Boolean restoreFlagShow;
+    private Boolean restoreFlagBracketQ;
+    private Boolean restoreFlagQuinella;
+    private Boolean restoreFlagQuinellaPlace;
     private String spare3;
-    private Integer restoreFlagExacta;
-    private Integer restoreFlagTrio;
-    private Integer restoreFlagTrifecta;
+    private Boolean restoreFlagExacta;
+    private Boolean restoreFlagTrio;
+    private Boolean restoreFlagTrifecta;
     private List<Integer> restoreHorseNoItems;
     private List<Integer> restoreBracketItems;
     private List<Integer> restoreSameBracketItems;

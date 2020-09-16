@@ -31,8 +31,16 @@ public class JvLinkFileSourceTest {
 
 
     @Test
-    public void test_getRacingDetail(){
+    public void test_getRacingDetail() {
         fileSource.getRacingDetail().subscribe(
+                i -> System.out.println(i)
+        );
+    }
+
+
+    @Test
+    public void test_getRacingHorseDetail() {
+        fileSource.getRacingHorseDetail().subscribe(
                 i -> System.out.println(i)
         );
     }
