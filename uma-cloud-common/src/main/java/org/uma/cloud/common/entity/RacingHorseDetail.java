@@ -80,14 +80,8 @@ public class RacingHorseDetail extends BaseModel {
     @Column(nullable = false)
     private Integer trainerCd;
 
-//    @Column(length = 8, nullable = false)
-//    private String trainerNameShort;
-
     @Column(nullable = false)
     private Integer ownerCd;
-
-//    @Column(length = 64, nullable = false)
-//    private String ownerNameWithoutCorp;
 
     // 負担重量 0.1kg
     @Column(nullable = false)
@@ -99,9 +93,6 @@ public class RacingHorseDetail extends BaseModel {
     @Column(nullable = false)
     private Integer jockeyCd;
 
-//    @Column(length = 8, nullable = false)
-//    private String jockeyNameShort;
-
     @Column(length = 4, nullable = false)
     private JockeyApprenticeCode jockeyApprenticeCd;
 
@@ -109,9 +100,6 @@ public class RacingHorseDetail extends BaseModel {
      * Nullable
      */
     private Integer horseWeight;
-
-//    @Column(length = 1, nullable = false)
-//    private String changeSign;
 
     /**
      * 中央
@@ -149,10 +137,11 @@ public class RacingHorseDetail extends BaseModel {
     private MarginCode marginCd2;
 
     /**
-     * rankCorner1
-     * rankCorner2
-     * rankCorner3
-     * rankCorner4
+     * index: rankConer
+     * 0: rankCorner1
+     * 1: rankCorner2
+     * 2: rankCorner3
+     * 3: rankCorner4
      */
     @Type(type = "list")
     @Column(columnDefinition = "integer[]", nullable = false)

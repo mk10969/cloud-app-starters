@@ -78,14 +78,13 @@ public class ModelUtil {
 
 
     private static final List<String> excludeList = Lists.newArrayList(
-            // 特にnullでも問題ないが、、、SEで一部発生した。
-//            "dataCreateDate",
             // 可能性があるので・・・
             "horseWeight",
-            "changeAmount",
-            // 複勝、枠連は、出走頭数が少ないと、発売されない場合がある
-            "voteCountTotalShow",
-            "voteCountTotalBracketQuinella",
+//            // 複勝、枠連は、出走頭数が少ないと、発売されない場合がある
+//            "voteCountTotalShow",
+//            "voteCountTotalBracketQuinella",
+             //新しくモデルクラス入れたから。
+            "showCashKey",
             // 返還票数
             "restoreVoteCountTotalWin",
             "restoreVoteCountTotalPlace",

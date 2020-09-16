@@ -20,14 +20,10 @@ import org.uma.cloud.common.entity.DiffRaceHorse;
 import org.uma.cloud.common.entity.RacingDetail;
 import org.uma.cloud.common.entity.RacingHorseDetail;
 import org.uma.cloud.common.entity.RacingHorseExclusion;
+import org.uma.cloud.common.entity.RacingOdds;
 import org.uma.cloud.common.entity.RacingRefund;
 import org.uma.cloud.common.entity.RacingVote;
 import org.uma.cloud.common.entity.DiffTrainer;
-import org.uma.cloud.common.entity.OddsExacta;
-import org.uma.cloud.common.entity.OddsQuinella;
-import org.uma.cloud.common.entity.OddsQuinellaPlace;
-import org.uma.cloud.common.entity.OddsTrifecta;
-import org.uma.cloud.common.entity.OddsTrio;
 import org.uma.cloud.common.utils.exception.JvLinkModelNullPointException;
 import org.uma.cloud.common.utils.lang.ModelUtil;
 
@@ -116,27 +112,27 @@ public class JvLinkProcessors {
 //    }
 
     @Bean
-    public ItemProcessor<String, OddsQuinella> quinellaItemProcessor() {
+    public ItemProcessor<String, RacingOdds> quinellaItemProcessor() {
         return new JvLinkFunctionItemProcessor<>(jvLinkDeserializer::toQuinella);
     }
 
     @Bean
-    public ItemProcessor<String, OddsQuinellaPlace> quinellaPlaceItemProcessor() {
+    public ItemProcessor<String, RacingOdds> quinellaPlaceItemProcessor() {
         return new JvLinkFunctionItemProcessor<>(jvLinkDeserializer::toQuinellaPlace);
     }
 
     @Bean
-    public ItemProcessor<String, OddsExacta> exactaItemProcessor() {
+    public ItemProcessor<String, RacingOdds> exactaItemProcessor() {
         return new JvLinkFunctionItemProcessor<>(jvLinkDeserializer::toExacta);
     }
 
     @Bean
-    public ItemProcessor<String, OddsTrio> trioItemProcessor() {
+    public ItemProcessor<String, RacingOdds> trioItemProcessor() {
         return new JvLinkFunctionItemProcessor<>(jvLinkDeserializer::toTrio);
     }
 
     @Bean
-    public ItemProcessor<String, OddsTrifecta> trifectaItemProcessor() {
+    public ItemProcessor<String, RacingOdds> trifectaItemProcessor() {
         return new JvLinkFunctionItemProcessor<>(jvLinkDeserializer::toTrifecta);
     }
 

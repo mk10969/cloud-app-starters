@@ -15,16 +15,10 @@ import org.uma.cloud.common.entity.DiffJockey;
 import org.uma.cloud.common.entity.DiffOwner;
 import org.uma.cloud.common.entity.DiffRaceHorse;
 import org.uma.cloud.common.entity.DiffTrainer;
-import org.uma.cloud.common.entity.OddsExacta;
-import org.uma.cloud.common.entity.OddsQuinella;
-import org.uma.cloud.common.entity.OddsQuinellaPlace;
-import org.uma.cloud.common.entity.OddsShow;
-import org.uma.cloud.common.entity.OddsTrifecta;
-import org.uma.cloud.common.entity.OddsTrio;
-import org.uma.cloud.common.entity.OddsWin;
 import org.uma.cloud.common.entity.RacingDetail;
 import org.uma.cloud.common.entity.RacingHorseDetail;
 import org.uma.cloud.common.entity.RacingHorseExclusion;
+import org.uma.cloud.common.entity.RacingOdds;
 import org.uma.cloud.common.entity.RacingRefund;
 import org.uma.cloud.common.entity.RacingVote;
 import org.uma.cloud.common.model.event.Avoid;
@@ -208,7 +202,7 @@ public class JvLinkWebSource {
 
     // オッズ
 
-    public Flux<Pair<OddsWin, OddsShow>> storeWinsShowBracketQ(long baseDate) {
+    public Flux<Pair<RacingOdds, RacingOdds>> storeWinsShowBracketQ(long baseDate) {
         return findAllByBaseDate(StorePath.winsShowBracketQ, baseDate)
                 .map(jvLinkDeserializer::toWinsShowBracketQ)
                 .doOnNext(pair -> {
@@ -217,31 +211,31 @@ public class JvLinkWebSource {
                 });
     }
 
-    public Flux<OddsQuinella> storeQuinella(long baseDate) {
+    public Flux<RacingOdds> storeQuinella(long baseDate) {
         return findAllByBaseDate(StorePath.quinella, baseDate)
                 .map(jvLinkDeserializer::toQuinella)
                 .doOnNext(ModelUtil::fieldNotNull);
     }
 
-    public Flux<OddsQuinellaPlace> storeQuinellaPlace(long baseDate) {
+    public Flux<RacingOdds> storeQuinellaPlace(long baseDate) {
         return findAllByBaseDate(StorePath.quinellaPlace, baseDate)
                 .map(jvLinkDeserializer::toQuinellaPlace)
                 .doOnNext(ModelUtil::fieldNotNull);
     }
 
-    public Flux<OddsExacta> storeExacta(long baseDate) {
+    public Flux<RacingOdds> storeExacta(long baseDate) {
         return findAllByBaseDate(StorePath.exacta, baseDate)
                 .map(jvLinkDeserializer::toExacta)
                 .doOnNext(ModelUtil::fieldNotNull);
     }
 
-    public Flux<OddsTrio> storeTrio(long baseDate) {
+    public Flux<RacingOdds> storeTrio(long baseDate) {
         return findAllByBaseDate(StorePath.trio, baseDate)
                 .map(jvLinkDeserializer::toTrio)
                 .doOnNext(ModelUtil::fieldNotNull);
     }
 
-    public Flux<OddsTrifecta> storeTrifecta(long baseDate) {
+    public Flux<RacingOdds> storeTrifecta(long baseDate) {
         return findAllByBaseDate(StorePath.trifecta, baseDate)
                 .map(jvLinkDeserializer::toTrifecta)
                 .doOnNext(ModelUtil::fieldNotNull);
@@ -353,7 +347,7 @@ public class JvLinkWebSource {
                 .map(jvLinkDeserializer::toRacingHorseDetail);
     }
 
-    public Mono<Pair<OddsWin, OddsShow>> realtimeWinsShowBracketQ(String raceId) {
+    public Mono<Pair<RacingOdds, RacingOdds>> realtimeWinsShowBracketQ(String raceId) {
         return findOneByRaceId(RealTimePath.winsShowBracketQ, raceId)
                 .map(jvLinkDeserializer::toWinsShowBracketQ)
                 .doOnNext(pair -> {
@@ -362,37 +356,40 @@ public class JvLinkWebSource {
                 });
     }
 
-    public Mono<OddsQuinella> realtimeQuinella(String raceId) {
+    public Mono<RacingOdds> realtimeQuinella(String raceId) {
         return findOneByRaceId(RealTimePath.quinella, raceId)
                 .map(jvLinkDeserializer::toQuinella)
                 .doOnNext(ModelUtil::fieldNotNull);
     }
 
-    public Mono<OddsQuinellaPlace> realtimeQuinellaPlace(String raceId) {
+    public Mono<RacingOdds> realtimeQuinellaPlace(String raceId) {
         return findOneByRaceId(RealTimePath.quinellaPlace, raceId)
                 .map(jvLinkDeserializer::toQuinellaPlace)
                 .doOnNext(ModelUtil::fieldNotNull);
     }
 
-    public Mono<OddsExacta> realtimeExacta(String raceId) {
+    public Mono<RacingOdds> realtimeExacta(String raceId) {
         return findOneByRaceId(RealTimePath.exacta, raceId)
                 .map(jvLinkDeserializer::toExacta)
                 .doOnNext(ModelUtil::fieldNotNull);
     }
 
-    public Mono<OddsTrio> realtimeTrio(String raceId) {
+    public Mono<RacingOdds> realtimeTrio(String raceId) {
         return findOneByRaceId(RealTimePath.trio, raceId)
                 .map(jvLinkDeserializer::toTrio)
                 .doOnNext(ModelUtil::fieldNotNull);
     }
 
-    public Mono<OddsTrifecta> realtimeTrifecta(String raceId) {
+    public Mono<RacingOdds> realtimeTrifecta(String raceId) {
         return findOneByRaceId(RealTimePath.trifecta, raceId)
                 .map(jvLinkDeserializer::toTrifecta)
                 .doOnNext(ModelUtil::fieldNotNull);
     }
 
-    public Flux<Pair<OddsWin, OddsShow>> timeseriesWinsShowBracketQ(String raceId) {
+    /**
+     * TODO: 時系列は、InfluxDBに格納した方がよさげ
+     */
+    public Flux<Pair<RacingOdds, RacingOdds>> timeseriesWinsShowBracketQ(String raceId) {
         return findAllByRaceId(RealTimePath.timeseriesWinsShowBracketQ, raceId)
                 .map(jvLinkDeserializer::toWinsShowBracketQ)
                 .doOnNext(pair -> {
@@ -401,7 +398,10 @@ public class JvLinkWebSource {
                 });
     }
 
-    public Flux<OddsQuinella> timeseriesQuinella(String raceId) {
+    /**
+     * TODO: 時系列は、InfluxDBに格納した方がよさげ
+     */
+    public Flux<RacingOdds> timeseriesQuinella(String raceId) {
         return findAllByRaceId(RealTimePath.timeseriesQuinella, raceId)
                 .map(jvLinkDeserializer::toQuinella)
                 .doOnNext(ModelUtil::fieldNotNull);

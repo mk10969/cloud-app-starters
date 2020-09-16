@@ -21,11 +21,6 @@ import org.uma.cloud.common.entity.RacingHorseExclusion;
 import org.uma.cloud.common.entity.RacingRefund;
 import org.uma.cloud.common.entity.RacingVote;
 import org.uma.cloud.common.entity.DiffTrainer;
-import org.uma.cloud.common.entity.OddsExacta;
-import org.uma.cloud.common.entity.OddsQuinella;
-import org.uma.cloud.common.entity.OddsQuinellaPlace;
-import org.uma.cloud.common.entity.OddsTrifecta;
-import org.uma.cloud.common.entity.OddsTrio;
 import org.uma.cloud.common.entity.OddsWinsShowBracketQ;
 
 import javax.persistence.EntityExistsException;

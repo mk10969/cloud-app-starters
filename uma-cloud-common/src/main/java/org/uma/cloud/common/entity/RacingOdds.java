@@ -8,6 +8,8 @@ import org.uma.cloud.common.utils.constants.TimeSeries;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.IdClass;
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
@@ -15,6 +17,7 @@ import java.util.List;
 @EqualsAndHashCode(callSuper = true)
 @Data
 @Entity
+@IdClass(RacingOdds.CompositeId.class)
 public class RacingOdds extends BaseModel implements TimeSeries {
 
     /**
@@ -45,17 +48,17 @@ public class RacingOdds extends BaseModel implements TimeSeries {
     @Column(nullable = false)
     private Integer betting;
 
+    /**
+     * 時系列オッズは、未対応。
+     */
     @Column(nullable = false)
     private LocalDate holdingDate;
 
+    /**
+     * 時系列オッズは、未対応。
+     */
     @Column(length = 8, nullable = false)
     private String announceDate;
-
-    @Column(nullable = false)
-    private Integer entryCount;
-
-    @Column(nullable = false)
-    private Integer starterCount;
 
     @Column(nullable = false)
     private Integer saleFlag;
@@ -79,14 +82,26 @@ public class RacingOdds extends BaseModel implements TimeSeries {
     @Data
     public static class Odds {
         /**
-         * 馬番は、String型を使い、:セパレートにする。
+         * 馬番は、String型を使い、「-」セパレートにする。
          * ex...
-         * 01:02:05
+         * 01-02-05
          */
         private String pairHorseNo;
 
-        private BigDecimal odds;
+        private BigDecimal oddsMin;
+
+        private BigDecimal oddsMax;
 
         private Integer betRank;
     }
+
+
+    @Data
+    public static class CompositeId implements Serializable {
+
+        private String raceId;
+
+        private Integer betting;
+    }
+
 }

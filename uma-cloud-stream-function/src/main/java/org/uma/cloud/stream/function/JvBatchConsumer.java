@@ -15,16 +15,10 @@ import org.uma.cloud.common.entity.DiffJockey;
 import org.uma.cloud.common.entity.DiffOwner;
 import org.uma.cloud.common.entity.DiffRaceHorse;
 import org.uma.cloud.common.entity.DiffTrainer;
-import org.uma.cloud.common.entity.OddsExacta;
-import org.uma.cloud.common.entity.OddsQuinella;
-import org.uma.cloud.common.entity.OddsQuinellaPlace;
-import org.uma.cloud.common.entity.OddsShow;
-import org.uma.cloud.common.entity.OddsTrifecta;
-import org.uma.cloud.common.entity.OddsTrio;
-import org.uma.cloud.common.entity.OddsWin;
 import org.uma.cloud.common.entity.RacingDetail;
 import org.uma.cloud.common.entity.RacingHorseDetail;
 import org.uma.cloud.common.entity.RacingHorseExclusion;
+import org.uma.cloud.common.entity.RacingOdds;
 import org.uma.cloud.common.entity.RacingRefund;
 import org.uma.cloud.common.entity.RacingVote;
 import org.uma.cloud.common.utils.javatuples.Pair;
@@ -128,51 +122,44 @@ public class JvBatchConsumer {
 
     // オッズ
 
+    private void oddsFilterAndPersist(Flux<RacingOdds> oddsFlux) {
+        persist().accept(oddsFlux
+                .filter(entity -> !entity.getDataDiv().equals("0"))
+                .filter(entity -> {
+                    RacingOdds.CompositeId compositeId = new RacingOdds.CompositeId();
+                    compositeId.setRaceId(entity.getRaceId());
+                    compositeId.setBetting(entity.getBetting());
+                    return jpaEntitySink.notExists(entity, compositeId);
+                })
+        );
+    }
+
     private void batchWinsShowBracketQ() {
-        Flux<Pair<OddsWin, OddsShow>> flux = fileSource.getWinsShowBracketQ();
-        Flux<OddsWin> oddsWinFlux = flux.map(Pair::getValue1)
-                .filter(entity -> !entity.getDataDiv().equals("0"))
-                .filter(entity -> jpaEntitySink.notExists(entity, entity.getRaceId()));
-        Flux<OddsShow> oddsShowFlux = flux.map(Pair::getValue2)
-                .filter(entity -> !entity.getDataDiv().equals("0"))
-                .filter(entity -> jpaEntitySink.notExists(entity, entity.getRaceId()));
-        persist().accept(oddsWinFlux);
-        persist().accept(oddsShowFlux);
+        Flux<Pair<RacingOdds, RacingOdds>> flux = fileSource.getWinsShowBracketQ();
+        // 単勝
+        oddsFilterAndPersist(flux.map(Pair::getValue1));
+        // 複勝
+        oddsFilterAndPersist(flux.map(Pair::getValue2));
     }
 
     private void batchQuinella() {
-        Flux<OddsQuinella> flux = fileSource.getQuinella()
-                .filter(entity -> !entity.getDataDiv().equals("0"))
-                .filter(entity -> jpaEntitySink.notExists(entity, entity.getRaceId()));
-        persist().accept(flux);
+        oddsFilterAndPersist(fileSource.getQuinella());
     }
 
     private void batchQuinellaPlace() {
-        Flux<OddsQuinellaPlace> flux = fileSource.getQuinellaPlace()
-                .filter(entity -> !entity.getDataDiv().equals("0"))
-                .filter(entity -> jpaEntitySink.notExists(entity, entity.getRaceId()));
-        persist().accept(flux);
+        oddsFilterAndPersist(fileSource.getQuinellaPlace());
     }
 
     private void batchExacta() {
-        Flux<OddsExacta> flux = fileSource.getExacta()
-                .filter(entity -> !entity.getDataDiv().equals("0"))
-                .filter(entity -> jpaEntitySink.notExists(entity, entity.getRaceId()));
-        persist().accept(flux);
+        oddsFilterAndPersist(fileSource.getExacta());
     }
 
     private void batchTrio() {
-        Flux<OddsTrio> flux = fileSource.getTrio()
-                .filter(entity -> !entity.getDataDiv().equals("0"))
-                .filter(entity -> jpaEntitySink.notExists(entity, entity.getRaceId()));
-        persist().accept(flux);
+        oddsFilterAndPersist(fileSource.getTrio());
     }
 
     private void batchTrifecta() {
-        Flux<OddsTrifecta> flux = fileSource.getTrifecta()
-                .filter(entity -> !entity.getDataDiv().equals("0"))
-                .filter(entity -> jpaEntitySink.notExists(entity, entity.getRaceId()));
-        persist().accept(flux);
+        oddsFilterAndPersist(fileSource.getTrifecta());
     }
 
     // 血統

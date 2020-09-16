@@ -30,30 +30,6 @@ public class RacingVote extends BaseModel {
     @Column(length = 16, nullable = false)
     private String raceId;
 
-    /**
-     * {@link RacingDetail}  重複
-     */
-//    @Column(nullable = false)
-//    private LocalDate holdingDate;
-//
-//    @Column(length = 6, nullable = false)
-//    private RaceCourseCode courseCd;
-//
-//    @Column(nullable = false)
-//    private Integer holdingNo;
-//
-//    @Column(nullable = false)
-//    private Integer holdingDay;
-//
-//    @Column(nullable = false)
-//    private Integer raceNo;
-
-    @Column(nullable = false)
-    private Integer entryCount;
-
-    @Column(nullable = false)
-    private Integer starterCount;
-
     @Column(nullable = false)
     private Integer saleFlagWin;
 
