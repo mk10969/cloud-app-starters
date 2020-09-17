@@ -256,12 +256,12 @@ public class JvLinkDeserializer {
         oddsQuinella.setAnnounceDate(model.getAnnounceDate());
         oddsQuinella.setSaleFlag(model.getSaleFlag());
         oddsQuinella.setShowCashKey(null); //意図的にセット
-        oddsQuinella.setOddsTable(model.getQuinellaOdds().stream().map(win -> {
+        oddsQuinella.setOddsTable(model.getQuinellaOdds().stream().map(quinellaOdds -> {
             RacingOdds.Odds odds = new RacingOdds.Odds();
-            odds.setPairHorseNo(win.getPairNo().toString());
-            odds.setOddsMin(win.getOdds());
-            odds.setOddsMax(win.getOdds());
-            odds.setBetRank(win.getBetRank());
+            odds.setPairHorseNo(quinellaOdds.getPairNo().toString());
+            odds.setOddsMin(quinellaOdds.getOdds());
+            odds.setOddsMax(quinellaOdds.getOdds());
+            odds.setBetRank(quinellaOdds.getBetRank());
             return odds;
         }).collect(Collectors.toList()));
         oddsQuinella.setVoteCountTotal(model.getVoteCountTotal());
@@ -281,12 +281,12 @@ public class JvLinkDeserializer {
         oddsQuinellaPlace.setAnnounceDate(model.getAnnounceDate());
         oddsQuinellaPlace.setSaleFlag(model.getSaleFlag());
         oddsQuinellaPlace.setShowCashKey(null); //意図的にセット
-        oddsQuinellaPlace.setOddsTable(model.getQuinellaPlaceOdds().stream().map(win -> {
+        oddsQuinellaPlace.setOddsTable(model.getQuinellaPlaceOdds().stream().map(quinellaPlaceOdds -> {
             RacingOdds.Odds odds = new RacingOdds.Odds();
-            odds.setPairHorseNo(win.getPairNo().toString());
-            odds.setOddsMin(win.getOddsMin());
-            odds.setOddsMax(win.getOddsMax());
-            odds.setBetRank(win.getBetRank());
+            odds.setPairHorseNo(quinellaPlaceOdds.getPairNo().toString());
+            odds.setOddsMin(quinellaPlaceOdds.getOddsMin());
+            odds.setOddsMax(quinellaPlaceOdds.getOddsMax());
+            odds.setBetRank(quinellaPlaceOdds.getBetRank());
             return odds;
         }).collect(Collectors.toList()));
         oddsQuinellaPlace.setVoteCountTotal(model.getVoteCountTotal());
@@ -306,12 +306,12 @@ public class JvLinkDeserializer {
         oddsExacta.setAnnounceDate(model.getAnnounceDate());
         oddsExacta.setSaleFlag(model.getSaleFlag());
         oddsExacta.setShowCashKey(null); //意図的にセット
-        oddsExacta.setOddsTable(model.getExactaOdds().stream().map(win -> {
+        oddsExacta.setOddsTable(model.getExactaOdds().stream().map(exactaOdds -> {
             RacingOdds.Odds odds = new RacingOdds.Odds();
-            odds.setPairHorseNo(win.getPairNo().toString());
-            odds.setOddsMin(win.getOdds());
-            odds.setOddsMax(win.getOdds());
-            odds.setBetRank(win.getBetRank());
+            odds.setPairHorseNo(exactaOdds.getPairNo().toString());
+            odds.setOddsMin(exactaOdds.getOdds());
+            odds.setOddsMax(exactaOdds.getOdds());
+            odds.setBetRank(exactaOdds.getBetRank());
             return odds;
         }).collect(Collectors.toList()));
         oddsExacta.setVoteCountTotal(model.getVoteCountTotal());
@@ -331,12 +331,12 @@ public class JvLinkDeserializer {
         oddsTrio.setAnnounceDate(model.getAnnounceDate());
         oddsTrio.setSaleFlag(model.getSaleFlag());
         oddsTrio.setShowCashKey(null); //意図的にセット
-        oddsTrio.setOddsTable(model.getTrioOdds().stream().map(win -> {
+        oddsTrio.setOddsTable(model.getTrioOdds().stream().map(trioOdds -> {
             RacingOdds.Odds odds = new RacingOdds.Odds();
-            odds.setPairHorseNo(win.getPairNo().toString());
-            odds.setOddsMin(win.getOdds());
-            odds.setOddsMax(win.getOdds());
-            odds.setBetRank(win.getBetRank());
+            odds.setPairHorseNo(trioOdds.getPairNo().toString());
+            odds.setOddsMin(trioOdds.getOdds());
+            odds.setOddsMax(trioOdds.getOdds());
+            odds.setBetRank(trioOdds.getBetRank());
             return odds;
         }).collect(Collectors.toList()));
         oddsTrio.setVoteCountTotal(model.getVoteCountTotal());
@@ -356,12 +356,12 @@ public class JvLinkDeserializer {
         oddsTrifecta.setAnnounceDate(model.getAnnounceDate());
         oddsTrifecta.setSaleFlag(model.getSaleFlag());
         oddsTrifecta.setShowCashKey(null); //意図的にセット
-        oddsTrifecta.setOddsTable(model.getTrifectaOdds().stream().map(win -> {
+        oddsTrifecta.setOddsTable(model.getTrifectaOdds().stream().map(trifectaOdds -> {
             RacingOdds.Odds odds = new RacingOdds.Odds();
-            odds.setPairHorseNo(win.getPairNo().toString());
-            odds.setOddsMin(win.getOdds());
-            odds.setOddsMax(win.getOdds());
-            odds.setBetRank(win.getBetRank());
+            odds.setPairHorseNo(trifectaOdds.getPairNo().toString());
+            odds.setOddsMin(trifectaOdds.getOdds());
+            odds.setOddsMax(trifectaOdds.getOdds());
+            odds.setBetRank(trifectaOdds.getBetRank());
             return odds;
         }).collect(Collectors.toList()));
         oddsTrifecta.setVoteCountTotal(model.getVoteCountTotal());
