@@ -86,6 +86,7 @@ public class FileSource {
     public Flux<RacingRefund> getRacingRefund() {
         return fromUri(URI.create(filePath + racingRefund))
                 .map(jvLinkDeserializer::toRacingRefund)
+                .flatMap(Flux::fromIterable)
                 .doOnNext(ModelUtil::fieldNotNull);
     }
 

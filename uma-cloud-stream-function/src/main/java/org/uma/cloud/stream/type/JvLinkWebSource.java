@@ -185,6 +185,7 @@ public class JvLinkWebSource {
     public Flux<RacingRefund> storeRacingRefund(long baseDate) {
         return findAllByBaseDate(StorePath.racingRefund, baseDate)
                 .map(jvLinkDeserializer::toRacingRefund)
+                .flatMap(Flux::fromIterable)
                 .doOnNext(ModelUtil::fieldNotNull);
     }
 
@@ -407,9 +408,10 @@ public class JvLinkWebSource {
                 .doOnNext(ModelUtil::fieldNotNull);
     }
 
-    public Mono<RacingRefund> eventRacingRefund(String eventId) {
+    public Flux<RacingRefund> eventRacingRefund(String eventId) {
         return findOneByRaceId(RealTimePath.raceRefund, eventId)
                 .map(jvLinkDeserializer::toRacingRefund)
+                .flatMapMany(Flux::fromIterable)
                 .doOnNext(ModelUtil::fieldNotNull);
     }
 

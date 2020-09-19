@@ -15,12 +15,12 @@ public class RacingRefundService {
     private RacingRefundRepository repository;
 
 
-    public RacingRefund findOne(String raceId) {
-        return this.repository.findById(raceId).orElseThrow();
+    public RacingRefund findOne(RacingRefund.CompositeId compositeId) {
+        return this.repository.findById(compositeId).orElseThrow();
     }
 
-    public boolean exists(String raceId) {
-        return this.repository.existsById(raceId);
+    public boolean exists(RacingRefund.CompositeId compositeId) {
+        return this.repository.existsById(compositeId);
     }
 
     @Transactional

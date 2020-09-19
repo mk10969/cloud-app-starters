@@ -127,10 +127,19 @@ public class JvLinkDeserializer {
             }
         }
 
+        // spareの空チェック
+        if (!"".equals(model.getSpare1())
+                || !"".equals(model.getSpare2())
+                || !"".equals(model.getSpare4())
+                || !"".equals(model.getSpare5())
+        ) {
+            throw new IllegalStateException("予備データが存在します。" + model);
+        }
+
         return racingHorseDetail;
     }
 
-    public RacingRefund toRacingRefund(String data) {
+    public List<RacingRefund> toRacingRefund(String data) {
         RACE_HR model = jvLinkModelMapper.deserialize(decode.apply(data), RACE_HR.class);
         model.getRefundWins().removeIf(JvLinkDeserializer::refundFilter);
         model.getRefundShows().removeIf(JvLinkDeserializer::refundFilter);
@@ -167,7 +176,175 @@ public class JvLinkDeserializer {
             throw new IllegalStateException("特払フラグがあります。:" + model);
         }
 
-        return modelMapper.map(model, RacingRefund.class);
+        // spareの空チェック
+        if (!"".equals(model.getSpare1())
+                || !"".equals(model.getSpare2())
+                || !"".equals(model.getSpare3())
+                || !model.getRefundSpares().isEmpty()
+        ) {
+            throw new IllegalStateException("予備データが存在します。" + model);
+        }
+
+        // オッズ式別ごとに分ける。
+        List<RacingRefund> refunds = new ArrayList<>();
+
+        // 単勝
+        if (!model.getRefundWins().isEmpty()) {
+            RacingRefund winRefund = new RacingRefund();
+            winRefund.setDataDiv(model.getDataDiv());
+            winRefund.setRaceId(model.getRaceId());
+            winRefund.setBetting(1); // 単勝
+            winRefund.setRestoreFlag(model.getRestoreFlagWin());
+            winRefund.setRestoreHorseNoItems(model.getRestoreHorseNoItems());
+            winRefund.setRestoreBracketItems(model.getRestoreBracketItems());
+            winRefund.setRestoreSameBracketItems(model.getRestoreSameBracketItems());
+            winRefund.setRefundTable(model.getRefundWins().stream()
+                    .map(win -> {
+                        RacingRefund.refund refund = new RacingRefund.refund();
+                        refund.setPairHorseNo(win.getHorseNo());
+                        refund.setRefundMoney(win.getRefundMoney());
+                        refund.setBetRank(win.getBetRank());
+                        return refund;
+                    }).collect(Collectors.toList())
+            );
+            refunds.add(winRefund);
+        }
+
+        // 複勝
+        if (!model.getRefundShows().isEmpty()) {
+            RacingRefund showRefund = new RacingRefund();
+            showRefund.setDataDiv(model.getDataDiv());
+            showRefund.setRaceId(model.getRaceId());
+            showRefund.setBetting(2); // 複勝
+            showRefund.setRestoreFlag(model.getRestoreFlagShow());
+            showRefund.setRestoreHorseNoItems(model.getRestoreHorseNoItems());
+            showRefund.setRestoreBracketItems(model.getRestoreBracketItems());
+            showRefund.setRestoreSameBracketItems(model.getRestoreSameBracketItems());
+            showRefund.setRefundTable(model.getRefundShows().stream()
+                    .map(show -> {
+                        RacingRefund.refund refund = new RacingRefund.refund();
+                        refund.setPairHorseNo(show.getHorseNo());
+                        refund.setRefundMoney(show.getRefundMoney());
+                        refund.setBetRank(show.getBetRank());
+                        return refund;
+                    }).collect(Collectors.toList())
+            );
+            refunds.add(showRefund);
+        }
+
+        // 枠連は捨てる。
+
+        // 馬連
+        if (!model.getRefundQuinellas().isEmpty()) {
+            RacingRefund quinellaRefund = new RacingRefund();
+            quinellaRefund.setDataDiv(model.getDataDiv());
+            quinellaRefund.setRaceId(model.getRaceId());
+            quinellaRefund.setBetting(4); // 馬連
+            quinellaRefund.setRestoreFlag(model.getRestoreFlagQuinella());
+            quinellaRefund.setRestoreHorseNoItems(model.getRestoreHorseNoItems());
+            quinellaRefund.setRestoreBracketItems(model.getRestoreBracketItems());
+            quinellaRefund.setRestoreSameBracketItems(model.getRestoreSameBracketItems());
+            quinellaRefund.setRefundTable(model.getRefundQuinellas().stream()
+                    .map(quinella -> {
+                        RacingRefund.refund refund = new RacingRefund.refund();
+                        refund.setPairHorseNo(quinella.getPairNo().toString());
+                        refund.setRefundMoney(quinella.getRefundMoney());
+                        refund.setBetRank(quinella.getBetRank());
+                        return refund;
+                    }).collect(Collectors.toList())
+            );
+            refunds.add(quinellaRefund);
+        }
+
+        // ワイド
+        if (!model.getRefundQuinellaPlaces().isEmpty()) {
+            RacingRefund quinellaPlaceRefund = new RacingRefund();
+            quinellaPlaceRefund.setDataDiv(model.getDataDiv());
+            quinellaPlaceRefund.setRaceId(model.getRaceId());
+            quinellaPlaceRefund.setBetting(5); // ワイド
+            quinellaPlaceRefund.setRestoreFlag(model.getRestoreFlagQuinellaPlace());
+            quinellaPlaceRefund.setRestoreHorseNoItems(model.getRestoreHorseNoItems());
+            quinellaPlaceRefund.setRestoreBracketItems(model.getRestoreBracketItems());
+            quinellaPlaceRefund.setRestoreSameBracketItems(model.getRestoreSameBracketItems());
+            quinellaPlaceRefund.setRefundTable(model.getRefundQuinellaPlaces().stream()
+                    .map(quinellaPlace -> {
+                        RacingRefund.refund refund = new RacingRefund.refund();
+                        refund.setPairHorseNo(quinellaPlace.getPairNo().toString());
+                        refund.setRefundMoney(quinellaPlace.getRefundMoney());
+                        refund.setBetRank(quinellaPlace.getBetRank());
+                        return refund;
+                    }).collect(Collectors.toList())
+            );
+            refunds.add(quinellaPlaceRefund);
+        }
+
+        // 馬単
+        if (!model.getRefundExactas().isEmpty()) {
+            RacingRefund exactaRefund = new RacingRefund();
+            exactaRefund.setDataDiv(model.getDataDiv());
+            exactaRefund.setRaceId(model.getRaceId());
+            exactaRefund.setBetting(6); // 馬単
+            exactaRefund.setRestoreFlag(model.getRestoreFlagExacta());
+            exactaRefund.setRestoreHorseNoItems(model.getRestoreHorseNoItems());
+            exactaRefund.setRestoreBracketItems(model.getRestoreBracketItems());
+            exactaRefund.setRestoreSameBracketItems(model.getRestoreSameBracketItems());
+            exactaRefund.setRefundTable(model.getRefundExactas().stream()
+                    .map(exacta -> {
+                        RacingRefund.refund refund = new RacingRefund.refund();
+                        refund.setPairHorseNo(exacta.getPairNo().toString());
+                        refund.setRefundMoney(exacta.getRefundMoney());
+                        refund.setBetRank(exacta.getBetRank());
+                        return refund;
+                    }).collect(Collectors.toList())
+            );
+            refunds.add(exactaRefund);
+        }
+
+        // 三連複
+        if (!model.getRefundTrios().isEmpty()) {
+            RacingRefund trioRefund = new RacingRefund();
+            trioRefund.setDataDiv(model.getDataDiv());
+            trioRefund.setRaceId(model.getRaceId());
+            trioRefund.setBetting(7); // 三連複
+            trioRefund.setRestoreFlag(model.getRestoreFlagTrio());
+            trioRefund.setRestoreHorseNoItems(model.getRestoreHorseNoItems());
+            trioRefund.setRestoreBracketItems(model.getRestoreBracketItems());
+            trioRefund.setRestoreSameBracketItems(model.getRestoreSameBracketItems());
+            trioRefund.setRefundTable(model.getRefundTrios().stream()
+                    .map(trio -> {
+                        RacingRefund.refund refund = new RacingRefund.refund();
+                        refund.setPairHorseNo(trio.getTripletNo().toString());
+                        refund.setRefundMoney(trio.getRefundMoney());
+                        refund.setBetRank(trio.getBetRank());
+                        return refund;
+                    }).collect(Collectors.toList())
+            );
+            refunds.add(trioRefund);
+        }
+
+        // 三連単
+        if (!model.getRefundTrifectas().isEmpty()) {
+            RacingRefund trifectaRefund = new RacingRefund();
+            trifectaRefund.setDataDiv(model.getDataDiv());
+            trifectaRefund.setRaceId(model.getRaceId());
+            trifectaRefund.setBetting(8); // 三連単
+            trifectaRefund.setRestoreFlag(model.getRestoreFlagTrifecta());
+            trifectaRefund.setRestoreHorseNoItems(model.getRestoreHorseNoItems());
+            trifectaRefund.setRestoreBracketItems(model.getRestoreBracketItems());
+            trifectaRefund.setRestoreSameBracketItems(model.getRestoreSameBracketItems());
+            trifectaRefund.setRefundTable(model.getRefundTrifectas().stream()
+                    .map(trifecta -> {
+                        RacingRefund.refund refund = new RacingRefund.refund();
+                        refund.setPairHorseNo(trifecta.getTripletNo().toString());
+                        refund.setRefundMoney(trifecta.getRefundMoney());
+                        refund.setBetRank(trifecta.getBetRank());
+                        return refund;
+                    }).collect(Collectors.toList())
+            );
+            refunds.add(trifectaRefund);
+        }
+
+        return refunds;
     }
 
     public RacingHorseExclusion toRacingHorseExclusion(String data) {
@@ -209,14 +386,15 @@ public class JvLinkDeserializer {
         oddsWin.setAnnounceDate(model.getAnnounceDate());
         oddsWin.setSaleFlag(model.getSaleFlagWin());
         oddsWin.setShowCashKey(null); //意図的にセット
-        oddsWin.setOddsTable(model.getWinOdds().stream().map(win -> {
-            RacingOdds.Odds odds = new RacingOdds.Odds();
-            odds.setPairHorseNo(win.getHorseNo());
-            odds.setOddsMin(win.getOdds());
-            odds.setOddsMax(win.getOdds());
-            odds.setBetRank(win.getBetRank());
-            return odds;
-        }).collect(Collectors.toList()));
+        oddsWin.setOddsTable(model.getWinOdds().stream()
+                .map(win -> {
+                    RacingOdds.Odds odds = new RacingOdds.Odds();
+                    odds.setPairHorseNo(win.getHorseNo());
+                    odds.setOddsMin(win.getOdds());
+                    odds.setOddsMax(win.getOdds());
+                    odds.setBetRank(win.getBetRank());
+                    return odds;
+                }).collect(Collectors.toList()));
         oddsWin.setVoteCountTotal(model.getVoteCountTotalWin());
 
         RacingOdds oddsShow = new RacingOdds();
@@ -227,14 +405,15 @@ public class JvLinkDeserializer {
         oddsShow.setAnnounceDate(model.getAnnounceDate());
         oddsShow.setSaleFlag(model.getSaleFlagShow());
         oddsShow.setShowCashKey(model.getShowCashKey()); //複勝のみセット
-        oddsShow.setOddsTable(model.getShowOdds().stream().map(show -> {
-            RacingOdds.Odds odds = new RacingOdds.Odds();
-            odds.setPairHorseNo(show.getHorseNo());
-            odds.setOddsMin(show.getOddsMin());
-            odds.setOddsMax(show.getOddsMax());
-            odds.setBetRank(show.getBetRank());
-            return odds;
-        }).collect(Collectors.toList()));
+        oddsShow.setOddsTable(model.getShowOdds().stream()
+                .map(show -> {
+                    RacingOdds.Odds odds = new RacingOdds.Odds();
+                    odds.setPairHorseNo(show.getHorseNo());
+                    odds.setOddsMin(show.getOddsMin());
+                    odds.setOddsMax(show.getOddsMax());
+                    odds.setBetRank(show.getBetRank());
+                    return odds;
+                }).collect(Collectors.toList()));
 
         oddsShow.setVoteCountTotal(model.getVoteCountTotalShow() == null
                 ? 0
@@ -256,14 +435,15 @@ public class JvLinkDeserializer {
         oddsQuinella.setAnnounceDate(model.getAnnounceDate());
         oddsQuinella.setSaleFlag(model.getSaleFlag());
         oddsQuinella.setShowCashKey(null); //意図的にセット
-        oddsQuinella.setOddsTable(model.getQuinellaOdds().stream().map(quinellaOdds -> {
-            RacingOdds.Odds odds = new RacingOdds.Odds();
-            odds.setPairHorseNo(quinellaOdds.getPairNo().toString());
-            odds.setOddsMin(quinellaOdds.getOdds());
-            odds.setOddsMax(quinellaOdds.getOdds());
-            odds.setBetRank(quinellaOdds.getBetRank());
-            return odds;
-        }).collect(Collectors.toList()));
+        oddsQuinella.setOddsTable(model.getQuinellaOdds().stream()
+                .map(quinellaOdds -> {
+                    RacingOdds.Odds odds = new RacingOdds.Odds();
+                    odds.setPairHorseNo(quinellaOdds.getPairNo().toString());
+                    odds.setOddsMin(quinellaOdds.getOdds());
+                    odds.setOddsMax(quinellaOdds.getOdds());
+                    odds.setBetRank(quinellaOdds.getBetRank());
+                    return odds;
+                }).collect(Collectors.toList()));
         oddsQuinella.setVoteCountTotal(model.getVoteCountTotal());
         return oddsQuinella;
     }
@@ -281,14 +461,15 @@ public class JvLinkDeserializer {
         oddsQuinellaPlace.setAnnounceDate(model.getAnnounceDate());
         oddsQuinellaPlace.setSaleFlag(model.getSaleFlag());
         oddsQuinellaPlace.setShowCashKey(null); //意図的にセット
-        oddsQuinellaPlace.setOddsTable(model.getQuinellaPlaceOdds().stream().map(quinellaPlaceOdds -> {
-            RacingOdds.Odds odds = new RacingOdds.Odds();
-            odds.setPairHorseNo(quinellaPlaceOdds.getPairNo().toString());
-            odds.setOddsMin(quinellaPlaceOdds.getOddsMin());
-            odds.setOddsMax(quinellaPlaceOdds.getOddsMax());
-            odds.setBetRank(quinellaPlaceOdds.getBetRank());
-            return odds;
-        }).collect(Collectors.toList()));
+        oddsQuinellaPlace.setOddsTable(model.getQuinellaPlaceOdds().stream()
+                .map(quinellaPlaceOdds -> {
+                    RacingOdds.Odds odds = new RacingOdds.Odds();
+                    odds.setPairHorseNo(quinellaPlaceOdds.getPairNo().toString());
+                    odds.setOddsMin(quinellaPlaceOdds.getOddsMin());
+                    odds.setOddsMax(quinellaPlaceOdds.getOddsMax());
+                    odds.setBetRank(quinellaPlaceOdds.getBetRank());
+                    return odds;
+                }).collect(Collectors.toList()));
         oddsQuinellaPlace.setVoteCountTotal(model.getVoteCountTotal());
         return oddsQuinellaPlace;
     }
@@ -306,14 +487,15 @@ public class JvLinkDeserializer {
         oddsExacta.setAnnounceDate(model.getAnnounceDate());
         oddsExacta.setSaleFlag(model.getSaleFlag());
         oddsExacta.setShowCashKey(null); //意図的にセット
-        oddsExacta.setOddsTable(model.getExactaOdds().stream().map(exactaOdds -> {
-            RacingOdds.Odds odds = new RacingOdds.Odds();
-            odds.setPairHorseNo(exactaOdds.getPairNo().toString());
-            odds.setOddsMin(exactaOdds.getOdds());
-            odds.setOddsMax(exactaOdds.getOdds());
-            odds.setBetRank(exactaOdds.getBetRank());
-            return odds;
-        }).collect(Collectors.toList()));
+        oddsExacta.setOddsTable(model.getExactaOdds().stream()
+                .map(exactaOdds -> {
+                    RacingOdds.Odds odds = new RacingOdds.Odds();
+                    odds.setPairHorseNo(exactaOdds.getPairNo().toString());
+                    odds.setOddsMin(exactaOdds.getOdds());
+                    odds.setOddsMax(exactaOdds.getOdds());
+                    odds.setBetRank(exactaOdds.getBetRank());
+                    return odds;
+                }).collect(Collectors.toList()));
         oddsExacta.setVoteCountTotal(model.getVoteCountTotal());
         return oddsExacta;
     }
@@ -331,14 +513,15 @@ public class JvLinkDeserializer {
         oddsTrio.setAnnounceDate(model.getAnnounceDate());
         oddsTrio.setSaleFlag(model.getSaleFlag());
         oddsTrio.setShowCashKey(null); //意図的にセット
-        oddsTrio.setOddsTable(model.getTrioOdds().stream().map(trioOdds -> {
-            RacingOdds.Odds odds = new RacingOdds.Odds();
-            odds.setPairHorseNo(trioOdds.getPairNo().toString());
-            odds.setOddsMin(trioOdds.getOdds());
-            odds.setOddsMax(trioOdds.getOdds());
-            odds.setBetRank(trioOdds.getBetRank());
-            return odds;
-        }).collect(Collectors.toList()));
+        oddsTrio.setOddsTable(model.getTrioOdds().stream()
+                .map(trioOdds -> {
+                    RacingOdds.Odds odds = new RacingOdds.Odds();
+                    odds.setPairHorseNo(trioOdds.getPairNo().toString());
+                    odds.setOddsMin(trioOdds.getOdds());
+                    odds.setOddsMax(trioOdds.getOdds());
+                    odds.setBetRank(trioOdds.getBetRank());
+                    return odds;
+                }).collect(Collectors.toList()));
         oddsTrio.setVoteCountTotal(model.getVoteCountTotal());
         return oddsTrio;
     }
@@ -356,14 +539,15 @@ public class JvLinkDeserializer {
         oddsTrifecta.setAnnounceDate(model.getAnnounceDate());
         oddsTrifecta.setSaleFlag(model.getSaleFlag());
         oddsTrifecta.setShowCashKey(null); //意図的にセット
-        oddsTrifecta.setOddsTable(model.getTrifectaOdds().stream().map(trifectaOdds -> {
-            RacingOdds.Odds odds = new RacingOdds.Odds();
-            odds.setPairHorseNo(trifectaOdds.getPairNo().toString());
-            odds.setOddsMin(trifectaOdds.getOdds());
-            odds.setOddsMax(trifectaOdds.getOdds());
-            odds.setBetRank(trifectaOdds.getBetRank());
-            return odds;
-        }).collect(Collectors.toList()));
+        oddsTrifecta.setOddsTable(model.getTrifectaOdds().stream()
+                .map(trifectaOdds -> {
+                    RacingOdds.Odds odds = new RacingOdds.Odds();
+                    odds.setPairHorseNo(trifectaOdds.getPairNo().toString());
+                    odds.setOddsMin(trifectaOdds.getOdds());
+                    odds.setOddsMax(trifectaOdds.getOdds());
+                    odds.setBetRank(trifectaOdds.getBetRank());
+                    return odds;
+                }).collect(Collectors.toList()));
         oddsTrifecta.setVoteCountTotal(model.getVoteCountTotal());
         return oddsTrifecta;
     }

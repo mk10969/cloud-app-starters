@@ -3,17 +3,18 @@ package org.uma.cloud.common.entity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.Type;
-import org.uma.cloud.common.utils.javatuples.Pair;
-import org.uma.cloud.common.utils.javatuples.Triplet;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.IdClass;
+import java.io.Serializable;
 import java.util.List;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
 @Entity
+@IdClass(RacingRefund.CompositeId.class)
 public class RacingRefund extends BaseModel {
 
     /**
@@ -29,114 +30,64 @@ public class RacingRefund extends BaseModel {
     @Column(length = 16, nullable = false)
     private String raceId;
 
+    /**
+     * オッズ式別符号
+     * 1: 単勝
+     * 2: 複勝
+     * 3: 枠連
+     * 4: 馬連
+     * 5: ワイド
+     * 6: 馬単
+     * 7: 三連複
+     * 8: 三連単
+     */
+    @Id
     @Column(nullable = false)
-    private Boolean restoreFlagWin;
+    private Integer betting;
 
+    /**
+     * 返還フラグ
+     */
     @Column(nullable = false)
-    private Boolean restoreFlagShow;
+    private Boolean restoreFlag;
 
-    @Column(nullable = false)
-    private Boolean restoreFlagBracketQ;
-
-    @Column(nullable = false)
-    private Boolean restoreFlagQuinella;
-
-    @Column(nullable = false)
-    private Boolean restoreFlagQuinellaPlace;
-
-    @Column(nullable = false)
-    private Boolean restoreFlagExacta;
-
-    @Column(nullable = false)
-    private Boolean restoreFlagTrio;
-
-    @Column(nullable = false)
-    private Boolean restoreFlagTrifecta;
-
+    /**
+     * 返還馬番
+     */
     @Type(type = "list")
     @Column(columnDefinition = "integer[]", nullable = false)
     private List<Integer> restoreHorseNoItems;
 
+    /**
+     * 返還枠番
+     */
     @Type(type = "list")
     @Column(columnDefinition = "integer[]", nullable = false)
     private List<Integer> restoreBracketItems;
 
+    /**
+     * 返還同枠
+     */
     @Type(type = "list")
     @Column(columnDefinition = "integer[]", nullable = false)
     private List<Integer> restoreSameBracketItems;
 
-    // 単勝
+    /**
+     * 払戻
+     */
     @Type(type = "jsonb")
     @Column(columnDefinition = "jsonb", nullable = false)
-    private List<refund> refundWins;
-
-    // 複勝
-    @Type(type = "jsonb")
-    @Column(columnDefinition = "jsonb", nullable = false)
-    private List<refund> refundShows;
-
-    // 枠連
-    @Type(type = "jsonb")
-    @Column(columnDefinition = "jsonb", nullable = false)
-    private List<refund> refundBracketQs;
-
-    // 馬連
-    @Type(type = "jsonb")
-    @Column(columnDefinition = "jsonb", nullable = false)
-    private List<refundPair> refundQuinellas;
-
-    // ワイド
-    @Type(type = "jsonb")
-    @Column(columnDefinition = "jsonb", nullable = false)
-    private List<refundPair> refundQuinellaPlaces;
-
-    // 予備
-    @Type(type = "jsonb")
-    @Column(columnDefinition = "jsonb", nullable = false)
-    private List<refundPair> refundSpares;
-
-    // 馬単
-    @Type(type = "jsonb")
-    @Column(columnDefinition = "jsonb", nullable = false)
-    private List<refundPair> refundExactas;
-
-    // 3連複
-    @Type(type = "jsonb")
-    @Column(columnDefinition = "jsonb", nullable = false)
-    private List<refundTriplet> refundTrios;
-
-    // 3連単
-    @Type(type = "jsonb")
-    @Column(columnDefinition = "jsonb", nullable = false)
-    private List<refundTriplet> refundTrifectas;
+    private List<refund> refundTable;
 
 
     @Data
     public static class refund {
-
         /**
-         * 馬番は組み合わせになるため、String型を使う。
+         * 馬番は、String型を使い、「-」セパレートにする。
+         * ex...
+         * 01-02-05
          */
-        private String horseNo;
-
-        /**
-         * 取得する初期値スペース => null に変換する。
-         */
-        private Integer refundMoney;
-
-        /**
-         * 取得する初期値スペース => null に変換する。
-         */
-        private Integer betRank;
-    }
-
-    @Data
-    public static class refundPair {
-
-        /**
-         * 馬番の組み合わせ
-         */
-        private Pair<String, String> pairNo;
+        private String pairHorseNo;
 
         /**
          * 取得する初期値スペース => null に変換する。
@@ -149,23 +100,13 @@ public class RacingRefund extends BaseModel {
         private Integer betRank;
     }
 
+
     @Data
-    public static class refundTriplet {
+    public static class CompositeId implements Serializable {
 
-        /**
-         * 馬番の組み合わせ
-         */
-        private Triplet<String, String, String> tripletNo;
+        private String raceId;
 
-        /**
-         * 取得する初期値スペース => null に変換する。
-         */
-        private Integer refundMoney;
-
-        /**
-         * 取得する初期値スペース => null に変換する。
-         */
-        private Integer betRank;
+        private Integer betting;
     }
 
 }

@@ -12,21 +12,22 @@ import org.uma.cloud.common.entity.BaseModel;
 import org.uma.cloud.common.entity.BloodAncestry;
 import org.uma.cloud.common.entity.BloodBreeding;
 import org.uma.cloud.common.entity.BloodLine;
-import org.uma.cloud.common.entity.DiffBreeder;
 import org.uma.cloud.common.entity.Course;
+import org.uma.cloud.common.entity.DiffBreeder;
 import org.uma.cloud.common.entity.DiffJockey;
 import org.uma.cloud.common.entity.DiffOwner;
 import org.uma.cloud.common.entity.DiffRaceHorse;
+import org.uma.cloud.common.entity.DiffTrainer;
 import org.uma.cloud.common.entity.RacingDetail;
 import org.uma.cloud.common.entity.RacingHorseDetail;
 import org.uma.cloud.common.entity.RacingHorseExclusion;
 import org.uma.cloud.common.entity.RacingOdds;
 import org.uma.cloud.common.entity.RacingRefund;
 import org.uma.cloud.common.entity.RacingVote;
-import org.uma.cloud.common.entity.DiffTrainer;
 import org.uma.cloud.common.utils.exception.JvLinkModelNullPointException;
 import org.uma.cloud.common.utils.lang.ModelUtil;
 
+import java.util.List;
 import java.util.function.Function;
 
 @Configuration
@@ -66,10 +67,10 @@ public class JvLinkProcessors {
         return new JvLinkFunctionItemProcessor<>(jvLinkDeserializer::toRacingHorseExclusion);
     }
 
-    @Bean
-    public ItemProcessor<String, RacingRefund> racingRefundItemProcessor() {
-        return new JvLinkFunctionItemProcessor<>(jvLinkDeserializer::toRacingRefund);
-    }
+//    @Bean
+//    public ItemProcessor<String, List<RacingRefund>> racingRefundItemProcessor() {
+//        return new JvLinkFunctionItemProcessor<>(jvLinkDeserializer::toRacingRefund);
+//    }
 
     @Bean
     public ItemProcessor<String, RacingVote> racingVoteItemProcessor() {
