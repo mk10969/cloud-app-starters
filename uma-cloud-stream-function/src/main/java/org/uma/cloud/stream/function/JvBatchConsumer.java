@@ -57,12 +57,12 @@ public class JvBatchConsumer {
 
     public void batch() {
         /**
+         * TODO: racingDetail, racingHorseDetailの重複解決
+         *
          * TODO:BloodBreeding -> 重複調査
          * TODO:BloodLine -> 重複調査
          */
-        batchRacingDetail();
         batchRacingRefund();
-        batchRacingHorseExclusion();
     }
 
     // レース
@@ -98,7 +98,12 @@ public class JvBatchConsumer {
     private void batchRacingRefund() {
         Flux<RacingRefund> flux = fileSource.getRacingRefund()
                 .filter(entity -> !entity.getDataDiv().equals("0"))
-                .filter(entity -> jpaEntitySink.notExists(entity, entity.getRaceId()));
+                .filter(entity -> {
+                    RacingRefund.CompositeId compositeId = new RacingRefund.CompositeId();
+                    compositeId.setRaceId(entity.getRaceId());
+                    compositeId.setBetting(entity.getBetting());
+                    return jpaEntitySink.notExists(entity, compositeId);
+                });
         persist().accept(flux);
     }
 

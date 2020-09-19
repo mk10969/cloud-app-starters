@@ -129,9 +129,9 @@ public class JvLinkDeserializer {
 
         // spareの空チェック
         if (!"".equals(model.getSpare1())
-                || !"".equals(model.getSpare2())
-                || !"".equals(model.getSpare4())
-                || !"".equals(model.getSpare5())
+                || !"0".equals(model.getSpare2())
+                || !"0".equals(model.getSpare4())
+                || !"0".equals(model.getSpare5())
         ) {
             throw new IllegalStateException("予備データが存在します。" + model);
         }
@@ -177,9 +177,9 @@ public class JvLinkDeserializer {
         }
 
         // spareの空チェック
-        if (!"".equals(model.getSpare1())
-                || !"".equals(model.getSpare2())
-                || !"".equals(model.getSpare3())
+        if (!"0".equals(model.getSpare1())
+                || !"0".equals(model.getSpare2())
+                || !"0".equals(model.getSpare3())
                 || !model.getRefundSpares().isEmpty()
         ) {
             throw new IllegalStateException("予備データが存在します。" + model);
