@@ -15,7 +15,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.core.io.Resource;
 import org.uma.cloud.common.configuration.JvLinkDeserializer;
 import org.uma.cloud.common.entity.RacingHorseDetail;
+import org.uma.cloud.common.repository.RacingDetailRepository;
 import org.uma.cloud.common.repository.RacingHorseDetailRepository;
+import org.uma.cloud.common.service.RacingDetailService;
 import org.uma.cloud.common.utils.javatuples.Pair;
 import org.uma.cloud.common.utils.lang.JacksonUtil;
 import reactor.core.publisher.Flux;
@@ -27,6 +29,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CountDownLatch;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @SpringBootTest
 public class JvBatchConsumerPatchTest {
@@ -39,6 +42,9 @@ public class JvBatchConsumerPatchTest {
 
     @Autowired
     private JvLinkDeserializer jvLinkDeserializer;
+
+    @Autowired
+    private RacingDetailService racingDetailService;
 
     @Autowired
     private RacingHorseDetailRepository racingHorseDetailRepository;
@@ -209,7 +215,34 @@ public class JvBatchConsumerPatchTest {
 
     @Test
     void test_findOne() {
-        racingHorseDetailRepository.findByRaceId("2016100545090311").forEach(System.out::println);
+        // racingDetailは、リステッドに変わったことだけが、重複している。
+        Stream.of(
+                "2014082646110311",
+                "2018110130150311",
+                "2019010606010210",
+                "2019011306010411",
+                "2019011408010510",
+                "2019011408010511",
+                "2019011908010610",
+                "2019011908010611",
+                "2019012605010110",
+                "2019012605010111",
+                "2019020208020310",
+                "2019020908020511",
+                "2019021705010809",
+                "2019022309010110",
+                "2019022309010111",
+                "2019022409010210",
+                "2019030309010411",
+                "2019031006020610",
+                "2019031006020611",
+                "2019031609010711",
+                "2012070445040310",
+                "2018123047160310",
+                "2018062130050512",
+                "2019011147170403")
+                .map(i -> racingDetailService.findOne(i))
+                .forEach(i -> System.out.println(i.toJson()));
     }
 
 }

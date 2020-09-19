@@ -60,6 +60,13 @@ public class RacingOdds extends BaseModel implements TimeSeries {
     @Column(length = 8, nullable = false)
     private String announceDate;
 
+    /**
+     * 発売フラグ
+     * 0: 発売なし
+     * 1: 発売前取消
+     * 3: 発売後取消
+     * 7: 発売あり
+     */
     @Column(nullable = false)
     private Integer saleFlag;
 
@@ -72,12 +79,19 @@ public class RacingOdds extends BaseModel implements TimeSeries {
     @Column
     private Integer showCashKey;
 
+    /**
+     * オッズ
+     */
     @Type(type = "jsonb")
     @Column(columnDefinition = "jsonb", nullable = false)
     private List<Odds> oddsTable;
 
+    /**
+     * 投票合計票数
+     */
     @Column(nullable = false)
     private Long voteCountTotal;
+
 
     @Data
     public static class Odds {
