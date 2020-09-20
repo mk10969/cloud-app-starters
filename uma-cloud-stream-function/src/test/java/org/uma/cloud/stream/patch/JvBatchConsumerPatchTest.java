@@ -15,14 +15,23 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.core.io.Resource;
 import org.uma.cloud.common.configuration.JvLinkDeserializer;
 import org.uma.cloud.common.entity.RacingHorseDetail;
-import org.uma.cloud.common.repository.RacingDetailRepository;
 import org.uma.cloud.common.repository.RacingHorseDetailRepository;
 import org.uma.cloud.common.service.RacingDetailService;
+import org.uma.cloud.common.service.RacingHorseDetailService;
 import org.uma.cloud.common.utils.javatuples.Pair;
+import org.uma.cloud.common.utils.javatuples.Triplet;
 import org.uma.cloud.common.utils.lang.JacksonUtil;
 import reactor.core.publisher.Flux;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -40,11 +49,18 @@ public class JvBatchConsumerPatchTest {
     @Value("classpath:racing_horse_detail2.json")
     private Resource resourceFile2;
 
+    @Value("classpath:racing_horse_detail.csv")
+    private Resource racingHorseDetailCsvFile;
+
+
     @Autowired
     private JvLinkDeserializer jvLinkDeserializer;
 
     @Autowired
     private RacingDetailService racingDetailService;
+
+    @Autowired
+    private RacingHorseDetailService racingHorseDetailService;
 
     @Autowired
     private RacingHorseDetailRepository racingHorseDetailRepository;
@@ -214,7 +230,7 @@ public class JvBatchConsumerPatchTest {
 
 
     @Test
-    void test_findOne() {
+    void test_racing_detail_findOne() {
         // racingDetailは、リステッドに変わったことだけが、重複している。
         Stream.of(
                 "2014082646110311",
@@ -242,7 +258,28 @@ public class JvBatchConsumerPatchTest {
                 "2018062130050512",
                 "2019011147170403")
                 .map(i -> racingDetailService.findOne(i))
-                .forEach(i -> System.out.println(i.toJson()));
+                .forEach(i -> System.out.println(i.toJson() + ","));
+    }
+
+    @Test
+    void test_racing_horse_detail_findOne() throws IOException {
+        // 地方の結果しか差分がない。
+        // 中央のオーナー名の変更は、属性から除外したので出なくなった。
+        Files.lines(Paths.get(racingHorseDetailCsvFile.getURI()), StandardCharsets.UTF_8)
+                .map(i -> {
+                    String[] tmp = i.split(",");
+                    return Triplet.with(tmp[0], tmp[1], tmp[2]);
+                })
+                .map(triplet -> {
+                    RacingHorseDetail.CompositeId compositeId = new RacingHorseDetail.CompositeId();
+                    compositeId.setRaceId(triplet.getValue1());
+                    compositeId.setHorseNo(triplet.getValue2());
+                    compositeId.setBloodlineNo(Long.valueOf(triplet.getValue3()));
+                    return compositeId;
+                })
+                .map(compositeId -> racingHorseDetailService.findOne(compositeId))
+                .forEach(i -> System.out.println(i.toJson() + ","));
+
     }
 
 }
