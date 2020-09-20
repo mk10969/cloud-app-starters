@@ -57,12 +57,12 @@ public class JvBatchConsumer {
 
     public void batch() {
         /**
-         * TODO: racingDetail, racingHorseDetailの重複解決
-         *
          * TODO:BloodBreeding -> 重複調査
          * TODO:BloodLine -> 重複調査
          */
-        batchRacingRefund();
+        batchBloodAncestry();
+        batchBloodBreeding();
+        batchBloodLine();
     }
 
     // レース
@@ -72,6 +72,16 @@ public class JvBatchConsumer {
                 .filter(entity -> !entity.getDataDiv().equals("0"))
                 .filter(entity -> jpaEntitySink.notExists(entity, entity.getRaceId()));
         persist().accept(flux);
+    }
+
+    /**
+     * 完了
+     */
+    private void mergeBatchRacingDetail() {
+        // こっちで問題なし
+        Flux<RacingDetail> flux = fileSource.getRacingDetail()
+                .filter(entity -> !entity.getDataDiv().equals("0"));
+        merge().accept(flux);
     }
 
     private void batchRacingHorseDetail() {
@@ -88,6 +98,9 @@ public class JvBatchConsumer {
         persist().accept(flux);
     }
 
+    /**
+     * 完了
+     */
     private void mergeBatchRacingHorseDetail() {
         Flux<RacingHorseDetail> flux = fileSource.getRacingHorseDetail()
                 // 木曜データの場合（dataDiv = 1）はないと思うのでfilterかけない。
@@ -95,6 +108,9 @@ public class JvBatchConsumer {
         merge().accept(flux);
     }
 
+    /**
+     * 完了
+     */
     private void batchRacingRefund() {
         Flux<RacingRefund> flux = fileSource.getRacingRefund()
                 .filter(entity -> !entity.getDataDiv().equals("0"))
@@ -107,6 +123,9 @@ public class JvBatchConsumer {
         persist().accept(flux);
     }
 
+    /**
+     * 完了
+     */
     private void batchRacingHorseExclusion() {
         Flux<RacingHorseExclusion> flux = fileSource.getRacingHorseExclusion()
                 .filter(entity -> !entity.getDataDiv().equals("0"))
@@ -120,6 +139,9 @@ public class JvBatchConsumer {
         persist().accept(flux);
     }
 
+    /**
+     * 未対応
+     */
     private void batchRacingVote() {
         Flux<RacingVote> flux = fileSource.getRacingVote()
                 .filter(entity -> !entity.getDataDiv().equals("0"))
