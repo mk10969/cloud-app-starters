@@ -46,15 +46,6 @@ public class DiffTrainer extends BaseModel {
     @Column(length = 34, nullable = false)
     private String trainerName;
 
-    @Column(length = 30, nullable = false)
-    private String trainerNameHalfKana;
-
-    @Column(length = 8, nullable = false)
-    private String trainerNameShort;
-
-    @Column(length = 80, nullable = false)
-    private String trainerNameEng;
-
     @Column(nullable = false)
     private Integer trainerSex;
 

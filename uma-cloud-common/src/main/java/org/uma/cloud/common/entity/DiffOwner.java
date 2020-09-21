@@ -31,12 +31,6 @@ public class DiffOwner extends BaseModel {
     @Column(length = 64, nullable = false)
     private String ownerNameWithoutCorp;
 
-    @Column(length = 50, nullable = false)
-    private String ownerNameHalfKana;
-
-    @Column(length = 100, nullable = false)
-    private String ownerNameEng;
-
     @Column(length = 60, nullable = false)
     private String clothingMark;
 

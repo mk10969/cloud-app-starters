@@ -31,11 +31,11 @@ public class DiffBreeder extends BaseModel {
     @Column(length = 70, nullable = false)
     private String breederNameWithoutCorp;
 
-    @Column(length = 70, nullable = false)
-    private String breederNameHalfKana;
-
-    @Column(length = 168, nullable = false)
-    private String breederNameEng;
+//    @Column(length = 70, nullable = false)
+//    private String breederNameHalfKana;
+//
+//    @Column(length = 168, nullable = false)
+//    private String breederNameEng;
 
     @Column(length = 20, nullable = false)
     private String breederHomeAffairName;

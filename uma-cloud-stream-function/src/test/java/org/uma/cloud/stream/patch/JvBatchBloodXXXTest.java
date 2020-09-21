@@ -8,6 +8,7 @@ import org.springframework.core.io.Resource;
 import org.uma.cloud.common.configuration.JvLinkDeserializer;
 import org.uma.cloud.common.service.BloodBreedingService;
 import org.uma.cloud.common.service.BloodLineService;
+import org.uma.cloud.common.service.RaceHorseService;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -23,6 +24,9 @@ public class JvBatchBloodXXXTest {
     @Value("classpath:blood_line.csv")
     private Resource bloodLineCsv;
 
+    @Value("classpath:diff_race_horse.csv")
+    private Resource diffRaceHorseCsv;
+
     @Autowired
     private JvLinkDeserializer jvLinkDeserializer;
 
@@ -31,6 +35,9 @@ public class JvBatchBloodXXXTest {
 
     @Autowired
     private BloodLineService bloodLineService;
+
+    @Autowired
+    private RaceHorseService raceHorseService;
 
 
     @Test

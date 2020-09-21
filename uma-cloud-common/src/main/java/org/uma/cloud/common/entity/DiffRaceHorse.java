@@ -12,21 +12,17 @@ import org.uma.cloud.common.code.SexCode;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.IdClass;
-import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.List;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
 @Entity
-@IdClass(DiffRaceHorse.CompositeId.class)
 public class DiffRaceHorse extends BaseModel {
 
     /**
      * データ区分
      */
-    @Id
     @Column(length = 1, nullable = false)
     private String dataDiv;
 
@@ -58,17 +54,8 @@ public class DiffRaceHorse extends BaseModel {
     @Column(length = 36, nullable = false)
     private String horseName;
 
-    @Column(length = 36, nullable = false)
-    private String horseNameHalfKana;
-
-    @Column(length = 60, nullable = false)
-    private String horseNameEng;
-
     @Column(nullable = false)
     private Boolean isJraFacilityStay;
-
-    @Column(length = 19, nullable = false)
-    private String spare1;
 
     @Column(length = 9, nullable = false)
     private HorseSignCode horseSignCd;
@@ -148,13 +135,4 @@ public class DiffRaceHorse extends BaseModel {
         private String horseName;
 
     }
-
-    @Data
-    public static class CompositeId implements Serializable {
-
-        private String dataDiv;
-
-        private Long bloodlineNo;
-    }
-
 }

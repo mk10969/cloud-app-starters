@@ -48,18 +48,6 @@ public class DiffJockey extends BaseModel {
     @Column(length = 34, nullable = false)
     private String jockeyName;
 
-    @Column(length = 34, nullable = false)
-    private String spare1;
-
-    @Column(length = 30, nullable = false)
-    private String jockeyNameHalfKana;
-
-    @Column(length = 8, nullable = false)
-    private String jockeyNameShort;
-
-    @Column(length = 80, nullable = false)
-    private String jockeyNameEng;
-
     @Column(nullable = false)
     private Integer jockeySex;
 
