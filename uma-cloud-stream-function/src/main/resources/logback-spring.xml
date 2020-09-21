@@ -10,6 +10,11 @@
         <property name="logFilePath" value="./log/batch/"/>
     </springProfile>
 
+    <!-- batch用設定 -->
+    <springProfile name="batchWeekly">
+        <property name="logFilePath" value="./log/batchWeekly/"/>
+    </springProfile>
+
     <!-- stream用設定 -->
     <springProfile name="stream">
         <property name="logFilePath" value="./log/stream/"/>

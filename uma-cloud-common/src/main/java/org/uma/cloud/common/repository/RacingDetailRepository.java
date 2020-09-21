@@ -3,7 +3,6 @@ package org.uma.cloud.common.repository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.uma.cloud.common.code.RaceCourseCode;
 import org.uma.cloud.common.code.RaceGradeCode;
-import org.uma.cloud.common.code.TurfOrDirtConditionCode;
 import org.uma.cloud.common.entity.RacingDetail;
 
 import java.time.LocalDate;
@@ -45,4 +44,12 @@ public interface RacingDetailRepository extends JpaRepository<RacingDetail, Stri
 //    List<RacingDetail> findByTurfConditionCd(TurfOrDirtConditionCode turfOrDirtConditionCode);
 
 
+    /**
+     * 最新開催日付のデータを取得
+     * <p>
+     * Page<RacingDetail> にしてもいいかも
+     *
+     * @return
+     */
+    RacingDetail findTopByOrderByHoldingDateDesc();
 }

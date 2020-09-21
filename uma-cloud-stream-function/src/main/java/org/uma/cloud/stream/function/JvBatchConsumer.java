@@ -22,7 +22,6 @@ import org.uma.cloud.common.entity.RacingOdds;
 import org.uma.cloud.common.entity.RacingRefund;
 import org.uma.cloud.common.entity.RacingVote;
 import org.uma.cloud.common.utils.javatuples.Pair;
-import org.uma.cloud.stream.StreamFunctionProperties;
 import org.uma.cloud.stream.type.FileSource;
 import org.uma.cloud.stream.type.JpaEntitySink;
 import reactor.core.publisher.Flux;
@@ -44,9 +43,6 @@ public class JvBatchConsumer {
 
     @Autowired
     private Scheduler scheduler;
-
-    @Autowired
-    private StreamFunctionProperties properties;
 
 
     @Bean

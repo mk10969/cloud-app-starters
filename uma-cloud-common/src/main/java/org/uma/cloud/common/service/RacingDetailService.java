@@ -23,6 +23,10 @@ public class RacingDetailService {
         return this.repository.existsById(raceId);
     }
 
+    public RacingDetail findLastOne() {
+        return this.repository.findTopByOrderByHoldingDateDesc();
+    }
+
     @Transactional
     public RacingDetail save(RacingDetail racingDetail) {
         return this.repository.save(racingDetail);
