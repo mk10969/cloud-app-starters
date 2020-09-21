@@ -59,4 +59,12 @@ public class JpaEntitySink {
             return false;
         }
     }
+
+    public <S extends BaseModel> void logAlreadyExists(S entity, Object id) {
+        if (entityManager.find(entity.getClass(), id) != null) {
+            // 存在する。
+            log.warn("Already exists data: {}", entity.toJson());
+        }
+    }
+
 }

@@ -60,13 +60,6 @@ public class JvBatchConsumer {
 
     // レース
 
-    private void batchRacingDetail() {
-        Flux<RacingDetail> flux = fileSource.getRacingDetail()
-                .filter(entity -> !entity.getDataDiv().equals("0"))
-                .filter(entity -> jpaEntitySink.notExists(entity, entity.getRaceId()));
-        persist().accept(flux);
-    }
-
     /**
      * 完了
      */
@@ -75,20 +68,6 @@ public class JvBatchConsumer {
         Flux<RacingDetail> flux = fileSource.getRacingDetail()
                 .filter(entity -> !entity.getDataDiv().equals("0"));
         merge().accept(flux);
-    }
-
-    private void batchRacingHorseDetail() {
-        Flux<RacingHorseDetail> flux = fileSource.getRacingHorseDetail()
-                // 木曜データの場合（dataDiv = 1）はないと思うのでfilterかけない。
-                .filter(entity -> !entity.getDataDiv().equals("0"))
-                .filter(entity -> {
-                    RacingHorseDetail.CompositeId compositeId = new RacingHorseDetail.CompositeId();
-                    compositeId.setRaceId(entity.getRaceId());
-                    compositeId.setHorseNo(entity.getHorseNo());
-                    compositeId.setBloodlineNo(entity.getBloodlineNo());
-                    return jpaEntitySink.notExists(entity, compositeId);
-                });
-        persist().accept(flux);
     }
 
     /**
