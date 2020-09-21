@@ -28,18 +28,12 @@ public class BloodBreeding extends BaseModel {
     @Column(nullable = false)
     private Integer breedingNo;
 
-    @Column(length = 8, nullable = false)
-    private String spare1;
-
     /**
      * 血統登録番号 10桁
      * {@link BloodLine.bloodlineNo}
      */
     @Column(nullable = false)
     private Long bloodlineNo;
-
-    @Column(length = 1, nullable = false)
-    private String spare2;
 
     @Column(length = 36, nullable = false)
     private String horseName;

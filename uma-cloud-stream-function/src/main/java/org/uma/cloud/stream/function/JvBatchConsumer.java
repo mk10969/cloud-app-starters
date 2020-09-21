@@ -60,9 +60,8 @@ public class JvBatchConsumer {
          * TODO:BloodBreeding -> 重複調査
          * TODO:BloodLine -> 重複調査
          */
-        batchBloodAncestry();
-        batchBloodBreeding();
-        batchBloodLine();
+        mergeBatchBloodBreeding();
+        mergeBatchBloodLine();
     }
 
     // レース
@@ -201,18 +200,18 @@ public class JvBatchConsumer {
         persist().accept(flux);
     }
 
-    private void batchBloodBreeding() {
+    private void mergeBatchBloodBreeding() {
         Flux<BloodBreeding> flux = fileSource.getBloodBreeding()
-                .filter(entity -> !entity.getDataDiv().equals("0"))
-                .filter(entity -> jpaEntitySink.notExists(entity, entity.getBreedingNo()));
-        persist().accept(flux);
+                .filter(entity -> !entity.getDataDiv().equals("0"));
+//                .filter(entity -> jpaEntitySink.notExists(entity, entity.getBreedingNo()));
+        merge().accept(flux);
     }
 
-    private void batchBloodLine() {
+    private void mergeBatchBloodLine() {
         Flux<BloodLine> flux = fileSource.getBloodLine()
-                .filter(entity -> !entity.getDataDiv().equals("0"))
-                .filter(entity -> jpaEntitySink.notExists(entity, entity.getBloodlineNo()));
-        persist().accept(flux);
+                .filter(entity -> !entity.getDataDiv().equals("0"));
+//                .filter(entity -> jpaEntitySink.notExists(entity, entity.getBloodlineNo()));
+        merge().accept(flux);
     }
 
 

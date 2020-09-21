@@ -563,6 +563,12 @@ public class JvLinkDeserializer {
 
     public BloodBreeding toBloodBreeding(String data) {
         BLOD_HN model = jvLinkModelMapper.deserialize(decode.apply(data), BLOD_HN.class);
+
+        // spare2は、よくわからんw
+        if (!"00000000".equals(model.getSpare1())) {
+            throw new IllegalStateException("予備データが存在します。" + model);
+        }
+
         return modelMapper.map(model, BloodBreeding.class);
     }
 
