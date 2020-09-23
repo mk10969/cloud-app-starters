@@ -34,4 +34,9 @@ public class BloodAncestry extends BaseModel {
     @Column(length = 3000, nullable = false)
     private String ancestryDescription;
 
+
+    @Override
+    public Object getPrimaryKey() {
+        return this.breedingNo;
+    }
 }

@@ -55,4 +55,9 @@ public class DiffTrainer extends BaseModel {
     @Column(length = 20, nullable = false)
     private String invitationAreaName;
 
+
+    @Override
+    public Object getPrimaryKey() {
+        return this.trainerCd;
+    }
 }

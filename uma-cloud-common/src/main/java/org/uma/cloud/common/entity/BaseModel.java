@@ -22,6 +22,11 @@ import java.time.LocalTime;
 @MappedSuperclass
 public abstract class BaseModel implements Serializable {
 
+    public abstract Object getDataDiv();
+
+    public abstract Object getPrimaryKey();
+
+
     /**
      * ToJson => Json format
      */

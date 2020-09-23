@@ -3,9 +3,7 @@ package org.uma.cloud.stream.patch;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.flipkart.zjsonpatch.JsonDiff;
 import org.json.JSONException;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.skyscreamer.jsonassert.JSONAssert;
 import org.skyscreamer.jsonassert.JSONCompareMode;
@@ -23,12 +21,7 @@ import org.uma.cloud.common.utils.javatuples.Triplet;
 import org.uma.cloud.common.utils.lang.JacksonUtil;
 import reactor.core.publisher.Flux;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
-import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -74,46 +67,7 @@ public class JvBatchConsumerPatchTest {
         // https://www.keibalab.jp/db/race/200312270610/
         // 走っていないので、nullでOK
     }
-
-
-    @Test
-    @Disabled
-    void test_JsonDiff_asJsonを利用() throws IOException, InterruptedException {
-
-        List<Map<String, Object>> inputJsonFile = objectMapper.readValue(
-                resourceFile2.getFile(), new TypeReference<>() {
-                });
-
-        // Fileにあるもの
-        List<JsonNode> inputJsonNode = inputJsonFile.stream()
-                .map(i -> objectMapper.convertValue(i, JsonNode.class))
-                .collect(Collectors.toList());
-
-        // DBにあるもの
-        List<JsonNode> selectedJsonNode = inputJsonNode.stream()
-                .map(i -> {
-                    RacingHorseDetail.CompositeId compositeId = new RacingHorseDetail.CompositeId();
-                    compositeId.setRaceId(i.get("raceId").asText());
-                    compositeId.setHorseNo(i.get("horseNo").asText());
-                    compositeId.setBloodlineNo(Long.parseLong(i.get("bloodlineNo").asText()));
-                    return racingHorseDetailRepository.findById(compositeId).orElseThrow();
-                })
-//                .peek(System.out::println)
-                .map(i -> objectMapper.convertValue(i, JsonNode.class))
-                .collect(Collectors.toList());
-
-//        // thread sleep
-        final CountDownLatch countDownLatch = new CountDownLatch(1);
-
-        Flux.zip(Flux.fromIterable(inputJsonNode), Flux.fromIterable(selectedJsonNode), Pair::with)
-                .subscribe(i -> {
-                    final JsonNode diff = JsonDiff.asJson(i.getValue1(), i.getValue2());
-                    System.out.println("raceId: " + i.getValue1().get("raceId").asText() + " DIFF: " + diff);
-                }, System.out::println, countDownLatch::countDown);
-
-        countDownLatch.await();
-    }
-
+    
     @Test
     void test_racing_horse_detail2_dataCreateDateのパッチ() throws IOException, InterruptedException {
         List<Map<String, Object>> inputJsonFile = objectMapper.readValue(

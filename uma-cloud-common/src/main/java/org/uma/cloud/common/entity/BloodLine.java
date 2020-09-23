@@ -72,4 +72,9 @@ public class BloodLine extends BaseModel {
     @Column(columnDefinition = "integer[]", nullable = false)
     private List<Integer> breeding3rd;
 
+
+    @Override
+    public Object getPrimaryKey() {
+        return this.bloodlineNo;
+    }
 }

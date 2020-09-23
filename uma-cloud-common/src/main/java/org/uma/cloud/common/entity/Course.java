@@ -47,6 +47,17 @@ public class Course extends BaseModel {
     private String courseDescription;
 
 
+    @Override
+    public Object getPrimaryKey() {
+        CompositeId compositeId = new CompositeId();
+        compositeId.setCourseCd(this.courseCd);
+        compositeId.setDistance(this.distance);
+        compositeId.setTrackCd(this.trackCd);
+        compositeId.setCourseRepairDate(this.courseRepairDate);
+        return compositeId;
+    }
+
+
     @Data
     public static class CompositeId implements Serializable {
 

@@ -65,6 +65,16 @@ public class RacingHorseExclusion extends BaseModel {
     private Integer exclusionState;
 
 
+    @Override
+    public Object getPrimaryKey() {
+        CompositeId compositeId = new CompositeId();
+        compositeId.setRaceId(this.raceId);
+        compositeId.setBloodlineNo(this.bloodlineNo);
+        compositeId.setEntryOrderNo(this.entryOrderNo);
+        return compositeId;
+    }
+
+
     @Data
     public static class CompositeId implements Serializable {
 

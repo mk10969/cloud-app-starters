@@ -124,6 +124,12 @@ public class DiffRaceHorse extends BaseModel {
     private Integer allMoneyTotalJump;
 
 
+    @Override
+    public Object getPrimaryKey() {
+        return this.bloodlineNo;
+    }
+
+
     @Data
     public static class Breeding {
         /**

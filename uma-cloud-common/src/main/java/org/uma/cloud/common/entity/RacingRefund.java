@@ -80,6 +80,15 @@ public class RacingRefund extends BaseModel {
     private List<refund> refundTable;
 
 
+    @Override
+    public Object getPrimaryKey() {
+        CompositeId compositeId = new CompositeId();
+        compositeId.setRaceId(this.raceId);
+        compositeId.setBetting(this.betting);
+        return compositeId;
+    }
+
+
     @Data
     public static class refund {
         /**

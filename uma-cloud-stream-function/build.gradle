@@ -15,10 +15,12 @@ dependencies {
     implementation 'org.influxdb:influxdb-java:2.17'
     // use postgresql
     runtimeOnly 'org.postgresql:postgresql'
+    // JSON Assert
+    implementation 'org.skyscreamer:jsonassert:1.5.0'
+
 
     testImplementation 'org.springframework.cloud:spring-cloud-stream-test-support'
     testImplementation 'org.springframework.kafka:spring-kafka-test'
-    testImplementation 'com.flipkart.zjsonpatch:zjsonpatch:0.4.10'
 }
 
 

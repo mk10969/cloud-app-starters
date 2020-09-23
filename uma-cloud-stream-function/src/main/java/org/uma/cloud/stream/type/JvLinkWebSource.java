@@ -34,6 +34,8 @@ import org.uma.cloud.stream.model.ResponseMessage;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.net.URI;
+
 @Slf4j
 @Service
 public class JvLinkWebSource {
@@ -161,7 +163,11 @@ public class JvLinkWebSource {
      */
     private Flux<String> findAllByBaseDate(String path, long baseDate) {
         return webClient.get()
-                .uri(uriBuilder -> uriBuilder.path(path).build(baseDate))
+                .uri(uriBuilder -> {
+                    URI uri = uriBuilder.path(path).build(baseDate);
+                    log.info("request: " + uri.toString());
+                    return uri;
+                })
                 .retrieve()
                 .bodyToFlux(ResponseMessage.class)
                 .map(ResponseMessage::getData)

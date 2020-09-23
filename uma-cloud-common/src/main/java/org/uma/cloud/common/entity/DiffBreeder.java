@@ -40,4 +40,9 @@ public class DiffBreeder extends BaseModel {
     @Column(length = 20, nullable = false)
     private String breederHomeAffairName;
 
+
+    @Override
+    public Object getPrimaryKey() {
+        return this.breederCd;
+    }
 }

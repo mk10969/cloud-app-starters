@@ -27,6 +27,10 @@ public class JvBatchBloodXXXTest {
     @Value("classpath:diff_race_horse.csv")
     private Resource diffRaceHorseCsv;
 
+//    @Value("classpath:racing_refund.csv")
+//    private Resource racingRefundCsv;
+
+
     @Autowired
     private JvLinkDeserializer jvLinkDeserializer;
 
@@ -38,6 +42,27 @@ public class JvBatchBloodXXXTest {
 
     @Autowired
     private RaceHorseService raceHorseService;
+
+//    @Autowired
+//    private RacingRefundService racingRefundService;
+
+
+//    @Test
+//    void test_racing_refund() throws IOException {
+//        // ぴったり一致でしたね
+//        Files.lines(Paths.get(racingRefundCsv.getURI()), StandardCharsets.UTF_8)
+//                .flatMap(i -> Stream.of(1, 2, 4, 5, 6, 7, 8)
+//                        .map(j -> {
+//                            RacingRefund.CompositeId compositeId = new RacingRefund.CompositeId();
+//                            compositeId.setRaceId(i);
+//                            compositeId.setBetting(j);
+//                            return compositeId;
+//                        }))
+//                .sorted(Comparator.comparing(RacingRefund.CompositeId::getRaceId)
+//                        .thenComparing(RacingRefund.CompositeId::getBetting))
+//                .map(compositeId -> racingRefundService.findOne(compositeId))
+//                .forEach(i -> System.out.println(i.toJson() + ","));
+//    }
 
 
     @Test

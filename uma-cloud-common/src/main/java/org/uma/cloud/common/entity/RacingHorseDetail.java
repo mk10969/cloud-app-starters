@@ -159,6 +159,17 @@ public class RacingHorseDetail extends BaseModel {
     @Column(nullable = false)
     private Double lastFurlong3;
 
+
+    @Override
+    public Object getPrimaryKey() {
+        CompositeId compositeId = new CompositeId();
+        compositeId.setRaceId(this.raceId);
+        compositeId.setHorseNo(this.horseNo);
+        compositeId.setBloodlineNo(this.bloodlineNo);
+        return compositeId;
+    }
+
+
     /**
      * 血統登録番号を入れておかないと、
      * 海外レースのとき、一意に識別できない。

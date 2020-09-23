@@ -93,6 +93,15 @@ public class RacingOdds extends BaseModel implements TimeSeries {
     private Long voteCountTotal;
 
 
+    @Override
+    public Object getPrimaryKey() {
+        CompositeId compositeId = new CompositeId();
+        compositeId.setRaceId(this.raceId);
+        compositeId.setBetting(this.betting);
+        return compositeId;
+    }
+
+
     @Data
     public static class Odds {
         /**

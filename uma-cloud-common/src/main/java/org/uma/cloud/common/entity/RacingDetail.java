@@ -147,6 +147,13 @@ public class RacingDetail extends BaseModel {
     @Column(columnDefinition = "jsonb", nullable = false)
     private List<CornerPassageRank> cornerPassageRanks;
 
+
+    @Override
+    public Object getPrimaryKey() {
+        return this.raceId;
+    }
+
+
     @Data
     public static class CornerPassageRank {
 

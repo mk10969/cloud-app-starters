@@ -77,4 +77,9 @@ public class BloodBreeding extends BaseModel {
     @Column(nullable = false)
     private Integer breedingNoMother;
 
+
+    @Override
+    public Object getPrimaryKey() {
+        return this.breedingNo;
+    }
 }

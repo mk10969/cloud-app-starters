@@ -153,6 +153,12 @@ public class RacingVote extends BaseModel {
     private Long restoreVoteCountTotalTrio;
 
 
+    @Override
+    public Object getPrimaryKey() {
+        return this.raceId;
+    }
+
+
     @Data
     public static class Vote {
 

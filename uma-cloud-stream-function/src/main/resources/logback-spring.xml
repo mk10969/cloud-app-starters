@@ -3,8 +3,6 @@
     <!-- デフォルト設定読み込み -->
     <include resource="org/springframework/boot/logging/logback/base.xml"/>
 
-    <property name="stdout" value="stdout"/>
-
     <!-- batch用設定 -->
     <springProfile name="batch">
         <property name="logFilePath" value="./log/batch/"/>
@@ -20,6 +18,13 @@
         <property name="logFilePath" value="./log/stream/"/>
     </springProfile>
 
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <charset>UTF-8</charset>
+            <pattern>%d{yyyy/MM/dd HH:mm:ss} %-5level [%thread] - %msg%n</pattern>
+        </encoder>
+    </appender>
+
     <!-- stdout ログファイル書き出し -->
     <appender name="APPLICATION_LOG" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <file>${logFilePath}${stdout}.log</file>
@@ -33,9 +38,21 @@
         </encoder>
     </appender>
 
-    <!-- root ロガー -->
-    <root level="INFO">
-        <appender-ref ref="APPLICATION_LOG"/>
-    </root>
+    <!-- default設定 -->
+    <springProfile name="default">
+        <!-- root ロガー -->
+        <root level="INFO">
+            <appender-ref ref="STDOUT"/>
+        </root>
+    </springProfile>
+
+    <!-- defaultでない設定 -->
+    <springProfile name="!default">
+        <!-- root ロガー -->
+        <root level="INFO">
+            <appender-ref ref="APPLICATION_LOG"/>
+        </root>
+    </springProfile>
+
 
 </configuration>

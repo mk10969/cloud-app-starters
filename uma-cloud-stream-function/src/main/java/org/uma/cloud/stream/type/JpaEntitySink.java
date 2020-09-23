@@ -1,6 +1,9 @@
 package org.uma.cloud.stream.type;
 
 import lombok.extern.slf4j.Slf4j;
+import org.json.JSONException;
+import org.skyscreamer.jsonassert.JSONAssert;
+import org.skyscreamer.jsonassert.JSONCompareMode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -61,9 +64,19 @@ public class JpaEntitySink {
     }
 
     public <S extends BaseModel> void logAlreadyExists(S entity, Object id) {
-        if (entityManager.find(entity.getClass(), id) != null) {
+        S exist = (S) entityManager.find(entity.getClass(), id);
+        if (exist != null) {
             // 存在する。
-            log.warn("Already exists data: {}", entity.toJson());
+            try {
+                // 一致した場合、無視。
+                // しなかった場合のみ、どこに差分があるか抽出する。
+                JSONAssert.assertEquals(exist.toJson(), entity.toJson(), JSONCompareMode.STRICT);
+            } catch (JSONException e) {
+                log.warn("diff: " + e.getMessage());
+                // 念のため。どっちもログに、、
+                log.warn("db: " + exist.toJson());
+                log.warn("web: " + entity.toJson());
+            }
         }
     }
 

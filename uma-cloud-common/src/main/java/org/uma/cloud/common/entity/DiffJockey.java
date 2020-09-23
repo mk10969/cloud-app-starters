@@ -73,4 +73,9 @@ public class DiffJockey extends BaseModel {
     @Column(length = 8, nullable = false)
     private String belongingTrainerNameShort;
 
+
+    @Override
+    public Object getPrimaryKey() {
+        return this.jockeyCd;
+    }
 }

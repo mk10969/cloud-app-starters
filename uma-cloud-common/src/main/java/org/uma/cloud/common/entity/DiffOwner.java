@@ -34,4 +34,9 @@ public class DiffOwner extends BaseModel {
     @Column(length = 60, nullable = false)
     private String clothingMark;
 
+
+    @Override
+    public Object getPrimaryKey() {
+        return this.ownerCd;
+    }
 }
