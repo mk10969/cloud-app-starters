@@ -1,3 +1,7 @@
+# docker-compose --compatibility up -d --build
+# docker-compose down
+# docker-compose up -d --force-recreate --no-deps --build
+
 version: '3'
 services:
   kafka:
