@@ -52,6 +52,7 @@ public class JvBatchConsumer {
 
 
     public void batch() {
+        mergeBatchRacingDetail();
     }
 
     // レース

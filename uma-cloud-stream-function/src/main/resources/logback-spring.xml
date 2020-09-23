@@ -8,7 +8,7 @@
         <property name="logFilePath" value="./log/batch/"/>
     </springProfile>
 
-    <!-- batch用設定 -->
+    <!-- batchWeekly用設定 -->
     <springProfile name="batchWeekly">
         <property name="logFilePath" value="./log/batchWeekly/"/>
     </springProfile>
@@ -27,7 +27,7 @@
 
     <!-- stdout ログファイル書き出し -->
     <appender name="APPLICATION_LOG" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${logFilePath}${stdout}.log</file>
+        <file>${logFilePath}stdout.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <fileNamePattern>${logFilePath}${stdout}-%d{yyyy-MM-dd}.log.zip</fileNamePattern>
             <maxHistory>3</maxHistory>
@@ -38,21 +38,9 @@
         </encoder>
     </appender>
 
-    <!-- default設定 -->
-    <springProfile name="default">
-        <!-- root ロガー -->
-        <root level="INFO">
-            <appender-ref ref="STDOUT"/>
-        </root>
-    </springProfile>
-
-    <!-- defaultでない設定 -->
-    <springProfile name="!default">
-        <!-- root ロガー -->
-        <root level="INFO">
-            <appender-ref ref="APPLICATION_LOG"/>
-        </root>
-    </springProfile>
-
+    <!-- root ロガー -->
+    <root level="INFO">
+        <appender-ref ref="APPLICATION_LOG"/>
+    </root>
 
 </configuration>

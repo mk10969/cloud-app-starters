@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.uma.cloud.common.entity.BaseModel;
 import org.uma.cloud.common.service.RacingDetailService;
+import org.uma.cloud.common.utils.javatuples.Pair;
 import org.uma.cloud.stream.type.JpaEntitySink;
 import org.uma.cloud.stream.type.JvLinkWebSource;
 import reactor.core.publisher.Flux;
@@ -53,57 +54,43 @@ public class JvBatchWeeklyConsumer {
 //                .toInstant(ZoneOffset.ofHours(9))
 //                .toEpochMilli();
         long baseDate = LocalDateTime.of(
-                LocalDate.of(2019, 2, 2), LocalTime.of(0, 0, 0))
+                LocalDate.of(2020, 2, 2), LocalTime.of(0, 0, 0))
                 .toInstant(ZoneOffset.ofHours(9))
                 .toEpochMilli();
-//        // 更新Batch Weekly
-//        merge().accept(jvLinkWebSource.storeRacingDetail(baseDate));
-//        merge().accept(jvLinkWebSource.storeRacingHorseDetail(baseDate));
-//        merge().accept(jvLinkWebSource.storeRacingRefund(baseDate));
-//        merge().accept(jvLinkWebSource.storeRacingHorseExclusion(baseDate));
 
-
-//        merge().accept(jvLinkWebSource.storeWinsShowBracketQ(baseDate).map(Pair::getValue1));
-//        merge().accept(jvLinkWebSource.storeWinsShowBracketQ(baseDate).map(Pair::getValue2));
+        // 更新Batch Weekly
+        merge().accept(jvLinkWebSource.storeRacingDetail(baseDate));
+        merge().accept(jvLinkWebSource.storeRacingHorseDetail(baseDate));
+        merge().accept(jvLinkWebSource.storeRacingRefund(baseDate));
+        merge().accept(jvLinkWebSource.storeRacingHorseExclusion(baseDate));
+//
+//        枠連と三連単は、データ入れていない。
+//        理由：枠連 => 見ないから
+//             三連単 => データデカすぎるから
+        merge().accept(jvLinkWebSource.storeWinsShowBracketQ(baseDate).map(Pair::getValue1));
+        merge().accept(jvLinkWebSource.storeWinsShowBracketQ(baseDate).map(Pair::getValue2));
         merge().accept(jvLinkWebSource.storeQuinella(baseDate));
-//        merge().accept(jvLinkWebSource.storeQuinellaPlace(baseDate));
-//        merge().accept(jvLinkWebSource.storeExacta(baseDate));
-//        merge().accept(jvLinkWebSource.storeTrio(baseDate));
-//        merge().accept(jvLinkWebSource.storeTrifecta(baseDate));
-//
-//
-//        persist().accept(jvLinkWebSource.storeBloodAncestry(baseDate));
-//        persist().accept(jvLinkWebSource.storeBloodBreeding(baseDate));
-//        persist().accept(jvLinkWebSource.storeBloodLine(baseDate));
-//
-//        persist().accept(jvLinkWebSource.storeRaceHorse(baseDate));
-//        persist().accept(jvLinkWebSource.storeJockey(baseDate));
-//        persist().accept(jvLinkWebSource.storeTrainer(baseDate));
-//        persist().accept(jvLinkWebSource.storeBreeder(baseDate));
-//        persist().accept(jvLinkWebSource.storeOwner(baseDate));
-//        persist().accept(jvLinkWebSource.storeCourse(baseDate));
-    }
+        merge().accept(jvLinkWebSource.storeQuinellaPlace(baseDate));
+        merge().accept(jvLinkWebSource.storeExacta(baseDate));
+        merge().accept(jvLinkWebSource.storeTrio(baseDate));
 
-    private Consumer<Flux<? extends BaseModel>> persist() {
-        return entityFlux -> entityFlux
-                .filter(entity -> !entity.getDataDiv().equals("0"))
-                .doOnNext(entity -> jpaEntitySink.logAlreadyExists(entity, entity.getPrimaryKey()))
-                .buffer(100)
-                .flatMap(entities -> Mono.fromCallable(() -> jpaEntitySink.persistAll(entities))
-                        .flatMapMany(Flux::fromIterable))
-                .onErrorContinue((throwable, object) -> {
-                    log.error("JPA ERROR:", throwable);
-                    log.error("Missing Object: {}", object);
-                })
-                .publishOn(scheduler)
-                .subscribe(i -> {
-                }, e -> log.error("Batch ERROR: ", e), () -> log.info("完了"));
-    }
+        merge().accept(jvLinkWebSource.storeBloodAncestry(baseDate));
+        merge().accept(jvLinkWebSource.storeBloodBreeding(baseDate));
+        merge().accept(jvLinkWebSource.storeBloodLine(baseDate));
 
+        merge().accept(jvLinkWebSource.storeRaceHorse(baseDate));
+        merge().accept(jvLinkWebSource.storeJockey(baseDate));
+        merge().accept(jvLinkWebSource.storeTrainer(baseDate));
+        merge().accept(jvLinkWebSource.storeBreeder(baseDate));
+        merge().accept(jvLinkWebSource.storeOwner(baseDate));
+        merge().accept(jvLinkWebSource.storeCourse(baseDate));
+    }
 
     private Consumer<Flux<? extends BaseModel>> merge() {
         return entityFlux -> entityFlux
                 .filter(entity -> !entity.getDataDiv().equals("0"))
+                // PKが重複した場合、データを上書きで更新かける（仕様）が、
+                // どこのカラムに差分があるかチェックする。
                 .doOnNext(entity -> jpaEntitySink.logAlreadyExists(entity, entity.getPrimaryKey()))
                 .buffer(100)
                 .flatMap(entities -> Mono.fromCallable(() -> jpaEntitySink.mergeAll(entities))
