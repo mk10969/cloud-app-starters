@@ -1,5 +1,6 @@
 package org.uma.cloud.common.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.vladmihalcea.hibernate.type.array.ListArrayType;
 import com.vladmihalcea.hibernate.type.json.JsonBinaryType;
 import org.hibernate.annotations.TypeDef;
@@ -14,18 +15,37 @@ import java.sql.Time;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.Arrays;
+import java.util.Objects;
 
 @TypeDefs({
         @TypeDef(name = "list", typeClass = ListArrayType.class),
         @TypeDef(name = "jsonb", typeClass = JsonBinaryType.class)
 })
 @MappedSuperclass
+@JsonIgnoreProperties(value = {"primaryKey", "recordType"})
 public abstract class BaseModel implements Serializable {
 
-    public abstract Object getDataDiv();
+    /**
+     * データ区分  ＠Dataで自動Impl
+     */
+    public abstract String getDataDiv();
 
+    /**
+     * 各モデルのPKを返す。
+     */
     public abstract Object getPrimaryKey();
 
+    /**
+     * 各モデルのクラス名を返す。
+     */
+    public String getRecordType() {
+        String classNameContainPackage = Objects.requireNonNullElseGet(
+                getClass().getEnclosingClass(), this::getClass).getName();
+        return Arrays.stream(classNameContainPackage.split("\\."))
+                .reduce((first, second) -> second)
+                .orElse("");
+    }
 
     /**
      * ToJson => Json format

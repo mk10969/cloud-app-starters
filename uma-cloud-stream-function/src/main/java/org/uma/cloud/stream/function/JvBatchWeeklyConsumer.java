@@ -7,15 +7,16 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.uma.cloud.common.entity.BaseModel;
+import org.uma.cloud.common.entity.RacingDetail;
 import org.uma.cloud.common.service.RacingDetailService;
 import org.uma.cloud.common.utils.javatuples.Pair;
+import org.uma.cloud.stream.type.FileSource;
 import org.uma.cloud.stream.type.JpaEntitySink;
 import org.uma.cloud.stream.type.JvLinkWebSource;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.core.scheduler.Scheduler;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.ZoneOffset;
@@ -28,6 +29,9 @@ public class JvBatchWeeklyConsumer {
 
     @Autowired
     private JvLinkWebSource jvLinkWebSource;
+
+    @Autowired
+    private FileSource fileSource;
 
     @Autowired
     private JpaEntitySink jpaEntitySink;
@@ -44,49 +48,58 @@ public class JvBatchWeeklyConsumer {
         return args -> batch();
     }
 
-
-    public void batch() {
-//        // 最新レースの日付を取得
-//        RacingDetail lastRacingDetail = this.racingDetailService.findLastOne();
-//        // 13桁 epochMillSecondに変換
+    public void onceBatch() {
 //        long baseDate = LocalDateTime.of(
-//                lastRacingDetail.getHoldingDate(), LocalTime.of(0, 0, 0))
+//                LocalDate.of(2020, 2, 2), LocalTime.of(0, 0, 0))
 //                .toInstant(ZoneOffset.ofHours(9))
 //                .toEpochMilli();
+//        // out of memoryだったのでファイル読み込みに代替(file path注意)
+//        merge("RaceHorse").accept(fileSource.getRaceHorse());
+//        // out of memoryだったのでファイル読み込みに代替(file path注意)
+//        merge("TrioOdds").accept(fileSource.getTrio());
+    }
+
+    public void batch() {
+        // 最新レースの日付を取得
+        RacingDetail lastRacingDetail = this.racingDetailService.findLastOne();
+        // 13桁 epochMillSecondに変換
         long baseDate = LocalDateTime.of(
-                LocalDate.of(2020, 2, 2), LocalTime.of(0, 0, 0))
+                lastRacingDetail.getHoldingDate(), LocalTime.of(0, 0, 0))
                 .toInstant(ZoneOffset.ofHours(9))
                 .toEpochMilli();
 
         // 更新Batch Weekly
-        merge().accept(jvLinkWebSource.storeRacingDetail(baseDate));
-        merge().accept(jvLinkWebSource.storeRacingHorseDetail(baseDate));
-        merge().accept(jvLinkWebSource.storeRacingRefund(baseDate));
-        merge().accept(jvLinkWebSource.storeRacingHorseExclusion(baseDate));
-//
+        merge("RacingDetail").accept(jvLinkWebSource.storeRacingDetail(baseDate));
+        merge("RacingHorseDetail").accept(jvLinkWebSource.storeRacingHorseDetail(baseDate));
+        merge("RacingRefund").accept(jvLinkWebSource.storeRacingRefund(baseDate));
+        merge("RacingHorseExclusion").accept(jvLinkWebSource.storeRacingHorseExclusion(baseDate));
+
 //        枠連と三連単は、データ入れていない。
 //        理由：枠連 => 見ないから
 //             三連単 => データデカすぎるから
-        merge().accept(jvLinkWebSource.storeWinsShowBracketQ(baseDate).map(Pair::getValue1));
-        merge().accept(jvLinkWebSource.storeWinsShowBracketQ(baseDate).map(Pair::getValue2));
-        merge().accept(jvLinkWebSource.storeQuinella(baseDate));
-        merge().accept(jvLinkWebSource.storeQuinellaPlace(baseDate));
-        merge().accept(jvLinkWebSource.storeExacta(baseDate));
-        merge().accept(jvLinkWebSource.storeTrio(baseDate));
+        merge("WinOdds").accept(jvLinkWebSource.storeWinsShowBracketQ(baseDate).map(Pair::getValue1));
+        merge("ShowOdds").accept(jvLinkWebSource.storeWinsShowBracketQ(baseDate).map(Pair::getValue2));
+        merge("QuinellaOdds").accept(jvLinkWebSource.storeQuinella(baseDate));
+        merge("QuinellaPlaceOdds").accept(jvLinkWebSource.storeQuinellaPlace(baseDate));
+        merge("ExactaOdds").accept(jvLinkWebSource.storeExacta(baseDate));
+        merge("TrioOdds").accept(jvLinkWebSource.storeTrio(baseDate));
 
-        merge().accept(jvLinkWebSource.storeBloodAncestry(baseDate));
-        merge().accept(jvLinkWebSource.storeBloodBreeding(baseDate));
-        merge().accept(jvLinkWebSource.storeBloodLine(baseDate));
+        // 血統
+        merge("BloodAncestry").accept(jvLinkWebSource.storeBloodAncestry(baseDate));
+        merge("BloodBreeding").accept(jvLinkWebSource.storeBloodBreeding(baseDate));
+        merge("BloodLine").accept(jvLinkWebSource.storeBloodLine(baseDate));
 
-        merge().accept(jvLinkWebSource.storeRaceHorse(baseDate));
-        merge().accept(jvLinkWebSource.storeJockey(baseDate));
-        merge().accept(jvLinkWebSource.storeTrainer(baseDate));
-        merge().accept(jvLinkWebSource.storeBreeder(baseDate));
-        merge().accept(jvLinkWebSource.storeOwner(baseDate));
-        merge().accept(jvLinkWebSource.storeCourse(baseDate));
+        // 馬
+        merge("RaceHorse").accept(jvLinkWebSource.storeRaceHorse(baseDate));
+        merge("Jockey").accept(jvLinkWebSource.storeJockey(baseDate));
+        merge("Trainer").accept(jvLinkWebSource.storeTrainer(baseDate));
+        merge("Breeder").accept(jvLinkWebSource.storeBreeder(baseDate));
+        merge("Owner").accept(jvLinkWebSource.storeOwner(baseDate));
+        merge("Course").accept(jvLinkWebSource.storeCourse(baseDate));
     }
 
-    private Consumer<Flux<? extends BaseModel>> merge() {
+
+    private Consumer<Flux<? extends BaseModel>> merge(String batchName) {
         return entityFlux -> entityFlux
                 .filter(entity -> !entity.getDataDiv().equals("0"))
                 // PKが重複した場合、データを上書きで更新かける（仕様）が、
@@ -101,6 +114,8 @@ public class JvBatchWeeklyConsumer {
                 })
                 .publishOn(scheduler)
                 .subscribe(i -> {
-                }, e -> log.error("Batch ERROR: ", e), () -> log.info("完了"));
+                        },
+                        e -> log.error("Batch Error [" + batchName + "]: ", e),
+                        () -> log.info(batchName + ": 完了"));
     }
 }

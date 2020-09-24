@@ -72,10 +72,9 @@ public class JpaEntitySink {
                 // しなかった場合のみ、どこに差分があるか抽出する。
                 JSONAssert.assertEquals(exist.toJson(), entity.toJson(), JSONCompareMode.STRICT);
             } catch (AssertionError | JSONException e) {
+                log.warn("db: " + entity.getRecordType() + " " + exist.toJson());
+                log.warn("web: " + entity.getRecordType() + " " + entity.toJson());
                 log.warn("diff: " + e.getMessage());
-                // 念のため。どっちもログに、、
-                log.warn("db: " + exist.toJson());
-                log.warn("web: " + entity.toJson());
             }
         }
     }

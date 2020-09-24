@@ -36,23 +36,22 @@ public class FileSource {
     private static final String filePath = "file:///Users/m-kakiuchi/mydata/data/data/";
 
     private static final String racingDetail = "RACE_RA.txt";
-    // 3分割して実施する。
-//    private static final String racingHorseDetail = "RACE_SE_1.txt";
-//    private static final String racingHorseDetail = "RACE_SE_2.txt";
     private static final String racingHorseDetail = "RACE_SE.txt";
-
     private static final String racingRefund = "RACE_HR.txt";
     private static final String racingVote = "RACE_H1.txt";
     private static final String racingHorseExclusion = "RACE_JG.txt";
+
     private static final String winsShowBracketQ = "RACE_O1.txt";
     private static final String quinella = "RACE_O2.txt";
     private static final String quinellaPlace = "RACE_O3.txt";
     private static final String exacta = "RACE_O4.txt";
     private static final String trio = "RACE_O5.txt";
     private static final String trifecta = "RACE_O6.txt";
+
     private static final String bloodAncestry = "BLOD_BT.txt";
     private static final String bloodBreeding = "BLOD_HN.txt";
     private static final String bloodLine = "BLOD_SK.txt";
+
     private static final String raceHorse = "DIFF_UM.txt";
     private static final String jockey = "DIFF_KS.txt";
     private static final String trainer = "DIFF_CH.txt";
