@@ -1,14 +1,14 @@
-package org.uma.cloud.common.service.business;
+package org.uma.cloud.common.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.uma.cloud.common.business.BusinessRacing;
 import org.uma.cloud.common.code.TurfOrDirtConditionCode;
+import org.uma.cloud.common.entity.WeekendRacingDetail;
 import org.uma.cloud.common.model.event.CourseChange;
 import org.uma.cloud.common.model.event.TimeChange;
 import org.uma.cloud.common.model.event.Weather;
-import org.uma.cloud.common.repository.business.BusinessRacingRepository;
+import org.uma.cloud.common.repository.WeekendRacingDetailRepository;
 import org.uma.cloud.common.utils.lang.DateUtil;
 
 import java.time.LocalDateTime;
@@ -18,7 +18,7 @@ import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 @Service
-public class BusinessRacingService {
+public class WeekendRacingDetailService {
 
     private static final Supplier<Long> now = System::currentTimeMillis;
 
@@ -26,12 +26,12 @@ public class BusinessRacingService {
 
 
     @Autowired
-    private BusinessRacingRepository repository;
+    private WeekendRacingDetailRepository repository;
 
     /**
      * 現在時刻 以降のレース一覧を取得。
      */
-    public List<BusinessRacing> findComingRaces() {
+    public List<WeekendRacingDetail> findComingRaces() {
         LocalDateTime localDateTime = DateUtil.toLocalDateTime(now.get());
         return repository.findByHoldingDateAfterAndStartTimeAfter(
                 localDateTime.toLocalDate(), localDateTime.toLocalTime());
@@ -41,7 +41,7 @@ public class BusinessRacingService {
      * 現在時刻 以前の未確定レース一覧を取得。
      */
     @Deprecated
-    public List<BusinessRacing> findFinishedRaces() {
+    public List<WeekendRacingDetail> findFinishedRaces() {
         return new ArrayList<>();
 //        return repository.findByDataDivAndRaceStartDateTimeBefore(
 //                pending, DateUtil.toLocalDateTime(now.get()));
@@ -52,9 +52,9 @@ public class BusinessRacingService {
      *
      * @param weather 天候 or 馬場状態
      */
-    public List<BusinessRacing> updateAllWeather(Weather weather) {
+    public List<WeekendRacingDetail> updateAllWeather(Weather weather) {
         LocalDateTime localDateTime = weather.timestamp();
-        List<BusinessRacing> updatingRacing = repository.findByHoldingDateAfterAndStartTimeAfter(
+        List<WeekendRacingDetail> updatingRacing = repository.findByHoldingDateAfterAndStartTimeAfter(
                 localDateTime.toLocalDate(), localDateTime.toLocalTime())
                 .stream()
                 .filter(racing -> racing.getCourseCd() == weather.getCourseCd())
@@ -87,8 +87,8 @@ public class BusinessRacingService {
      *
      * @param timeChange 発走時刻変更
      */
-    public BusinessRacing updateTimeChange(TimeChange timeChange) {
-        BusinessRacing updatingRacing = repository.findById(timeChange.getRaceId()).orElseThrow();
+    public WeekendRacingDetail updateTimeChange(TimeChange timeChange) {
+        WeekendRacingDetail updatingRacing = repository.findById(timeChange.getRaceId()).orElseThrow();
         updatingRacing.setStartTime(timeChange.getStartTimeAfter());
 
         return this.update(updatingRacing);
@@ -99,8 +99,8 @@ public class BusinessRacingService {
      *
      * @param courseChange コース変更
      */
-    public BusinessRacing updateCourseChange(CourseChange courseChange) {
-        BusinessRacing updatingRacing = repository.findById(courseChange.getRaceId()).orElseThrow();
+    public WeekendRacingDetail updateCourseChange(CourseChange courseChange) {
+        WeekendRacingDetail updatingRacing = repository.findById(courseChange.getRaceId()).orElseThrow();
         updatingRacing.setDistance(courseChange.getDistanceAfter());
         updatingRacing.setTrack(courseChange.getTrackCdAfter());
         updatingRacing.setCourseChangeReason(courseChange.getReason());
@@ -110,17 +110,17 @@ public class BusinessRacingService {
 
 
     @Transactional
-    public BusinessRacing update(BusinessRacing model) {
+    public WeekendRacingDetail update(WeekendRacingDetail model) {
         return repository.save(model);
     }
 
     @Transactional
-    public List<BusinessRacing> updateAll(List<BusinessRacing> model) {
+    public List<WeekendRacingDetail> updateAll(List<WeekendRacingDetail> model) {
         return repository.saveAll(model);
     }
 
     @Transactional
-    public void delete(BusinessRacing model) {
+    public void delete(WeekendRacingDetail model) {
         repository.delete(model);
     }
 

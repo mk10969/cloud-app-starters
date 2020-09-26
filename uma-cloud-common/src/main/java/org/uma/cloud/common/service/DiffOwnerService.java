@@ -4,15 +4,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.uma.cloud.common.entity.DiffOwner;
-import org.uma.cloud.common.repository.OwnerRepository;
+import org.uma.cloud.common.repository.DiffOwnerRepository;
 
 import java.util.List;
 
 @Service
-public class OwnerService {
+public class DiffOwnerService {
 
     @Autowired
-    private OwnerRepository repository;
+    private DiffOwnerRepository repository;
 
 
     public DiffOwner findOne(Integer ownerCd) {

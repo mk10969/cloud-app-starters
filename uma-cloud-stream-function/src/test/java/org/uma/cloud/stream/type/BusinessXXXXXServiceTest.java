@@ -3,9 +3,9 @@ package org.uma.cloud.stream.type;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.uma.cloud.common.business.BusinessRacing;
-import org.uma.cloud.common.service.business.BusinessRacingHorseService;
-import org.uma.cloud.common.service.business.BusinessRacingService;
+import org.uma.cloud.common.entity.WeekendRacingDetail;
+import org.uma.cloud.common.service.WeekendRacingHorseDetailService;
+import org.uma.cloud.common.service.WeekendRacingDetailService;
 import org.uma.cloud.common.utils.lang.DateUtil;
 import org.uma.cloud.stream.util.BusinessMapper;
 
@@ -16,10 +16,10 @@ public class BusinessXXXXXServiceTest {
     private JvLinkWebSource jvLinkWebSource;
 
     @Autowired
-    private BusinessRacingService racingService;
+    private WeekendRacingDetailService racingService;
 
     @Autowired
-    private BusinessRacingHorseService racingHorseService;
+    private WeekendRacingHorseDetailService racingHorseService;
 
 
     @Test
@@ -32,7 +32,7 @@ public class BusinessXXXXXServiceTest {
         jvLinkWebSource.storeRacingDetail(DateUtil.thisFriday())
                 .map(BusinessMapper::toBusinessRacing)
                 .doOnNext(racingService::update)
-                .map(BusinessRacing::getRaceId)
+                .map(WeekendRacingDetail::getRaceId)
                 .flatMap(jvLinkWebSource::realtimeRacingHorseDetail)
                 .map(BusinessMapper::toBusinessRacingHorse)
                 .doOnNext(racingHorseService::update)

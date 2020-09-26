@@ -5,8 +5,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.function.context.PollableBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.uma.cloud.common.business.BusinessRacing;
-import org.uma.cloud.common.service.business.BusinessRacingService;
+import org.uma.cloud.common.entity.WeekendRacingDetail;
+import org.uma.cloud.common.service.WeekendRacingDetailService;
 import reactor.core.publisher.EmitterProcessor;
 import reactor.core.publisher.Flux;
 import reactor.core.scheduler.Scheduler;
@@ -21,7 +21,7 @@ public class JvRaceSupplier {
     private Scheduler scheduler;
 
     @Autowired
-    private BusinessRacingService racingService;
+    private WeekendRacingDetailService racingService;
 
     @Getter
     private final EmitterProcessor<String> processor = EmitterProcessor.create();
@@ -41,7 +41,7 @@ public class JvRaceSupplier {
     public Supplier<Flux<String>> pollerRaceId() {
         return () -> Flux.defer(() -> Flux.fromIterable(racingService.findComingRaces()))
                 .publishOn(scheduler)
-                .map(BusinessRacing::getRaceId)
+                .map(WeekendRacingDetail::getRaceId)
                 .sort()
                 .delayElements(Duration.ofMillis(200L)) // 気持ちdelayかませる。
                 .log();

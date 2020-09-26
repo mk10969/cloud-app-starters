@@ -8,7 +8,7 @@ import org.springframework.core.io.Resource;
 import org.uma.cloud.common.configuration.JvLinkDeserializer;
 import org.uma.cloud.common.service.BloodBreedingService;
 import org.uma.cloud.common.service.BloodLineService;
-import org.uma.cloud.common.service.RaceHorseService;
+import org.uma.cloud.common.service.DiffRaceHorseService;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -41,7 +41,7 @@ public class JvBatchBloodXXXTest {
     private BloodLineService bloodLineService;
 
     @Autowired
-    private RaceHorseService raceHorseService;
+    private DiffRaceHorseService diffRaceHorseService;
 
 //    @Autowired
 //    private RacingRefundService racingRefundService;

@@ -4,15 +4,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.uma.cloud.common.entity.DiffJockey;
-import org.uma.cloud.common.repository.JockeyRepository;
+import org.uma.cloud.common.repository.DiffJockeyRepository;
 
 import java.util.List;
 
 @Service
-public class JockeyService {
+public class DiffJockeyService {
 
     @Autowired
-    private JockeyRepository repository;
+    private DiffJockeyRepository repository;
 
 
     public DiffJockey findOne(Integer jockeyCd) {

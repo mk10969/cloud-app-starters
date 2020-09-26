@@ -1,28 +1,28 @@
-package org.uma.cloud.common.service.business;
+package org.uma.cloud.common.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.uma.cloud.common.business.BusinessRacingHorse;
+import org.uma.cloud.common.entity.WeekendRacingHorseDetail;
 import org.uma.cloud.common.model.event.Avoid;
 import org.uma.cloud.common.model.event.JockeyChange;
 import org.uma.cloud.common.model.event.Weight;
-import org.uma.cloud.common.repository.business.BusinessRacingHorseRepository;
+import org.uma.cloud.common.repository.WeekendRacingHorseDetailRepository;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class BusinessRacingHorseService {
+public class WeekendRacingHorseDetailService {
 
     @Autowired
-    private BusinessRacingHorseRepository repository;
+    private WeekendRacingHorseDetailRepository repository;
 
     /**
      * @param raceId レースID
      * @return 最大 18個(出走可能競走馬数)
      */
-    public List<BusinessRacingHorse> findAllByRaceId(String raceId) {
+    public List<WeekendRacingHorseDetail> findAllByRaceId(String raceId) {
         return repository.findByRaceId(raceId);
     }
 
@@ -31,8 +31,8 @@ public class BusinessRacingHorseService {
      *
      * @param weight 馬体重変更
      */
-    public List<BusinessRacingHorse> updateAllWeight(Weight weight) {
-        List<BusinessRacingHorse> updatingRacingHorse = weight.getHorseWeights()
+    public List<WeekendRacingHorseDetail> updateAllWeight(Weight weight) {
+        List<WeekendRacingHorseDetail> updatingRacingHorse = weight.getHorseWeights()
                 .stream()
                 .flatMap(horseWeight -> this.findAllByRaceId(weight.getRaceId())
                         .stream()
@@ -65,9 +65,9 @@ public class BusinessRacingHorseService {
      *
      * @param jockeyChange 騎手変更
      */
-    public BusinessRacingHorse updateJockeyChange(JockeyChange jockeyChange) {
-        BusinessRacingHorse.CompositeId id = createId(jockeyChange.getRaceId(), jockeyChange.getHorseNo());
-        BusinessRacingHorse racingHorse = repository.findById(id).orElseThrow(); // ないのはおかしい。
+    public WeekendRacingHorseDetail updateJockeyChange(JockeyChange jockeyChange) {
+        WeekendRacingHorseDetail.CompositeId id = createId(jockeyChange.getRaceId(), jockeyChange.getHorseNo());
+        WeekendRacingHorseDetail racingHorse = repository.findById(id).orElseThrow(); // ないのはおかしい。
         racingHorse.setJockeyNameShort(jockeyChange.getJockeyNameAfter());
         racingHorse.setLoadWeight(jockeyChange.getLoadWeightAfter());
         racingHorse.setJockeyApprentice(jockeyChange.getJockeyApprenticeCdAfter());
@@ -80,9 +80,9 @@ public class BusinessRacingHorseService {
      *
      * @param avoid 出走取消 or 競走除外
      */
-    public BusinessRacingHorse updateAvoid(Avoid avoid) {
-        BusinessRacingHorse.CompositeId id = createId(avoid.getRaceId(), avoid.getHorseNo());
-        BusinessRacingHorse racingHorse = repository.findById(id).orElseThrow(); // ないのはおかしい。
+    public WeekendRacingHorseDetail updateAvoid(Avoid avoid) {
+        WeekendRacingHorseDetail.CompositeId id = createId(avoid.getRaceId(), avoid.getHorseNo());
+        WeekendRacingHorseDetail racingHorse = repository.findById(id).orElseThrow(); // ないのはおかしい。
         // ここセンスない。。
         racingHorse.setExclude(Integer.parseInt(avoid.getDataDiv()));
         racingHorse.setExcludeReason(avoid.getReason());
@@ -92,18 +92,18 @@ public class BusinessRacingHorseService {
 
 
     @Transactional
-    public BusinessRacingHorse update(BusinessRacingHorse businessRacingHorse) {
-        return repository.save(businessRacingHorse);
+    public WeekendRacingHorseDetail update(WeekendRacingHorseDetail weekendRacingHorseDetail) {
+        return repository.save(weekendRacingHorseDetail);
     }
 
     @Transactional
-    public List<BusinessRacingHorse> updateAll(List<BusinessRacingHorse> model) {
+    public List<WeekendRacingHorseDetail> updateAll(List<WeekendRacingHorseDetail> model) {
         return repository.saveAll(model);
     }
 
 
-    private static BusinessRacingHorse.CompositeId createId(String raceId, String horseNo) {
-        BusinessRacingHorse.CompositeId id = new BusinessRacingHorse.CompositeId();
+    private static WeekendRacingHorseDetail.CompositeId createId(String raceId, String horseNo) {
+        WeekendRacingHorseDetail.CompositeId id = new WeekendRacingHorseDetail.CompositeId();
         id.setRaceId(raceId);
         id.setHorseNo(horseNo);
         return id;

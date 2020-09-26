@@ -4,15 +4,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.uma.cloud.common.entity.DiffTrainer;
-import org.uma.cloud.common.repository.TrainerRepository;
+import org.uma.cloud.common.repository.DiffTrainerRepository;
 
 import java.util.List;
 
 @Service
-public class TrainerService {
+public class DiffTrainerService {
 
     @Autowired
-    private TrainerRepository repository;
+    private DiffTrainerRepository repository;
 
 
     public DiffTrainer findOne(Integer trainerCd) {

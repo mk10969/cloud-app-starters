@@ -4,15 +4,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.uma.cloud.common.entity.DiffBreeder;
-import org.uma.cloud.common.repository.BreederRepository;
+import org.uma.cloud.common.repository.DiffBreederRepository;
 
 import java.util.List;
 
 @Service
-public class BreederService {
+public class DiffBreederService {
 
     @Autowired
-    private BreederRepository repository;
+    private DiffBreederRepository repository;
 
 
     public DiffBreeder findOne(Integer breederCd) {

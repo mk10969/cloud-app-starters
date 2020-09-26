@@ -4,15 +4,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.uma.cloud.common.entity.DiffRaceHorse;
-import org.uma.cloud.common.repository.RaceHorseRepository;
+import org.uma.cloud.common.repository.DiffRaceHorseRepository;
 
 import java.util.List;
 
 @Service
-public class RaceHorseService {
+public class DiffRaceHorseService {
 
     @Autowired
-    private RaceHorseRepository repository;
+    private DiffRaceHorseRepository repository;
 
 
     public DiffRaceHorse findOne(long bloodlineNo) {
