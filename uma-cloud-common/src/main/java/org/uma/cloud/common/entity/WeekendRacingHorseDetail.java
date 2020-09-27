@@ -5,7 +5,6 @@ import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.Type;
 import org.uma.cloud.common.code.AbnormalDivisionCode;
 import org.uma.cloud.common.code.EastOrWestBelongCode;
-import org.uma.cloud.common.code.HairColorCode;
 import org.uma.cloud.common.code.HorseSignCode;
 import org.uma.cloud.common.code.JockeyApprenticeCode;
 import org.uma.cloud.common.code.MarginCode;
@@ -50,9 +49,6 @@ public class WeekendRacingHorseDetail extends BaseModel {
 
     @Column(length = 2, nullable = false)
     private SexCode sexCd;
-
-    @Column(length = 3, nullable = false)
-    private HairColorCode hairColorCd;
 
     @Column(nullable = false)
     private Integer age;
@@ -108,9 +104,6 @@ public class WeekendRacingHorseDetail extends BaseModel {
     private Integer fixedArrivalOrder;
 
     @Column
-    private Integer deadHeadDiv;
-
-    @Column
     private Integer deadHeadCount;
 
     @Column
@@ -139,13 +132,31 @@ public class WeekendRacingHorseDetail extends BaseModel {
     @Column
     private Double lastFurlong3;
 
-//    // 獲得賞金をのぞいて、タイム差を入れてみる
-//    /**
-//     * タイム差
-//     * +999 or -001 or 9999
-//     */
-//    @Column(length = 4)
-//    private String timeMargin;
+    // 獲得賞金をのぞいて、除外フラグを入れておく。
+
+    @Column(length = 4)
+    private String timeMargin;
+
+    /**
+     * 競走馬出走可能フラグ (weekendのみ設定)
+     * <p>
+     * 0: 出走可能
+     * 1: 出走取消
+     * 2: 競走除外
+     */
+    @Column(nullable = false)
+    private Integer exclude = 0;
+
+    /**
+     * 競走馬除外理由 (weekendのみ設定)
+     * <p>
+     * 000: 初期値
+     * 001: 疾病
+     * 002: 事故
+     * 003: その他
+     */
+    @Column(length = 3, nullable = false)
+    private String excludeReason = "000";
 
 
     @Override

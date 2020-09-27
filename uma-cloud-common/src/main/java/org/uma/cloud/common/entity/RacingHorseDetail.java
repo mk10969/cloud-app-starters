@@ -5,7 +5,6 @@ import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.Type;
 import org.uma.cloud.common.code.AbnormalDivisionCode;
 import org.uma.cloud.common.code.EastOrWestBelongCode;
-import org.uma.cloud.common.code.HairColorCode;
 import org.uma.cloud.common.code.HorseSignCode;
 import org.uma.cloud.common.code.JockeyApprenticeCode;
 import org.uma.cloud.common.code.MarginCode;
@@ -67,9 +66,6 @@ public class RacingHorseDetail extends BaseModel {
     @Column(length = 2, nullable = false)
     private SexCode sexCd;
 
-    @Column(length = 3, nullable = false)
-    private HairColorCode hairColorCd;
-
     @Column(nullable = false)
     private Integer age;
 
@@ -122,9 +118,6 @@ public class RacingHorseDetail extends BaseModel {
     private Integer fixedArrivalOrder;
 
     @Column(nullable = false)
-    private Integer deadHeadDiv;
-
-    @Column(nullable = false)
     private Integer deadHeadCount;
 
     @Column(nullable = false)
@@ -137,7 +130,7 @@ public class RacingHorseDetail extends BaseModel {
     private MarginCode marginCd2;
 
     /**
-     * index: rankConer
+     * index: rankCorner
      * 0: rankCorner1
      * 1: rankCorner2
      * 2: rankCorner3
@@ -158,6 +151,14 @@ public class RacingHorseDetail extends BaseModel {
 
     @Column(nullable = false)
     private Double lastFurlong3;
+
+    /**
+     * 1着: -99秒9
+     * 2着以下: +99秒9
+     * 出走取消･競走除外･発走除外･競走中止: 9999
+     */
+    @Column(length = 4, nullable = false)
+    private String timeMargin;
 
 
     @Override

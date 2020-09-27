@@ -20,6 +20,9 @@ import org.uma.cloud.common.entity.RacingHorseExclusion;
 import org.uma.cloud.common.entity.RacingOdds;
 import org.uma.cloud.common.entity.RacingRefund;
 import org.uma.cloud.common.entity.RacingVote;
+import org.uma.cloud.common.entity.WeekendRacingDetail;
+import org.uma.cloud.common.entity.WeekendRacingHorseDetail;
+import org.uma.cloud.common.entity.WeekendRacingRefund;
 import org.uma.cloud.common.model.event.Avoid;
 import org.uma.cloud.common.model.event.CourseChange;
 import org.uma.cloud.common.model.event.JockeyChange;
@@ -637,6 +640,24 @@ public class JvLinkDeserializer {
 
     public TimeChange toTimeChange(String data) {
         return jvLinkModelMapper.deserialize(decode.apply(data), TimeChange.class);
+    }
+
+    /**
+     * 週末レースデータ
+     */
+    public WeekendRacingDetail toWeekendRacingDetail(String data) {
+        return modelMapper.map(this.toRacingDetail(data), WeekendRacingDetail.class);
+    }
+
+    public WeekendRacingHorseDetail toWeekendRacingHorseDetail(String data) {
+        return modelMapper.map(this.toRacingHorseDetail(data), WeekendRacingHorseDetail.class);
+    }
+
+    public List<WeekendRacingRefund> toWeekendRacingRefund(String data) {
+        return this.toRacingRefund(data)
+                .stream()
+                .map(racingRefund -> modelMapper.map(racingRefund, WeekendRacingRefund.class))
+                .collect(Collectors.toList());
     }
 
 

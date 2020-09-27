@@ -101,6 +101,17 @@ public class WeekendRacingDetail extends BaseModel {
     @Column(nullable = false)
     private Integer starterCount;
 
+    /**
+     * コース変更理由 (weekendのみ設定)
+     * 0: なし
+     * 1: 強風
+     * 2: 台風
+     * 3: 雪
+     * 4: その他
+     */
+    @Column(nullable = false)
+    private Integer courseChangeReason = 0;
+
 
     /**
      * 以下、レース確定後、データ入るもの
@@ -137,6 +148,7 @@ public class WeekendRacingDetail extends BaseModel {
     @Type(type = "jsonb")
     @Column(columnDefinition = "jsonb")
     private List<CornerPassageRank> cornerPassageRanks;
+
 
     @Override
     public Object getPrimaryKey() {
