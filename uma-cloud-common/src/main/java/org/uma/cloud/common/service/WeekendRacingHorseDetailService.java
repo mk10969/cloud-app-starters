@@ -68,9 +68,8 @@ public class WeekendRacingHorseDetailService {
     public WeekendRacingHorseDetail updateJockeyChange(JockeyChange jockeyChange) {
         WeekendRacingHorseDetail.CompositeId id = createId(jockeyChange.getRaceId(), jockeyChange.getHorseNo());
         WeekendRacingHorseDetail racingHorse = repository.findById(id).orElseThrow(); // ないのはおかしい。
-        racingHorse.setJockeyNameShort(jockeyChange.getJockeyNameAfter());
         racingHorse.setLoadWeight(jockeyChange.getLoadWeightAfter());
-        racingHorse.setJockeyApprentice(jockeyChange.getJockeyApprenticeCdAfter());
+        racingHorse.setJockeyApprenticeCd(jockeyChange.getJockeyApprenticeCdAfter());
 
         return this.update(racingHorse);
     }

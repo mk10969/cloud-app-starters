@@ -21,6 +21,9 @@ import org.uma.cloud.common.entity.RacingHorseExclusion;
 import org.uma.cloud.common.entity.RacingOdds;
 import org.uma.cloud.common.entity.RacingRefund;
 import org.uma.cloud.common.entity.RacingVote;
+import org.uma.cloud.common.entity.WeekendRacingDetail;
+import org.uma.cloud.common.entity.WeekendRacingHorseDetail;
+import org.uma.cloud.common.entity.WeekendRacingRefund;
 import org.uma.cloud.common.model.event.Avoid;
 import org.uma.cloud.common.model.event.CourseChange;
 import org.uma.cloud.common.model.event.JockeyChange;
@@ -308,7 +311,7 @@ public class JvLinkWebSource {
 
 
     /**
-     * JvLink realtime client
+     * JvLink realtime(weekend) client
      */
     private Mono<String> findOneByRaceId(String path, String raceId) {
         return webClient.get()
@@ -323,7 +326,7 @@ public class JvLinkWebSource {
     }
 
     /**
-     * JvLink realtime client
+     * JvLink realtime(weekend) client
      */
     private Flux<String> findAllByRaceId(String path, String raceId) {
         return webClient.get()
@@ -338,21 +341,34 @@ public class JvLinkWebSource {
     }
 
     /**
-     * データ区分＝2|6  weatherCd, turfConditionCd, dirtConditionCd が取れる。
+     * データ区分＝2 or 6  weatherCd, turfConditionCd, dirtConditionCd が取れる。
      */
-    public Mono<RacingDetail> realtimeRacingDetail(String raceId) {
+    public Mono<WeekendRacingDetail> realtimeRacingDetail(String raceId) {
         return findOneByRaceId(RealTimePath.racingDetail, raceId)
-                .map(jvLinkDeserializer::toRacingDetail)
-                .doOnNext(ModelUtil::fieldNotNull);
+                .map(jvLinkDeserializer::toWeekendRacingDetail);
     }
 
     /**
-     * データ区分＝2|6  馬体重が、nullになる -> null check 外しておく。
+     * データ区分＝2 or 6  馬体重が、nullになる -> null check 外しておく。
      */
-    public Flux<RacingHorseDetail> realtimeRacingHorseDetail(String raceId) {
+    public Flux<WeekendRacingHorseDetail> realtimeRacingHorseDetail(String raceId) {
         return findAllByRaceId(RealTimePath.racingHorseDetail, raceId)
-                .map(jvLinkDeserializer::toRacingHorseDetail);
+                .map(jvLinkDeserializer::toWeekendRacingHorseDetail);
     }
+
+    /**
+     * betRankが、nullになるみたい
+     */
+    public Flux<WeekendRacingRefund> eventRacingRefund(String eventId) {
+        return findOneByRaceId(RealTimePath.raceRefund, eventId)
+                .map(jvLinkDeserializer::toWeekendRacingRefund)
+                .flatMapMany(Flux::fromIterable);
+    }
+
+
+    /**
+     * リアルタイムオッズ
+     */
 
     public Mono<Pair<RacingOdds, RacingOdds>> realtimeWinsShowBracketQ(String raceId) {
         return findOneByRaceId(RealTimePath.winsShowBracketQ, raceId)
@@ -411,13 +427,6 @@ public class JvLinkWebSource {
     public Flux<RacingOdds> timeseriesQuinella(String raceId) {
         return findAllByRaceId(RealTimePath.timeseriesQuinella, raceId)
                 .map(jvLinkDeserializer::toQuinella)
-                .doOnNext(ModelUtil::fieldNotNull);
-    }
-
-    public Flux<RacingRefund> eventRacingRefund(String eventId) {
-        return findOneByRaceId(RealTimePath.raceRefund, eventId)
-                .map(jvLinkDeserializer::toRacingRefund)
-                .flatMapMany(Flux::fromIterable)
                 .doOnNext(ModelUtil::fieldNotNull);
     }
 

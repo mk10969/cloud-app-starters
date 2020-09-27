@@ -60,13 +60,13 @@ public class WeekendRacingDetailService {
                 .filter(racing -> racing.getCourseCd() == weather.getCourseCd())
                 .peek(racing -> {
                     if (weather.getChangeId() == 1) {
-                        racing.setWeather(weather.getWeatherNow());
+                        racing.setWeatherCd(weather.getWeatherNow());
                         TurfOrDirtConditionCode turfOrDirt = TurfOrDirtConditionCode
                                 .compare(weather.getTurfNow(), weather.getDirtNow());
                         racing.setTurfOrDirtCondition(turfOrDirt);
 
                     } else if (weather.getChangeId() == 2) {
-                        racing.setWeather(weather.getWeatherNow());
+                        racing.setWeatherCd(weather.getWeatherNow());
 
                     } else if (weather.getChangeId() == 3) {
                         TurfOrDirtConditionCode turfOrDirt = TurfOrDirtConditionCode
@@ -102,7 +102,7 @@ public class WeekendRacingDetailService {
     public WeekendRacingDetail updateCourseChange(CourseChange courseChange) {
         WeekendRacingDetail updatingRacing = repository.findById(courseChange.getRaceId()).orElseThrow();
         updatingRacing.setDistance(courseChange.getDistanceAfter());
-        updatingRacing.setTrack(courseChange.getTrackCdAfter());
+        updatingRacing.setTrackCd(courseChange.getTrackCdAfter());
         updatingRacing.setCourseChangeReason(courseChange.getReason());
 
         return this.update(updatingRacing);
