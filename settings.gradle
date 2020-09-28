@@ -1,8 +1,4 @@
 include 'uma-cloud-common'
-
-include 'uma-cloud-batch-jvlink'
 include 'uma-cloud-stream-function'
 
-include 'uma-cloud-task-business'
-include 'uma-cloud-task-ipatgo'
 include 'uma-cloud-task-pod-cleaner'
