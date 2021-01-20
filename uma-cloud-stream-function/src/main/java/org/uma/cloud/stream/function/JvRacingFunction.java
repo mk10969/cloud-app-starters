@@ -7,16 +7,15 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.uma.cloud.common.entity.RacingDetail;
-import org.uma.cloud.common.business.BusinessRacing;
-import org.uma.cloud.common.business.BusinessRacingHorse;
-import org.uma.cloud.common.business.BusinessRacingRefund;
+import org.uma.cloud.common.entity.WeekendRacingDetail;
+import org.uma.cloud.common.entity.WeekendRacingHorseDetail;
+import org.uma.cloud.common.entity.WeekendRacingRefund;
 import org.uma.cloud.common.utils.lang.DateUtil;
 import org.uma.cloud.stream.StreamFunctionProperties;
 import org.uma.cloud.stream.model.EventMessage;
-import org.uma.cloud.stream.type.BusinessSink;
 import org.uma.cloud.stream.type.JvLinkWebSource;
 import org.uma.cloud.stream.type.TimeSeriesSink;
-import org.uma.cloud.stream.util.BusinessMapper;
+import org.uma.cloud.stream.type.WeekendRacingSink;
 import reactor.core.publisher.Flux;
 import reactor.util.function.Tuple2;
 import reactor.util.function.Tuples;
@@ -31,7 +30,7 @@ public class JvRacingFunction {
     private JvLinkWebSource jvLinkWebSource;
 
     @Autowired
-    private BusinessSink businessSink;
+    private WeekendRacingSink weekendRacingSink;
 
     @Autowired
     private TimeSeriesSink timeSeriesSink;
@@ -47,8 +46,8 @@ public class JvRacingFunction {
     @Bean
     @ConditionalOnProperty(prefix = "uma.stream.init", name = "enabled", havingValue = "true")
     public CommandLineRunner initThisWeekRace() {
-        return args -> raceIdToBusinessRacing()
-                .andThen(raceIdToBusinessRacingHorse())
+        return args -> raceIdToWeekendRacingDetail()
+                .andThen(raceIdToWeekendRacingHorseDetail())
                 .apply(jvLinkWebSource.storeRacingDetail(DateUtil.thisFriday())
                         .map(RacingDetail::getRaceId))
                 .subscribe();
@@ -61,60 +60,53 @@ public class JvRacingFunction {
     @Bean
     @ConditionalOnProperty(prefix = "uma.stream.rerun", name = "enabled", havingValue = "true")
     public CommandLineRunner reRun() {
-        return args -> raceIdToBusinessRacing()
-                .andThen(raceIdToBusinessRacingHorse())
-                .andThen(raceIdToBusinessRacingRefund())
-                .apply(jvLinkWebSource.storeRacingDetailOnThisWeek().map(RacingDetail::getRaceId))
-                .subscribe();
+        // TODO: DBから　RaceId取ろう。
+        return args ->
+                raceIdToWeekendRacingRefund()
+//                        .andThen(raceIdToWeekendRacingHorseDetail())
+//                        .andThen(raceIdToWeekendRacingRefund())
+                        .apply(jvLinkWebSource.storeRacingDetailOnThisWeek().map(RacingDetail::getRaceId))
+                        .subscribe();
     }
 
 
     /**
      * 検索: jvLinkWebSource#realtimeRacingDetail
-     * 変換: BusinessMapper#toBusinessRacing
-     * 登録: businessSink#update
+     * 登録: weekendRacingSink#update
      */
     @Bean
-    public Function<Flux<String>, Flux<String>> raceIdToBusinessRacing() {
+    public Function<Flux<String>, Flux<String>> raceIdToWeekendRacingDetail() {
         return raceId -> raceId
                 .flatMap(jvLinkWebSource::realtimeRacingDetail)
+                .flatMap(weekendRacingSink::update)
                 .doOnNext(this::debug)
-                .map(BusinessMapper::toBusinessRacing)
-                .flatMap(businessSink::update)
-                .doOnNext(this::debug)
-                .map(BusinessRacing::getRaceId);
+                .map(WeekendRacingDetail::getRaceId);
     }
 
     /**
      * 検索: jvLinkWebSource#realtimeRacingHorseDetail
-     * 変換: BusinessMapper#toBusinessRacingHorse
-     * 登録: businessSink#update
+     * 登録: weekendRacingSink#update
      */
     @Bean
-    public Function<Flux<String>, Flux<String>> raceIdToBusinessRacingHorse() {
+    public Function<Flux<String>, Flux<String>> raceIdToWeekendRacingHorseDetail() {
         return raceId -> raceId
                 .flatMap(jvLinkWebSource::realtimeRacingHorseDetail)
+                .flatMap(weekendRacingSink::update)
                 .doOnNext(this::debug)
-                .map(BusinessMapper::toBusinessRacingHorse)
-                .flatMap(businessSink::update)
-                .doOnNext(this::debug)
-                .map(BusinessRacingHorse::getRaceId);
+                .map(WeekendRacingHorseDetail::getRaceId);
     }
 
     /**
      * 検索: jvLinkWebSource#eventRacingRefund
-     * 変換: BusinessMapper#toBusinessRacingRefund
-     * 登録: businessSink#update
+     * 登録: weekendRacingSink#update
      */
     @Bean
-    public Function<Flux<String>, Flux<String>> raceIdToBusinessRacingRefund() {
+    public Function<Flux<String>, Flux<String>> raceIdToWeekendRacingRefund() {
         return raceId -> raceId
                 .flatMap(jvLinkWebSource::eventRacingRefund)
+                .flatMap(weekendRacingSink::update)
                 .doOnNext(this::debug)
-                .map(BusinessMapper::toBusinessRacingRefund)
-                .flatMap(businessSink::update)
-                .doOnNext(this::debug)
-                .map(BusinessRacingRefund::getRaceId);
+                .map(WeekendRacingRefund::getRaceId);
     }
 
     /**
@@ -122,15 +114,13 @@ public class JvRacingFunction {
      * TODO: betRankがnullになる。。
      */
     @Bean
-    public Function<Flux<EventMessage>, Flux<String>> eventToRacingRefund() {
+    public Function<Flux<EventMessage>, Flux<String>> eventToWeekendRacingRefund() {
         return event -> event
                 .map(EventMessage::getEventId)
                 .flatMap(jvLinkWebSource::eventRacingRefund)
+                .flatMap(weekendRacingSink::update)
                 .doOnNext(this::debug)
-                .map(BusinessMapper::toBusinessRacingRefund)
-                .flatMap(businessSink::update)
-                .doOnNext(this::debug)
-                .map(BusinessRacingRefund::getRaceId);
+                .map(WeekendRacingRefund::getRaceId);
     }
 
 
@@ -185,7 +175,7 @@ public class JvRacingFunction {
      *
      * @see JvRacingFunction#JvWatchEventIdScatter()
      * <p>
-     * @see JvRacingFunction#eventToRacingRefund()
+     * @see JvRacingFunction#eventToWeekendRacingRefund()
      */
     @Bean
     public Function<Flux<EventMessage>, Flux<String>> eventToRacingChange() {
@@ -194,39 +184,39 @@ public class JvRacingFunction {
                 case WH:
                     return jvLinkWebSource.eventWeight(e.getEventId())
                             .doOnNext(this::debug)
-                            .flatMapMany(businessSink::update)
+                            .flatMapMany(weekendRacingSink::update)
                             .doOnNext(this::debug)
-                            .map(BusinessRacingHorse::getRaceId);
+                            .map(WeekendRacingHorseDetail::getRaceId);
                 case WE:
                     return jvLinkWebSource.eventWeather(e.getEventId())
                             .doOnNext(this::debug)
-                            .flatMapMany(businessSink::update)
+                            .flatMapMany(weekendRacingSink::update)
                             .doOnNext(this::debug)
-                            .map(BusinessRacing::getRaceId);
+                            .map(WeekendRacingDetail::getRaceId);
                 case JC:
                     return jvLinkWebSource.eventJockeyChange(e.getEventId())
                             .doOnNext(this::debug)
-                            .flatMap(businessSink::update)
+                            .flatMap(weekendRacingSink::update)
                             .doOnNext(this::debug)
-                            .map(BusinessRacingHorse::getRaceId);
+                            .map(WeekendRacingHorseDetail::getRaceId);
                 case AV:
                     return jvLinkWebSource.eventAvoid(e.getEventId())
                             .doOnNext(this::debug)
-                            .flatMap(businessSink::update)
+                            .flatMap(weekendRacingSink::update)
                             .doOnNext(this::debug)
-                            .map(BusinessRacingHorse::getRaceId);
+                            .map(WeekendRacingHorseDetail::getRaceId);
                 case TC:
                     return jvLinkWebSource.eventTimeChange(e.getEventId())
                             .doOnNext(this::debug)
-                            .flatMap(businessSink::update)
+                            .flatMap(weekendRacingSink::update)
                             .doOnNext(this::debug)
-                            .map(BusinessRacing::getRaceId);
+                            .map(WeekendRacingDetail::getRaceId);
                 case CC:
                     return jvLinkWebSource.eventCourseChange(e.getEventId())
                             .doOnNext(this::debug)
-                            .flatMap(businessSink::update)
+                            .flatMap(weekendRacingSink::update)
                             .doOnNext(this::debug)
-                            .map(BusinessRacing::getRaceId);
+                            .map(WeekendRacingDetail::getRaceId);
                 default:
                     throw new IllegalArgumentException(e + ": が正しくありません。");
             }

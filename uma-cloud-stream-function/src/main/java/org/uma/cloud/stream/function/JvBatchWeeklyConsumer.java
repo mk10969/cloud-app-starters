@@ -17,6 +17,7 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.core.scheduler.Scheduler;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.ZoneOffset;
@@ -49,14 +50,33 @@ public class JvBatchWeeklyConsumer {
     }
 
     public void onceBatch() {
-//        long baseDate = LocalDateTime.of(
-//                LocalDate.of(2020, 2, 2), LocalTime.of(0, 0, 0))
-//                .toInstant(ZoneOffset.ofHours(9))
-//                .toEpochMilli();
+        long baseDate = LocalDateTime.of(
+                LocalDate.of(2020, 2, 2), LocalTime.of(0, 0, 0))
+                .toInstant(ZoneOffset.ofHours(9))
+                .toEpochMilli();
 //        // out of memoryだったのでファイル読み込みに代替(file path注意)
 //        merge("RaceHorse").apply(fileSource.getRaceHorse());
 //        // out of memoryだったのでファイル読み込みに代替(file path注意)
 //        merge("TrioOdds").apply(fileSource.getTrio());
+
+        Mono.just("batch weekly 開始")
+                .flatMap(i -> merge("RacingHorseDetail")
+                        .apply(jvLinkWebSource.storeRacingHorseDetail(baseDate)))
+                .onErrorContinue((throwable, object) -> {
+                    log.error("JPA ERROR:", throwable);
+                    log.error("Missing Object: {}", object);
+                })
+                .publishOn(scheduler)
+                .subscribe(i -> {
+                        },
+                        e -> {
+                            log.error("Batch Error: ", e);
+                            System.exit(8);
+                        },
+                        () -> {
+                            log.info("batch weekly 完了");
+                            System.exit(0);
+                        });
     }
 
     public void batch() {
@@ -70,43 +90,93 @@ public class JvBatchWeeklyConsumer {
 
         Mono.just("batch weekly 開始")
                 .flatMap(i -> merge("RacingDetail")
-                        .apply(jvLinkWebSource.storeRacingDetail(baseDate)))
+                        .apply(jvLinkWebSource.storeRacingDetail(baseDate)
+                                .filter(entity -> "7".equals(entity.getDataDiv())
+                                        | "A".equals(entity.getDataDiv())
+                                        | "B".equals(entity.getDataDiv())
+                                        | "9".equals(entity.getDataDiv()))
+                        ))
                 .flatMap(i -> merge("RacingHorseDetail")
-                        .apply(jvLinkWebSource.storeRacingHorseDetail(baseDate)))
+                        .apply(jvLinkWebSource.storeRacingHorseDetail(baseDate)
+                                .filter(entity -> "7".equals(entity.getDataDiv())
+                                        | "A".equals(entity.getDataDiv())
+                                        | "B".equals(entity.getDataDiv())
+                                        | "9".equals(entity.getDataDiv()))
+                        ))
                 .flatMap(i -> merge("RacingRefund")
-                        .apply(jvLinkWebSource.storeRacingRefund(baseDate)))
+                        .apply(jvLinkWebSource.storeRacingRefund(baseDate)
+                                .filter(entity -> "2".equals(entity.getDataDiv()))
+                        ))
                 .flatMap(i -> merge("RacingHorseExclusion")
-                        .apply(jvLinkWebSource.storeRacingHorseExclusion(baseDate)))
+                        .apply(jvLinkWebSource.storeRacingHorseExclusion(baseDate)
+                                .filter(entity -> "1".equals(entity.getDataDiv()))
+                        ))
                 .flatMap(i -> merge("WinOdds")
-                        .apply(jvLinkWebSource.storeWinsShowBracketQ(baseDate).map(Pair::getValue1)))
+                        .apply(jvLinkWebSource.storeWinsShowBracketQ(baseDate).map(Pair::getValue1)
+                                .filter(entity -> "5".equals(entity.getDataDiv())
+                                        | "9".equals(entity.getDataDiv()))
+                        ))
                 .flatMap(i -> merge("ShowOdds")
-                        .apply(jvLinkWebSource.storeWinsShowBracketQ(baseDate).map(Pair::getValue2)))
+                        .apply(jvLinkWebSource.storeWinsShowBracketQ(baseDate).map(Pair::getValue2)
+                                .filter(entity -> "5".equals(entity.getDataDiv())
+                                        | "9".equals(entity.getDataDiv()))
+                        ))
                 .flatMap(i -> merge("QuinellaOdds")
-                        .apply(jvLinkWebSource.storeQuinella(baseDate)))
+                        .apply(jvLinkWebSource.storeQuinella(baseDate)
+                                .filter(entity -> "5".equals(entity.getDataDiv())
+                                        | "9".equals(entity.getDataDiv()))
+                        ))
                 .flatMap(i -> merge("QuinellaPlaceOdds")
-                        .apply(jvLinkWebSource.storeQuinellaPlace(baseDate)))
+                        .apply(jvLinkWebSource.storeQuinellaPlace(baseDate)
+                                .filter(entity -> "5".equals(entity.getDataDiv())
+                                        | "9".equals(entity.getDataDiv()))
+                        ))
                 .flatMap(i -> merge("ExactaOdds")
-                        .apply(jvLinkWebSource.storeExacta(baseDate)))
+                        .apply(jvLinkWebSource.storeExacta(baseDate)
+                                .filter(entity -> "5".equals(entity.getDataDiv())
+                                        | "9".equals(entity.getDataDiv()))
+                        ))
                 .flatMap(i -> merge("TrioOdds")
-                        .apply(jvLinkWebSource.storeTrio(baseDate)))
+                        .apply(jvLinkWebSource.storeTrio(baseDate)
+                                .filter(entity -> "5".equals(entity.getDataDiv())
+                                        | "9".equals(entity.getDataDiv()))
+                        ))
                 .flatMap(i -> merge("BloodAncestry")
-                        .apply(jvLinkWebSource.storeBloodAncestry(baseDate)))
+                        .apply(jvLinkWebSource.storeBloodAncestry(baseDate)
+                                .filter(entity -> !"0".equals(entity.getDataDiv()))
+                        ))
                 .flatMap(i -> merge("BloodBreeding")
-                        .apply(jvLinkWebSource.storeBloodBreeding(baseDate)))
+                        .apply(jvLinkWebSource.storeBloodBreeding(baseDate)
+                                .filter(entity -> !"0".equals(entity.getDataDiv()))
+                        ))
                 .flatMap(i -> merge("BloodLine")
-                        .apply(jvLinkWebSource.storeBloodLine(baseDate)))
+                        .apply(jvLinkWebSource.storeBloodLine(baseDate)
+                                .filter(entity -> !"0".equals(entity.getDataDiv()))
+                        ))
                 .flatMap(i -> merge("RaceHorse")
-                        .apply(jvLinkWebSource.storeRaceHorse(baseDate)))
+                        .apply(jvLinkWebSource.storeRaceHorse(baseDate)
+                                .filter(entity -> !"0".equals(entity.getDataDiv()))
+                        ))
                 .flatMap(i -> merge("Jockey")
-                        .apply(jvLinkWebSource.storeJockey(baseDate)))
+                        .apply(jvLinkWebSource.storeJockey(baseDate)
+                                .filter(entity -> !"0".equals(entity.getDataDiv()))
+                        ))
                 .flatMap(i -> merge("Trainer")
-                        .apply(jvLinkWebSource.storeTrainer(baseDate)))
+                        .apply(jvLinkWebSource.storeTrainer(baseDate)
+                                .filter(entity -> !"0".equals(entity.getDataDiv()))
+                        ))
                 .flatMap(i -> merge("Breeder")
-                        .apply(jvLinkWebSource.storeBreeder(baseDate)))
+                        .apply(jvLinkWebSource.storeBreeder(baseDate)
+                                .filter(entity -> !"0".equals(entity.getDataDiv()))
+                        ))
                 .flatMap(i -> merge("Owner")
-                        .apply(jvLinkWebSource.storeOwner(baseDate)))
+                        .apply(jvLinkWebSource.storeOwner(baseDate)
+                                .filter(entity -> !"0".equals(entity.getDataDiv()))
+                        ))
                 .flatMap(i -> merge("Course")
-                        .apply(jvLinkWebSource.storeCourse(baseDate)))
+                        .apply(jvLinkWebSource.storeCourse(baseDate)
+                                .filter(entity -> !"0".equals(entity.getDataDiv()))
+                        ))
                 .onErrorContinue((throwable, object) -> {
                     log.error("JPA ERROR:", throwable);
                     log.error("Missing Object: {}", object);
@@ -127,8 +197,6 @@ public class JvBatchWeeklyConsumer {
 
     private Function<Flux<? extends BaseModel>, Mono<String>> merge(String batchName) {
         return entityFlux -> entityFlux
-                // TODO: 各モデルごとにfilter設定してもいいかも
-                .filter(entity -> !entity.getDataDiv().equals("0"))
                 // PKが重複した場合、データを上書きで更新かける（仕様）が、
                 // どこのカラムに差分があるかチェックする。
                 .doOnNext(entity -> jpaEntitySink.logAlreadyExists(entity, entity.getPrimaryKey()))
